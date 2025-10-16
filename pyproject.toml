@@ -1,0 +1,14 @@
+[project]
+name = "meta-ally"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "inform-ai-core[authorization]>=1.9.2",
+]
+
+[[tool.uv.index]]
+name = "INFORM_AI"
+url = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/"
+
