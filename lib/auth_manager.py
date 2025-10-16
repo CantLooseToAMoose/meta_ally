@@ -17,7 +17,7 @@ class AuthManager:
         self,
         keycloak_url: str = "https://keycloak.prod.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-acc",
+        client_id: str = "ally-portal-frontend-dev",
         should_open_browser: bool = True
     ):
         """

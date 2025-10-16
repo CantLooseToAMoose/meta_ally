@@ -44,7 +44,7 @@ class OpenAPIToolsLoader:
         auth_manager: Optional[AuthManager] = None,
         keycloak_url: str = "https://keycloak.prod.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-acc"
+        client_id: str = "ally-portal-frontend-dev"
     ):
         """
         Initialize the loader with an OpenAPI spec URL
@@ -335,10 +335,10 @@ async def main():
     """Example of how to use the OpenAPIToolsLoader with authorization"""
     # Initialize the loader with authorization
     loader = OpenAPIToolsLoader(
-        openapi_url="https://ally-config-ui.acc.copilot.aws.inform-cloud.io/openapi.json",
+        openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
         keycloak_url="https://keycloak.prod.iam-services.aws.inform-cloud.io/",
         realm_name="inform-ai",
-        client_id="ally-portal-frontend-acc"
+        client_id="ally-portal-frontend-dev"
     )
     
     # Load all tools
