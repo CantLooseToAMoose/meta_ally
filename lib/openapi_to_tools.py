@@ -22,6 +22,8 @@ Example:
 
 import httpx
 import json
+import subprocess
+import os
 from typing import Any, Dict, List, Optional, Callable, cast
 from pydantic_ai import Tool, RunContext
 from pydantic import BaseModel, Field, create_model
@@ -34,6 +36,64 @@ from lib.auth_manager import AuthManager
 # from ally_config_api_models import *
 
 
+def generate_api_models(
+    openapi_url: str, 
+    output_filename: str = "ally_config_api_models.py",
+    force_regenerate: bool = False
+) -> bool:
+    """
+    Standalone function to generate Pydantic models from an OpenAPI spec
+    
+    Args:
+        openapi_url: URL to the OpenAPI specification
+        output_filename: Output filename for the generated models
+        force_regenerate: Whether to overwrite existing files
+    
+    Returns:
+        True if successful, False otherwise
+    """
+    # Check if file exists and force_regenerate is False
+    if os.path.exists(output_filename) and not force_regenerate:
+        print(f"Models file '{output_filename}' already exists. Use force_regenerate=True to overwrite.")
+        return False
+    
+    try:
+        # Run datamodel-codegen command
+        # First try to find the datamodel-codegen executable
+        import shutil
+        codegen_path = shutil.which("datamodel-codegen")
+        if not codegen_path:
+            # Try in the virtual environment
+            import sys
+            venv_path = sys.prefix
+            codegen_path = os.path.join(venv_path, "bin", "datamodel-codegen")
+            if not os.path.exists(codegen_path):
+                raise FileNotFoundError("datamodel-codegen not found")
+        
+        cmd = [
+            codegen_path,
+            "--url", openapi_url,
+            "--input-file-type", "openapi",
+            "--output", output_filename
+        ]
+        
+        print(f"Generating models file '{output_filename}' from {openapi_url}...")
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        
+        print(f"Successfully generated '{output_filename}'")
+        return True
+        
+    except subprocess.CalledProcessError as e:
+        print(f"Error generating models file: {e}")
+        print(f"stdout: {e.stdout}")
+        print(f"stderr: {e.stderr}")
+        return False
+    except FileNotFoundError:
+        print("Error: datamodel-codegen not found. Please install it with:")
+        print("  pip install datamodel-code-generator")
+        return False
+
+
 class OpenAPIToolsLoader:
     """Loads OpenAPI operations and converts them into pydantic-ai Tools"""
     
@@ -44,7 +104,9 @@ class OpenAPIToolsLoader:
         auth_manager: Optional[AuthManager] = None,
         keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-dev"
+        client_id: str = "ally-portal-frontend-dev",
+        models_filename: str = "ally_config_api_models.py",
+        regenerate_models: bool = False
     ):
         """
         Initialize the loader with an OpenAPI spec URL
@@ -56,11 +118,15 @@ class OpenAPIToolsLoader:
             keycloak_url: Keycloak URL for authentication (used if auth_manager not provided)
             realm_name: Keycloak realm name (used if auth_manager not provided)
             client_id: Client ID for authentication (used if auth_manager not provided)
+            models_filename: Filename for the generated Pydantic models (default: ally_config_api_models.py)
+            regenerate_models: Whether to regenerate the models file if it exists (default: False)
         """
         self.openapi_url = openapi_url
         self.base_url = base_url or openapi_url.rsplit('/', 1)[0]  # Remove /openapi.json
         self.spec: Optional[Dict[str, Any]] = None
         self.tools: List[Tool] = []
+        self.models_filename = models_filename
+        self.regenerate_models = regenerate_models
         
         # Initialize auth manager if not provided
         if auth_manager is None:
@@ -80,6 +146,54 @@ class OpenAPIToolsLoader:
         if self.spec is None:
             raise ValueError("Failed to fetch OpenAPI spec: response is None")
         return self.spec
+    
+    def generate_models_file(self) -> bool:
+        """
+        Generate Pydantic models file from OpenAPI spec using datamodel-codegen
+        
+        Returns:
+            True if the file was generated successfully, False otherwise
+        """
+        # Check if file exists and regenerate_models is False
+        if os.path.exists(self.models_filename) and not self.regenerate_models:
+            print(f"Models file '{self.models_filename}' already exists. Use regenerate_models=True to overwrite.")
+            return False
+        
+        try:
+            # Run datamodel-codegen command
+            # First try to find the datamodel-codegen executable
+            import shutil
+            codegen_path = shutil.which("datamodel-codegen")
+            if not codegen_path:
+                # Try in the virtual environment
+                import sys
+                venv_path = sys.prefix
+                codegen_path = os.path.join(venv_path, "bin", "datamodel-codegen")
+                if not os.path.exists(codegen_path):
+                    raise FileNotFoundError("datamodel-codegen not found")
+            
+            cmd = [
+                codegen_path,
+                "--url", self.openapi_url,
+                "--input-file-type", "openapi",
+                "--output", self.models_filename
+            ]
+            
+            print(f"Generating models file '{self.models_filename}' from {self.openapi_url}...")
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            
+            print(f"Successfully generated '{self.models_filename}'")
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f"Error generating models file: {e}")
+            print(f"stdout: {e.stdout}")
+            print(f"stderr: {e.stderr}")
+            return False
+        except FileNotFoundError:
+            print("Error: datamodel-codegen not found. Please install it with:")
+            print("  pip install datamodel-code-generator")
+            return False
     
     def _normalize_model_name(self, openapi_name: str) -> str:
         """
@@ -127,15 +241,21 @@ class OpenAPIToolsLoader:
         
         model_name = ref.split("/")[-1]
         
-        # Try to get the model from ally_config_api_models
+        # Try to get the model from the models file
         try:
+            # Get module name from filename (remove .py extension)
+            module_name = self.models_filename.replace('.py', '')
+            
             # Lazy import to avoid issues with const field
-            import ally_config_api_models
+            if module_name in sys.modules:
+                models_module = sys.modules[module_name]
+            else:
+                models_module = importlib.import_module(module_name)
             
             # Normalize the model name from OpenAPI format to Python class name
             normalized_name = self._normalize_model_name(model_name)
             
-            return getattr(ally_config_api_models, normalized_name, None)
+            return getattr(models_module, normalized_name, None)
         except Exception as e:
             print(f"Warning: Could not resolve model {model_name}: {e}")
             return None
@@ -285,6 +405,10 @@ class OpenAPIToolsLoader:
         if self.spec is None:
             raise ValueError("Failed to load OpenAPI spec")
         
+        # Generate models file if needed
+        if self.regenerate_models or not os.path.exists(self.models_filename):
+            self.generate_models_file()
+        
         self.tools = []
         paths = self.spec.get("paths", {})
         
@@ -330,63 +454,3 @@ class OpenAPIToolsLoader:
         return None
 
 
-# Example usage
-async def main():
-    """Example of how to use the OpenAPIToolsLoader with authorization"""
-    # Initialize the loader with authorization
-    loader = OpenAPIToolsLoader(
-        openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name="inform-ai",
-        client_id="ally-portal-frontend-dev"
-    )
-    
-    # Load all tools
-    tools = loader.load_tools()
-    print(f"\nLoaded {len(tools)} tools from OpenAPI spec")
-    
-    # --- Minimal example: Call a tool function directly ---
-    print("\n--- Example: Calling a tool function directly with authorization ---")
-    
-    if tools:
-        # Get the first tool as an example
-        example_tool = loader.get_tool_by_operation_id("get_available_AI_models_api_getAvailableAIModels_post")
-        if example_tool is None:
-            print("Example tool not found")
-            return
-        print(f"Calling tool: {example_tool.name}")
-        print(f"Description: {example_tool.description}")
-        print(f"Function signature: {inspect.signature(example_tool.function)}")
-        print(f"Tool Definition: {example_tool.tool_def}")
-        
-        try:
-            # Call the tool's function directly
-            # The function is stored in tool.function
-            # It expects a RunContext as first parameter, then any other parameters
-            
-            # Create a simple mock RunContext
-            class MockRunContext:
-                def __init__(self):
-                    self.deps = None
-            
-            ctx = cast(RunContext[None], MockRunContext())
-            
-            # Call the function with the mock context
-            # Add any required parameters based on your API endpoint
-            # Example: result = await example_tool.function(ctx, param1='value', param2=123)
-            result = await example_tool.function(ctx)
-            
-            print(f"Result: {result}")
-            
-        except Exception as e:
-            print(f"Error calling tool: {e}")
-            print(f"\nNote: The tool may require specific parameters.")
-            print(f"Example with parameters:")
-            print(f"  result = await example_tool.function(ctx, endpoint_id='some-id')")
-    
-    return tools
-
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
