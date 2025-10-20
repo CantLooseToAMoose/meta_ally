@@ -24,7 +24,7 @@ import httpx
 import json
 import subprocess
 import os
-from typing import Any, Dict, List, Optional, Callable, cast
+from typing import Any, Dict, List, Optional, Callable, cast, Union
 from pydantic_ai import Tool, RunContext
 from pydantic import BaseModel, Field, create_model
 import importlib
@@ -266,7 +266,7 @@ class OpenAPIToolsLoader:
         path: str, 
         method: str, 
         operation: Dict[str, Any],
-        parameters: Optional[List[Dict[str, Any]]] = None
+        parameters_schema: Dict[str, Any]
     ) -> Callable:
         """
         Create a function that will be wrapped as a Tool
@@ -276,7 +276,7 @@ class OpenAPIToolsLoader:
             path: The API path
             method: HTTP method (get, post, etc.)
             operation: The operation definition from OpenAPI
-            parameters: Optional list of parameter definitions
+            parameters_schema: JSON schema for parameters
         
         Returns:
             A callable function that can be wrapped as a Tool
@@ -340,57 +340,79 @@ class OpenAPIToolsLoader:
         
         return api_call
     
-    def _extract_parameters_schema(self, operation: Dict[str, Any]) -> Optional[type[BaseModel]]:
+    def _extract_parameters_schema(self, operation: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Extract and create a Pydantic model from operation parameters
+        Extract and create a JSON schema from operation parameters
         
         Args:
             operation: The operation definition from OpenAPI
         
         Returns:
-            A dynamically created Pydantic model or None
+            A JSON schema dictionary for the tool parameters
         """
-        # Check if there's a requestBody with a ref
+        schema = {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": False
+        }
+        
+        # Handle path parameters
+        parameters = operation.get("parameters", [])
+        for param in parameters:
+            param_name = param["name"]
+            param_schema = param.get("schema", {})
+            param_type = param_schema.get("type", "string")
+            required = param.get("required", False)
+            description = param.get("description", "")
+            
+            # Add to schema properties
+            schema["properties"][param_name] = {
+                "type": param_type,
+                "description": description
+            }
+            
+            # Handle additional schema properties
+            if "format" in param_schema:
+                schema["properties"][param_name]["format"] = param_schema["format"]
+            if "enum" in param_schema:
+                schema["properties"][param_name]["enum"] = param_schema["enum"]
+            if "default" in param_schema:
+                schema["properties"][param_name]["default"] = param_schema["default"]
+            if "minimum" in param_schema:
+                schema["properties"][param_name]["minimum"] = param_schema["minimum"]
+            if "maximum" in param_schema:
+                schema["properties"][param_name]["maximum"] = param_schema["maximum"]
+            
+            if required:
+                schema["required"].append(param_name)
+        
+        # Handle request body parameters
         request_body = operation.get("requestBody")
         if request_body and "content" in request_body:
             content = request_body.get("content", {})
             json_content = content.get("application/json", {})
-            schema = json_content.get("schema", {})
+            body_schema = json_content.get("schema", {})
             
-            if "$ref" in schema:
-                return self._resolve_ref(schema["$ref"])
+            if "$ref" in body_schema:
+                # Try to resolve the reference and extract properties
+                if self.spec and "components" in self.spec and "schemas" in self.spec["components"]:
+                    ref_name = body_schema["$ref"].split("/")[-1]
+                    if ref_name in self.spec["components"]["schemas"]:
+                        resolved_schema = self.spec["components"]["schemas"][ref_name]
+                        if "properties" in resolved_schema:
+                            for prop_name, prop_schema in resolved_schema["properties"].items():
+                                schema["properties"][prop_name] = prop_schema
+                            if "required" in resolved_schema:
+                                schema["required"].extend(resolved_schema["required"])
+            elif "properties" in body_schema:
+                # Direct schema properties
+                for prop_name, prop_schema in body_schema["properties"].items():
+                    schema["properties"][prop_name] = prop_schema
+                if "required" in body_schema:
+                    schema["required"].extend(body_schema["required"])
         
-        # Handle query parameters
-        parameters = operation.get("parameters", [])
-        if parameters:
-            fields = {}
-            for param in parameters:
-                param_name = param["name"]
-                param_schema = param.get("schema", {})
-                param_type = param_schema.get("type", "string")
-                required = param.get("required", False)
-                description = param.get("description", "")
-                
-                # Map OpenAPI types to Python types
-                type_mapping = {
-                    "string": str,
-                    "integer": int,
-                    "number": float,
-                    "boolean": bool,
-                    "array": list,
-                    "object": dict,
-                }
-                
-                python_type = type_mapping.get(param_type, str)
-                if not required:
-                    python_type = Optional[python_type]
-                
-                fields[param_name] = (python_type, Field(description=description))
-            
-            if fields:
-                return create_model(f"{operation['operationId']}_Params", **fields)
-        
-        return None
+        return schema
     
     def load_tools(self) -> List[Tool]:
         """
@@ -422,8 +444,8 @@ class OpenAPIToolsLoader:
                 if not operation_id:
                     continue
                 
-                # Extract parameters (query, path, etc.)
-                parameters = operation.get("parameters", [])
+                # Extract parameters schema
+                parameters_schema = self._extract_parameters_schema(operation)
                 
                 # Create the tool function
                 tool_func = self._create_tool_function(
@@ -431,14 +453,17 @@ class OpenAPIToolsLoader:
                     path=path,
                     method=method,
                     operation=operation,
-                    parameters=parameters
+                    parameters_schema=parameters_schema
                 )
                 
-                # Create the Tool
-                tool = Tool(
-                    tool_func,
+                # Create the Tool using from_schema for proper parameter handling
+                description = operation.get("description") or operation.get("summary", "")
+                tool = Tool.from_schema(
+                    function=tool_func,
                     name=operation_id,
-                    description=operation.get("description") or operation.get("summary", "")
+                    description=description,
+                    json_schema=parameters_schema,
+                    takes_ctx=True
                 )
                 
                 self.tools.append(tool)
