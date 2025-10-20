@@ -15,7 +15,7 @@ class AuthManager:
     
     def __init__(
         self,
-        keycloak_url: str = "https://keycloak.prod.iam-services.aws.inform-cloud.io/",
+        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
         client_id: str = "ally-portal-frontend-dev",
         should_open_browser: bool = True
@@ -84,3 +84,29 @@ class AuthManager:
         """
         token = self.get_token()
         return {"Authorization": f"Bearer {token}"}
+
+def main():
+    import base64
+    import json
+    
+    def decode_jwt(token):
+        parts = token.split('.')
+        if len(parts) != 3:
+            raise ValueError("Invalid JWT token format")
+        payload = parts[1]
+        # Pad base64 string if necessary
+        padding = '=' * (-len(payload) % 4)
+        payload += padding
+        decoded_bytes = base64.urlsafe_b64decode(payload)
+        decoded_str = decoded_bytes.decode('utf-8')
+        return json.loads(decoded_str)
+    
+    auth_manager = AuthManager()
+    token = auth_manager.get_token()
+    print(f"Token: {token}")
+    
+    decoded_payload = decode_jwt(token)
+    print(json.dumps(decoded_payload, indent=2))
+
+if __name__ == "__main__":
+    main()

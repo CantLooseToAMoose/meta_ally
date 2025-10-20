@@ -28,7 +28,7 @@ from pydantic import BaseModel, Field, create_model
 import importlib
 import sys
 import inspect
-from auth_manager import AuthManager
+from lib.auth_manager import AuthManager
 
 # We'll dynamically import models as needed to avoid import errors
 # from ally_config_api_models import *
@@ -42,7 +42,7 @@ class OpenAPIToolsLoader:
         openapi_url: str, 
         base_url: Optional[str] = None,
         auth_manager: Optional[AuthManager] = None,
-        keycloak_url: str = "https://keycloak.prod.iam-services.aws.inform-cloud.io/",
+        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
         client_id: str = "ally-portal-frontend-dev"
     ):
@@ -336,7 +336,7 @@ async def main():
     # Initialize the loader with authorization
     loader = OpenAPIToolsLoader(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.prod.iam-services.aws.inform-cloud.io/",
+        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name="inform-ai",
         client_id="ally-portal-frontend-dev"
     )
