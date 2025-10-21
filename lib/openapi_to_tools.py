@@ -105,7 +105,7 @@ class OpenAPIToolsLoader:
         keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
         client_id: str = "ally-portal-frontend-dev",
-        models_filename: str = "ally_config_api_models.py",
+        models_filename: str = "api_models.py",
         regenerate_models: bool = False
     ):
         """
@@ -340,6 +340,80 @@ class OpenAPIToolsLoader:
         
         return api_call
     
+    def _resolve_schema_refs(self, schema: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Recursively resolve all $ref references in a schema
+        
+        Args:
+            schema: The schema dictionary that may contain $ref references
+        
+        Returns:
+            The schema with all $ref references resolved
+        """
+        if not isinstance(schema, dict):
+            return schema
+        
+        # If this schema has a $ref, resolve it
+        if "$ref" in schema:
+            if self.spec and "components" in self.spec and "schemas" in self.spec["components"]:
+                ref_name = schema["$ref"].split("/")[-1]
+                if ref_name in self.spec["components"]["schemas"]:
+                    resolved_schema = self.spec["components"]["schemas"][ref_name].copy()
+                    # Preserve description if it exists in the original schema
+                    if "description" in schema:
+                        resolved_schema["description"] = schema["description"]
+                    # Recursively resolve any refs in the resolved schema
+                    return self._resolve_schema_refs(resolved_schema)
+            # If we can't resolve it, return as-is
+            return schema
+        
+        # Recursively resolve refs in nested structures
+        resolved_schema = schema.copy()
+        
+        if "properties" in resolved_schema:
+            resolved_properties = {}
+            for prop_name, prop_schema in resolved_schema["properties"].items():
+                resolved_properties[prop_name] = self._resolve_schema_refs(prop_schema)
+            resolved_schema["properties"] = resolved_properties
+        
+        if "patternProperties" in resolved_schema:
+            resolved_pattern_properties = {}
+            for pattern, prop_schema in resolved_schema["patternProperties"].items():
+                resolved_pattern_properties[pattern] = self._resolve_schema_refs(prop_schema)
+            resolved_schema["patternProperties"] = resolved_pattern_properties
+        
+        if "items" in resolved_schema:
+            resolved_schema["items"] = self._resolve_schema_refs(resolved_schema["items"])
+        
+        if "anyOf" in resolved_schema:
+            resolved_schema["anyOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["anyOf"]]
+        
+        if "oneOf" in resolved_schema:
+            resolved_schema["oneOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["oneOf"]]
+        
+        if "allOf" in resolved_schema:
+            resolved_schema["allOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["allOf"]]
+        
+        # Handle discriminator mapping in oneOf/anyOf
+        if "discriminator" in resolved_schema and "mapping" in resolved_schema["discriminator"]:
+            mapping = resolved_schema["discriminator"]["mapping"]
+            resolved_mapping = {}
+            for key, ref_value in mapping.items():
+                if ref_value.startswith("#/components/schemas/"):
+                    ref_name = ref_value.split("/")[-1]
+                    if (self.spec and "components" in self.spec and 
+                        "schemas" in self.spec["components"] and 
+                        ref_name in self.spec["components"]["schemas"]):
+                        # Keep the original reference for discriminator mapping
+                        resolved_mapping[key] = ref_value
+                    else:
+                        resolved_mapping[key] = ref_value
+                else:
+                    resolved_mapping[key] = ref_value
+            resolved_schema["discriminator"]["mapping"] = resolved_mapping
+        
+        return resolved_schema
+
     def _extract_parameters_schema(self, operation: Dict[str, Any]) -> Dict[str, Any]:
         """
         Extract and create a JSON schema from operation parameters
@@ -402,13 +476,17 @@ class OpenAPIToolsLoader:
                         resolved_schema = self.spec["components"]["schemas"][ref_name]
                         if "properties" in resolved_schema:
                             for prop_name, prop_schema in resolved_schema["properties"].items():
-                                schema["properties"][prop_name] = prop_schema
+                                # Recursively resolve any refs in the property schema
+                                resolved_prop_schema = self._resolve_schema_refs(prop_schema)
+                                schema["properties"][prop_name] = resolved_prop_schema
                             if "required" in resolved_schema:
                                 schema["required"].extend(resolved_schema["required"])
             elif "properties" in body_schema:
                 # Direct schema properties
                 for prop_name, prop_schema in body_schema["properties"].items():
-                    schema["properties"][prop_name] = prop_schema
+                    # Recursively resolve any refs in the property schema
+                    resolved_prop_schema = self._resolve_schema_refs(prop_schema)
+                    schema["properties"][prop_name] = resolved_prop_schema
                 if "required" in body_schema:
                     schema["required"].extend(body_schema["required"])
         
