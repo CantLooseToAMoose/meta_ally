@@ -12,7 +12,7 @@ import inspect
 import pytest
 from typing import cast
 
-from lib.openapi_to_tools import OpenAPIToolsLoader, generate_api_models
+from lib.openapi_to_tools import OpenAPIToolsLoader
 from pydantic_ai import RunContext
 
 
@@ -100,7 +100,7 @@ def test_openapi_tools_loader_initialization():
 def test_model_generation():
     """Test the model generation functionality"""
     # Test: Generate models with a custom filename
-    success = generate_api_models(
+    success = OpenAPIToolsLoader.generate_api_models(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
         output_filename="test_models.py",
         force_regenerate=True
@@ -125,7 +125,7 @@ def test_model_generation_existing_file():
     
     try:
         # Test that it doesn't overwrite by default
-        success = generate_api_models(
+        success = OpenAPIToolsLoader.generate_api_models(
             openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
             output_filename=test_filename,
             force_regenerate=False
@@ -133,7 +133,7 @@ def test_model_generation_existing_file():
         assert success == False, "Should not overwrite existing file when force_regenerate=False"
         
         # Test that it does overwrite when forced
-        success = generate_api_models(
+        success = OpenAPIToolsLoader.generate_api_models(
             openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
             output_filename=test_filename,
             force_regenerate=True

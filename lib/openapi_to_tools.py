@@ -36,66 +36,66 @@ from lib.auth_manager import AuthManager
 # from ally_config_api_models import *
 
 
-def generate_api_models(
-    openapi_url: str, 
-    output_filename: str = "ally_config_api_models.py",
-    force_regenerate: bool = False
-) -> bool:
-    """
-    Standalone function to generate Pydantic models from an OpenAPI spec
-    
-    Args:
-        openapi_url: URL to the OpenAPI specification
-        output_filename: Output filename for the generated models
-        force_regenerate: Whether to overwrite existing files
-    
-    Returns:
-        True if successful, False otherwise
-    """
-    # Check if file exists and force_regenerate is False
-    if os.path.exists(output_filename) and not force_regenerate:
-        print(f"Models file '{output_filename}' already exists. Use force_regenerate=True to overwrite.")
-        return False
-    
-    try:
-        # Run datamodel-codegen command
-        # First try to find the datamodel-codegen executable
-        import shutil
-        codegen_path = shutil.which("datamodel-codegen")
-        if not codegen_path:
-            # Try in the virtual environment
-            import sys
-            venv_path = sys.prefix
-            codegen_path = os.path.join(venv_path, "bin", "datamodel-codegen")
-            if not os.path.exists(codegen_path):
-                raise FileNotFoundError("datamodel-codegen not found")
-        
-        cmd = [
-            codegen_path,
-            "--url", openapi_url,
-            "--input-file-type", "openapi",
-            "--output", output_filename
-        ]
-        
-        print(f"Generating models file '{output_filename}' from {openapi_url}...")
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-        
-        print(f"Successfully generated '{output_filename}'")
-        return True
-        
-    except subprocess.CalledProcessError as e:
-        print(f"Error generating models file: {e}")
-        print(f"stdout: {e.stdout}")
-        print(f"stderr: {e.stderr}")
-        return False
-    except FileNotFoundError:
-        print("Error: datamodel-codegen not found. Please install it with:")
-        print("  pip install datamodel-code-generator")
-        return False
-
-
 class OpenAPIToolsLoader:
     """Loads OpenAPI operations and converts them into pydantic-ai Tools"""
+    
+    @staticmethod
+    def generate_api_models(
+        openapi_url: str, 
+        output_filename: str = "ally_config_api_models.py",
+        force_regenerate: bool = False
+    ) -> bool:
+        """
+        Standalone function to generate Pydantic models from an OpenAPI spec
+        
+        Args:
+            openapi_url: URL to the OpenAPI specification
+            output_filename: Output filename for the generated models
+            force_regenerate: Whether to overwrite existing files
+        
+        Returns:
+            True if successful, False otherwise
+        """
+        # Check if file exists and force_regenerate is False
+        if os.path.exists(output_filename) and not force_regenerate:
+            print(f"Models file '{output_filename}' already exists. Use force_regenerate=True to overwrite.")
+            return False
+        
+        try:
+            # Run datamodel-codegen command
+            # First try to find the datamodel-codegen executable
+            import shutil
+            codegen_path = shutil.which("datamodel-codegen")
+            if not codegen_path:
+                # Try in the virtual environment
+                import sys
+                venv_path = sys.prefix
+                codegen_path = os.path.join(venv_path, "bin", "datamodel-codegen")
+                if not os.path.exists(codegen_path):
+                    raise FileNotFoundError("datamodel-codegen not found")
+            
+            cmd = [
+                codegen_path,
+                "--url", openapi_url,
+                "--input-file-type", "openapi",
+                "--output", output_filename
+            ]
+            
+            print(f"Generating models file '{output_filename}' from {openapi_url}...")
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            
+            print(f"Successfully generated '{output_filename}'")
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f"Error generating models file: {e}")
+            print(f"stdout: {e.stdout}")
+            print(f"stderr: {e.stderr}")
+            return False
+        except FileNotFoundError:
+            print("Error: datamodel-codegen not found. Please install it with:")
+            print("  pip install datamodel-code-generator")
+            return False
     
     def __init__(
         self, 
