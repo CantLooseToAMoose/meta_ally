@@ -1,4 +1,5 @@
 pydantic_ai_full_llm_helper.txt
 .github/
 .venv
+.env
 __pycache__

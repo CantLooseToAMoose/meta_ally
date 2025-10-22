@@ -84,7 +84,7 @@ def test_openapi_tools_loader_initialization():
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json"
     )
     assert loader1.openapi_url == "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json"
-    assert loader1.models_filename == "ally_config_api_models.py"  # default
+    assert loader1.models_filename == "api_models.py"  # default
     assert loader1.regenerate_models == False  # default
     
     # Test with custom parameters
