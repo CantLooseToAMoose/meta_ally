@@ -35,7 +35,7 @@ class AuthManager:
         self.should_open_browser = should_open_browser
         
         self._token: Optional[str] = None
-        self._expiration: Any = None  # Can be datetime or str depending on ai_core implementation
+        self._expiration: Any = None  # Can be datetime, timestamp (float), or str depending on ai_core implementation
     
     def get_token(self, force_refresh: bool = False) -> str:
         """
@@ -62,7 +62,16 @@ class AuthManager:
         
         # Refresh if token expires within 5 minutes
         now = datetime.now()
-        return self._expiration <= now
+        
+        # Handle both timestamp (float) and datetime objects
+        if isinstance(self._expiration, (int, float)):
+            # Convert timestamp to datetime for comparison
+            expiration_dt = datetime.fromtimestamp(self._expiration)
+        else:
+            # Assume it's already a datetime object
+            expiration_dt = self._expiration
+        
+        return expiration_dt <= now
     
     def _refresh_token(self) -> None:
         """Refresh the authorization token"""

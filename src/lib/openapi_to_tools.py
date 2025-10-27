@@ -11,20 +11,45 @@ Key Features:
 - Normalizes model names from OpenAPI format to Python class names
 - Supports existing Pydantic models for request validation
 - All operations are async by default
+- Uses dependency injection pattern with AuthManager in RunContext
+
+Usage:
+    # Create loader
+    loader = OpenAPIToolsLoader("https://api.example.com/openapi.json")
+    
+    # Load tools
+    tools = loader.load_tools()
+    
+    # Create dependencies with auth (base_url is handled internally)
+    deps = loader.create_dependencies(auth_manager=my_auth_manager)
+    
+    # Use with agent
+    agent = Agent(
+        'openai:gpt-4',
+        deps_type=OpenAPIToolDependencies,
+        tools=tools
+    )
+    
+    result = await agent.run("Make an API call", deps=deps)
 
 """
 
 import httpx
-import json
 import subprocess
 import os
-from typing import Any, Dict, List, Optional, Callable, cast, Union
+from typing import Any, Dict, List, Optional, Callable, cast
 from pydantic_ai import Tool, RunContext
-from pydantic import BaseModel, Field, create_model
+from pydantic import BaseModel
 import importlib
 import sys
-import inspect
+from dataclasses import dataclass
 from .auth_manager import AuthManager
+
+
+@dataclass
+class OpenAPIToolDependencies:
+    """Dependencies for OpenAPI tools that need authentication"""
+    auth_manager: AuthManager
 
 # We'll dynamically import models as needed to avoid import errors
 # from ally_config_api_models import *
@@ -76,7 +101,7 @@ class OpenAPIToolsLoader:
             ]
             
             print(f"Generating models file '{output_filename}' from {openapi_url}...")
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            subprocess.run(cmd, capture_output=True, text=True, check=True)
             
             print(f"Successfully generated '{output_filename}'")
             return True
@@ -95,10 +120,6 @@ class OpenAPIToolsLoader:
         self, 
         openapi_url: str, 
         base_url: Optional[str] = None,
-        auth_manager: Optional[AuthManager] = None,
-        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-dev",
         models_filename: str = "api_models.py",
         regenerate_models: bool = False
     ):
@@ -108,29 +129,15 @@ class OpenAPIToolsLoader:
         Args:
             openapi_url: URL to fetch the OpenAPI JSON spec from
             base_url: Optional base URL for API calls (if different from openapi_url base)
-            auth_manager: Optional AuthManager instance for handling authorization
-            keycloak_url: Keycloak URL for authentication (used if auth_manager not provided)
-            realm_name: Keycloak realm name (used if auth_manager not provided)
-            client_id: Client ID for authentication (used if auth_manager not provided)
-            models_filename: Filename for the generated Pydantic models (default: ally_config_api_models.py)
+            models_filename: Filename for the generated Pydantic models (default: api_models.py)
             regenerate_models: Whether to regenerate the models file if it exists (default: False)
         """
         self.openapi_url = openapi_url
         self.base_url = base_url or openapi_url.rsplit('/', 1)[0]  # Remove /openapi.json
         self.spec: Optional[Dict[str, Any]] = None
-        self.tools: List[Tool] = []
+        self.tools: List[Tool[OpenAPIToolDependencies]] = []
         self.models_filename = models_filename
         self.regenerate_models = regenerate_models
-        
-        # Initialize auth manager if not provided
-        if auth_manager is None:
-            self.auth_manager = AuthManager(
-                keycloak_url=keycloak_url,
-                realm_name=realm_name,
-                client_id=client_id
-            )
-        else:
-            self.auth_manager = auth_manager
         
     def fetch_spec(self) -> Dict[str, Any]:
         """Fetch the OpenAPI specification from the URL"""
@@ -174,7 +181,7 @@ class OpenAPIToolsLoader:
             ]
             
             print(f"Generating models file '{self.models_filename}' from {self.openapi_url}...")
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            subprocess.run(cmd, capture_output=True, text=True, check=True)
             
             print(f"Successfully generated '{self.models_filename}'")
             return True
@@ -276,12 +283,12 @@ class OpenAPIToolsLoader:
             A callable function that can be wrapped as a Tool
         """
         # Create the actual API call function
-        async def api_call(ctx: RunContext[Any], **kwargs) -> Dict[str, Any]:
+        async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> Dict[str, Any]:
             """
             Make an HTTP request to the API endpoint
             
             Args:
-                ctx: The run context from pydantic-ai
+                ctx: The run context from pydantic-ai containing dependencies
                 **kwargs: Parameters for the API call
             
             Returns:
@@ -308,8 +315,8 @@ class OpenAPIToolsLoader:
                 "Content-Type": "application/json"
             }
             
-            # Add authorization header
-            auth_header = self.auth_manager.get_auth_header()
+            # Add authorization header from context dependencies
+            auth_header = ctx.deps.auth_manager.get_auth_header()
             headers.update(auth_header)
             
             async with httpx.AsyncClient() as client:
@@ -486,7 +493,7 @@ class OpenAPIToolsLoader:
         
         return schema
     
-    def load_tools(self) -> List[Tool]:
+    def load_tools(self) -> List[Tool[OpenAPIToolDependencies]]:
         """
         Load all operations from the OpenAPI spec and convert them to Tools
         
@@ -528,26 +535,97 @@ class OpenAPIToolsLoader:
                     parameters_schema=parameters_schema
                 )
                 
-                # Create the Tool using from_schema for proper parameter handling
+                # Create the Tool - cast to proper type since Tool.from_schema doesn't infer it
                 description = operation.get("description") or operation.get("summary", "")
-                tool = Tool.from_schema(
+                
+                # Truncate operation_id to 64 characters to meet OpenAI requirements
+                tool_name = self._truncate_tool_name(operation_id)
+                if tool_name != operation_id:
+                    print(f"Warning: Truncated tool name from '{operation_id}' to '{tool_name}'")
+                
+                tool_untyped = Tool.from_schema(
                     function=tool_func,
-                    name=operation_id,
+                    name=tool_name,
                     description=description,
                     json_schema=parameters_schema,
                     takes_ctx=True
                 )
+                # Cast the tool to the proper type
+                tool: Tool[OpenAPIToolDependencies] = cast(Tool[OpenAPIToolDependencies], tool_untyped)
                 
                 self.tools.append(tool)
-                print(f"Created tool: {operation_id} [{method.upper()} {path}]")
+                print(f"Created tool: {tool_name} [{method.upper()} {path}]")
         
         return self.tools
     
-    def get_tool_by_operation_id(self, operation_id: str) -> Optional[Tool]:
-        """Get a specific tool by its operation ID"""
+    def create_dependencies(
+        self,
+        auth_manager: Optional[AuthManager] = None,
+        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
+        realm_name: str = "inform-ai",
+        client_id: str = "ally-portal-frontend-dev"
+    ) -> OpenAPIToolDependencies:
+        """
+        Create dependencies for the OpenAPI tools
+        
+        Args:
+            auth_manager: Optional AuthManager instance for handling authorization
+            keycloak_url: Keycloak URL for authentication (used if auth_manager not provided)
+            realm_name: Keycloak realm name (used if auth_manager not provided)
+            client_id: Client ID for authentication (used if auth_manager not provided)
+        
+        Returns:
+            OpenAPIToolDependencies instance
+        """
+        if auth_manager is None:
+            auth_manager = AuthManager(
+                keycloak_url=keycloak_url,
+                realm_name=realm_name,
+                client_id=client_id
+            )
+        
+        return OpenAPIToolDependencies(
+            auth_manager=auth_manager
+        )
+    
+    def _truncate_tool_name(self, tool_name: str) -> str:
+        """Apply the same truncation logic used when creating tools"""
+        if len(tool_name) <= 64:
+            return tool_name
+        
+        # Try to preserve the important parts by removing redundant prefixes/suffixes
+        truncated = tool_name
+        
+        # Remove common redundant parts
+        redundant_patterns = ["_api_", "api_", "_post", "_get", "_put", "_delete"]
+        for pattern in redundant_patterns:
+            if pattern in truncated and len(truncated) > 64:
+                truncated = truncated.replace(pattern, "_" if pattern.startswith("_") and pattern.endswith("_") else "", 1)
+        
+        # If still too long, truncate from the end
+        if len(truncated) > 64:
+            truncated = truncated[:64]
+        
+        return truncated
+    
+    def get_tool_by_operation_id(self, operation_id: str) -> Optional[Tool[OpenAPIToolDependencies]]:
+        """Get a specific tool by its operation ID (supports both original and truncated names)"""
+        # First try exact match
         for tool in self.tools:
             if tool.name == operation_id:
                 return tool
+        
+        # If no exact match, try with truncation logic applied to the operation_id
+        truncated_operation_id = self._truncate_tool_name(operation_id)
+        for tool in self.tools:
+            if tool.name == truncated_operation_id:
+                return tool
+        
         return None
+    
+    @staticmethod
+    def get_dependencies_type() -> type[OpenAPIToolDependencies]:
+        """Get the dependencies type for type annotations"""
+        return OpenAPIToolDependencies
 
 

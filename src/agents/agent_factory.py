@@ -22,6 +22,8 @@ from ..util.tool_group_manager import (
     AllyConfigToolGroup, 
     ToolGroupType
 )
+from ..lib.auth_manager import AuthManager
+from ..lib.openapi_to_tools import OpenAPIToolDependencies
 from .model_config import ModelConfiguration
 
 
@@ -37,19 +39,91 @@ class AgentConfiguration:
 
 
 class AgentFactory:
-    """Factory for creating pydantic-ai agents with specific tool groups and configurations"""
+    """
+    Factory for creating pydantic-ai agents with specific tool groups and configurations.
     
-    def __init__(self, logger: Optional[logging.Logger] = None):
-        self.tool_manager = ToolGroupManager()
+    This factory manages the creation of agents that use OpenAPI-based tools with authentication.
+    All agents created by this factory require dependencies to run, which include authentication
+    management for API calls.
+    
+    Example usage:
+        ```python
+        # Create factory with AuthManager
+        factory = AgentFactory()
+        
+        # Setup tools
+        factory.setup_ai_knowledge_tools()
+        factory.setup_ally_config_tools()
+        
+        # Create agent
+        agent = factory.create_hybrid_assistant()
+        
+        # Create dependencies and refresh token for authentication
+        deps = factory.create_dependencies()
+        deps.auth_manager._refresh_token()  # IMPORTANT: Triggers browser auth flow
+        
+        # Run agent with dependencies
+        result = agent.run_sync("Your question", deps=deps)
+        ```
+    
+    Note: The auth_manager._refresh_token() call is essential before running agents as it
+    initiates the browser-based authentication process required for API access.
+    """
+    
+    def __init__(
+        self, 
+        auth_manager: Optional[AuthManager] = None,
+        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
+        realm_name: str = "inform-ai",
+        client_id: str = "ally-portal-frontend-dev",
+        logger: Optional[logging.Logger] = None
+    ):
+        """
+        Initialize the AgentFactory
+        
+        Args:
+            auth_manager: Optional AuthManager instance. If not provided, one will be created
+            keycloak_url: Keycloak URL for authentication (used if auth_manager not provided)
+            realm_name: Keycloak realm name (used if auth_manager not provided)
+            client_id: Client ID for authentication (used if auth_manager not provided)
+            logger: Optional logger instance
+        """
+        if auth_manager is None:
+            auth_manager = AuthManager(
+                keycloak_url=keycloak_url,
+                realm_name=realm_name,
+                client_id=client_id
+            )
+        
+        self.auth_manager = auth_manager
+        self.tool_manager = ToolGroupManager(auth_manager)
         self.logger = logger or logging.getLogger(__name__)
         
-    def setup_ai_knowledge_tools(self, **kwargs) -> None:
+    def setup_ai_knowledge_tools(
+        self, 
+        openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
+        models_filename: str = "ai_knowledge_api_models.py",
+        regenerate_models: bool = True
+    ) -> None:
         """Setup AI Knowledge tools with custom configuration"""
-        self.tool_manager.load_ai_knowledge_tools(**kwargs)
+        self.tool_manager.load_ai_knowledge_tools(
+            openapi_url=openapi_url,
+            models_filename=models_filename,
+            regenerate_models=regenerate_models
+        )
         
-    def setup_ally_config_tools(self, **kwargs) -> None:
+    def setup_ally_config_tools(
+        self,
+        openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
+        models_filename: str = "ally_config_api_models.py",
+        regenerate_models: bool = True
+    ) -> None:
         """Setup Ally Config tools with custom configuration"""
-        self.tool_manager.load_ally_config_tools(**kwargs)
+        self.tool_manager.load_ally_config_tools(
+            openapi_url=openapi_url,
+            models_filename=models_filename,
+            regenerate_models=regenerate_models
+        )
     
     def _resolve_model(self, model: Union[str, ModelConfiguration]) -> Union[str, OpenAIChatModel]:
         """
@@ -78,7 +152,7 @@ class AgentFactory:
         additional_instructions: Optional[str] = None,
         max_retries: int = 3,
         **agent_kwargs
-    ) -> Agent:
+    ) -> Agent[OpenAPIToolDependencies]:
         """Create a pydantic-ai agent with specified configuration"""
         
         # Get tools for the specified groups
@@ -92,9 +166,10 @@ class AgentFactory:
         # Resolve model configuration
         resolved_model = self._resolve_model(model)
             
-        # Create and configure the agent
+        # Create and configure the agent with dependencies
         agent = Agent(
             resolved_model,
+            deps_type=OpenAPIToolDependencies,
             system_prompt=complete_prompt,
             tools=tools,
             retries=max_retries,
@@ -112,7 +187,7 @@ class AgentFactory:
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
         **agent_kwargs
-    ) -> Agent:
+    ) -> Agent[OpenAPIToolDependencies]:
         """Create an AI Knowledge specialist agent"""
         if tool_groups is None:
             tool_groups = [AIKnowledgeToolGroup.ALL]
@@ -132,7 +207,7 @@ class AgentFactory:
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
         **agent_kwargs
-    ) -> Agent:
+    ) -> Agent[OpenAPIToolDependencies]:
         """Create an Ally Config administrator agent"""
         if tool_groups is None:
             tool_groups = [AllyConfigToolGroup.ALL]
@@ -153,7 +228,7 @@ class AgentFactory:
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
         **agent_kwargs
-    ) -> Agent:
+    ) -> Agent[OpenAPIToolDependencies]:
         """Create a hybrid agent with both AI Knowledge and Ally Config capabilities"""
         all_groups = []
         
@@ -173,6 +248,25 @@ class AgentFactory:
             additional_instructions=additional_instructions,
             **agent_kwargs
         )
+        
+    def create_dependencies(self) -> OpenAPIToolDependencies:
+        """
+        Create dependencies for running agents with OpenAPI tools.
+        
+        IMPORTANT: After creating dependencies, you must call deps.auth_manager._refresh_token()
+        to initiate the browser-based authentication flow before running any agents.
+        
+        Example:
+            ```python
+            deps = factory.create_dependencies()
+            deps.auth_manager._refresh_token()  # Opens browser for authentication
+            result = agent.run_sync("question", deps=deps)
+            ```
+        
+        Returns:
+            OpenAPIToolDependencies instance with the configured AuthManager
+        """
+        return OpenAPIToolDependencies(auth_manager=self.auth_manager)
         
         
     def get_available_groups(self) -> Dict[str, Dict[str, List[str]]]:

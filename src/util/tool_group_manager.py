@@ -9,9 +9,10 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 from __future__ import annotations
 
 from enum import Enum
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Optional
 
-from ..lib.openapi_to_tools import OpenAPIToolsLoader
+from ..lib.openapi_to_tools import OpenAPIToolsLoader, OpenAPIToolDependencies
+from ..lib.auth_manager import AuthManager
 
 
 class AIKnowledgeToolGroup(Enum):
@@ -47,7 +48,8 @@ ToolGroupType = Union[AIKnowledgeToolGroup, AllyConfigToolGroup]
 class ToolGroupManager:
     """Manages tool groups and organizes tools from OpenAPI loaders"""
     
-    def __init__(self):
+    def __init__(self, auth_manager: AuthManager):
+        self._auth_manager = auth_manager
         self._ai_knowledge_tools: List = []
         self._ally_config_tools: List = []
         self._ai_knowledge_groups: Dict[AIKnowledgeToolGroup, List] = {}
@@ -56,18 +58,12 @@ class ToolGroupManager:
     def load_ai_knowledge_tools(
         self, 
         openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
-        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-dev",
         models_filename: str = "ai_knowledge_api_models.py",
         regenerate_models: bool = True
     ) -> None:
         """Load AI Knowledge API tools and organize them into groups"""
         loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
-            keycloak_url=keycloak_url,
-            realm_name=realm_name,
-            client_id=client_id,
             models_filename=models_filename,
             regenerate_models=regenerate_models
         )
@@ -78,18 +74,12 @@ class ToolGroupManager:
     def load_ally_config_tools(
         self,
         openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name: str = "inform-ai", 
-        client_id: str = "ally-portal-frontend-dev",
         models_filename: str = "ally_config_api_models.py",
         regenerate_models: bool = True
     ) -> None:
         """Load Ally Config API tools and organize them into groups"""
         loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
-            keycloak_url=keycloak_url,
-            realm_name=realm_name,
-            client_id=client_id,
             models_filename=models_filename,
             regenerate_models=regenerate_models
         )
@@ -203,6 +193,15 @@ class ToolGroupManager:
                     all_tools.extend(self._ally_config_groups.get(group, []))
                     
         return all_tools
+        
+    def create_dependencies(
+        self,
+        auth_manager: Optional[AuthManager] = None,
+    ) -> OpenAPIToolDependencies:
+        """Create dependencies for API tools"""
+        if auth_manager is None:
+            auth_manager = self._auth_manager
+        return OpenAPIToolDependencies(auth_manager=auth_manager)
         
     def get_available_groups(self) -> Dict[str, Dict[str, List[str]]]:
         """Get information about available tool groups and their tools"""

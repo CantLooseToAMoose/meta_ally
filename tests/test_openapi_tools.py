@@ -5,10 +5,7 @@ Pytest tests for OpenAPIToolsLoader
 This module contains pytest-compatible tests for the OpenAPIToolsLoader functionality.
 """
 
-import asyncio
-import sys
 import os
-import inspect
 import pytest
 from typing import cast
 
@@ -19,12 +16,9 @@ from pydantic_ai import RunContext
 @pytest.mark.anyio
 async def test_openapi_tools_loader_basic():
     """Test basic OpenAPIToolsLoader functionality"""
-    # Initialize the loader with authorization and model generation options
+    # Initialize the loader with basic options
     loader = OpenAPIToolsLoader(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name="inform-ai",
-        client_id="ally-portal-frontend-dev",
         models_filename="ally_config_api_models.py",  # Custom filename for models
         regenerate_models=False  # Set to True to regenerate existing models file
     )
@@ -49,23 +43,23 @@ async def test_openapi_tool_execution():
     """Test that we can execute a tool function"""
     loader = OpenAPIToolsLoader(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name="inform-ai",
-        client_id="ally-portal-frontend-dev",
         models_filename="ally_config_api_models.py",
         regenerate_models=False
     )
     
-    tools = loader.load_tools()
+    # Load tools without using the tools variable
+    loader.load_tools()
     example_tool = loader.get_tool_by_operation_id("get_available_AI_models_api_getAvailableAIModels_post")
     
     if example_tool is not None:
-        # Create a simple mock RunContext
-        class MockRunContext:
-            def __init__(self):
-                self.deps = None
+        # Create dependencies and mock RunContext for the new pattern
+        deps = loader.create_dependencies()
         
-        ctx = cast(RunContext[None], MockRunContext())
+        class MockRunContext:
+            def __init__(self, dependencies):
+                self.deps = dependencies
+        
+        ctx = cast(RunContext, MockRunContext(deps))
         
         # This test might fail if auth is not available, so we catch exceptions
         try:
@@ -85,7 +79,7 @@ def test_openapi_tools_loader_initialization():
     )
     assert loader1.openapi_url == "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json"
     assert loader1.models_filename == "api_models.py"  # default
-    assert loader1.regenerate_models == False  # default
+    assert not loader1.regenerate_models  # default
     
     # Test with custom parameters
     loader2 = OpenAPIToolsLoader(
@@ -94,7 +88,7 @@ def test_openapi_tools_loader_initialization():
         regenerate_models=True
     )
     assert loader2.models_filename == "custom_models.py"
-    assert loader2.regenerate_models == True
+    assert loader2.regenerate_models
 
 
 def test_model_generation():
@@ -106,7 +100,7 @@ def test_model_generation():
         force_regenerate=True
     )
     
-    assert success == True, "Model generation should succeed"
+    assert success, "Model generation should succeed"
     
     # Verify file was created
     assert os.path.exists("test_models.py"), "Generated models file should exist"
@@ -130,7 +124,7 @@ def test_model_generation_existing_file():
             output_filename=test_filename,
             force_regenerate=False
         )
-        assert success == False, "Should not overwrite existing file when force_regenerate=False"
+        assert not success, "Should not overwrite existing file when force_regenerate=False"
         
         # Test that it does overwrite when forced
         success = OpenAPIToolsLoader.generate_api_models(
@@ -138,7 +132,7 @@ def test_model_generation_existing_file():
             output_filename=test_filename,
             force_regenerate=True
         )
-        assert success == True, "Should overwrite existing file when force_regenerate=True"
+        assert success, "Should overwrite existing file when force_regenerate=True"
         
     finally:
         # Clean up

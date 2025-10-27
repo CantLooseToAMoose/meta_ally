@@ -29,24 +29,28 @@ def main():
         ally_config_groups=[AllyConfigToolGroup.ALL]
     )
     
+    # Create dependencies for the agent
+    deps = factory.create_dependencies()
+    deps.auth_manager._refresh_token()
+    
     print(f"Created agent: {agent}")
     print(f"Agent model: {agent.model}")
     # print("Testing Agent \n"+"-" * 40)
     # question = "How can you assist me with AI Knowledge and Ally Config?"
     # print(f"Ask agent: {question}")
-    # response = agent.run_sync(question)
+    # response = agent.run_sync(question, deps=deps)
     # print("Agent response:")
     # pprint(response)
     # print("\n" + "=" * 40 + "\n")
     # question = "What tools are at your disposal?"
     # print(f"Ask agent: {question}")
-    # response = agent.run_sync(question)
+    # response = agent.run_sync(question, deps=deps)
     # print("Agent response:")
     # pprint(response)
     # print("\n" + "=" * 40 + "\n")
     question = "Can you list all available models?"
     print(f"Ask agent: {question}")
-    response = agent.run_sync(question)
+    response = agent.run_sync(question, deps=deps)
     print("Agent response:")
     pprint(response.all_messages())
 
