@@ -5,9 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "azure-identity>=1.15.0",
     "datamodel-code-generator>=0.35.0",
     "inform-ai-core[authorization]>=1.9.2",
     "ipykernel>=7.0.1",
+    "openai>=1.35.0",
     "pydantic-ai>=1.2.0",
     "pytest>=8.4.2",
     "trio>=0.31.0",

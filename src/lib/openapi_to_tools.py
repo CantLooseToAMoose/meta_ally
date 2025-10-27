@@ -12,12 +12,6 @@ Key Features:
 - Supports existing Pydantic models for request validation
 - All operations are async by default
 
-Example:
-    loader = OpenAPIToolsLoader(
-        openapi_url="https://api.example.com/openapi.json"
-    )
-    tools = loader.load_tools()
-    agent = Agent('openai:gpt-4', tools=tools)
 """
 
 import httpx
@@ -30,7 +24,7 @@ from pydantic import BaseModel, Field, create_model
 import importlib
 import sys
 import inspect
-from lib.auth_manager import AuthManager
+from .auth_manager import AuthManager
 
 # We'll dynamically import models as needed to avoid import errors
 # from ally_config_api_models import *
