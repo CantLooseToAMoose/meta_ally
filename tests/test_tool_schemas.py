@@ -3,17 +3,13 @@
 Test for verifying that OpenAPI tools have proper parameter schemas
 """
 
-import pytest
-from lib.openapi_to_tools import OpenAPIToolsLoader
+from src.lib.openapi_to_tools import OpenAPIToolsLoader
 
 
 def test_tool_parameter_schemas():
     """Test that tools are created with proper parameter schemas"""
     loader = OpenAPIToolsLoader(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name="inform-ai",
-        client_id="ally-portal-frontend-dev",
         models_filename="ally_config_api_models.py",
         regenerate_models=False
     )
@@ -70,9 +66,6 @@ def test_schema_type_mappings():
     """Test that OpenAPI types are correctly mapped to JSON schema types"""
     loader = OpenAPIToolsLoader(
         openapi_url="https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
-        keycloak_url="https://keycloak.acc.iam-services.aws.inform-cloud.io/",
-        realm_name="inform-ai",
-        client_id="ally-portal-frontend-dev",
         models_filename="ally_config_api_models.py",
         regenerate_models=False
     )

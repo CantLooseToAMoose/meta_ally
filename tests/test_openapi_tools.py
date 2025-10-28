@@ -9,7 +9,7 @@ import os
 import pytest
 from typing import cast
 
-from lib.openapi_to_tools import OpenAPIToolsLoader
+from src.lib.openapi_to_tools import OpenAPIToolsLoader, OpenAPIToolDependencies
 from pydantic_ai import RunContext
 
 
@@ -59,7 +59,7 @@ async def test_openapi_tool_execution():
             def __init__(self, dependencies):
                 self.deps = dependencies
         
-        ctx = cast(RunContext, MockRunContext(deps))
+        ctx = cast(RunContext[OpenAPIToolDependencies], MockRunContext(deps))
         
         # This test might fail if auth is not available, so we catch exceptions
         try:
