@@ -1424,6 +1424,7 @@ dependencies = [
     { name = "ipykernel" },
     { name = "openai" },
     { name = "pydantic-ai" },
+    { name = "pydantic-ai-slim", extra = ["ag-ui"] },
     { name = "pytest" },
     { name = "trio" },
 ]
@@ -1436,6 +1437,7 @@ requires-dist = [
     { name = "ipykernel", specifier = ">=7.0.1" },
     { name = "openai", specifier = ">=1.35.0" },
     { name = "pydantic-ai", specifier = ">=1.2.0" },
+    { name = "pydantic-ai-slim", extras = ["ag-ui"], specifier = ">=1.2.0" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "trio", specifier = ">=0.31.0" },
 ]
