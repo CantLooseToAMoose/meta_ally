@@ -103,26 +103,30 @@ class AgentFactory:
         self, 
         openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ai_knowledge_api_models.py",
-        regenerate_models: bool = True
+        regenerate_models: bool = True,
+        require_human_approval: bool = False
     ) -> None:
         """Setup AI Knowledge tools with custom configuration"""
         self.tool_manager.load_ai_knowledge_tools(
             openapi_url=openapi_url,
             models_filename=models_filename,
-            regenerate_models=regenerate_models
+            regenerate_models=regenerate_models,
+            require_human_approval=require_human_approval
         )
         
     def setup_ally_config_tools(
         self,
         openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ally_config_api_models.py",
-        regenerate_models: bool = True
+        regenerate_models: bool = True,
+        require_human_approval: bool = False
     ) -> None:
         """Setup Ally Config tools with custom configuration"""
         self.tool_manager.load_ally_config_tools(
             openapi_url=openapi_url,
             models_filename=models_filename,
-            regenerate_models=regenerate_models
+            regenerate_models=regenerate_models,
+            require_human_approval=require_human_approval
         )
     
     def _resolve_model(self, model: Union[str, ModelConfiguration]) -> Union[str, OpenAIChatModel]:

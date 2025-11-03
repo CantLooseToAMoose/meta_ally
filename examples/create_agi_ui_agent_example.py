@@ -18,9 +18,9 @@ def main():
 
     # Setup the tools first - this will trigger authentication if needed
     print("Setting up AI Knowledge tools...")
-    factory.setup_ai_knowledge_tools()
+    factory.setup_ai_knowledge_tools(require_human_approval=True)
     print("Setting up Ally Config tools...")
-    factory.setup_ally_config_tools()
+    factory.setup_ally_config_tools(require_human_approval=True)
 
     model_config = factory.create_azure_model_config()
 

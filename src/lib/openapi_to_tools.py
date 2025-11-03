@@ -38,7 +38,7 @@ import httpx
 import subprocess
 import os
 from typing import Any, Dict, List, Optional, Callable, cast
-from pydantic_ai import Tool, RunContext
+from pydantic_ai import Tool, RunContext, ApprovalRequired
 from pydantic import BaseModel
 import importlib
 import sys
@@ -121,7 +121,8 @@ class OpenAPIToolsLoader:
         openapi_url: str, 
         base_url: Optional[str] = None,
         models_filename: str = "api_models.py",
-        regenerate_models: bool = False
+        regenerate_models: bool = False,
+        require_human_approval: bool = False
     ):
         """
         Initialize the loader with an OpenAPI spec URL
@@ -131,6 +132,7 @@ class OpenAPIToolsLoader:
             base_url: Optional base URL for API calls (if different from openapi_url base)
             models_filename: Filename for the generated Pydantic models (default: api_models.py)
             regenerate_models: Whether to regenerate the models file if it exists (default: False)
+            require_human_approval: Whether to require human approval for non-read-only operations (default: False)
         """
         self.openapi_url = openapi_url
         self.base_url = base_url or openapi_url.rsplit('/', 1)[0]  # Remove /openapi.json
@@ -138,6 +140,7 @@ class OpenAPIToolsLoader:
         self.tools: List[Tool[OpenAPIToolDependencies]] = []
         self.models_filename = models_filename
         self.regenerate_models = regenerate_models
+        self.require_human_approval = require_human_approval
         
     def fetch_spec(self) -> Dict[str, Any]:
         """Fetch the OpenAPI specification from the URL"""
@@ -227,6 +230,18 @@ class OpenAPIToolsLoader:
         
         return result
     
+    def _is_read_only_operation(self, method: str) -> bool:
+        """
+        Determine if an HTTP method represents a read-only operation
+        
+        Args:
+            method: HTTP method (get, post, put, delete, etc.)
+            
+        Returns:
+            True if the operation is read-only, False otherwise
+        """
+        return method.lower() == "get"
+    
     def _resolve_ref(self, ref: str) -> Optional[type[BaseModel]]:
         """
         Resolve a $ref to a Pydantic model from ally_config_api_models
@@ -294,6 +309,15 @@ class OpenAPIToolsLoader:
             Returns:
                 The JSON response from the API
             """
+            # Check if human approval is required for non-read-only operations
+            if (self.require_human_approval and 
+                not self._is_read_only_operation(method) and 
+                not ctx.tool_call_approved):
+                from pydantic_ai import ApprovalRequired
+                raise ApprovalRequired(
+                    f"Human approval required for {method.upper()} operation on {path}"
+                )
+            
             # Build the URL - replace path parameters
             final_path = path
             path_params = {}
