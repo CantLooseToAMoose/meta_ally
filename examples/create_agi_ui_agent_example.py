@@ -2,6 +2,7 @@ from pprint import pprint
 import sys
 from pathlib import Path
 import uvicorn
+import logfire
 
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
@@ -13,6 +14,9 @@ from src.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGrou
 
 
 def main():
+        
+    logfire.configure()
+    logfire.instrument_pydantic_ai()
     # Create a single factory instance and reuse it
     factory = AgentFactory()
 
