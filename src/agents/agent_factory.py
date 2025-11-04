@@ -174,7 +174,7 @@ class AgentFactory:
         agent = Agent(
             resolved_model,
             deps_type=OpenAPIToolDependencies,
-            system_prompt=complete_prompt,
+            instructions=complete_prompt,
             tools=tools,
             retries=max_retries,
             name=name,
