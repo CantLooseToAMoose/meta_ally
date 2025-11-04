@@ -56,11 +56,16 @@ def demonstrate_human_approval():
     deps = factory.create_dependencies()
     deps.auth_manager._refresh_token()
 
-    print("Testing Agent with Human Approval Functionality\n" + "=" * 50)
+    endpoint_path="/test/clothes_advisor"
+
+    print("Testing Agent with Human Approval Functionality\n Creating a Copilot Endpoint\n" + "=" * 50)
+
+    #Delete endpoint if it exists from previous runs
+    result = factory.tool_manager.execute_tool_safely("delete_endpoint_api_deleteEndpoint_post",endpoint=endpoint_path)
     
     # Example 1: Try to make a non-read-only operation (will require approval)
-    question = "I want to create a chatbot that helps me decide what to wear. Can you create an Endpoint for me?" \
-    "The Endpoint name should be \"/test/clothes_advisor\". I want to use \"gpt-4.1-nano\" as a model and you should figure the rest out yourself."
+    question = f"I want to create a chatbot that helps me decide what to wear. Can you create an Endpoint for me?" \
+    f"The Endpoint name should be \"{endpoint_path}\". I want to use \"gpt-4.1-nano\" as a model and you should figure the rest out yourself."
     print(f"Ask agent: {question}")
     
     # Initial run - this should result in DeferredToolRequests

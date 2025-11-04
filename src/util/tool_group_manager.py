@@ -54,6 +54,8 @@ class ToolGroupManager:
         self._ally_config_tools: List = []
         self._ai_knowledge_groups: Dict[AIKnowledgeToolGroup, List] = {}
         self._ally_config_groups: Dict[AllyConfigToolGroup, List] = {}
+        self._ai_knowledge_loader: Optional[OpenAPIToolsLoader] = None
+        self._ally_config_loader: Optional[OpenAPIToolsLoader] = None
         
     def load_ai_knowledge_tools(
         self, 
@@ -63,14 +65,14 @@ class ToolGroupManager:
         require_human_approval: bool = False
     ) -> None:
         """Load AI Knowledge API tools and organize them into groups"""
-        loader = OpenAPIToolsLoader(
+        self._ai_knowledge_loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval
         )
         
-        self._ai_knowledge_tools = loader.load_tools()
+        self._ai_knowledge_tools = self._ai_knowledge_loader.load_tools()
         self._organize_ai_knowledge_tools()
         
     def load_ally_config_tools(
@@ -81,14 +83,14 @@ class ToolGroupManager:
         require_human_approval: bool = False
     ) -> None:
         """Load Ally Config API tools and organize them into groups"""
-        loader = OpenAPIToolsLoader(
+        self._ally_config_loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval
         )
         
-        self._ally_config_tools = loader.load_tools()
+        self._ally_config_tools = self._ally_config_loader.load_tools()
         self._organize_ally_config_tools()
         
     def _organize_ai_knowledge_tools(self) -> None:
@@ -221,3 +223,92 @@ class ToolGroupManager:
             info["ally_config_groups"][group.value] = [tool.name for tool in tools]
             
         return info
+        
+    def get_ai_knowledge_tool_by_operation_id(self, operation_id: str):
+        """Get an AI Knowledge tool by its operation ID"""
+        if self._ai_knowledge_loader is None:
+            raise ValueError("AI Knowledge tools not loaded. Call load_ai_knowledge_tools() first.")
+        return self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
+    
+    def get_ally_config_tool_by_operation_id(self, operation_id: str):
+        """Get an Ally Config tool by its operation ID"""
+        if self._ally_config_loader is None:
+            raise ValueError("Ally Config tools not loaded. Call load_ally_config_tools() first.")
+        return self._ally_config_loader.get_tool_by_operation_id(operation_id)
+    
+    def get_tool_by_operation_id(self, operation_id: str):
+        """
+        Get a tool by operation ID from either AI Knowledge or Ally Config APIs
+        
+        Args:
+            operation_id: The operation ID to search for
+            
+        Returns:
+            The tool if found, None otherwise
+            
+        Note:
+            Searches AI Knowledge tools first, then Ally Config tools
+        """
+        # Try AI Knowledge tools first
+        if self._ai_knowledge_loader is not None:
+            tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
+            if tool is not None:
+                return tool
+        
+        # Try Ally Config tools
+        if self._ally_config_loader is not None:
+            tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
+            if tool is not None:
+                return tool
+        
+        return None
+    
+    async def execute_tool_safely(self, operation_id: str, **kwargs):
+        """
+        Safely execute a tool by operation ID with proper error handling
+        
+        Args:
+            operation_id: The operation ID of the tool to execute
+            **kwargs: Parameters to pass to the tool
+            
+        Returns:
+            The result of the tool execution, or None if an error occurred
+        """
+        tool = self.get_tool_by_operation_id(operation_id)
+        if tool is None:
+            print(f"⚠️ Tool '{operation_id}' not found")
+            return None
+        
+        try:
+            # Determine which loader to use for dependencies
+            dependencies = None
+            if self._ai_knowledge_loader is not None:
+                ai_tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
+                if ai_tool is not None:
+                    dependencies = self._ai_knowledge_loader.create_dependencies(auth_manager=self._auth_manager)
+            
+            if dependencies is None and self._ally_config_loader is not None:
+                ally_tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
+                if ally_tool is not None:
+                    dependencies = self._ally_config_loader.create_dependencies(auth_manager=self._auth_manager)
+            
+            if dependencies is None:
+                print(f"⚠️ Could not create dependencies for tool '{operation_id}'")
+                return None
+            
+            # Create a simple context object with the required attributes
+            class SimpleContext:
+                def __init__(self, deps):
+                    self.deps = deps
+                    self.tool_call_approved = True  # For human approval if needed
+            
+            ctx = SimpleContext(dependencies)
+            
+            print(f"🔄 Attempting to call: {tool.name}")
+            result = await tool.function(ctx, **kwargs)  # type: ignore
+            print(f"✅ Success! Result type: {type(result)}")
+            return result
+            
+        except Exception as e:
+            print(f"⚠️ Error calling {tool.name}: {str(e)}")
+            return None
