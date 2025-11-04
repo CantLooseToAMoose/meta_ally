@@ -59,13 +59,15 @@ class ToolGroupManager:
         self, 
         openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ai_knowledge_api_models.py",
-        regenerate_models: bool = True
+        regenerate_models: bool = True,
+        require_human_approval: bool = False
     ) -> None:
         """Load AI Knowledge API tools and organize them into groups"""
         loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
             models_filename=models_filename,
-            regenerate_models=regenerate_models
+            regenerate_models=regenerate_models,
+            require_human_approval=require_human_approval
         )
         
         self._ai_knowledge_tools = loader.load_tools()
@@ -75,13 +77,15 @@ class ToolGroupManager:
         self,
         openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ally_config_api_models.py",
-        regenerate_models: bool = True
+        regenerate_models: bool = True,
+        require_human_approval: bool = False
     ) -> None:
         """Load Ally Config API tools and organize them into groups"""
         loader = OpenAPIToolsLoader(
             openapi_url=openapi_url,
             models_filename=models_filename,
-            regenerate_models=regenerate_models
+            regenerate_models=regenerate_models,
+            require_human_approval=require_human_approval
         )
         
         self._ally_config_tools = loader.load_tools()
