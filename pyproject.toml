@@ -12,6 +12,7 @@ dependencies = [
     "openai>=1.35.0",
     "pydantic-ai>=1.2.0",
     "pydantic-ai-slim[ag-ui]>=1.2.0",
+    "pydantic-evals[logfire]>=1.2.0",
     "pytest>=8.4.2",
     "trio>=0.31.0",
 ]

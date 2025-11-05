@@ -1425,6 +1425,7 @@ dependencies = [
     { name = "openai" },
     { name = "pydantic-ai" },
     { name = "pydantic-ai-slim", extra = ["ag-ui"] },
+    { name = "pydantic-evals", extra = ["logfire"] },
     { name = "pytest" },
     { name = "trio" },
 ]
@@ -1438,6 +1439,7 @@ requires-dist = [
     { name = "openai", specifier = ">=1.35.0" },
     { name = "pydantic-ai", specifier = ">=1.2.0" },
     { name = "pydantic-ai-slim", extras = ["ag-ui"], specifier = ">=1.2.0" },
+    { name = "pydantic-evals", extras = ["logfire"], specifier = ">=1.2.0" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "trio", specifier = ">=0.31.0" },
 ]
@@ -2191,6 +2193,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/e1/91/66b33f03c4af95b456906ce4e119b66b309d93ab89ee369e9e03168185a9/pydantic_evals-1.2.0.tar.gz", hash = "sha256:ca22b5bf068a2a2bad0e5d9679245c5e54723b2eed4357ecc6c976dcb5930d55", size = 46083, upload-time = "2025-10-20T12:19:03.513Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/65/92/c9fdfdec96714be406ec7f1c88a0ceb76dba24c767ba5dc78ae45f909c8c/pydantic_evals-1.2.0-py3-none-any.whl", hash = "sha256:939dc5dd6f85881fbd6551d4b838586cf0d9837383c0de34120d6ac3b2390d02", size = 55169, upload-time = "2025-10-20T12:18:48.916Z" },
+]
+
+[package.optional-dependencies]
+logfire = [
+    { name = "logfire" },
 ]
 
 [[package]]
