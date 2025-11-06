@@ -2,6 +2,8 @@ from pprint import pprint
 import sys
 from pathlib import Path
 
+from httpx import HTTPStatusError, Request, Response
+from pydantic_ai import ModelRetry
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -28,6 +30,13 @@ def main():
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],
     )
+
+    # Create a custom tool to simulate an error
+    @agent.tool_plain
+    def call_dev_infos():
+        """Call some developer info endpoints."""
+        # Create mock request and response for HTTPStatusError
+        raise ModelRetry("HTTP error occurred. You can try again.")
 
     # Create dependencies for the agent
     deps = factory.create_dependencies()
@@ -58,6 +67,13 @@ def main():
     print(f"Ask agent: {question}")
     response = agent.run_sync(question, deps=deps)
     print_agent_message_history(response)
+
+    print("\n" + "=" * 40 + "\n")
+    question = "Can you provide developer information?"
+    print(f"Ask agent: {question}")
+    response = agent.run_sync(question, deps=deps)
+    print_agent_message_history(response)
+    print("\n" + "=" * 40 + "\n")
 
 
 if __name__ == "__main__":
