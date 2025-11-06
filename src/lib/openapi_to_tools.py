@@ -38,7 +38,7 @@ import httpx
 import subprocess
 import os
 from typing import Any, Dict, List, Optional, Callable, cast
-from pydantic_ai import Tool, RunContext, ApprovalRequired
+from pydantic_ai import Tool, RunContext, ApprovalRequired, ModelRetry
 from pydantic import BaseModel
 import importlib
 import sys
@@ -344,20 +344,27 @@ class OpenAPIToolsLoader:
             headers.update(auth_header)
             
             async with httpx.AsyncClient() as client:
-                if method.lower() == "get":
-                    response = await client.get(url, params=kwargs, headers=headers)
-                elif method.lower() == "post":
-                    response = await client.post(url, json=kwargs, headers=headers)
-                elif method.lower() == "put":
-                    response = await client.put(url, json=kwargs, headers=headers)
-                elif method.lower() == "delete":
-                    # DELETE typically doesn't have a body, use params instead
-                    response = await client.delete(url, params=kwargs, headers=headers)
-                else:
-                    raise ValueError(f"Unsupported HTTP method: {method}")
-                
-                response.raise_for_status()
-                return response.json()
+                try:
+                    if method.lower() == "get":
+                        response = await client.get(url, params=kwargs, headers=headers)
+                    elif method.lower() == "post":
+                        response = await client.post(url, json=kwargs, headers=headers)
+                    elif method.lower() == "put":
+                        response = await client.put(url, json=kwargs, headers=headers)
+                    elif method.lower() == "delete":
+                        # DELETE typically doesn't have a body, use params instead
+                        response = await client.delete(url, params=kwargs, headers=headers)
+                    else:
+                        raise ValueError(f"Unsupported HTTP method: {method}")
+                    
+                    response.raise_for_status()
+                    return response.json()
+                except httpx.HTTPStatusError as e:
+                    # Convert HTTPStatusError to ModelRetry so the LLM can try again
+                    raise ModelRetry(f"API request failed with status {e.response.status_code}: {e.response.text}")
+                except httpx.RequestError as e:
+                    # Handle network/connection errors
+                    raise ModelRetry(f"Network error occurred: {str(e)}")
         
         # Set the function name and docstring
         api_call.__name__ = operation_id
