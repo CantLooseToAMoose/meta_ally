@@ -1,82 +1,143 @@
-"""Example usage of the refactored CaseFactory with ConversationTurns for testing a meta agent that creates copilots."""
+"""Example usage of the refactored CaseFactory with ConversationTurns for testing a meta agent that creates sales copilots for ADD*ONE."""
 
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from src.eval.case_factory import CaseFactory
+from src.eval.case_factory import CaseFactory, create_tool_call_part
 
-def example_meta_agent_with_conversation_turns():
-    """Demonstrate test cases using the new ConversationTurns approach for a meta agent that creates copilots."""
+def example_addone_sales_copilot_creation():
+    """Demonstrate test cases for ADD*ONE frontend developer creating a sales copilot for their website."""
     
     factory = CaseFactory()
     
-    # Test case 1: Simple copilot creation request
+    # Test case 1: ADD*ONE Sales Copilot Creation Request
     factory.create_simple_case(
-        name="Simple Copilot Creation",
-        user_input="Create a customer support copilot for handling billing inquiries",
-        expected_response="I'll create a customer support copilot specialized in billing inquiries. Let me set up the configuration and knowledge base for you.",
-        description="Test basic copilot creation request",
-        metadata={"category": "copilot_creation", "complexity": "simple"}
+        name="ADD*ONE Sales Copilot Creation",
+        user_input="Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen.",
+        expected_response="Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich die AI Knowledge mit den relevanten Ressourcen ein und konfiguriere den Copiloten mit den passenden Plugins. Welche spezifischen Ressourcen haben Sie verfügbar?",
+        description="Test für die initiale Sales-Copilot Erstellung für ADD*ONE",
+        metadata={"category": "sales_copilot_creation", "complexity": "simple", "company": "addone"}
     )
     
-    # Test case 2: Copilot creation with tool usage - using new ConversationTurns approach
+    # Test case 2: Vollständige ADD*ONE Sales Copilot Konfiguration mit Ressourcen-Setup
     conversation = factory.create_conversation_turns()
     
-    # Build the conversation step by step
-    conversation.add_user_message("I need a technical documentation copilot for our API guides")
-    conversation.add_model_message("I'll create a technical documentation copilot for you. First, let me check what collections are available and then set up the configuration.")
+    # Benutzer stellt eine detaillierte Anfrage
+    conversation.add_user_message("Ich bin Frontendentwickler bei ADD*ONE und möchte einen Sales-Copiloten für unsere Webseite. Mir stehen folgende Ressourcen zur Verfügung: INFORM Webseite über KI-Systeme für Geschäftsprozesse und ein SharePoint Ordner mit AddOne-InfoPapers Broschüren.")
+    conversation.add_model_message("Ausgezeichnet! Ich erstelle einen perfekten Sales-Copiloten für ADD*ONE. Lassen Sie mich zuerst eine Sammlung für Ihre Ressourcen erstellen und dann die entsprechenden Plugins konfigurieren.")
     
-    # Add tool call and response
+    # Erste Tool-Aufrufe: AI Knowledge Collection erstellen
     conversation.add_tool_call(
-        tool_call_id="list_collections_1", 
-        tool_name="list_collections", 
-        args={}
+        tool_call_id="create_collection_1", 
+        tool_name="create_collection", 
+        args={
+            "collection_name": "addone-sales-resources",
+            "description": "Sammlung für ADD*ONE Sales-Materialien und Produktinformationen"
+        }
     )
     conversation.add_tool_response(
-        tool_call_id="list_collections_1", 
-        tool_name="list_collections", 
-        content="Available collections: api-docs, user-guides, troubleshooting"
+        tool_call_id="create_collection_1", 
+        tool_name="create_collection", 
+        content="Collection 'addone-sales-resources' erfolgreich erstellt"
     )
     
-    # Continue the conversation
-    conversation.add_model_message("Great! I found an 'api-docs' collection that would be perfect. Now let me create an endpoint configuration for your copilot.")
+    # Quellen zur Collection hinzufügen
+    conversation.add_model_message("Perfekt! Jetzt füge ich die INFORM Webseite als erste Quelle hinzu.")
+    conversation.add_tool_call(
+        tool_call_id="create_source_1", 
+        tool_name="create_source", 
+        args={
+            "collection_name": "addone-sales-resources",
+            "source_name": "inform-website",
+            "source_type": "web",
+            "url": "https://www.inform-software.de/ki-systeme-geschaeftsprozesse",
+            "description": "INFORM Webseite über KI-Systeme für die Optimierung von Geschäftsprozessen"
+        }
+    )
+    conversation.add_tool_response(
+        tool_call_id="create_source_1", 
+        tool_name="create_source", 
+        content="Quelle 'inform-website' erfolgreich zur Collection hinzugefügt"
+    )
     
-    # Add another tool call with complex arguments
+    # SharePoint Ordner als Quelle hinzufügen
+    conversation.add_model_message("Jetzt konfiguriere ich den SharePoint Ordner mit den AddOne-InfoPapers.")
+    conversation.add_tool_call(
+        tool_call_id="create_source_2", 
+        tool_name="create_source", 
+        args={
+            "collection_name": "addone-sales-resources",
+            "source_name": "addone-infopapers",
+            "source_type": "sharepoint",
+            "path": "/sharepoint/AddOne-InfoPapers",
+            "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren"
+        }
+    )
+    conversation.add_tool_response(
+        tool_call_id="create_source_2", 
+        tool_name="create_source", 
+        content="SharePoint Quelle 'addone-infopapers' erfolgreich konfiguriert"
+    )
+    
+    # Sales-Copilot Endpoint erstellen
+    conversation.add_model_message("Excellent! Alle Ressourcen sind konfiguriert. Jetzt erstelle ich den Sales-Copilot Endpoint mit optimalen Einstellungen.")
     conversation.add_tool_call(
         tool_call_id="create_endpoint_1", 
-        tool_name="create_endpoint", 
+        tool_name="create_endpoint_api_createEndpoint_post", 
         args={
-            "endpoint": "tech-docs-copilot", 
+            "endpoint": "addone-sales-copilot", 
             "endpoint_attributes": {
                 "dep_name": "gpt-4o", 
-                "instructions": "You are a technical documentation assistant", 
-                "default_message": "How can I help you with our API documentation?"
+                "instructions": "Du bist der perfekte Sales Assistant für ADD*ONE. Deine Aufgabe ist es, potenzielle Kunden von unserer Software zu überzeugen. Nutze die verfügbaren Ressourcen über INFORM KI-Systeme und AddOne-InfoPapers, um professionelle und überzeugende Antworten zu geben. Sei enthusiastisch, aber authentisch.", 
+                "default_message": "Hallo! Ich bin Ihr Sales Assistant für ADD*ONE. Wie kann ich Ihnen dabei helfen, die perfekte Software-Lösung für Ihr Unternehmen zu finden?"
             }
         }
     )
     conversation.add_tool_response(
         tool_call_id="create_endpoint_1", 
-        tool_name="create_endpoint", 
-        content="Endpoint 'tech-docs-copilot' created successfully"
+        tool_name="create_endpoint_api_createEndpoint_post", 
+        content="ADD*ONE Sales-Copilot Endpoint erfolgreich erstellt"
     )
     
-    # Create the test case from the conversation
+    # Copilot-Konfiguration setzen
+    conversation.add_model_message("Jetzt verbinde ich den Copiloten mit den AI Knowledge Plugins und API Operations.")
+    conversation.add_tool_call(
+        tool_call_id="set_config_1", 
+        tool_name="set_config_api_setConfig_post", 
+        args={
+            "endpoint": "addone-sales-copilot",
+            "config": {
+                "plugins": ["ai-knowledge-plugin", "api-operations"],
+                "knowledge_collections": ["addone-sales-resources"],
+                "response_style": "sales_optimized",
+                "language": "german"
+            }
+        }
+    )
+    conversation.add_tool_response(
+        tool_call_id="set_config_1", 
+        tool_name="set_config_api_setConfig_post", 
+        content="Copilot-Konfiguration erfolgreich gesetzt mit AI Knowledge Plugin und API Operations"
+    )
+    
+    # Das Gespräch mit der finalen Antwort abschließen
     factory.create_conversation_case(
-        name="Copilot Creation with Knowledge Setup",
+        name="ADD*ONE Sales Copilot - Vollständige Konfiguration",
         conversation_turns=conversation,
-        expected_final_response="Perfect! I've successfully created your technical documentation copilot with access to the API documentation collection. The copilot is now available at the 'tech-docs-copilot' endpoint.",
-        description="Test copilot creation with knowledge base setup and endpoint configuration"
+        expected_final_response="Perfekt! Ihr ADD*ONE Sales-Copilot ist vollständig konfiguriert und einsatzbereit. Der Copilot hat Zugriff auf die INFORM Webseite und Ihre AddOne-InfoPapers, ist mit dem AI Knowledge Plugin und API Operations ausgestattet und speziell für Sales-Gespräche optimiert. Sie können ihn jetzt auf Ihrer Webseite einsetzen!",
+        description="Vollständige ADD*ONE Sales-Copilot Erstellung mit Ressourcen-Integration und Plugin-Konfiguration",
+        metadata={"category": "sales_copilot", "complexity": "medium", "company": "addone", "tools_used": ["ai_knowledge", "ally_config"]}
     )
     
-    # Test case 3: Complex multi-step conversation with multiple tool calls
+    # Test case 3: Erweiterte ADD*ONE Copilot-Konfiguration mit Iterationen
     conversation2 = factory.create_conversation_turns()
     
-    # Initial request
-    conversation2.add_user_message("Deploy an enterprise sales copilot with access to product specs, pricing, and customer data")
-    conversation2.add_model_message("I'll deploy a comprehensive enterprise sales copilot. This requires setting up multiple knowledge sources, configuring permissions, and creating evaluation metrics.")
+    # Benutzer möchte den Copiloten erweitern
+    conversation2.add_user_message("Der Sales-Copilot ist super! Können Sie ihn noch erweitern? Ich hätte gerne zusätzliche Funktionen für Lead-Qualifizierung und eine Integration mit unserem CRM-System.")
+    conversation2.add_model_message("Gerne erweitere ich Ihren ADD*ONE Sales-Copilot! Ich füge Lead-Qualifizierungs-Tools hinzu und konfiguriere CRM-Integrationen. Lassen Sie mich zuerst prüfen, welche zusätzlichen Ressourcen verfügbar sind.")
     
-    # Multiple tool calls need to be done sequentially, one per model response
+    # Verfügbare AI-Modelle prüfen
     conversation2.add_tool_call(
         tool_call_id="check_models_1", 
         tool_name="get_available_AI_models", 
@@ -85,11 +146,11 @@ def example_meta_agent_with_conversation_turns():
     conversation2.add_tool_response(
         tool_call_id="check_models_1", 
         tool_name="get_available_AI_models", 
-        content="Available models: gpt-4o, gpt-4-turbo, claude-3-opus"
+        content="Verfügbare Modelle: gpt-4o, gpt-4-turbo, claude-3-opus, gpt-4o-mini"
     )
     
-    # Second tool call in a separate model response
-    conversation2.add_model_message("Now let me check the available collections.")
+    # Bestehende Collections überprüfen
+    conversation2.add_model_message("Perfekt! Jetzt schaue ich, welche Collections bereits vorhanden sind.")
     conversation2.add_tool_call(
         tool_call_id="list_collections_2", 
         tool_name="list_collections", 
@@ -98,125 +159,118 @@ def example_meta_agent_with_conversation_turns():
     conversation2.add_tool_response(
         tool_call_id="list_collections_2", 
         tool_name="list_collections", 
-        content="Collections: product-specs, pricing-data, customer-profiles"
+        content="Collections: addone-sales-resources, crm-data, lead-qualification-guides"
     )
     
-    # Continue with more complex operations
-    conversation2.add_model_message("Excellent! I have all the required resources. Let me create the endpoint with enterprise-grade configuration.")
+    # Erweiterte Copilot-Konfiguration
+    conversation2.add_model_message("Ausgezeichnet! Ich sehe, dass bereits CRM-Daten und Lead-Qualifizierungs-Guidelines verfügbar sind. Ich aktualisiere jetzt Ihren Copiloten.")
     
-    # First tool call for endpoint creation
+    # Aktualisierte Endpoint-Konfiguration
     conversation2.add_tool_call(
-        tool_call_id="create_endpoint_2", 
-        tool_name="create_endpoint", 
+        tool_call_id="update_config_1", 
+        tool_name="set_config_api_setConfig_post", 
         args={
-            "endpoint": "enterprise-sales-copilot", 
-            "endpoint_attributes": {
-                "dep_name": "gpt-4o", 
-                "instructions": "You are an enterprise sales assistant with access to product specifications, pricing information, and customer profiles. Provide accurate, professional sales support.", 
-                "default_message": "Hello! I'm your sales assistant. How can I help you with product information, pricing, or customer insights?"
+            "endpoint": "addone-sales-copilot",
+            "config": {
+                "plugins": ["ai-knowledge-plugin", "api-operations", "crm-integration", "lead-scorer"],
+                "knowledge_collections": ["addone-sales-resources", "crm-data", "lead-qualification-guides"],
+                "response_style": "sales_optimized",
+                "language": "german",
+                "advanced_features": {
+                    "lead_qualification": True,
+                    "crm_integration": True,
+                    "personalization": True
+                }
             }
         }
     )
     conversation2.add_tool_response(
-        tool_call_id="create_endpoint_2", 
-        tool_name="create_endpoint", 
-        content="Enterprise sales copilot endpoint created successfully"
+        tool_call_id="update_config_1", 
+        tool_name="set_config_api_setConfig_post", 
+        content="Erweiterte Copilot-Konfiguration mit CRM-Integration und Lead-Qualifizierung erfolgreich aktualisiert"
     )
     
-    # Second tool call for permissions in a separate model response
-    conversation2.add_model_message("Now let me set up the proper permissions for the sales team.")
-    conversation2.add_tool_call(
-        tool_call_id="setup_permissions_1", 
-        tool_name="create_permission_role_request", 
-        args={
-            "resource_name": "enterprise-sales-copilot", 
-            "role": "sales-team", 
-            "permissions": ["read", "query"]
-        }
-    )
-    conversation2.add_tool_response(
-        tool_call_id="setup_permissions_1", 
-        tool_name="create_permission_role_request", 
-        content="Permissions configured for sales team access"
-    )
+    # Benutzer fragt nach Analytics
+    conversation2.add_user_message("Das ist fantastisch! Können Sie auch Analytics einrichten, damit ich die Performance des Copiloten überwachen kann?")
     
-    # Final user interaction
-    conversation2.add_user_message("Can you also set up evaluation metrics to monitor performance?")
-    
-    # Create the test case
+    # Das Test-Case erstellen
     factory.create_conversation_case(
-        name="Enterprise Copilot Deployment",
+        name="ADD*ONE Sales Copilot - Erweiterte Features",
         conversation_turns=conversation2,
-        expected_final_response="Absolutely! I'll set up comprehensive evaluation metrics for your enterprise sales copilot to monitor response quality, accuracy, and customer satisfaction.",
+        expected_final_response="Selbstverständlich! Ich richte umfassende Analytics für Ihren ADD*ONE Sales-Copilot ein, damit Sie Lead-Konversionsraten, Benutzerinteraktionen und Sales-Performance in Echtzeit überwachen können.",
         expected_final_tool_calls=[
-            {"id": "create_eval_1", "name": "create_evaluation_suite", "args": {"suite_name": "enterprise-sales-eval", "endpoint": "enterprise-sales-copilot", "test_cases": ["accuracy", "helpfulness", "sales_effectiveness"]}}
+            create_tool_call_part(
+                tool_name="create_analytics_dashboard", 
+                args={"endpoint": "addone-sales-copilot", "metrics": ["conversion_rate", "lead_quality", "interaction_time", "sales_funnel_progression"]},
+                tool_call_id="setup_analytics_1"
+            )
         ],
-        description="Test complex enterprise copilot deployment with permissions and evaluation setup",
-        metadata={"category": "enterprise_deployment", "complexity": "high", "tools_used": ["ally_config", "ai_knowledge", "permissions", "evaluations"]}
+        description="Erweiterte ADD*ONE Sales-Copilot Konfiguration mit CRM-Integration, Lead-Qualifizierung und Analytics",
+        metadata={"category": "enterprise_sales_copilot", "complexity": "high", "company": "addone", "tools_used": ["ally_config", "ai_knowledge", "crm_integration", "analytics"]}
     )
     
-    # Test case 4: Validation example
+    # Test case 4: Validierungsbeispiel für ADD*ONE
     conversation3 = factory.create_conversation_turns()
     
-    # Try to create an invalid conversation (doesn't start with user message)
-    conversation3.add_model_message("I'll start the conversation incorrectly")
+    # Versuch, eine ungültige Unterhaltung zu erstellen (beginnt nicht mit Benutzer-Nachricht)
+    conversation3.add_model_message("Ich starte die Unterhaltung falsch")
     
-    # Validation will catch this error
+    # Validierung wird diesen Fehler abfangen
     try:
         factory.create_conversation_case(
-            name="Invalid Conversation Test",
+            name="Ungültiger ADD*ONE Konversationstest",
             conversation_turns=conversation3,
-            description="This should fail validation"
+            description="Dieser Test sollte bei der Validierung fehlschlagen"
         )
     except ValueError as e:
-        print(f"Validation caught error as expected: {e}")
+        print(f"Validierung hat erwarteten Fehler abgefangen: {e}")
     
-    # Build the dataset
-    dataset = factory.build_dataset("Meta Agent Copilot Creation Test Suite (Updated)")
+    # Dataset erstellen
+    dataset = factory.build_dataset("ADD*ONE Sales Copilot Test Suite")
     
-    print(f"Created meta agent test dataset with {len(dataset.cases)} test cases:")
+    print(f"ADD*ONE Sales-Copilot Test-Dataset erstellt mit {len(dataset.cases)} Test-Fällen:")
     for case in dataset.cases:
         print(f"  - {case.name}")
     
     return dataset
 
-def example_conversation_validation():
-    """Demonstrate conversation validation features."""
+def example_addone_conversation_validation():
+    """Demonstriere Konversations-Validierungsfunktionen für ADD*ONE Use Cases."""
     
     factory = CaseFactory()
     
-    # Example 1: Valid conversation
+    # Beispiel 1: Gültige ADD*ONE Konversation
     valid_conversation = factory.create_conversation_turns()
-    valid_conversation.add_user_message("Hello")
-    valid_conversation.add_model_message("Hi there!")
-    valid_conversation.add_user_message("How are you?")
+    valid_conversation.add_user_message("Hallo, ich brauche einen Sales-Copiloten für ADD*ONE")
+    valid_conversation.add_model_message("Gerne helfe ich Ihnen dabei!")
+    valid_conversation.add_user_message("Wie können Sie mir dabei helfen?")
     
     errors = valid_conversation.validate()
-    print(f"Valid conversation errors: {errors}")  # Should be empty
+    print(f"Gültige ADD*ONE Konversation Fehler: {errors}")  # Sollte leer sein
     
-    # Example 2: Invalid conversation - doesn't end with user request
+    # Beispiel 2: Ungültige Konversation - endet nicht mit Benutzer-Anfrage
     invalid_conversation = factory.create_conversation_turns()
-    invalid_conversation.add_user_message("Hello")
-    invalid_conversation.add_model_message("Hi there!")
-    # Missing final user message
+    invalid_conversation.add_user_message("Hallo")
+    invalid_conversation.add_model_message("Hi! Wie kann ich helfen?")
+    # Fehlende finale Benutzer-Nachricht
     
     errors = invalid_conversation.validate()
-    print(f"Invalid conversation errors: {errors}")  # Should show validation error
+    print(f"Ungültige ADD*ONE Konversation Fehler: {errors}")  # Sollte Validierungsfehler zeigen
     
-    # Example 3: Tool call without response
+    # Beispiel 3: Tool-Aufruf ohne Antwort
     incomplete_conversation = factory.create_conversation_turns()
-    incomplete_conversation.add_user_message("Search for something")
-    incomplete_conversation.add_tool_call("call_1", "search_tool", {"query": "test"})
-    # Missing tool response
+    incomplete_conversation.add_user_message("Erstellen Sie eine Collection für ADD*ONE")
+    incomplete_conversation.add_tool_call("call_1", "create_collection", {"collection_name": "addone-test"})
+    # Fehlende Tool-Antwort
     
     errors = incomplete_conversation.validate()
-    print(f"Incomplete conversation errors: {errors}")  # Should show tool call error
+    print(f"Unvollständige ADD*ONE Konversation Fehler: {errors}")  # Sollte Tool-Aufruf-Fehler zeigen
 
 
 if __name__ == "__main__":
-    # Run the updated examples
-    dataset = example_meta_agent_with_conversation_turns()
+    # Führe die angepassten ADD*ONE Beispiele aus
+    dataset = example_addone_sales_copilot_creation()
     
-    # Demonstrate validation
-    print("\n--- Validation Examples ---")
-    example_conversation_validation()
+    # Demonstriere Validierung
+    print("\n--- ADD*ONE Validierungsbeispiele ---")
+    example_addone_conversation_validation()

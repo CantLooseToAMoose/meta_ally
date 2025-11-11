@@ -994,11 +994,11 @@ wheels = [
 
 [[package]]
 name = "inform-ai-core"
-version = "1.9.2"
+version = "1.13.0"
 source = { registry = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/" }
-sdist = { url = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/inform-ai-core/1.9.2/inform_ai_core-1.9.2.tar.gz", hash = "sha256:e94e269fa0dd2a3feb089d03d7faff204aa17785250e6302d51c2bc2fe51a810" }
+sdist = { url = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/inform-ai-core/1.13.0/inform_ai_core-1.13.0.tar.gz", hash = "sha256:b3bb6fd1b4a72bf35eced30adecfef5a7ed269c52d71b39756af2e32fe23877c" }
 wheels = [
-    { url = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/inform-ai-core/1.9.2/inform_ai_core-1.9.2-py3-none-any.whl", hash = "sha256:22ed10035056cf3c9623e996e0170d3c7fbef506bc367aabc0888d0efbfffcd3" },
+    { url = "https://inform-ai-637423203277.d.codeartifact.eu-west-1.amazonaws.com/pypi/inform-ai/simple/inform-ai-core/1.13.0/inform_ai_core-1.13.0-py3-none-any.whl", hash = "sha256:bd5baf2a8c9c86b4bd5d6d969daddc8313fd73a1076d6e541fe18569600e01cb" },
 ]
 
 [package.optional-dependencies]
@@ -1434,7 +1434,7 @@ dependencies = [
 requires-dist = [
     { name = "azure-identity", specifier = ">=1.15.0" },
     { name = "datamodel-code-generator", specifier = ">=0.35.0" },
-    { name = "inform-ai-core", extras = ["authorization"], specifier = ">=1.9.2" },
+    { name = "inform-ai-core", extras = ["authorization"], specifier = "==1.13.0" },
     { name = "ipykernel", specifier = ">=7.0.1" },
     { name = "openai", specifier = ">=1.35.0" },
     { name = "pydantic-ai", specifier = ">=1.2.0" },

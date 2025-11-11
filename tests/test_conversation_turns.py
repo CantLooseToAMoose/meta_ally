@@ -293,8 +293,8 @@ class TestConversationTurns:
         assert case.metadata is not None
         assert case.metadata["test"] is True
         assert case.metadata["complexity"] == "simple"
-        assert case.expected_output_messages is not None
-        assert len(case.expected_output_messages) == 1
+        assert case.expected_output is not None
+        assert case.expected_output.output_message == "Expected response"
     
     def test_empty_conversation_validation(self, case_factory):
         """Test that empty conversations fail validation."""
