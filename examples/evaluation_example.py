@@ -22,23 +22,6 @@ from tenacity import stop_after_attempt, wait_exponential
 
 
 
-def my_function(inputs: str) -> str:
-    return f'Result: {inputs}'
-
-
-dataset = Dataset(cases=[Case(inputs='test')], evaluators=[])
-
-retry_config = {
-    'stop': stop_after_attempt(3),  # Stop after 3 attempts
-    'wait': wait_exponential(multiplier=1, min=1, max=10),  # Exponential backoff: 1s, 2s, 4s, 8s (capped at 10s)
-    'reraise': True,  # Re-raise the original exception after exhausting retries
-}
-
-dataset.evaluate_sync(
-    task=my_function,
-    retry_task=retry_config,
-)
-
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
