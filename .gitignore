@@ -4,3 +4,4 @@ pydantic_ai_full_llm_helper.txt
 .env
 __pycache__
 setenv.sh
+*_api_models.py
