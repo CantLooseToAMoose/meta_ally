@@ -18,6 +18,27 @@ from pydantic_evals import Case, Dataset
 from pydantic_evals.evaluators import LLMJudge
 from pydantic_ai.messages import UserPromptPart
 
+from tenacity import stop_after_attempt, wait_exponential
+
+
+
+def my_function(inputs: str) -> str:
+    return f'Result: {inputs}'
+
+
+dataset = Dataset(cases=[Case(inputs='test')], evaluators=[])
+
+retry_config = {
+    'stop': stop_after_attempt(3),  # Stop after 3 attempts
+    'wait': wait_exponential(multiplier=1, min=1, max=10),  # Exponential backoff: 1s, 2s, 4s, 8s (capped at 10s)
+    'reraise': True,  # Re-raise the original exception after exhausting retries
+}
+
+dataset.evaluate_sync(
+    task=my_function,
+    retry_task=retry_config,
+)
+
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -28,7 +49,7 @@ from src.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGrou
 from src.eval.case_factory import CaseFactory, create_tool_call_part
 from src.eval.evaluators import ToolCallEvaluator
 from src.eval.conversation_turns import ModelMessage
-from examples.case_factory_example import example_addone_sales_copilot_creation
+from examples.case_factory_addone_example import example_addone_sales_copilot_creation
 from src.eval.eval_tasks import create_agent_conversation_task
 
 
@@ -42,7 +63,7 @@ def create_evaluation_agent():
     print("Setting up Ally Config tools...")
     factory.setup_ally_config_tools()
 
-    model_config = factory.create_azure_model_config()
+    model_config = factory.create_azure_model_config(deployment_name="gpt-4.1")
 
     agent = factory.create_hybrid_assistant(
         model=model_config,
@@ -94,7 +115,13 @@ def main():
         )
     )
     # Run the evaluation
-    report=dataset.evaluate_sync(task)
+
+    retry_config = {
+    'stop': stop_after_attempt(2),  # Stop after 2 attempts
+    'wait': wait_exponential(multiplier=1, min=10, max=20),  # Exponential backoff: 10s, 20s
+    'reraise': True,  # Re-raise the original exception after exhausting retries
+}
+    report=dataset.evaluate_sync(task,retry_task=retry_config)
     report.print()
 
 if __name__ == "__main__":

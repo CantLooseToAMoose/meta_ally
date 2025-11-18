@@ -365,6 +365,9 @@ class OpenAPIToolsLoader:
                 except httpx.RequestError as e:
                     # Handle network/connection errors
                     raise ModelRetry(f"Network error occurred: {str(e)}")
+                except Exception as e:
+                    # Catch any other exceptions and convert to ModelRetry
+                    raise ModelRetry(f"Unexpected error during API call to {method.upper()} {path}: {type(e).__name__}: {str(e)}")
         
         # Set the function name and docstring
         api_call.__name__ = operation_id
