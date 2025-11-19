@@ -48,8 +48,22 @@ from .auth_manager import AuthManager
 
 @dataclass
 class OpenAPIToolDependencies:
-    """Dependencies for OpenAPI tools that need authentication"""
+    """
+    Dependencies for OpenAPI tools that need authentication and context tracking.
+    
+    These dependencies track user context information that helps agents provide
+    more personalized and relevant responses.
+    
+    Attributes:
+        auth_manager: Manages authentication for API calls
+        geschaeftsbereich: The user's business area (Geschäftsbereich) - None if not yet provided
+        project_number: The project number the user is working with - None if not yet provided
+        endpoint_name: The specific endpoint configuration being discussed - None if not yet provided
+    """
     auth_manager: AuthManager
+    geschaeftsbereich: Optional[str] = None
+    project_number: Optional[str] = None
+    endpoint_name: Optional[str] = None
 
 # We'll dynamically import models as needed to avoid import errors
 # from ally_config_api_models import *

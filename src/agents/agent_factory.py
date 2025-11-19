@@ -22,6 +22,7 @@ from ..util.tool_group_manager import (
     AllyConfigToolGroup, 
     ToolGroupType
 )
+from ..util.context_tools import get_context_tools
 from ..lib.auth_manager import AuthManager
 from ..lib.openapi_to_tools import OpenAPIToolDependencies
 from .model_config import ModelConfiguration
@@ -155,17 +156,54 @@ class AgentFactory:
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
         max_retries: int = 3,
+        include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
-        """Create a pydantic-ai agent with specified configuration"""
+        """
+        Create a pydantic-ai agent with specified configuration.
+        
+        Args:
+            name: Name of the agent
+            system_prompt: System prompt for the agent
+            tool_groups: List of tool groups to include
+            model: Model to use (string or ModelConfiguration)
+            additional_instructions: Optional additional instructions
+            max_retries: Maximum number of retries for failed operations
+            include_context_tools: Whether to include context management tools (default: True)
+            **agent_kwargs: Additional keyword arguments for Agent
+            
+        Returns:
+            Configured Agent instance
+        """
         
         # Get tools for the specified groups
         tools = self.tool_manager.get_tools_for_groups(tool_groups)
+        
+        # Add context management tools if requested
+        if include_context_tools:
+            context_tools = get_context_tools()
+            tools.extend(context_tools)
+            self.logger.info("Added %d context management tools to agent '%s'", len(context_tools), name)
         
         # Build the complete system prompt
         complete_prompt = system_prompt
         if additional_instructions:
             complete_prompt += f"\n\nAdditional Instructions:\n{additional_instructions}"
+        
+        # Add context management instructions to system prompt
+        if include_context_tools:
+            complete_prompt += """
+
+Context Management:
+You have access to tools for tracking user context information:
+- Business Area (Geschäftsbereich): The user's business domain or department
+- Project Number: The project the user is working on
+- Endpoint Name: The specific endpoint configuration being discussed
+
+When the user mentions any of these, use the appropriate set_* tool to remember it.
+Before performing operations that require this context, use the get_* tools to check if the information is available.
+If required information is missing, the get_* tool will return a message asking you to gather it from the user.
+"""
         
         # Resolve model configuration
         resolved_model = self._resolve_model(model)
@@ -190,6 +228,7 @@ class AgentFactory:
         tool_groups: Optional[List[AIKnowledgeToolGroup]] = None,
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
+        include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
         """Create an AI Knowledge specialist agent"""
@@ -202,6 +241,7 @@ class AgentFactory:
             tool_groups=tool_groups,  # type: ignore
             model=model,
             additional_instructions=additional_instructions,
+            include_context_tools=include_context_tools,
             **agent_kwargs
         )
         
@@ -210,6 +250,7 @@ class AgentFactory:
         tool_groups: Optional[List[AllyConfigToolGroup]] = None,
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
+        include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
         """Create an Ally Config administrator agent"""
@@ -222,6 +263,7 @@ class AgentFactory:
             tool_groups=tool_groups,  # type: ignore
             model=model,
             additional_instructions=additional_instructions,
+            include_context_tools=include_context_tools,
             **agent_kwargs
         )
         
@@ -231,6 +273,7 @@ class AgentFactory:
         ally_config_groups: Optional[List[AllyConfigToolGroup]] = None,
         model: Union[str, ModelConfiguration] = "openai:gpt-4o",
         additional_instructions: Optional[str] = None,
+        include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
         """Create a hybrid agent with both AI Knowledge and Ally Config capabilities"""
@@ -250,6 +293,7 @@ class AgentFactory:
             tool_groups=all_groups,
             model=model,
             additional_instructions=additional_instructions,
+            include_context_tools=include_context_tools,
             **agent_kwargs
         )
         

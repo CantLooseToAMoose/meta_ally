@@ -67,7 +67,7 @@ def example_addone_sales_copilot_creation():
             create_tool_call_part(
                 tool_name="create_source",
                 args={
-                    "source_name": "inform-website",
+                    "source_name": "inform_website",
                     "source_type": "web",
                     "url": "https://www.inform-software.com/de",
                     "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
@@ -77,7 +77,7 @@ def example_addone_sales_copilot_creation():
             create_tool_call_part(
                 tool_name="create_source",
                 args={
-                    "source_name": "addone-infopapers",
+                    "source_name": "addone_infopapers",
                     "source_type": "sharepoint",
                     "path": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
                     "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren"
@@ -87,9 +87,9 @@ def example_addone_sales_copilot_creation():
             create_tool_call_part(
                 tool_name="create_collection",
                 args={
-                    "collection_name": "addone-sales-resources",
+                    "collection_name": "addone_sales_resources",
                     "description": "Sales-relevante Ressourcen & Produktinfos für ADD*ONE",
-                    "source_names": ["inform-website", "addone-infopapers"]
+                    "source_names": ["inform_website", "addone_infopapers"]
                 },
                 tool_call_id="create_collection_1"
             )
@@ -102,7 +102,7 @@ def example_addone_sales_copilot_creation():
         tool_call_id="create_source_website_1",
         tool_name="create_source",
         args={
-            "source_name": "inform-website",
+            "source_name": "inform_website",
             "source_type": "web",
             "url": "https://www.inform-software.com/de",
             "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
@@ -111,14 +111,14 @@ def example_addone_sales_copilot_creation():
     convo.add_tool_response(
         tool_call_id="create_source_website_1",
         tool_name="create_source",
-        content="Quelle 'inform-website' erstellt"
+        content="Quelle 'inform_website' erstellt"
     )
     convo.add_model_message("Website-Quelle erstellt. Jetzt die SharePoint-Quelle.")
     convo.add_tool_call(
         tool_call_id="create_source_sharepoint_1",
         tool_name="create_source",
         args={
-            "source_name": "addone-infopapers",
+            "source_name": "addone_infopapers",
             "source_type": "sharepoint",
             "path": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
             "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren"
@@ -127,22 +127,22 @@ def example_addone_sales_copilot_creation():
     convo.add_tool_response(
         tool_call_id="create_source_sharepoint_1",
         tool_name="create_source",
-        content="Quelle 'addone-infopapers' erstellt"
+        content="Quelle 'addone_infopapers' erstellt"
     )
     convo.add_model_message("Beide Quellen erstellt. Jetzt lege ich die Collection mit beiden Quellen an.")
     convo.add_tool_call(
         tool_call_id="create_collection_1",
         tool_name="create_collection",
         args={
-            "collection_name": "addone-sales-resources",
+            "collection_name": "addone_sales_resources",
             "description": "Sales-relevante Ressourcen & Produktinfos für ADD*ONE",
-            "source_names": ["inform-website", "addone-infopapers"]
+            "source_names": ["inform_website", "addone_infopapers"]
         }
     )
     convo.add_tool_response(
         tool_call_id="create_collection_1",
         tool_name="create_collection",
-        content="Collection 'addone-sales-resources' mit beiden Quellen erstellt"
+        content="Collection 'addone_sales_resources' mit beiden Quellen erstellt"
     )
     convo.add_model_message(case4_expected)
     print(f"Preview Message Convo before case 5: \n {convo.preview_messages()}")
@@ -163,7 +163,7 @@ def example_addone_sales_copilot_creation():
             create_tool_call_part(
                 tool_name="create_endpoint_api_createEndpoint_post",
                 args={
-                    "endpoint": "addone-sales-copilot",
+                    "endpoint": "addone_sales_copilot",
                     "endpoint_attributes": {
                         "dep_name": "gpt-4o",
                         "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
@@ -191,7 +191,7 @@ def example_addone_sales_copilot_creation():
         tool_call_id="create_endpoint_1",
         tool_name="create_endpoint_api_createEndpoint_post",
         args={
-            "endpoint": "addone-sales-copilot",
+            "endpoint": "addone_sales_copilot",
             "endpoint_attributes": {
                 "dep_name": "gpt-4o",
                 "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
@@ -202,51 +202,10 @@ def example_addone_sales_copilot_creation():
     convo.add_tool_response(
         tool_call_id="create_endpoint_1",
         tool_name="create_endpoint_api_createEndpoint_post",
-        content="Endpoint 'addone-sales-copilot' erstellt"
+        content="Endpoint 'addone_sales_copilot' erstellt"
     )
     convo.add_model_message(case5_expected)
 
-    # Case 6: Nutzer fordert Quellen-Listing
-    convo.add_user_message("Bitte listen Sie die konfigurierten Quellen.")
-    case6_expected = "Beide Quellen sind aktiv – Sie können jetzt erste Sales-Fragen stellen."
-    factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Quellen verifiziert",
-        conversation_turns=convo,
-        expected_final_response=case6_expected,
-        expected_final_tool_calls=[
-            create_tool_call_part(
-                tool_name="list_sources",
-                args={},
-                tool_call_id="list_sources_1"
-            )
-        ],
-        description="Verifizierung der aktiven Quellen"
-    )
-    convo.add_model_message("Ich rufe die Quellen ab.")
-    convo.add_tool_call(
-        tool_call_id="list_sources_1",
-        tool_name="list_sources",
-        args={}
-    )
-    convo.add_tool_response(
-        tool_call_id="list_sources_1",
-        tool_name="list_sources",
-        content="Quellen: inform-website (web), addone-infopapers (sharepoint)"
-    )
-    convo.add_model_message(case6_expected)
-
-    # Fehlerfall zum Abschluss (separate fehlerhafte Konversation)
-    invalid_convo = factory.create_conversation_turns()
-    invalid_convo.add_model_message("Ich starte die Unterhaltung falsch")
-    try:
-        factory.create_conversation_case(
-            name="Ungültiger ADD*ONE Konversationstest",
-            conversation_turns=invalid_convo,
-            description="Dieser Test sollte bei der Validierung fehlschlagen"
-        )
-    except ValueError as e:
-        print(f"Validierung hat erwarteten Fehler abgefangen: {e}")
-    
     # Dataset erstellen
     dataset = factory.build_dataset("ADD*ONE Sales Copilot Test Suite")
     
@@ -282,7 +241,7 @@ def example_addone_conversation_validation():
     # Beispiel 3: Tool-Aufruf ohne Antwort
     incomplete_conversation = factory.create_conversation_turns()
     incomplete_conversation.add_user_message("Erstellen Sie eine Collection für ADD*ONE")
-    incomplete_conversation.add_tool_call("call_1", "create_collection", {"collection_name": "addone-test"})
+    incomplete_conversation.add_tool_call("call_1", "create_collection", {"collection_name": "addone_test"})
     # Fehlende Tool-Antwort
     
     errors = incomplete_conversation.validate()

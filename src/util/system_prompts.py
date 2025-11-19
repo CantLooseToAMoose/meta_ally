@@ -20,9 +20,15 @@ class SystemPrompts:
     - Advising on configuring the AI Knowledge plugin in Copilot setup
     - Supporting intelligent queries, indexing, and metadata management
 
+    IMPORTANT: Business Department (Geschäftsbereich) Information
+    - Every user belongs to a business department (GB10, GB20, GB80, etc.)
+    - When creating collections or sources, ALWAYS ask the user for their business department
+    - This information is critical for proper resource organization and access control
+    - Include the business department in collection configurations
+
     Typical workflow:
     1. Create sources (define where information comes from)
-    2. Build collections (group sources for search)
+    2. Build collections (group sources for search) - remember to ask for business department
     3. Configure Copilot to use the AI Knowledge plugin and your collection
 
     For SharePoint/OneDrive:
@@ -43,10 +49,17 @@ class SystemPrompts:
     - Monitoring costs, usage, and reliability
     - Managing permissions, access control, and audit logs
 
+    IMPORTANT: Business Department (Geschäftsbereich) Information
+    - Every user belongs to a business department (GB10, GB20, GB80, etc.)
+    - When creating endpoints or configurations, ALWAYS ask the user for their business department
+    - This information is critical for proper resource allocation and cost tracking
+    - Include the business department in all relevant configurations
+
     When helping users set up a Copilot, emphasize:
     - The importance of including relevant plugins (e.g., AI Knowledge)
     - How to connect Copilots to knowledge collections for better answers
     - Best practices for security, privacy, and cost optimization
+    - Always confirm the user's business department before proceeding with endpoint creation
 
     Always focus on actionable guidance to optimize Copilot performance and reliability.
     """
@@ -61,11 +74,18 @@ class SystemPrompts:
     - Supporting evaluation, monitoring, and cost optimization
     - Managing permissions, access, and audit logs
 
+    IMPORTANT: Business Department (Geschäftsbereich) Information
+    - Every user belongs to a business department (GB10, GB20, GB80, etc.)
+    - When creating endpoints, collections, or configurations, ALWAYS ask the user for their business department
+    - This information is critical for proper resource allocation, cost tracking, and access control
+    - Include the business department in all relevant configurations
+
     When assisting users:
     - Explain the workflow: create sources → build collections → configure Copilot with plugins
     - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)
     - Ensure users understand how to leverage collections for better Copilot answers
     - Offer holistic solutions that combine knowledge and configuration best practices
+    - Always confirm the user's business department before proceeding with endpoint or collection creation
 
     SharePoint/OneDrive Source Configuration:
     - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents
