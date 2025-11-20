@@ -14,30 +14,64 @@ def example_addone_sales_copilot_creation():
     # Verwende eine einzige ConversationTurns Instanz für alle Phasen
     convo = factory.create_conversation_turns()
 
-    # Case 1: Initiale Anfrage
+    # Case 1: Initiale Anfrage - Agent fragt nach Geschäftsbereich und Projektnummer
     convo.add_user_message(
         "Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen."
     )
-    case1_expected = "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Welche spezifischen Ressourcen oder Links haben Sie verfügbar?"
+    case1_expected = "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 80000)"
     factory.create_conversation_case(
         name="ADD*ONE Sales Copilot – Initiale Anfrage",
         conversation_turns=convo,
         expected_final_response=case1_expected,
         description="Erste Nutzeranfrage zur Erstellung eines Sales Copiloten"
     )
+
     # Füge erwartete Antwort als ModelResponse hinzu, um Gespräch fortzusetzen
     convo.add_model_message(case1_expected)
 
-    # Case 2: Agent erklärt Plan & fragt nach Links
+    # Case 2: Nutzer gibt Geschäftsbereich und Projektnummer an, Agent speichert beide und fragt nach Links
     convo.add_user_message(
-        "Wir haben eine INFORM Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus."
+        "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 80000. Wir haben eine INFORM Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus."
     )
-    case2_expected = "Super! Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und füge die Quellen hinzu."
+    case2_expected = "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 80000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und füge die Quellen hinzu."
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Plan & Link-Anfrage",
+        name="ADD*ONE Sales Copilot – Geschäftsbereich & Projektnummer gespeichert & Link-Anfrage",
         conversation_turns=convo,
         expected_final_response=case2_expected,
-        description="Agent fordert konkrete Links für strukturierte Quellenanlage"
+        expected_final_tool_calls=[
+            create_tool_call_part(
+                tool_name="set_geschaeftsbereich",
+                args={"geschaeftsbereich": "GB10"},
+                tool_call_id="set_geschaeftsbereich_1"
+            ),
+            create_tool_call_part(
+                tool_name="set_project_number",
+                args={"project_number": "80000"},
+                tool_call_id="set_project_number_1"
+            )
+        ],
+        description="Agent speichert Geschäftsbereich und Projektnummer und fordert konkrete Links für strukturierte Quellenanlage"
+    )
+
+    convo.add_tool_call(
+        tool_call_id="set_geschaeftsbereich_1",
+        tool_name="set_geschaeftsbereich",
+        args={"geschaeftsbereich": "GB10"}
+    )
+    convo.add_tool_response(
+        tool_call_id="set_geschaeftsbereich_1",
+        tool_name="set_geschaeftsbereich",
+        content="Business area set to: GB10"
+    )
+    convo.add_tool_call(
+        tool_call_id="set_project_number_1",
+        tool_name="set_project_number",
+        args={"project_number": "80000"}
+    )
+    convo.add_tool_response(
+        tool_call_id="set_project_number_1",
+        tool_name="set_project_number",
+        content="Project number set to: 80000"
     )
     convo.add_model_message(case2_expected)
 
@@ -145,13 +179,12 @@ def example_addone_sales_copilot_creation():
         content="Collection 'addone_sales_resources' mit beiden Quellen erstellt"
     )
     convo.add_model_message(case4_expected)
-    print(f"Preview Message Convo before case 5: \n {convo.preview_messages()}")
 
-    # Case 5: Nutzer bestätigt Endpoint Erstellung -> Modellabfrage + Endpoint
+    # Case 5: Nutzer bestätigt Endpoint Erstellung -> Modellabfrage + Endpoint (mit endpoint_name speichern)
     convo.add_user_message("Ja, bitte erstellen Sie jetzt den Sales-Copilot Endpoint.")
-    case5_expected = "Der Endpoint ist bereit. Möchten Sie, dass ich die konfigurierten Quellen zur Verifikation aufliste?"
+    case5_expected = "Der Endpoint 'addone_sales_copilot' ist bereit. Möchten Sie, dass ich die konfigurierten Quellen zur Verifikation aufliste?"
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Endpoint erstellt",
+        name="ADD*ONE Sales Copilot – Endpoint erstellt & gespeichert",
         conversation_turns=convo,
         expected_final_response=case5_expected,
         expected_final_tool_calls=[
@@ -163,7 +196,7 @@ def example_addone_sales_copilot_creation():
             create_tool_call_part(
                 tool_name="create_endpoint_api_createEndpoint_post",
                 args={
-                    "endpoint": "addone_sales_copilot",
+                    "endpoint": "/gb10/addone_sales_copilot",
                     "endpoint_attributes": {
                         "dep_name": "gpt-4o",
                         "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
@@ -171,11 +204,15 @@ def example_addone_sales_copilot_creation():
                     }
                 },
                 tool_call_id="create_endpoint_1"
+            ),
+            create_tool_call_part(
+                tool_name="set_endpoint_name",
+                args={"endpoint_name": "/gb10/addone_sales_copilot"},
+                tool_call_id="set_endpoint_name_1"
             )
         ],
-        description="Endpoint nach Modellauswahl erstellt"
+        description="Endpoint nach Modellauswahl erstellt und endpoint_name im Kontext gespeichert"
     )
-    convo.add_model_message("Ich prüfe verfügbare Modelle und erstelle den Endpoint.")
     convo.add_tool_call(
         tool_call_id="check_models_1",
         tool_name="get_available_AI_models_api_getAvailableAIModels_post",
@@ -191,7 +228,7 @@ def example_addone_sales_copilot_creation():
         tool_call_id="create_endpoint_1",
         tool_name="create_endpoint_api_createEndpoint_post",
         args={
-            "endpoint": "addone_sales_copilot",
+            "endpoint": "/gb10/addone_sales_copilot",
             "endpoint_attributes": {
                 "dep_name": "gpt-4o",
                 "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
@@ -203,6 +240,16 @@ def example_addone_sales_copilot_creation():
         tool_call_id="create_endpoint_1",
         tool_name="create_endpoint_api_createEndpoint_post",
         content="Endpoint 'addone_sales_copilot' erstellt"
+    )
+    convo.add_tool_call(
+        tool_call_id="set_endpoint_name_1",
+        tool_name="set_endpoint_name",
+        args={"endpoint_name": "/gb10/addone_sales_copilot"}
+    )
+    convo.add_tool_response(
+        tool_call_id="set_endpoint_name_1",
+        tool_name="set_endpoint_name",
+        content="Endpoint name set to: /gb10/addone_sales_copilot"
     )
     convo.add_model_message(case5_expected)
 

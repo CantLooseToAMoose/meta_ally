@@ -194,16 +194,16 @@ class AgentFactory:
         if include_context_tools:
             complete_prompt += """
 
-Context Management:
-You have access to tools for tracking user context information:
-- Business Area (Geschäftsbereich): The user's business domain or department
-- Project Number: The project the user is working on
-- Endpoint Name: The specific endpoint configuration being discussed
+        Context Management:
+        You have access to tools for tracking user context information:
+        - Business Area (Geschäftsbereich): The user's business domain or department
+        - Project Number: The project the user is working on
+        - Endpoint Name: The specific endpoint configuration being discussed
 
-When the user mentions any of these, use the appropriate set_* tool to remember it.
-Before performing operations that require this context, use the get_* tools to check if the information is available.
-If required information is missing, the get_* tool will return a message asking you to gather it from the user.
-"""
+        When the user mentions any of these, use the appropriate set_* tool to remember it.
+        Before performing operations that require this context, use the get_* tools to check if the information is available.
+        If required information is missing, the get_* tool will return a message asking you to gather it from the user.
+        """
         
         # Resolve model configuration
         resolved_model = self._resolve_model(model)
