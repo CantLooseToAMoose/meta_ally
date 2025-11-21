@@ -101,6 +101,7 @@ class SystemPrompts:
 
     Your output should be a list of messages that represent a valid conversation variant from the input messages.
     Important guidelines:
+    - You must generate a new set of input messages that vary from the original.
     - Preserve the original intent and context of the conversation to this point.
     - Vary the wording, phrasing, and structure of messages to create diversity.
     - Ensure the final message leads to the same conclusion or state as the original conversation.

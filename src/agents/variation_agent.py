@@ -27,7 +27,7 @@ def create_variation_agent() -> Agent[Any, ConversationVariant]:
         Agent: An instance of the variation agent.
     """
     factory = AgentFactory()
-    model = factory.create_azure_model_config().create_model()
+    model = factory.create_azure_model_config(deployment_name="gpt-4.1").create_model()
 
     variation_agent = Agent(
         name="Variation Agent",
