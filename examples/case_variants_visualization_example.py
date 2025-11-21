@@ -12,75 +12,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from case_factory_addone_example import example_addone_sales_copilot_creation
 from src.eval.case_factory import MessageHistoryCase, create_case_variant
-from rich.console import Console
-from rich.columns import Columns
-from rich.panel import Panel
-from rich.table import Table
-from rich.text import Text
-
-
-console = Console(width=200)  # Increase console width for side-by-side display
-
-
-def format_message_history(messages) -> str:
-    """Format message history for better readability.
-    
-    Args:
-        messages: List of messages to format
-    """
-    output = []
-    for i, msg in enumerate(messages):
-        output.append(f"[bold]Message {i+1}:[/bold]")
-        for part in msg.parts:
-            if hasattr(part, 'content'):
-                # UserPromptPart, SystemPromptPart, or ToolReturnPart
-                part_type = type(part).__name__
-                content = part.content if isinstance(part.content, str) else str(part.content)
-                output.append(f"  [{part_type}]")
-                output.append(f"  {content}")
-            elif hasattr(part, 'tool_name'):
-                # ToolCallPart
-                output.append(f"  [ToolCall] {part.tool_name}")
-                output.append(f"  Args: {part.args}")
-        output.append("")
-    return "\n".join(output)
-
-
-def show_side_by_side_comparison(original_case: MessageHistoryCase, 
-                                   variant_case: MessageHistoryCase,
-                                   variant_num: int):
-    """Display original and variant side by side using rich panels.
-    
-    Args:
-        original_case: The original test case
-        variant_case: The variant test case
-        variant_num: The variant number for labeling
-    """
-    # Format the message histories
-    original_text = format_message_history(original_case.input_messages)
-    variant_text = format_message_history(variant_case.input_messages)
-    
-    # Create panels with fixed width
-    original_panel = Panel(
-        original_text,
-        title="[bold cyan]Original[/bold cyan]",
-        border_style="cyan",
-        padding=(1, 1),
-        width=95
-    )
-    
-    variant_panel = Panel(
-        variant_text,
-        title=f"[bold green]Variant {variant_num}[/bold green]",
-        border_style="green",
-        padding=(1, 1),
-        width=95
-    )
-    
-    # Display side by side with explicit configuration
-    console.print("\n")
-    console.print(Columns([original_panel, variant_panel], equal=False, expand=False, padding=(0, 2)))
-    console.print("\n")
+from src.util.case_visualization import (
+    console,
+    show_side_by_side_comparison,
+    create_summary_table
+)
 
 
 def create_variants_for_dataset(dataset, num_variants: int = 2, 
@@ -129,35 +65,6 @@ def create_variants_for_dataset(dataset, num_variants: int = 2,
         console.print(f"  [green]✓[/green] Created {len(variants)} variants for this case\n")
     
     return all_variants
-
-
-def create_summary_table(all_variants):
-    """Create a summary table showing variant creation statistics.
-    
-    Args:
-        all_variants: Dictionary mapping case names to their original and variants
-    """
-    table = Table(title="Variant Creation Summary", show_header=True, header_style="bold magenta")
-    table.add_column("Case #", style="cyan", width=8)
-    table.add_column("Case Name", style="white")
-    table.add_column("Variants Created", justify="center", style="green")
-    table.add_column("Status", justify="center")
-    
-    for idx, (case_name, data) in enumerate(all_variants.items(), 1):
-        num_variants = len(data['variants'])
-        status = "✓" if num_variants > 0 else "✗"
-        status_style = "green" if num_variants > 0 else "red"
-        
-        table.add_row(
-            str(idx),
-            case_name,
-            str(num_variants),
-            Text(status, style=status_style)
-        )
-    
-    console.print("\n")
-    console.print(table)
-    console.print("\n")
 
 
 def main():
