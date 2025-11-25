@@ -44,7 +44,8 @@ def create_variants_for_dataset(dataset, num_variants: int = 2,
             console.print(f"  Generating variant {variant_num}/{num_variants}...")
             
             try:
-                variant_case = create_case_variant(original_case)
+                # Pass previously created variants to avoid duplicates
+                variant_case = create_case_variant(original_case, previous_variants=variants)
                 variant_case.name = f"{original_case.name} - Variant {variant_num}"
                 variants.append(variant_case)
                 

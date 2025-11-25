@@ -265,10 +265,23 @@ class CaseFactory:
         return created_cases
 
 
-def create_case_variant(existing_case: MessageHistoryCase) -> MessageHistoryCase:
-    """Create a new case variant from an existing MessageHistoryCase."""
+def create_case_variant(
+    existing_case: MessageHistoryCase,
+    previous_variants: Optional[List[MessageHistoryCase]] = None
+) -> MessageHistoryCase:
+    """Create a new case variant from an existing MessageHistoryCase.
+    
+    Args:
+        existing_case: The original case to create a variant from
+        previous_variants: Optional list of previously generated variants to avoid duplicates
+        
+    Returns:
+        MessageHistoryCase: A new variant case that differs from the original and all previous variants
+    """
+    if previous_variants is None:
+        previous_variants = []
 
-    variation_agent = create_variation_agent()
+    variation_agent = create_variation_agent(previous_variants)
 
 
 
@@ -283,11 +296,33 @@ def create_case_variant(existing_case: MessageHistoryCase) -> MessageHistoryCase
             ctx: Unused context parameter
             output: The output messages from the variation agent
         Returns:
-            True if in the Message History the tool calls and responses match in their content and order, False otherwise
+            ConversationVariant if valid
+        
+        Raises:
+            ModelRetry: If validation fails
 
         """
+        # First, validate the structure of the generated conversation
+        conversation = ConversationTurns()
+        conversation._messages = output.messages.copy()
+        validation_errors = conversation.validate()
+        
+        if validation_errors:
+            raise ModelRetry(
+                "Generated variant has structural issues:\n" +
+                "\n".join(f"- {error}" for error in validation_errors)
+            )
+        
         # Get all existing Messages
         existing_message_history = existing_case.input_messages
+        
+        # Check if the variant is identical to the original case
+        if output.messages == existing_message_history:
+            raise ModelRetry(
+                "Generated variant is identical to the original case.\n"
+                "Please create a variation that differs from the original."
+            )
+        
         # Get a list of all tool calls and responses in existing and new output
         existing_tool_calls_and_responses = [
             part
@@ -301,6 +336,7 @@ def create_case_variant(existing_case: MessageHistoryCase) -> MessageHistoryCase
             for part in msg.parts
             if isinstance(part, (ToolCallPart, ToolReturnPart))
         ]
+        
         # Compare the tool calls and responses for equality
         for existing_part, new_part in zip(
             existing_tool_calls_and_responses, new_tool_calls_and_responses
@@ -312,6 +348,15 @@ def create_case_variant(existing_case: MessageHistoryCase) -> MessageHistoryCase
                     f"Original: {existing_part}\n"
                     f"Variant: {new_part}"
                 )
+        
+        # Check if this variant is identical to any previous variants
+        for idx, prev_variant in enumerate(previous_variants, 1):
+            if output.messages == prev_variant.input_messages:
+                raise ModelRetry(
+                    f"Generated variant is identical to previous variant #{idx}.\n"
+                    f"Please create a different variation that is unique from all previous variants."
+                )
+        
         return output
 
     case_json=existing_case.json()

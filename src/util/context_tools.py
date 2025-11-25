@@ -6,6 +6,8 @@ information such as business area (Geschäftsbereich), project number, and endpo
 
 These tools are designed to be automatically included in all agents to maintain
 conversation context and provide more personalized assistance.
+
+TODO: Add safety checks to validate inputs (e.g., valid project number formats).
 """
 
 from pydantic_ai import RunContext, Tool
