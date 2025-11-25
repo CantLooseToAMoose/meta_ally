@@ -302,19 +302,24 @@ if __name__ == "__main__":
     case_1=dataset.cases[0]
     from src.eval.case_factory import create_case_variant
     from src.eval.case_factory import MessageHistoryCase
+    from src.util.case_visualization import visualize_single_case
+    
     print("\n--- Beispiel Fall 1 ---")
     print(f"Name: {case_1.name}")
     message_history_case=MessageHistoryCase.from_case(case_1)
-    print((f"MessageHistoryCase: {message_history_case.input_messages}"))
-    case_variation=create_case_variant(message_history_case)
-    print(f"Variationen: {case_variation.input_messages}")
+    
+    # Visualize the first case
+    print("\n=== Visualizing Case 1 ===")
+    visualize_single_case(message_history_case)
+        
     case_2=dataset.cases[1]
     print("\n--- Beispiel Fall 2 ---")
     print(f"Name: {case_2.name}")
-    message_history_case=MessageHistoryCase.from_case(case_2)
-    print((f"MessageHistoryCase: {message_history_case.input_messages}"))
-    case_variation=create_case_variant(message_history_case)
-    print(f"Variationen: {case_variation.input_messages}")
+    message_history_case_2=MessageHistoryCase.from_case(case_2)
+
+    print("\n=== Visualizing Case 2 (with expected tool calls) ===")
+    visualize_single_case(message_history_case_2)
+
 
     # Demonstriere Validierung
     print("\n--- ADD*ONE Validierungsbeispiele ---")
