@@ -1,71 +1,110 @@
 # Meta Ally Standalone Project
-## What is the idea of a Meta Ally?
-At the current stage setting up a **Copilot** on our **configuration page**, might be bit user unfriendly and requires training or experience. For example, a layman might have a hard time to understand why we need a **RAG** system when building a copilot, and what the capabilities of such a system are. Even when the user understands all of these things, there are still **multiple steps** specific to our configuration page involved when creating and setting up such a Copilot. 
-These steps involve: 
-- Creating an endpoint with **meta-data** like a display name and a route. 
-- Configuring your endpoint by defining things like a **specific LLM**, **system prompt**, a **greeting message**, **history reduction** and a set of **plugins**.
-- Defining the **plugin configuration** including **AI Knowledge**
-- (Optional but most often used) Setting up **AI Knowledge**
-    - Creating one or more **sources**
-    - Combining sources in a **collection**
-    - **Indexing** the collection
-    - Configuring the plugin in the **copilot configuration**
 
-![alt text](image.png)
+## What is the idea behind a Meta Ally?
 
-The idea now is to create a Meta-Ally, that integrates everything above and helps you with creating and configuring your own copilot.
-The Meta-Ally should exhibit agentic behaviour by being able to actively and autonomously creating and configuring new endpoints with all its features and explain to the user everything he needs to know on the way.
+At the current stage, setting up a **Copilot** on our **configuration page** can be somewhat user-unfriendly and requires prior training or experience. For example, a layperson may struggle to understand why a **RAG** system is needed when building a copilot and what such a system is capable of.  
 
-This project will enhance usability of the Ally configuration and will as a side-effect explore exisiting agent frameworks and hopefully improve the existing code base of the ally project.
+Even when a user does understand these things, creating and configuring a Copilot still involves **multiple complex steps** specific to our configuration page. These steps include:
 
-## What has been done yet?
-The **intial idea** for the **Meta-Ally** was to extend the functionality of the **original Ally** and use it **as its base**.
-So when I started my internship in september,I began by exploring the ally repository.
+- Creating an endpoint with **metadata**, such as a display name and route.  
+- Configuring the endpoint by defining a **specific LLM**, **system prompt**, **greeting message**, **history reduction**, and **plugins**.  
+- Defining **plugin configuration**, including **AI Knowledge**.  
+- (Optional but common) Setting up **AI Knowledge**, which includes:
+  - Creating one or more **sources**  
+  - Combining sources into a **collection**  
+  - **Indexing** the collection  
+  - Configuring the plugin within the **copilot configuration**
 
-One obvious **bottleneck** inside the code was the **lacking flexibility** when it came to **new LLMs** and its providers. One solution would be to **migrate** the project to an **existing framework** such as **langchain or pydantic-ai**. As part of my exploration on the current state of the project I tried including a new DialogEngine based on such frameworks but quickly found that the project already grew so much without having such a framework at core, that many **advantages** of adding such a framework would be **miniscule**.
+![Meta Ally overview](docs/Images/image.png)
 
-So I decided with Max, that it might be best to move the project to a **standalone version** and develop with a new framework at heart. 
+The goal of the Meta Ally is to integrate all these steps and assist users in creating and configuring their own copilots easily.
 
-During my initial exploration phase I specifically researched Langchain and Pydantic AI as potential frameworks. Due to its type-safe nature and extensive documentation I found that **Pydantic AI** would be a great fit to move further.
+The Meta Ally should behave like an autonomous agent that can actively create and configure new endpoints with all required features while **explaining** each concept to the user along the way.
 
-### Tools
-One defining feature of an agent is his ability to use tools. In order to let the Meta-Ally help users creating new copilots and setting up new sources and collections in AI knowledge, we need to equip it with the tools to do so. So that is where I began. 
-I had to turn the respective APIs from the ally and ai knowledge configuration into tools that were compatible with a pydantic ai agent.
+This project aims to improve the usability of Ally’s configuration process. As a side effect, it also explores existing agent frameworks and may help improve the Ally project’s codebase.
 
-I started by parsing the openapi specification of each api respectively. Luckily these have been generated with pydantic models at heart making it relatively easy to generate tool definitions together with parameter description json that we can then feed to our agents.
-Even though there was still a lot of effort involved, turning these opertions into callable functions, by having to for example recursively solve different pydantic models from theire request bodies.
+---
 
-![alt text](image-1.png)
-![alt text](image-2.png)
+## What has been done so far?
 
+The initial idea for the **Meta Ally** was to **extend** the functionality of the original **Ally** and use it as its foundation.
 
-### Agents
+When I began my internship in September, I started by exploring the Ally repository.  
+One clear **bottleneck** I found was the **lack of flexibility** when introducing new **LLMs** or providers.  
+A possible solution was to **migrate** the project to an existing framework such as **LangChain** or **Pydantic AI**.
 
-After defining the tools we can now start by creating some agents and see if we can actually call some tools. Pydantics out-of-the-box agent implementation offers a simple to use ReAct implementation. For that I created an agent factory, that lets me simply define agents with a specific prompt and a specificed group of tools curated from the extensive list of tools from the respective apis. 
+During exploration, I tried integrating a new DialogEngine based on these frameworks but soon realized that, due to the project’s complexity, adding one at its core would yield **minimal benefits**.
 
-### UI
+After discussions with Max, we decided the best path forward was to develop a **standalone version** of Ally using a modern framework at its core.
 
-To be ablet to interact with an agent, we can either define static messages in code, use the terminal or what is probably prefarable use a frontend in your browser. Pydantic AI offers out-of-the-box a method to turn your agent into ag-ui based application, that can then be used with any frontend that implements the AG-UI protocol. In my example I chose the CopilotKit.
+After researching frameworks, I found that **Pydantic AI**, with its type-safe design and extensive documentation, would be an excellent fit.
 
-### Evaluation
+---
 
-In order to give any statement on the performance of your agent, you need to test or evaluate it first. Pydantic also offers their own way on how to evaluate agents like this. It works by defining **cases**, **tasks** and **evalauators**. Pydantics evaluation method is not bound to be used with their agents implementation so I had to define how evaluation excactly looks myself.
+## Tools
 
-I chose to evaluate message histories allowing me to measure the performance in multi turn conversation.
+A defining feature of an agent is its ability to use **tools**. To enable the Meta Ally to assist users in creating copilots and configuring AI Knowledge sources and collections, it requires a robust toolbox.
 
-I chose to create datasets with specific users in mind, and to create full conversation from it. During the conversation I stop at various points to create a **case** in this moment of the conversation, that I will then use to measure the performance of the agent.
+I began by turning the respective **Ally** and **AI Knowledge** APIs into Pydantic AI–compatible tools.  
+Since the APIs were generated using Pydantic models, it was relatively straightforward to generate tool definitions and parameter descriptions that could be fed to the agent.
 
-Evaluation happens by either using LLMJudges or evaluators that I wrote myself for example by comparing the names of tools that I would expect the agent to call.
+However, it still required considerable effort—particularly when converting API operations into callable functions, such as **recursively resolving nested Pydantic models** within request bodies.
 
-### Logfire
+![API tools diagram](docs/Images/image-1.png)
+![Tool definition example](docs/Images/image-2.png)
 
-Logfire is Pydantic own observation platform. It lets you easily collect traces of your llm application and sends it to their server. Later you can visit these traces on their webpage and inspect your agents performance from there.
+---
 
+## Agents
 
-You can also inspect your evaluation experiments from there:
-![alt text](image-3.png)
+Once the tools were defined, I started creating agents and testing whether tool calls worked correctly.  
+Pydantic AI’s built-in **ReAct** agent implementation is simple to use.  
 
+I developed an **agent factory** that allows easy creation of agents by specifying:
+- A **prompt**
+- A curated **set of tools** selected from the available API tools
 
-## Limitations 
-There is no working Human In The Loop/Tool Approval
-Evaluation is not super mature, would need to be able to call functions before and after specific cases to setup configurations.
+---
+
+## UI
+
+To interact with an agent, we can:
+- Define static messages in code  
+- Use the terminal  
+- Or (preferably) use a frontend interface in the browser  
+
+Pydantic AI supports conversion of your agent into an **AG-UI–based web application**, which can be connected to any frontend implementing the AG-UI protocol.  
+In my example, I used **CopilotKit** as the frontend interface.
+
+---
+
+## Evaluation
+
+Evaluating an agent’s performance is crucial.  
+Pydantic AI provides a method for evaluation based on **cases**, **tasks**, and **evaluators**.  
+However, because this method isn’t restricted to their own agent implementation, I defined a custom evaluation procedure.
+
+I chose to evaluate **message histories**, allowing multi-turn conversation performance assessment.  
+I created datasets for specific user profiles to simulate full conversations.  
+At several points, I captured **cases** representing conversation snapshots used to measure agent performance.
+
+Evaluations were conducted using both **LLM Judges** and custom evaluators—for instance, comparing expected versus actual tool usage.
+
+---
+
+## Logfire
+
+**Logfire** is Pydantic’s built-in observability platform. It collects traces from your LLM application and sends them to their server, where you can inspect performance metrics through a web dashboard.
+
+You can also review evaluation experiments and their outcomes via Logfire:
+
+![Logfire evaluation view](docs/Images/image-3.png)
+
+---
+
+## Limitations
+
+- No working **Human-in-the-Loop** or **Tool Approval** process yet  
+- Evaluation setup is still immature — needs support for executing setup and teardown functions before and after specific cases
+
+---
