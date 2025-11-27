@@ -189,12 +189,12 @@ def example_addone_sales_copilot_creation():
         expected_final_response=case5_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="get_available_AI_models_api_getAvailableAIModels_post",
+                tool_name="list_models",
                 args={},
                 tool_call_id="check_models_1"
             ),
             create_tool_call_part(
-                tool_name="create_endpoint_api_createEndpoint_post",
+                tool_name="create_copilot",
                 args={
                     "endpoint": "/gb10/addone_sales_copilot",
                     "endpoint_attributes": {
@@ -203,7 +203,7 @@ def example_addone_sales_copilot_creation():
                         "default_message": "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
                     }
                 },
-                tool_call_id="create_endpoint_1"
+                tool_call_id="create_copilot_1"
             ),
             create_tool_call_part(
                 tool_name="set_endpoint_name",
@@ -215,18 +215,18 @@ def example_addone_sales_copilot_creation():
     )
     convo.add_tool_call(
         tool_call_id="check_models_1",
-        tool_name="get_available_AI_models_api_getAvailableAIModels_post",
+        tool_name="list_models",
         args={}
     )
     convo.add_tool_response(
         tool_call_id="check_models_1",
-        tool_name="get_available_AI_models_api_getAvailableAIModels_post",
+        tool_name="list_models",
         content="Verfügbare Modelle: gpt-4o, gpt-4-turbo, claude-3-opus, gpt-4o-mini"
     )
     convo.add_model_message("Ich verwende gpt-4o und erstelle den Endpoint.")
     convo.add_tool_call(
-        tool_call_id="create_endpoint_1",
-        tool_name="create_endpoint_api_createEndpoint_post",
+        tool_call_id="create_copilot_1",
+        tool_name="create_copilot",
         args={
             "endpoint": "/gb10/addone_sales_copilot",
             "endpoint_attributes": {
@@ -237,8 +237,8 @@ def example_addone_sales_copilot_creation():
         }
     )
     convo.add_tool_response(
-        tool_call_id="create_endpoint_1",
-        tool_name="create_endpoint_api_createEndpoint_post",
+        tool_call_id="create_copilot_1",
+        tool_name="create_copilot",
         content="Endpoint 'addone_sales_copilot' erstellt"
     )
     convo.add_tool_call(
