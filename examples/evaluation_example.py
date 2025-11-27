@@ -101,7 +101,7 @@ def main():
 
     retry_config = {
     'stop': stop_after_attempt(2),  # Stop after 2 attempts
-    'wait': wait_exponential(multiplier=1, min=10, max=20),  # Exponential backoff: 10s, 20s
+    'wait': wait_exponential(multiplier=2, min=30, max=200),  # Exponential backoff: 30s, 60s
     'reraise': True,  # Re-raise the original exception after exhausting retries
 }
     report=dataset.evaluate_sync(task,retry_task=retry_config)

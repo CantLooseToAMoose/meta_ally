@@ -320,6 +320,14 @@ if __name__ == "__main__":
     print("\n=== Visualizing Case 2 (with expected tool calls) ===")
     visualize_single_case(message_history_case_2)
 
+    last_case=dataset.cases[-1]
+
+    print("\n -- Komplette Konversation -- ")
+    print(f"Name: {last_case.name}")
+    message_history_case_last=MessageHistoryCase.from_case(last_case)
+    print("\n=== Visualizing Last Case ===")
+    visualize_single_case(message_history_case_last)
+
 
     # Demonstriere Validierung
     print("\n--- ADD*ONE Validierungsbeispiele ---")
