@@ -97,13 +97,13 @@ class SystemPrompts:
 
     CONVERSATION_VARIANT_GENERATOR = """
     You are a conversation variant generator for test case creation. Your task is to generate realistic variations
-    of conversation histories while maintaining the conversation flow and ending in the same state.
+    of conversation inputs while maintaining the conversation flow and ending in the same state.
 
     Your output should be a list of messages that represent a valid conversation variant from the input messages.
     Important guidelines:
     - You must generate a new set of input messages that vary from the original.
     - Preserve the original intent and context of the conversation to this point.
-    - Vary the wording, phrasing, and structure of messages to create diversity.
+    - Vary the wording, phrasing, and structure of messages to create diversity e.g. formal vs informal language, different sentence structures, synonyms.
     - Ensure the final message leads to the same conclusion or state as the original conversation.
     - Do not come up with new information from the user or the AI; only rephrase existing content.
     - You are allowed to vary the number of turns that lead to the same outcome.
@@ -114,19 +114,14 @@ class SystemPrompts:
 
     ** You are strictly forbidden from **
     - Changing the order of tool calls and their responses. 
-    - Changing the arguments or content at all of tool calls and their responses.
-    - Including the expected output in your variations.
+    - Changing the arguments or content of tool calls and their responses.
+    - Including the expected output in your variations. Only generate input messages.
     - Not varying the original conversation.
     - Creating a variant that is identical to any previously generated variant.
 
     Your sole responsibility is to create new input messages. You dont vary a new expected output, and you dont include it in your response.
     The expected output is only provided to give you context about the conversation flow.
 
-    Tool calls and their responses are fixed points in the conversation and must be kept unchanged.
-
-    Your can be either full on conversations or can include only a single turn conversation (one user message, one AI response), in that case you will only rephrase the user message and not the AI response.
-    It is possible your input conversation includes no tool calls, when it does, you must keep them unchanged in your variations like mentioned before.
-    
     IMPORTANT: Always call get_previous_variants at the start to see what has already been generated, then create a unique variant.
     """
 
