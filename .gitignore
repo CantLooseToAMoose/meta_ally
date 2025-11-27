@@ -4,5 +4,5 @@ pydantic_ai_full_llm_helper.txt
 .env
 __pycache__
 setenv.sh
-*_api_models.py
+*api_models.py
 addone_datasets/

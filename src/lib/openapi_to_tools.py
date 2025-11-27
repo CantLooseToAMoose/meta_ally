@@ -38,7 +38,7 @@ import httpx
 import subprocess
 import os
 from typing import Any, Dict, List, Optional, Callable, cast
-from pydantic_ai import Tool, RunContext, ApprovalRequired, ModelRetry
+from pydantic_ai import Tool, RunContext, ModelRetry
 from pydantic import BaseModel
 import importlib
 import sys
@@ -136,7 +136,8 @@ class OpenAPIToolsLoader:
         base_url: Optional[str] = None,
         models_filename: str = "api_models.py",
         regenerate_models: bool = False,
-        require_human_approval: bool = False
+        require_human_approval: bool = False,
+        tool_name_prefix: str = ""
     ):
         """
         Initialize the loader with an OpenAPI spec URL
@@ -147,6 +148,7 @@ class OpenAPIToolsLoader:
             models_filename: Filename for the generated Pydantic models (default: api_models.py)
             regenerate_models: Whether to regenerate the models file if it exists (default: False)
             require_human_approval: Whether to require human approval for non-read-only operations (default: False)
+            tool_name_prefix: Optional prefix to add to all tool names to avoid conflicts (default: "")
         """
         self.openapi_url = openapi_url
         self.base_url = base_url or openapi_url.rsplit('/', 1)[0]  # Remove /openapi.json
@@ -155,6 +157,7 @@ class OpenAPIToolsLoader:
         self.models_filename = models_filename
         self.regenerate_models = regenerate_models
         self.require_human_approval = require_human_approval
+        self.tool_name_prefix = tool_name_prefix
         
     def fetch_spec(self) -> Dict[str, Any]:
         """Fetch the OpenAPI specification from the URL"""
@@ -296,7 +299,8 @@ class OpenAPIToolsLoader:
         path: str, 
         method: str, 
         operation: Dict[str, Any],
-        parameters_schema: Dict[str, Any]
+        parameters_schema: Dict[str, Any],
+        query_param_names: List[str]
     ) -> Callable:
         """
         Create a function that will be wrapped as a Tool
@@ -307,6 +311,7 @@ class OpenAPIToolsLoader:
             method: HTTP method (get, post, etc.)
             operation: The operation definition from OpenAPI
             parameters_schema: JSON schema for parameters
+            query_param_names: List of parameter names that should be sent as query parameters
         
         Returns:
             A callable function that can be wrapped as a Tool
@@ -346,6 +351,16 @@ class OpenAPIToolsLoader:
             for key in path_params:
                 kwargs.pop(key, None)
             
+            # Separate query parameters from body parameters
+            query_params = {}
+            body_params = {}
+            
+            for key, value in kwargs.items():
+                if key in query_param_names:
+                    query_params[key] = value
+                else:
+                    body_params[key] = value
+            
             url = f"{self.base_url}{final_path}"
             
             # Prepare headers with authorization
@@ -360,14 +375,15 @@ class OpenAPIToolsLoader:
             async with httpx.AsyncClient() as client:
                 try:
                     if method.lower() == "get":
-                        response = await client.get(url, params=kwargs, headers=headers)
+                        response = await client.get(url, params=query_params, headers=headers)
                     elif method.lower() == "post":
-                        response = await client.post(url, json=kwargs, headers=headers)
+                        # For POST, send query params as URL params and body params as JSON
+                        response = await client.post(url, params=query_params, json=body_params, headers=headers)
                     elif method.lower() == "put":
-                        response = await client.put(url, json=kwargs, headers=headers)
+                        response = await client.put(url, params=query_params, json=body_params, headers=headers)
                     elif method.lower() == "delete":
                         # DELETE typically doesn't have a body, use params instead
-                        response = await client.delete(url, params=kwargs, headers=headers)
+                        response = await client.delete(url, params=query_params, headers=headers)
                     else:
                         raise ValueError(f"Unsupported HTTP method: {method}")
                     
@@ -463,7 +479,7 @@ class OpenAPIToolsLoader:
         
         return resolved_schema
 
-    def _extract_parameters_schema(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_parameters_schema(self, operation: Dict[str, Any]) -> tuple[Dict[str, Any], List[str]]:
         """
         Extract and create a JSON schema from operation parameters
         
@@ -471,7 +487,7 @@ class OpenAPIToolsLoader:
             operation: The operation definition from OpenAPI
         
         Returns:
-            A JSON schema dictionary for the tool parameters
+            A tuple of (JSON schema dictionary for the tool parameters, list of query parameter names)
         """
         schema = {
             "type": "object",
@@ -480,7 +496,9 @@ class OpenAPIToolsLoader:
             "additionalProperties": False
         }
         
-        # Handle path parameters
+        query_param_names = []
+        
+        # Handle path and query parameters
         parameters = operation.get("parameters", [])
         for param in parameters:
             param_name = param["name"]
@@ -488,6 +506,11 @@ class OpenAPIToolsLoader:
             param_type = param_schema.get("type", "string")
             required = param.get("required", False)
             description = param.get("description", "")
+            param_in = param.get("in", "query")  # "query", "path", "header", etc.
+            
+            # Track query parameters
+            if param_in == "query":
+                query_param_names.append(param_name)
             
             # Add to schema properties
             schema["properties"][param_name] = {
@@ -539,7 +562,7 @@ class OpenAPIToolsLoader:
                 if "required" in body_schema:
                     schema["required"].extend(body_schema["required"])
         
-        return schema
+        return schema, query_param_names
     
     def load_tools(self) -> List[Tool[OpenAPIToolDependencies]]:
         """
@@ -571,8 +594,8 @@ class OpenAPIToolsLoader:
                 if not operation_id:
                     continue
                 
-                # Extract parameters schema
-                parameters_schema = self._extract_parameters_schema(operation)
+                # Extract parameters schema and query parameter names
+                parameters_schema, query_param_names = self._extract_parameters_schema(operation)
                 
                 # Create the tool function
                 tool_func = self._create_tool_function(
@@ -580,16 +603,20 @@ class OpenAPIToolsLoader:
                     path=path,
                     method=method,
                     operation=operation,
-                    parameters_schema=parameters_schema
+                    parameters_schema=parameters_schema,
+                    query_param_names=query_param_names
                 )
                 
                 # Create the Tool - cast to proper type since Tool.from_schema doesn't infer it
                 description = operation.get("description") or operation.get("summary", "")
                 
+                # Add prefix if configured
+                prefixed_operation_id = f"{self.tool_name_prefix}{operation_id}" if self.tool_name_prefix else operation_id
+                
                 # Truncate operation_id to 64 characters to meet OpenAI requirements
-                tool_name = self._truncate_tool_name(operation_id)
-                if tool_name != operation_id:
-                    print(f"Warning: Truncated tool name from '{operation_id}' to '{tool_name}'")
+                tool_name = self._truncate_tool_name(prefixed_operation_id)
+                if tool_name != prefixed_operation_id:
+                    print(f"Warning: Truncated tool name from '{prefixed_operation_id}' to '{tool_name}'")
                 
                 tool_untyped = Tool.from_schema(
                     function=tool_func,
@@ -657,14 +684,26 @@ class OpenAPIToolsLoader:
         return truncated
     
     def get_tool_by_operation_id(self, operation_id: str) -> Optional[Tool[OpenAPIToolDependencies]]:
-        """Get a specific tool by its operation ID (supports both original and truncated names)"""
-        # First try exact match
+        """
+        Get a specific tool by its operation ID (supports both original and truncated names).
+        Automatically handles the tool name prefix if one was configured.
+        
+        Args:
+            operation_id: The operation ID without any prefix
+            
+        Returns:
+            The tool if found, None otherwise
+        """
+        # Add prefix if configured
+        prefixed_operation_id = f"{self.tool_name_prefix}{operation_id}" if self.tool_name_prefix else operation_id
+        
+        # First try exact match with prefix
         for tool in self.tools:
-            if tool.name == operation_id:
+            if tool.name == prefixed_operation_id:
                 return tool
         
-        # If no exact match, try with truncation logic applied to the operation_id
-        truncated_operation_id = self._truncate_tool_name(operation_id)
+        # If no exact match, try with truncation logic applied to the prefixed operation_id
+        truncated_operation_id = self._truncate_tool_name(prefixed_operation_id)
         for tool in self.tools:
             if tool.name == truncated_operation_id:
                 return tool

@@ -31,9 +31,9 @@ async def test_openapi_tools_loader_basic():
     assert len(tools) > 0, "Should load at least one tool"
     assert isinstance(tools, list), "Tools should be a list"
     
-    # Check that we can get a specific tool
-    example_tool = loader.get_tool_by_operation_id("get_available_AI_models_api_getAvailableAIModels_post")
-    assert example_tool is not None, "Should find the example tool"
+    # Check that we can get a specific tool (using a current operation_id from the new API)
+    example_tool = loader.get_tool_by_operation_id("list_models")
+    assert example_tool is not None, "Should find the list_models tool"
     assert hasattr(example_tool, 'name'), "Tool should have a name attribute"
     assert hasattr(example_tool, 'function'), "Tool should have a function attribute"
 
@@ -49,26 +49,24 @@ async def test_openapi_tool_execution():
     
     # Load tools without using the tools variable
     loader.load_tools()
-    example_tool = loader.get_tool_by_operation_id("get_available_AI_models_api_getAvailableAIModels_post")
+    example_tool = loader.get_tool_by_operation_id("list_models")
     
-    if example_tool is not None:
-        # Create dependencies and mock RunContext for the new pattern
-        deps = loader.create_dependencies()
-        
-        class MockRunContext:
-            def __init__(self, dependencies):
-                self.deps = dependencies
-        
-        ctx = cast(RunContext[OpenAPIToolDependencies], MockRunContext(deps))
-        
-        # This test might fail if auth is not available, so we catch exceptions
-        try:
-            result = await example_tool.function(ctx)
-            assert result is not None, "Tool should return a result"
-            assert isinstance(result, dict), "Result should be a dictionary"
-        except Exception as e:
-            # If auth fails or network issues, that's expected in test environment
-            pytest.skip(f"Tool execution skipped due to: {e}")
+    assert example_tool is not None, "Should find the list_models tool"
+    
+    # Create dependencies and mock RunContext for the new pattern
+    deps = loader.create_dependencies()
+    
+    class MockRunContext:
+        def __init__(self, dependencies):
+            self.deps = dependencies
+    
+    ctx = cast(RunContext[OpenAPIToolDependencies], MockRunContext(deps))
+    
+    # Execute the tool - let it fail if auth is not available
+    result = await example_tool.function(ctx)
+    assert result is not None, "Tool should return a result"
+    # The result might be a dict or a list depending on the endpoint
+    assert isinstance(result, (dict, list)), "Result should be a dictionary or list"
 
 
 def test_openapi_tools_loader_initialization():

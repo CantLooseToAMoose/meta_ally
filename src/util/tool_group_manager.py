@@ -32,13 +32,12 @@ class AIKnowledgeToolGroup(Enum):
 
 class AllyConfigToolGroup(Enum):
     """Tool groups for Ally Config API based on the ally_config_to_tool_groups notebook"""
-    ENDPOINTS = "endpoints"                # Endpoint management
-    CONFIGS = "configs"                    # Configuration management
-    EVALUATIONS = "evaluations"            # Evaluation and test suites
-    PERMISSIONS = "permissions"            # Permission and role management
-    AUDIT = "audit"                        # Audit logs and session histories
-    COSTS = "costs"                        # Cost tracking and analysis
-    INVENTORY = "inventory"                # Capabilities and model inventory
+    PORTAL_INFO = "portal_info"            # Portal configuration and capabilities
+    COPILOT = "copilot"                    # All copilot operations (CRUD, config, metadata, auth)
+    EVALUATION = "evaluation"              # Test suites and evaluation execution
+    ANALYTICS = "analytics"                # Logs, ratings, costs, sessions
+    PERMISSIONS = "permissions"            # Role-based access control
+    FILE_OPERATIONS = "file_operations"    # File uploads
     ALL = "all"                           # All available tools
 
 
@@ -69,7 +68,8 @@ class ToolGroupManager:
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
-            require_human_approval=require_human_approval
+            require_human_approval=require_human_approval,
+            tool_name_prefix="ai_knowledge_"
         )
         
         self._ai_knowledge_tools = self._ai_knowledge_loader.load_tools()
@@ -87,7 +87,8 @@ class ToolGroupManager:
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
-            require_human_approval=require_human_approval
+            require_human_approval=require_human_approval,
+            tool_name_prefix="ally_config_"
         )
         
         self._ally_config_tools = self._ally_config_loader.load_tools()
@@ -144,43 +145,67 @@ class ToolGroupManager:
             if group != AllyConfigToolGroup.ALL:
                 self._ally_config_groups[group] = []
         
-        # Specific tool mappings (based on notebook analysis)
-        audit_tools = [
-            "get_aws_logs_api_getAWSLogs_post",
-            "get_session_histories_api_getSessionHistories_post", 
-            "get_ratings_aws_api_getRatingsAWS_post"
-        ]
-        
-        cost_tools = [
-            "get_cost_graph_snapshot_api_getCostGraphSnapshot_post",
-            "get_cost_per_day_api_getCostPerDay_post"
-        ]
-        
-        inventory_tools = [
-            "get_capabilities_api_capabilities_get",
-            "get_available_AI_models_api_getAvailableAIModels_post",
-            "get_scopes_api_getScopes_post"
+        # Define categorization rules with exact tool name mappings (based on notebook analysis)
+        categorization_rules = [
+            # Portal info - highest priority
+            (AllyConfigToolGroup.PORTAL_INFO, ["get_portal_config", "list_models", "list_scopes"]),
+            
+            # Copilot operations (management, metadata, config, authorization)
+            (AllyConfigToolGroup.COPILOT, [
+                # Management
+                "list_copilots", "create_copilot", "delete_copilot",
+                # Metadata
+                "get_copilot_metadata", "update_copilot_metadata",
+                # Configuration
+                "get_copilot_config", "update_copilot_config", "validate_copilot_config", "get_copilot_config_history",
+                # Authorization
+                "get_copilot_authorization", "update_copilot_authorization", "delete_copilot_authorization"
+            ]),
+            
+            # Evaluation (suites management + execution)
+            (AllyConfigToolGroup.EVALUATION, [
+                "list_copilot_evaluation_suites", "get_copilot_evaluation_suite", 
+                "create_copilot_evaluation_suite", "update_copilot_evaluation_suite",
+                "get_copilot_evaluation_suite_history", "add_copilot_evaluation_test_cases",
+                "execute_copilot_evaluation_suite", "get_copilot_evaluation_results"
+            ]),
+            
+            # Analytics (logs, costs, ratings, sessions)
+            (AllyConfigToolGroup.ANALYTICS, [
+                "get_copilot_logs",
+                "get_copilot_cost_graph", "get_copilot_cost_daily",
+                "get_copilot_ratings",
+                "get_copilot_sessions"
+            ]),
+            
+            # Permissions (role-based access control)
+            (AllyConfigToolGroup.PERMISSIONS, [
+                "get_permissions", "add_role", "remove_role", 
+                "grant_permission", "revoke_permission", "add_user", "remove_user"
+            ]),
+            
+            # File operations
+            (AllyConfigToolGroup.FILE_OPERATIONS, ["upload_file_to_s3"]),
         ]
         
         for tool in self._ally_config_tools:
-            name_lower = tool.name.lower()
+            categorized = False
             
-            # Check specific tool mappings first
-            if tool.name in audit_tools:
-                self._ally_config_groups[AllyConfigToolGroup.AUDIT].append(tool)
-            elif tool.name in cost_tools:
-                self._ally_config_groups[AllyConfigToolGroup.COSTS].append(tool)
-            elif tool.name in inventory_tools:
-                self._ally_config_groups[AllyConfigToolGroup.INVENTORY].append(tool)
-            # Then check general patterns
-            elif 'endpoint' in name_lower:
-                self._ally_config_groups[AllyConfigToolGroup.ENDPOINTS].append(tool)
-            elif 'config' in name_lower:
-                self._ally_config_groups[AllyConfigToolGroup.CONFIGS].append(tool)
-            elif 'evaluation' in name_lower or 'suite' in name_lower:
-                self._ally_config_groups[AllyConfigToolGroup.EVALUATIONS].append(tool)
-            elif 'permission' in name_lower or 'role' in name_lower:
-                self._ally_config_groups[AllyConfigToolGroup.PERMISSIONS].append(tool)
+            # Check exact name matches and keyword matches
+            for category, identifiers in categorization_rules:
+                # Check if tool name exactly matches any identifier (with or without prefix)
+                tool_name_without_prefix = tool.name.replace("ally_config_", "")
+                if tool_name_without_prefix in identifiers or tool.name in identifiers:
+                    self._ally_config_groups[category].append(tool)
+                    categorized = True
+                    break
+                # Otherwise check if any identifier keyword is in the tool name
+                elif any(identifier in tool.name.lower() for identifier in identifiers if len(identifier) > 3):
+                    self._ally_config_groups[category].append(tool)
+                    categorized = True
+                    break
+            
+            # Tools not matched will remain uncategorized (no default group added)
                 
     def get_tools_for_groups(self, tool_groups: List[ToolGroupType]) -> List:
         """Get all tools for the specified tool groups"""
