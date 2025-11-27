@@ -6,3 +6,4 @@ __pycache__
 setenv.sh
 *api_models.py
 addone_datasets/
+datasets/

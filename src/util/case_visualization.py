@@ -47,7 +47,7 @@ def visualize_single_case(case,
     """Visualize a single test case in a chat-like format.
     
     Args:
-        case: The test case to visualize (MessageHistoryCase or similar)
+        case: The test case to visualize (MessageHistoryCase, Case, or similar)
         title: Optional custom title for the panel (defaults to case name)
         console_instance: Optional Console instance to use (defaults to module console)
     """
@@ -73,8 +73,11 @@ def visualize_single_case(case,
         _console.print(desc_panel)
         _console.print()
     
+    # Get input messages - handle both Case (with .inputs) and MessageHistoryCase (with .input_messages)
+    input_messages = getattr(case, 'input_messages', None) or getattr(case, 'inputs', [])
+    
     # Display messages in chat format
-    for i, msg in enumerate(case.input_messages):
+    for i, msg in enumerate(input_messages):
         msg_type = type(msg).__name__
         
         # Format the message content
@@ -256,3 +259,106 @@ def create_summary_table(all_variants: dict, console_instance: Optional[Console]
     _console.print("\n")
     _console.print(table)
     _console.print("\n")
+
+
+def visualize_dataset(dataset,
+                      show_details: bool = True,
+                      max_cases: Optional[int] = None,
+                      console_instance: Optional[Console] = None):
+    """Visualize all cases in a dataset with an overview table and optional detailed views.
+    
+    Args:
+        dataset: The dataset to visualize (pydantic_evals.Dataset or similar with .cases attribute)
+        show_details: If True, show detailed view of each case. If False, only show summary table.
+        max_cases: Optional limit on number of cases to visualize in detail (useful for large datasets)
+        console_instance: Optional Console instance to use (defaults to module console)
+    """
+    _console = console_instance or console
+    
+    # Get cases from dataset
+    cases = dataset.cases if hasattr(dataset, 'cases') else []
+    
+    if not cases:
+        _console.print("[yellow]⚠️  Dataset is empty - no cases to visualize[/yellow]")
+        return
+    
+    # Print dataset header
+    dataset_name = getattr(dataset, 'name', 'Unnamed Dataset')
+    _console.print(f"\n[bold magenta]{'═' * 80}[/bold magenta]")
+    _console.print(f"[bold magenta]📊 Dataset: {dataset_name}[/bold magenta]")
+    _console.print(f"[bold magenta]{'═' * 80}[/bold magenta]\n")
+    
+    # Create summary table
+    table = Table(title="Dataset Overview", show_header=True, header_style="bold cyan")
+    table.add_column("Case #", style="cyan", width=8, justify="right")
+    table.add_column("Case Name", style="white", no_wrap=False)
+    table.add_column("Messages", justify="center", style="green", width=10)
+    table.add_column("Has Expected", justify="center", style="yellow", width=12)
+    table.add_column("Type", style="magenta", width=12)
+    
+    # Analyze cases and populate table
+    for idx, case in enumerate(cases, 1):
+        case_name = getattr(case, 'name', f'Case {idx}')
+        
+        # Count messages - handle both Case (with .inputs) and MessageHistoryCase (with .input_messages)
+        input_messages = getattr(case, 'input_messages', None) or getattr(case, 'inputs', [])
+        num_messages = len(input_messages) if input_messages else 0
+        
+        # Check for expected output
+        has_expected = "✓" if (hasattr(case, 'expected_output') and case.expected_output) else "✗"
+        expected_style = "green" if has_expected == "✓" else "dim"
+        
+        # Determine case type (original vs variant)
+        case_type = "Variant" if "variant" in case_name.lower() else "Original"
+        
+        table.add_row(
+            str(idx),
+            case_name,
+            str(num_messages),
+            Text(has_expected, style=expected_style),
+            case_type
+        )
+    
+    _console.print(table)
+    
+    # Print statistics
+    _console.print(f"\n[bold]Statistics:[/bold]")
+    _console.print(f"  • Total cases: [cyan]{len(cases)}[/cyan]")
+    
+    originals = sum(1 for c in cases if "variant" not in getattr(c, 'name', '').lower())
+    variants = len(cases) - originals
+    _console.print(f"  • Original cases: [cyan]{originals}[/cyan]")
+    _console.print(f"  • Variant cases: [cyan]{variants}[/cyan]")
+    
+    # Calculate total messages - handle both Case and MessageHistoryCase
+    total_messages = 0
+    for c in cases:
+        input_messages = getattr(c, 'input_messages', None) or getattr(c, 'inputs', [])
+        total_messages += len(input_messages) if input_messages else 0
+    _console.print(f"  • Total messages: [cyan]{total_messages}[/cyan]")
+    
+    # Show detailed views if requested
+    if show_details:
+        _console.print(f"\n[bold cyan]{'─' * 80}[/bold cyan]")
+        _console.print(f"[bold cyan]Detailed Case Views[/bold cyan]")
+        _console.print(f"[bold cyan]{'─' * 80}[/bold cyan]")
+        
+        # Limit number of cases if specified
+        cases_to_show = cases[:max_cases] if max_cases else cases
+        
+        if max_cases and len(cases) > max_cases:
+            _console.print(f"\n[dim]Showing first {max_cases} of {len(cases)} cases...[/dim]\n")
+        
+        for idx, case in enumerate(cases_to_show, 1):
+            visualize_single_case(case, console_instance=_console)
+            
+            # Add separator between cases (except after last one)
+            if idx < len(cases_to_show):
+                _console.print(f"[dim]{'─' * 80}[/dim]\n")
+        
+        if max_cases and len(cases) > max_cases:
+            _console.print(f"\n[dim]... and {len(cases) - max_cases} more cases[/dim]")
+    else:
+        _console.print(f"\n[dim]💡 Tip: Set show_details=True to see detailed case views[/dim]")
+    
+    _console.print()

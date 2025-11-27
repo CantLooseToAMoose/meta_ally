@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import List, Optional, Union, Dict, Any, Callable
 from pydantic_evals import Dataset
 from .case_factory import MessageHistoryCase, ExpectedOutput, create_case_variant
+from ..util.case_visualization import visualize_dataset as viz_dataset, Console
 
 
 class DatasetManager:
@@ -345,6 +346,132 @@ class DatasetManager:
                 return output
 
             return sync_wrapper
+
+    def visualize(
+        self,
+        show_details: bool = True,
+        max_cases: Optional[int] = None,
+        include_originals: bool = True,
+        include_variants: bool = True,
+        console_instance: Optional[Any] = None
+    ) -> None:
+        """Visualize the current dataset with an overview table and optional detailed views.
+
+        This method builds a temporary dataset from the current cases and variants,
+        then visualizes it using rich formatting.
+
+        Args:
+            show_details: If True, show detailed view of each case. If False, only show summary.
+            max_cases: Optional limit on number of cases to visualize in detail.
+            include_originals: Whether to include original cases in visualization.
+            include_variants: Whether to include variant cases in visualization.
+            console_instance: Optional Console instance to use for output.
+
+        Raises:
+            ValueError: If both include_originals and include_variants are False.
+
+        Example:
+            ```python
+            manager = DatasetManager()
+            manager.add_cases(cases)
+            manager.create_variants(num_variants_per_case=2)
+
+            # Show summary only
+            manager.visualize(show_details=False)
+
+            # Show full details for first 3 cases
+            manager.visualize(show_details=True, max_cases=3)
+
+            # Show only variants
+            manager.visualize(include_originals=False, include_variants=True)
+            ```
+        """
+        # Build a temporary dataset for visualization
+        temp_dataset = self.build_dataset(
+            name="Current Dataset State",
+            include_originals=include_originals,
+            include_variants=include_variants
+        )
+
+        # Use the visualization function from case_visualization
+        viz_dataset(
+            temp_dataset,
+            show_details=show_details,
+            max_cases=max_cases,
+            console_instance=console_instance
+        )
+
+    def visualize_variants_comparison(
+        self,
+        case_name: str,
+        console_instance: Optional[Any] = None
+    ) -> None:
+        """Visualize a specific original case and all its variants for comparison.
+
+        Args:
+            case_name: Name of the original case to visualize with its variants.
+            console_instance: Optional Console instance to use for output.
+
+        Raises:
+            KeyError: If case name not found.
+
+        Example:
+            ```python
+            manager = DatasetManager()
+            manager.add_cases(cases)
+            manager.create_variants(num_variants_per_case=2)
+
+            # Compare original with its variants
+            manager.visualize_variants_comparison("Test Case 1")
+            ```
+        """
+        from ..util.case_visualization import (
+            visualize_single_case,
+            console as default_console
+        )
+
+        _console = console_instance or default_console
+
+        # Find the original case
+        original_case = None
+        for case in self._original_cases:
+            if case.name == case_name:
+                original_case = case
+                break
+
+        if original_case is None:
+            raise KeyError(f"Original case not found: {case_name}")
+
+        # Get variants
+        variants = self.get_variants(case_name)
+
+        # Print header
+        _console.print(f"\n[bold magenta]{'═' * 80}[/bold magenta]")
+        _console.print(f"[bold magenta]🔍 Case Comparison: {case_name}[/bold magenta]")
+        _console.print(f"[bold magenta]{'═' * 80}[/bold magenta]\n")
+
+        # Show original
+        _console.print("[bold cyan]Original Case:[/bold cyan]")
+        visualize_single_case(original_case, console_instance=_console)
+
+        # Show each variant
+        if variants:
+            _console.print(f"\n[bold green]{'─' * 80}[/bold green]")
+            _console.print(f"[bold green]Variants ({len(variants)} total):[/bold green]")
+            _console.print(f"[bold green]{'─' * 80}[/bold green]\n")
+
+            for idx, variant in enumerate(variants, 1):
+                visualize_single_case(
+                    variant,
+                    title=f"{variant.name}",
+                    console_instance=_console
+                )
+                if idx < len(variants):
+                    _console.print(f"[dim]{'─' * 80}[/dim]\n")
+        else:
+            _console.print("\n[yellow]No variants created for this case yet.[/yellow]")
+
+        _console.print()
 
     async def run_evaluation(
         self,

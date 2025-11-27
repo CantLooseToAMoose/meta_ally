@@ -1,12 +1,11 @@
-"""Example demonstrating DatasetManager for creating and managing datasets with variants.
+"""Example demonstrating DatasetManager for creating a dataset with variants only.
 
 This example demonstrates:
 1. Loading the ADD*ONE Sales Copilot dataset
 2. Using DatasetManager to generate variants
-3. Building datasets with different configurations
-4. Saving datasets to YAML/JSON files
-5. Loading datasets back from files
-6. Dataset statistics and querying
+3. Visualizing the dataset
+4. Saving the variants-only dataset as JSON to datasets/addone folder
+5. Loading the saved dataset back
 """
 
 import sys
@@ -16,18 +15,14 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from pathlib import Path
 from case_factory_addone_example import example_addone_sales_copilot_creation
 from src.eval.case_factory import MessageHistoryCase
-from src.eval.dataset_manager import (
-    DatasetManager,
-    save_dataset_with_variants,
-    load_dataset_from_file
-)
+from src.eval.dataset_manager import DatasetManager
 
 
 def main():
-    """Demonstrate DatasetManager functionality with ADD*ONE Sales Copilot dataset."""
+    """Create a variants-only dataset and save as JSON to datasets/addone folder."""
     
     print("=" * 80)
-    print("ADD*ONE Sales Copilot - DatasetManager Example")
+    print("ADD*ONE Sales Copilot - Dataset Variants Creation")
     print("=" * 80)
     
     # Step 1: Load the ADD*ONE Sales Copilot dataset
@@ -59,116 +54,63 @@ def main():
     for case_name, variants in variants_mapping.items():
         print(f"     - {case_name}: {len(variants)} variants")
     
-    # Step 3: Get statistics
-    print("\n3. Dataset statistics:")
-    stats = manager.get_stats()
-    print(f"   - Original cases: {stats['original_cases']}")
-    print(f"   - Variant cases: {stats['variant_cases']}")
-    print(f"   - Total cases: {stats['total_cases']}")
+    # Step 3: Save variants-only dataset as JSON
+    print("\n3. Visualizing the dataset...")
     
-    # Step 4: Build different dataset configurations
-    print("\n4. Building datasets with different configurations...")
+    # Show summary only
+    print("\n   a) Summary view:")
+    manager.visualize(show_details=False)
     
-    # Dataset with both originals and variants
-    dataset_full = manager.build_dataset(
-        name="Full Dataset with Variants",
-        include_originals=True,
-        include_variants=True
-    )
-    print(f"   ✓ Full dataset: {len(dataset_full.cases)} cases")
+    # Step 4: Save variants-only dataset as JSON
+    print("\n4. Saving variants-only dataset as JSON...")
     
-    # Dataset with only variants
-    dataset_variants_only = manager.build_dataset(
-        name="Variants Only Dataset",
-        include_originals=False,
-        include_variants=True
-    )
-    print(f"   ✓ Variants only: {len(dataset_variants_only.cases)} cases")
+    output_dir = Path("datasets/addone")
+    output_dir.mkdir(parents=True, exist_ok=True)
     
-    # Dataset with only originals
-    dataset_originals_only = manager.build_dataset(
-        name="Originals Only Dataset",
-        include_originals=True,
-        include_variants=False
-    )
-    print(f"   ✓ Originals only: {len(dataset_originals_only.cases)} cases")
-    
-    # Step 5: Save datasets to files
-    print("\n5. Saving datasets to files...")
-    
-    output_dir = Path("addone_datasets")
-    output_dir.mkdir(exist_ok=True)
-    
-    # Save as YAML
-    yaml_path = output_dir / "addone_sales_copilot_with_variants.yaml"
-    manager.save_dataset(
-        path=yaml_path,
-        name="ADD*ONE Sales Copilot with Variants",
-        include_originals=True,
-        include_variants=True,
-        fmt="yaml"
-    )
-    print(f"   ✓ Saved to YAML: {yaml_path}")
-    
-    # Save as JSON
-    json_path = output_dir / "addone_sales_copilot_with_variants.json"
+    # Save as JSON with only variants (no originals)
+    json_path = output_dir / "addone_sales_copilot_variants.json"
     manager.save_dataset(
         path=json_path,
-        name="ADD*ONE Sales Copilot with Variants",
-        include_originals=True,
+        name="ADD*ONE Sales Copilot Variants",
+        include_originals=False,  # Only variants
         include_variants=True,
         fmt="json"
     )
     print(f"   ✓ Saved to JSON: {json_path}")
     
-    # Step 6: Load dataset back from file
-    print("\n6. Loading dataset from file...")
-    loaded_dataset = load_dataset_from_file(yaml_path)
-    print(f"   ✓ Loaded dataset: {loaded_dataset.name}")
-    print(f"   ✓ Number of cases: {len(loaded_dataset.cases)}")
+    # Step 5: Load the saved dataset
+    print("\n5. Loading the saved dataset...")
+    loaded_dataset = DatasetManager.load_dataset(json_path)
+    print(f"   ✓ Loaded {len(loaded_dataset.cases)} cases from {json_path}")
+    print(f"   ✓ Dataset name: {loaded_dataset.name}")
     
-    # Step 7: Query specific variants
-    print("\n7. Querying specific variants...")
+    # Show loaded case names
+    print("\n   Loaded test cases:")
+    for i, case in enumerate(loaded_dataset.cases[:5], 1):  # Show first 5
+        print(f"     {i}. {case.name}")
+    if len(loaded_dataset.cases) > 5:
+        print(f"     ... and {len(loaded_dataset.cases) - 5} more cases")
     
-    # Get variants for the first case
+    # Step 6: Visualize a specific case with its variants
+    print("\n6. Visualizing first case with its variants...")
     first_case_name = original_cases[0].name
-    case_variants = manager.get_variants(first_case_name)
-    print(f"   ✓ Retrieved {len(case_variants)} variants for '{first_case_name}'")
-    for i, variant in enumerate(case_variants, 1):
-        print(f"     - {variant.name}")
+    manager.visualize_variants_comparison(first_case_name)
     
-    # Step 8: Demonstrate convenience function with a subset
-    print("\n8. Using convenience function to save variants-only dataset...")
-    
-    # Save just variants (useful for testing variation quality)
-    variants_only_path = output_dir / "addone_variants_only.yaml"
-    
-    # Use the convenience function with just one case for demonstration
-    sample_cases = [original_cases[0]]
-    save_dataset_with_variants(
-        cases=sample_cases,
-        path=variants_only_path,
-        num_variants_per_case=3,
-        name="ADD*ONE Sample Variants",
-        include_originals=False,  # Only variants
-        include_variants=True,
-        fmt="yaml"
-    )
-    print(f"   ✓ Saved variants-only dataset: {variants_only_path}")
-    
-    # Load and verify
-    loaded_variants = load_dataset_from_file(variants_only_path)
-    print(f"   ✓ Verified: {len(loaded_variants.cases)} cases (3 variants, no originals)")
+    # Step 7: Show dataset statistics
+    print("\n7. Dataset statistics:")
+    stats = manager.get_stats()
+    print(f"   - Original cases: {stats['original_cases']}")
+    print(f"   - Variant cases: {stats['variant_cases']}")
+    print(f"   - Total cases: {stats['total_cases']}")
+    print(f"   - Cases saved: {stats['variant_cases']} (variants only)")
     
     print("\n" + "=" * 80)
-    print("✓ ADD*ONE DatasetManager example completed successfully!")
+    print("✓ Dataset with variants created successfully!")
     print("=" * 80)
     
-    # Show what files were created
-    print("\nGenerated files in addone_datasets/:")
-    for file in sorted(output_dir.glob("*")):
-        size = file.stat().st_size
-        print(f"  - {file.name} ({size:,} bytes)")
+    # Show file info
+    size = json_path.stat().st_size
+    print(f"\nGenerated file: {json_path} ({size:,} bytes)")
 
 
 if __name__ == "__main__":
