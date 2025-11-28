@@ -7,7 +7,6 @@ Comprehensive evaluation example that combines:
 - Two LLMJudge evaluators from pydantic_evals
 """
 
-import sys
 import asyncio
 from pathlib import Path
 from typing import List, Any
@@ -20,20 +19,14 @@ from pydantic_ai.messages import UserPromptPart
 
 from tenacity import stop_after_attempt, wait_exponential
 
-
-
-# Add the project root to Python path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
-# Import required modules after path setup
-from src.agents import AgentFactory
-from src.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
-from src.eval.case_factory import CaseFactory, create_tool_call_part
-from src.eval.evaluators import ToolCallEvaluator
-from src.eval.conversation_turns import ModelMessage
+# Import required modules
+from meta_ally.agents import AgentFactory
+from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
+from meta_ally.eval.case_factory import CaseFactory, create_tool_call_part
+from meta_ally.eval.evaluators import ToolCallEvaluator
+from meta_ally.eval.conversation_turns import ModelMessage
 from examples.case_factory_addone_example import example_addone_sales_copilot_creation
-from src.eval.eval_tasks import create_agent_conversation_task
+from meta_ally.eval.eval_tasks import create_agent_conversation_task
 
 
 def create_evaluation_agent():

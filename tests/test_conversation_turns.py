@@ -5,7 +5,7 @@ Pytest tests for ConversationTurns functionality in the CaseFactory.
 
 import pytest
 
-from src.eval.case_factory import CaseFactory
+from meta_ally.eval.case_factory import CaseFactory
 
 
 @pytest.fixture

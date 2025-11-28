@@ -6,13 +6,9 @@ This example demonstrates:
 3. Visualizing differences between original and variants using rich (side-by-side)
 """
 
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 from case_factory_addone_example import example_addone_sales_copilot_creation
-from src.eval.case_factory import MessageHistoryCase, create_case_variant
-from src.util.case_visualization import (
+from meta_ally.eval.case_factory import MessageHistoryCase, create_case_variant
+from meta_ally.util.case_visualization import (
     console,
     show_side_by_side_comparison,
     create_summary_table

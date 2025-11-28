@@ -3,7 +3,7 @@
 Test for verifying that OpenAPI tools have proper parameter schemas
 """
 
-from src.lib.openapi_to_tools import OpenAPIToolsLoader
+from meta_ally.lib.openapi_to_tools import OpenAPIToolsLoader
 
 
 def test_tool_parameter_schemas():

@@ -8,14 +8,10 @@ This example demonstrates:
 5. Loading the saved dataset back
 """
 
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 from pathlib import Path
 from case_factory_addone_example import example_addone_sales_copilot_creation
-from src.eval.case_factory import MessageHistoryCase
-from src.eval.dataset_manager import DatasetManager
+from meta_ally.eval.case_factory import MessageHistoryCase
+from meta_ally.eval.dataset_manager import DatasetManager
 
 
 def main():

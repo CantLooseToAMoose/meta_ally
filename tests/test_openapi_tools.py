@@ -9,7 +9,7 @@ import os
 import pytest
 from typing import cast
 
-from src.lib.openapi_to_tools import OpenAPIToolsLoader, OpenAPIToolDependencies
+from meta_ally.lib.openapi_to_tools import OpenAPIToolsLoader, OpenAPIToolDependencies
 from pydantic_ai import RunContext
 
 

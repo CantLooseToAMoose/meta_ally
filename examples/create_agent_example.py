@@ -1,16 +1,11 @@
 from pprint import pprint
-import sys
-from pathlib import Path
 
 from httpx import HTTPStatusError, Request, Response
 from pydantic_ai import ModelRetry
-# Add the project root to Python path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
-# Now import from src
-from src.agents import AgentFactory
-from src.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
+# Now import from meta_ally
+from meta_ally.agents import AgentFactory
+from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
 
 
 def main():

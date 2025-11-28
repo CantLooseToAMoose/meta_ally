@@ -1,10 +1,6 @@
 """Example usage of the refactored CaseFactory with ConversationTurns for testing a meta agent that helps Corporate AI Team test copilot quality using Ally's Eval Tools."""
 
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from src.eval.case_factory import CaseFactory, create_tool_call_part
+from meta_ally.eval.case_factory import CaseFactory, create_tool_call_part
 
 def example_inform_copilot_quality_testing():
     """Demonstrate test cases for Corporate AI Team member testing quality of INFORM website copilot using Ally's evaluation tools."""

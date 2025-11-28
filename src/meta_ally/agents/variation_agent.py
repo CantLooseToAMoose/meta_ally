@@ -1,6 +1,6 @@
 from pydantic_ai import Agent, RunContext
 from .agent_factory import AgentFactory
-from src.util.system_prompts import SystemPrompts
+from meta_ally.util.system_prompts import SystemPrompts
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field
 

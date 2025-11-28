@@ -1,10 +1,6 @@
 """Example usage of the refactored CaseFactory with ConversationTurns for testing a meta agent that creates sales copilots for ADD*ONE."""
 
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from src.eval.case_factory import CaseFactory, create_tool_call_part
+from meta_ally.eval.case_factory import CaseFactory, create_tool_call_part
 
 def example_addone_sales_copilot_creation():
     """Demonstrate test cases for ADD*ONE frontend developer creating a sales copilot for their website."""
@@ -300,9 +296,9 @@ if __name__ == "__main__":
     dataset = example_addone_sales_copilot_creation()
 
     case_1=dataset.cases[0]
-    from src.eval.case_factory import create_case_variant
-    from src.eval.case_factory import MessageHistoryCase
-    from src.util.case_visualization import visualize_single_case
+    from meta_ally.eval.case_factory import create_case_variant
+    from meta_ally.eval.case_factory import MessageHistoryCase
+    from meta_ally.util.case_visualization import visualize_single_case
     
     print("\n--- Beispiel Fall 1 ---")
     print(f"Name: {case_1.name}")
