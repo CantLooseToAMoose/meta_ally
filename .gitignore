@@ -7,3 +7,12 @@ setenv.sh
 *api_models.py
 addone_datasets/
 datasets/
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+*.pyc
+*.pyo
+*.pyd
+.Python
