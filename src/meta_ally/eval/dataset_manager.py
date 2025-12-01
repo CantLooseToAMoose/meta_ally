@@ -30,15 +30,6 @@ class HookConfig(BaseModel):
     description: Optional[str] = Field(default=None, description="Description of what the hook does")
     hook_type: str = Field(description="Type of hook: 'pre' or 'post'")
     
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "hook_id": "log_inputs",
-                "name": "Log Inputs",
-                "description": "Logs the inputs before task execution",
-                "hook_type": "pre"
-            }
-        }
 
 
 class HookLibrary(ABC):
@@ -332,9 +323,6 @@ class DatasetConfig(BaseModel):
     pre_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Pre-task hook function")
     post_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Post-task hook function")
     dataset: Optional[Dataset] = Field(default=None, exclude=True, description="The built pydantic-evals Dataset")
-    
-    class Config:
-        arbitrary_types_allowed = True
 
 
 class DatasetManager:
@@ -1100,16 +1088,11 @@ class DatasetManager:
             
             return sync_wrapper
 
-    # ========================================================================
-    # LEGACY API - Maintains backward compatibility with single-dataset mode
-    # ========================================================================
-    # Static Methods
-    # ========================================================================
 
     @staticmethod
     def load_dataset(path: Union[Path, str]) -> Dataset:
         """Load a dataset from a YAML or JSON file.
-
+        
         Args:
             path: Path to load the dataset from
 
@@ -1129,25 +1112,4 @@ class DatasetManager:
         )
 
 
-# Convenience function
 
-def load_dataset_from_file(path: Union[Path, str]) -> Dataset:
-    """Load a dataset from a YAML or JSON file.
-
-    Args:
-        path: Path to load the dataset from
-
-    Returns:
-        Loaded Dataset object
-    """
-    return DatasetManager.load_dataset(path)
-
-    """Load a dataset from a YAML or JSON file.
-
-    Args:
-        path: Path to load the dataset from
-
-    Returns:
-        Loaded Dataset object
-    """
-    return DatasetManager.load_dataset(path)
