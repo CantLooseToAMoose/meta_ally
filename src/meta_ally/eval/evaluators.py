@@ -13,7 +13,13 @@ class ToolCallEvaluator(Evaluator):
     """Evaluator to assess if the model made correct tool calls in a conversation.
     
     Returns a score between 0.0 and 1.0 based on how many expected tool calls were made correctly.
+    By default, compares unique tool names (sets) to avoid duplicates skewing the score.
+    
+    Args:
+        use_sets: If True (default), compare unique tool names. If False, count all occurrences.
     """
+    
+    use_sets: bool = True
 
     def evaluate(self, ctx: EvaluatorContext) -> float:
         """Evaluate the model's tool calls against expected tool calls.
@@ -49,10 +55,16 @@ class ToolCallEvaluator(Evaluator):
         expected_tool_names = [tool.tool_name for tool in expected_tool_calls]
         actual_tool_names = [call.tool_name for call in actual_tool_calls]
         
-        # Count matches (handles multiple calls to same tool)
-        matches = self._count_tool_name_matches(expected_tool_names, actual_tool_names)
-        
-        return matches / len(expected_tool_calls)
+        if self.use_sets:
+            # Compare unique tool names (sets)
+            expected_set = set(expected_tool_names)
+            actual_set = set(actual_tool_names)
+            matches = len(expected_set & actual_set)  # Intersection
+            return matches / len(expected_set)
+        else:
+            # Count matches (handles multiple calls to same tool)
+            matches = self._count_tool_name_matches(expected_tool_names, actual_tool_names)
+            return matches / len(expected_tool_calls)
     
     def _extract_tool_calls_from_messages(self, messages: List[ModelMessage]) -> List[ToolCallPart]:
         """Extract all ToolCallPart objects from the given messages."""
