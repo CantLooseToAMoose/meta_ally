@@ -298,7 +298,6 @@ if __name__ == "__main__":
     dataset = example_addone_sales_copilot_creation()
 
     case_1=dataset.cases[0]
-    from meta_ally.eval.case_factory import create_case_variant
     from meta_ally.eval.case_factory import MessageHistoryCase
     from meta_ally.util.case_visualization import visualize_single_case
     
