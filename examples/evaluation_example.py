@@ -7,24 +7,16 @@ Comprehensive evaluation example that combines:
 - Two LLMJudge evaluators from pydantic_evals
 """
 
-import asyncio
-from pathlib import Path
-from typing import List, Any
-
 # Import pydantic_evals
 import logfire
-from pydantic_evals import Case, Dataset
 from pydantic_evals.evaluators import LLMJudge
-from pydantic_ai.messages import UserPromptPart
 
 from tenacity import stop_after_attempt, wait_exponential
 
 # Import required modules
 from meta_ally.agents import AgentFactory
 from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
-from meta_ally.eval.case_factory import CaseFactory, create_tool_call_part
 from meta_ally.eval.evaluators import ToolCallEvaluator
-from meta_ally.eval.conversation_turns import ModelMessage
 from examples.case_factory_addone_example import example_addone_sales_copilot_creation
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 
@@ -97,7 +89,7 @@ def main():
     'wait': wait_exponential(multiplier=2, min=30, max=200),  # Exponential backoff: 30s, 60s
     'reraise': True,  # Re-raise the original exception after exhausting retries
 }
-    report=dataset.evaluate_sync(task,retry_task=retry_config)
+    report=dataset.evaluate_sync(task,retry_task=retry_config) # type: ignore
     report.print()
 
 if __name__ == "__main__":

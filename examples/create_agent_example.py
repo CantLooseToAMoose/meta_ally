@@ -1,6 +1,3 @@
-from pprint import pprint
-
-from httpx import HTTPStatusError, Request, Response
 from pydantic_ai import ModelRetry
 
 # Now import from meta_ally
@@ -35,7 +32,6 @@ def main():
 
     # Create dependencies for the agent
     deps = factory.create_dependencies()
-    deps.auth_manager._refresh_token()
 
     def print_agent_message_history(agent_response):
         for msg in agent_response.all_messages():

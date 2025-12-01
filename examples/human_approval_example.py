@@ -81,7 +81,7 @@ def demonstrate_human_approval():
         
         for approval_request in result.output.approvals:
             # For this demo, we'll approve endpoint creation but deny other operations
-            if "create" in approval_request.tool_name.lower() and "create_endpoint" in approval_request.tool_name.lower():
+            if "create_endpoint" in approval_request.tool_name.lower():
                 approvals[approval_request.tool_call_id] = ToolApproved()
                 print(f"✅ Approved: {approval_request.tool_name}")
             else:
