@@ -22,12 +22,11 @@ dependencies = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src", "examples" = "examples"}
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src", "examples"]
-include = ["meta_ally*", "examples*"]
+where = ["src", "."]
+include = ["meta_ally*", "examples"]
 namespaces = false
 
 [tool.uv]
