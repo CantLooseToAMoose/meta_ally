@@ -10,16 +10,12 @@ from .case_factory import (
 
 from .dataset_manager import (
     DatasetManager,
-    create_dataset_with_variants,
-    save_dataset_with_variants,
+    HookLibrary,
+    DefaultHookLibrary,
+    DatasetConfig,
     load_dataset_from_file,
 )
 
-from .evaluation_suite_manager import (
-    EvaluationSuiteManager,
-    EvaluationResult,
-    SuiteEvaluationResults,
-)
 
 from .evaluators import ToolCallEvaluator
 
@@ -37,14 +33,10 @@ __all__ = [
     
     # Dataset manager
     "DatasetManager",
-    "create_dataset_with_variants",
-    "save_dataset_with_variants",
+    "HookLibrary",
+    "DefaultHookLibrary",
+    "DatasetConfig",
     "load_dataset_from_file",
-    
-    # Evaluation suite manager
-    "EvaluationSuiteManager",
-    "EvaluationResult",
-    "SuiteEvaluationResults",
     
     # Evaluators
     "ToolCallEvaluator",
