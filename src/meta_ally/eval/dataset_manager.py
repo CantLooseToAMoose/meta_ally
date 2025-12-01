@@ -328,8 +328,17 @@ class DatasetConfig(BaseModel):
 class DatasetManager:
     """Manager for creating and managing multiple datasets with variants from MessageHistoryCase objects.
     
-    This class now supports managing multiple independent datasets, each with their own
+    This class supports managing multiple independent datasets, each with their own
     original case, variants, hooks, and metadata.
+    
+    Main public methods:
+    - create_dataset_from_case(): Create a new dataset with variants
+    - add_variants_to_dataset(): Add more variants to an existing dataset
+    - set_dataset_hooks(): Assign hooks to a dataset
+    - save(): Save the manager to a directory
+    - load(): Load a manager from a directory (classmethod)
+    - visualize_dataset_comparison(): Visualize a dataset and its variants
+    - get_dataset_stats(): Get statistics for a dataset
     """
 
     def __init__(self, hook_library: Optional[HookLibrary] = None):
@@ -352,6 +361,8 @@ class DatasetManager:
         metadata: Optional[Dict[str, Any]] = None
     ) -> str:
         """Create a new dataset from a case with its variants.
+        
+        The dataset is automatically built and stored in the config.
         
         Args:
             case: The original MessageHistoryCase
@@ -403,6 +414,13 @@ class DatasetManager:
         
         # Store the dataset config
         self._datasets[dataset_id] = config
+        
+        # Build the dataset immediately
+        self._build_dataset_for_config(
+            dataset_id=dataset_id,
+            include_original=True,
+            include_variants=True
+        )
         
         return dataset_id
     
@@ -471,6 +489,8 @@ class DatasetManager:
     ) -> List[MessageHistoryCase]:
         """Add more variants to an existing dataset.
         
+        The dataset is automatically rebuilt after adding variants.
+        
         Args:
             dataset_id: The dataset identifier
             num_variants: Number of additional variants to create
@@ -497,16 +517,25 @@ class DatasetManager:
             config.variants.append(variant_case)
             new_variants.append(variant_case)
             previous_variants.append(variant_case)
+        
+        # Rebuild the dataset with the new variants
+        self._build_dataset_for_config(
+            dataset_id=dataset_id,
+            include_original=True,
+            include_variants=True
+        )
             
         return new_variants
     
-    def build_dataset_for_config(
+    def _build_dataset_for_config(
         self,
         dataset_id: str,
         include_original: bool = True,
         include_variants: bool = True
     ) -> Dataset:
         """Build a pydantic-eval Dataset for a specific dataset config.
+        
+        This is an internal method. Use save() to persist datasets.
         
         Args:
             dataset_id: The dataset identifier
@@ -535,7 +564,7 @@ class DatasetManager:
         config.dataset = Dataset(cases=cases, name=config.name)
         return config.dataset
     
-    def build_combined_dataset(
+    def _build_combined_dataset(
         self,
         name: str = "Combined Dataset",
         dataset_ids: Optional[List[str]] = None,
@@ -574,7 +603,7 @@ class DatasetManager:
                 
         return Dataset(cases=cases, name=name)
     
-    def save_dataset_from_config(
+    def _save_dataset_from_config(
         self,
         dataset_id: str,
         path: Union[Path, str],
@@ -585,7 +614,7 @@ class DatasetManager:
     ) -> None:
         """Build and save a dataset from a specific config to a file.
         
-        This saves a dataset from the multi-dataset API based on its dataset_id.
+        This is an internal method used by save(). Not intended for direct use.
         
         Args:
             dataset_id: The dataset identifier
@@ -598,7 +627,7 @@ class DatasetManager:
         Raises:
             KeyError: If dataset_id not found
         """
-        dataset = self.build_dataset_for_config(
+        dataset = self._build_dataset_for_config(
             dataset_id,
             include_original=include_original,
             include_variants=include_variants
@@ -610,7 +639,7 @@ class DatasetManager:
             schema_path=schema_path
         )
     
-    def save_all_datasets(
+    def _save_all_datasets(
         self,
         output_dir: Union[Path, str],
         include_originals: bool = True,
@@ -618,6 +647,8 @@ class DatasetManager:
         fmt: str = "json"
     ) -> Dict[str, Path]:
         """Save all datasets to separate files in a directory.
+        
+        This is an internal method used by save(). Not intended for direct use.
         
         Args:
             output_dir: Directory to save datasets to
@@ -637,7 +668,7 @@ class DatasetManager:
             safe_filename = dataset_id.replace(" ", "_").replace("/", "_")
             file_path = output_path / f"{safe_filename}.{fmt}"
             
-            self.save_dataset_from_config(
+            self._save_dataset_from_config(
                 dataset_id=dataset_id,
                 path=file_path,
                 include_original=include_originals,
@@ -717,16 +748,16 @@ class DatasetManager:
             for dataset_id in self.list_dataset_ids()
         }
     
-    def save_manager_state(
+    def save(
         self,
         directory: Union[Path, str],
         save_built_datasets: bool = True,
         overwrite: bool = True
     ) -> Dict[str, Any]:
-        """Save the complete DatasetManager state to a directory.
+        """Save the complete DatasetManager to a directory.
         
         This creates a directory structure:
-        - manager_state/
+        - directory/
           - configs/
             - dataset_1.json
             - dataset_2.json
@@ -738,9 +769,7 @@ class DatasetManager:
           - metadata.json
         
         Args:
-            directory: Directory to save the manager state to
-            save_built_datasets: If True, also saves built Dataset objects using pydantic-evals
-            overwrite: If True, removes existing directory before saving. Default: True
+            directory: Directory to save to
             save_built_datasets: If True, also saves built Dataset objects using pydantic-evals
             overwrite: If True, removes existing directory before saving. Default: True
             
@@ -751,7 +780,7 @@ class DatasetManager:
             ```python
             manager = DatasetManager()
             # ... create datasets ...
-            info = manager.save_manager_state("my_datasets/")
+            info = manager.save("my_datasets/")
             ```
         """
         dir_path = Path(directory) if isinstance(directory, str) else directory
@@ -825,15 +854,15 @@ class DatasetManager:
         return saved_info
     
     @classmethod
-    def load_manager_state(
+    def load(
         cls,
         directory: Union[Path, str],
         hook_library: Optional[HookLibrary] = None
     ) -> "DatasetManager":
-        """Load a DatasetManager state from a directory.
+        """Load a DatasetManager from a directory.
         
         Args:
-            directory: Directory containing the saved manager state
+            directory: Directory containing the saved manager
             hook_library: Optional HookLibrary with registered hooks.
                          If None, hooks will not be restored (datasets will have None hooks).
                          If provided, hooks will be looked up by ID.
@@ -848,7 +877,7 @@ class DatasetManager:
             library.register_hook("my_pre_hook", my_pre_hook_fn, "My Pre Hook")
             
             # Load manager with hooks
-            manager = DatasetManager.load_manager_state("my_datasets/", hook_library=library)
+            manager = DatasetManager.load("my_datasets/", hook_library=library)
             ```
         """
         dir_path = Path(directory) if isinstance(directory, str) else directory
@@ -905,7 +934,7 @@ class DatasetManager:
         Raises:
             KeyError: If dataset_id not found
         """
-        dataset = self.build_dataset_for_config(
+        dataset = self._build_dataset_for_config(
             dataset_id,
             include_original=include_original,
             include_variants=include_variants
@@ -1092,7 +1121,7 @@ class DatasetManager:
     @staticmethod
     def load_dataset(path: Union[Path, str]) -> Dataset:
         """Load a dataset from a YAML or JSON file.
-        
+
         Args:
             path: Path to load the dataset from
 
@@ -1110,6 +1139,19 @@ class DatasetManager:
         return Dataset[List[ModelMessage], ExpectedOutput, Dict[str, Any]].from_file(
             Path(path) if isinstance(path, str) else path
         )
-
+    
+    # Backward compatibility aliases
+    def save_manager_state(self, *args, **kwargs):
+        """Deprecated: Use save() instead."""
+        import warnings
+        warnings.warn("save_manager_state() is deprecated, use save() instead", DeprecationWarning, stacklevel=2)
+        return self.save(*args, **kwargs)
+    
+    @classmethod
+    def load_manager_state(cls, *args, **kwargs):
+        """Deprecated: Use load() instead."""
+        import warnings
+        warnings.warn("load_manager_state() is deprecated, use load() instead", DeprecationWarning, stacklevel=2)
+        return cls.load(*args, **kwargs)
 
 

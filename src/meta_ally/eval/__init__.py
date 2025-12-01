@@ -13,7 +13,6 @@ from .dataset_manager import (
     HookLibrary,
     DefaultHookLibrary,
     DatasetConfig,
-    load_dataset_from_file,
 )
 
 
@@ -36,7 +35,6 @@ __all__ = [
     "HookLibrary",
     "DefaultHookLibrary",
     "DatasetConfig",
-    "load_dataset_from_file",
     
     # Evaluators
     "ToolCallEvaluator",
