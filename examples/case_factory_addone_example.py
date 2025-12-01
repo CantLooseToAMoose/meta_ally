@@ -72,6 +72,8 @@ def example_addone_sales_copilot_creation():
     convo.add_model_message(case2_expected)
 
     # Case 3: Nutzer liefert Webseiten-Link -> wird notiert
+    # Im Case 1 wird erwähnt, dass der Assistent erst beide Quellen und die Collection anlegt sobald er beide Links hat.
+    # Macht das Testen etwas robuster.
     convo.add_user_message(
         "INFORM Webseite Link: https://www.inform-software.com/de"
     )

@@ -30,7 +30,7 @@ from meta_ally.eval.eval_tasks import create_agent_conversation_task
 
 
 def create_evaluation_agent():
-    """Create the agent from create_agent_example with all tools."""
+    """Create the agent like the agent in the create_agent_example with all tools."""
     factory = AgentFactory()
     
     # Setup the tools
