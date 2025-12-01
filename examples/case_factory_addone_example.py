@@ -97,31 +97,35 @@ def example_addone_sales_copilot_creation():
         expected_final_response=case4_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="create_source",
+                tool_name="ai_knowledge_create_source",
                 args={
-                    "source_name": "inform_website",
-                    "source_type": "web",
-                    "url": "https://www.inform-software.com/de",
-                    "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
+                    "sourceId": "inform_website",
+                    "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen",
+                    "properties": {
+                        "sourceType": "website",
+                        "urls": ["https://www.inform-software.com/de"]
+                    }
                 },
                 tool_call_id="create_source_website_1"
             ),
             create_tool_call_part(
-                tool_name="create_source",
+                tool_name="ai_knowledge_create_source",
                 args={
-                    "source_name": "addone_infopapers",
-                    "source_type": "sharepoint",
-                    "path": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
-                    "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren"
+                    "sourceId": "addone_infopapers",
+                    "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren",
+                    "properties": {
+                        "sourceType": "sharepoint",
+                        "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+                    }
                 },
                 tool_call_id="create_source_sharepoint_1"
             ),
             create_tool_call_part(
-                tool_name="create_collection",
+                tool_name="ai_knowledge_create_collection",
                 args={
-                    "collection_name": "addone_sales_resources",
+                    "collectionId": "addone_sales_resources",
                     "description": "Sales-relevante Ressourcen & Produktinfos für ADD*ONE",
-                    "source_names": ["inform_website", "addone_infopapers"]
+                    "sources": ["inform_website", "addone_infopapers"]
                 },
                 tool_call_id="create_collection_1"
             )
@@ -132,48 +136,52 @@ def example_addone_sales_copilot_creation():
     convo.add_model_message("Ich erstelle jetzt beide Quellen und dann die Collection.")
     convo.add_tool_call(
         tool_call_id="create_source_website_1",
-        tool_name="create_source",
+        tool_name="ai_knowledge_create_source",
         args={
-            "source_name": "inform_website",
-            "source_type": "web",
-            "url": "https://www.inform-software.com/de",
-            "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
+            "sourceId": "inform_website",
+            "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen",
+            "properties": {
+                "sourceType": "website",
+                "urls": ["https://www.inform-software.com/de"]
+            }
         }
     )
     convo.add_tool_response(
         tool_call_id="create_source_website_1",
-        tool_name="create_source",
+        tool_name="ai_knowledge_create_source",
         content="Quelle 'inform_website' erstellt"
     )
     convo.add_model_message("Website-Quelle erstellt. Jetzt die SharePoint-Quelle.")
     convo.add_tool_call(
         tool_call_id="create_source_sharepoint_1",
-        tool_name="create_source",
+        tool_name="ai_knowledge_create_source",
         args={
-            "source_name": "addone_infopapers",
-            "source_type": "sharepoint",
-            "path": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
-            "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren"
+            "sourceId": "addone_infopapers",
+            "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren",
+            "properties": {
+                "sourceType": "sharepoint",
+                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+            }
         }
     )
     convo.add_tool_response(
         tool_call_id="create_source_sharepoint_1",
-        tool_name="create_source",
+        tool_name="ai_knowledge_create_source",
         content="Quelle 'addone_infopapers' erstellt"
     )
     convo.add_model_message("Beide Quellen erstellt. Jetzt lege ich die Collection mit beiden Quellen an.")
     convo.add_tool_call(
         tool_call_id="create_collection_1",
-        tool_name="create_collection",
+        tool_name="ai_knowledge_create_collection",
         args={
-            "collection_name": "addone_sales_resources",
+            "collectionId": "addone_sales_resources",
             "description": "Sales-relevante Ressourcen & Produktinfos für ADD*ONE",
-            "source_names": ["inform_website", "addone_infopapers"]
+            "sources": ["inform_website", "addone_infopapers"]
         }
     )
     convo.add_tool_response(
         tool_call_id="create_collection_1",
-        tool_name="create_collection",
+        tool_name="ai_knowledge_create_collection",
         content="Collection 'addone_sales_resources' mit beiden Quellen erstellt"
     )
     convo.add_model_message(case4_expected)
@@ -187,18 +195,23 @@ def example_addone_sales_copilot_creation():
         expected_final_response=case5_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="list_models",
+                tool_name="ally_config_list_models",
                 args={},
                 tool_call_id="check_models_1"
             ),
             create_tool_call_part(
-                tool_name="create_copilot",
+                tool_name="ally_config_create_copilot",
                 args={
                     "endpoint": "/gb10/addone_sales_copilot",
                     "endpoint_attributes": {
-                        "dep_name": "gpt-4o",
+                        "dep_name": "gpt-4o-mini",
                         "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
                         "default_message": "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                    },
+                    "endpoint_metadata": {
+                        "display_name": "ADD*ONE Sales Copilot",
+                        "description": "Sales Assistant für die ADD*ONE Webseite",
+                        "project_number": "80000"
                     }
                 },
                 tool_call_id="create_copilot_1"
@@ -213,30 +226,35 @@ def example_addone_sales_copilot_creation():
     )
     convo.add_tool_call(
         tool_call_id="check_models_1",
-        tool_name="list_models",
+        tool_name="ally_config_list_models",
         args={}
     )
     convo.add_tool_response(
         tool_call_id="check_models_1",
-        tool_name="list_models",
+        tool_name="ally_config_list_models",
         content="Verfügbare Modelle: gpt-4o, gpt-4-turbo, claude-3-opus, gpt-4o-mini"
     )
     convo.add_model_message("Ich verwende gpt-4o und erstelle den Endpoint.")
     convo.add_tool_call(
         tool_call_id="create_copilot_1",
-        tool_name="create_copilot",
+        tool_name="ally_config_create_copilot",
         args={
             "endpoint": "/gb10/addone_sales_copilot",
             "endpoint_attributes": {
-                "dep_name": "gpt-4o",
+                "dep_name": "gpt-4o-mini",
                 "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
                 "default_message": "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+            },
+            "endpoint_metadata": {
+                "display_name": "ADD*ONE Sales Copilot",
+                "description": "Sales Assistant für die ADD*ONE Webseite",
+                "project_number": "80000"
             }
         }
     )
     convo.add_tool_response(
         tool_call_id="create_copilot_1",
-        tool_name="create_copilot",
+        tool_name="ally_config_create_copilot",
         content="Endpoint 'addone_sales_copilot' erstellt"
     )
     convo.add_tool_call(
@@ -286,7 +304,7 @@ def example_addone_conversation_validation():
     # Beispiel 3: Tool-Aufruf ohne Antwort
     incomplete_conversation = factory.create_conversation_turns()
     incomplete_conversation.add_user_message("Erstellen Sie eine Collection für ADD*ONE")
-    incomplete_conversation.add_tool_call("call_1", "create_collection", {"collection_name": "addone_test"})
+    incomplete_conversation.add_tool_call("call_1", "ai_knowledge_create_collection", {"collectionId": "addone_test"})
     # Fehlende Tool-Antwort
     
     errors = incomplete_conversation.validate()
