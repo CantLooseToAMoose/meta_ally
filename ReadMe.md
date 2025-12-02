@@ -70,11 +70,13 @@ I developed an **agent factory** that allows easy creation of agents by specifyi
 
 To interact with an agent, we can:
 - Define static messages in code  
-- Use the terminal  
-- Or (preferably) use a frontend interface in the browser  
+- Or use a frontend interface in the browser  
 
 Pydantic AI supports conversion of your agent into an **AG-UI–based web application**, which can be connected to any frontend implementing the AG-UI protocol.  
 In my example, I used **CopilotKit** as the frontend interface.
+While this works, it is still feature incomplete for example Human Approval is missing. The issue here is that the AG-UI offers no native support for this and pydantic-ai does not offer a work around.
+
+If needed, one would have to implement a frontend themselves and handle DeferredToolRequests from there.
 
 ---
 
