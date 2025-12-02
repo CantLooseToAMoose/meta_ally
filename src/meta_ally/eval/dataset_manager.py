@@ -188,27 +188,6 @@ class HookLibrary(ABC):
         self._hook_configs.clear()
 
 
-class DefaultHookLibrary(HookLibrary):
-    """Default empty hook library with no pre-registered hooks.
-    
-    This is useful when you want to register hooks manually at runtime
-    without defining a custom subclass.
-    
-    Example:
-        ```python
-        library = DefaultHookLibrary()
-        library.register_hook("my_hook", my_fn, "My Hook")
-        library.register_hook("other_hook", other_fn, "Other Hook")
-        ```
-    """
-    
-    def register_hooks(self) -> None:
-        """No hooks registered by default.
-        
-        Hooks can be added manually using register_hook() after instantiation.
-        """
-        pass
-
 
 class SerializableDatasetConfig(BaseModel):
     """Serializable version of DatasetConfig for saving/loading.
@@ -349,7 +328,7 @@ class DatasetManager:
                          If None, a new empty DefaultHookLibrary is created.
         """
         self._datasets: Dict[str, DatasetConfig] = {}
-        self.hook_library: HookLibrary = hook_library or DefaultHookLibrary()
+        self.hook_library: Optional[HookLibrary] = hook_library
         
     def create_dataset_from_case(
         self,
@@ -707,11 +686,15 @@ class DatasetManager:
         if pre_task_hook is not None:
             config.pre_task_hook = pre_task_hook
         elif pre_task_hook_id is not None:
+            if self.hook_library is None:
+                raise ValueError("Cannot use hook_id without a hook_library")
             config.pre_task_hook = self.hook_library.get_hook(pre_task_hook_id)
             
         if post_task_hook is not None:
             config.post_task_hook = post_task_hook
         elif post_task_hook_id is not None:
+            if self.hook_library is None:
+                raise ValueError("Cannot use hook_id without a hook_library")
             config.post_task_hook = self.hook_library.get_hook(post_task_hook_id)
     
     def get_dataset_stats(self, dataset_id: str) -> Dict[str, Any]:
