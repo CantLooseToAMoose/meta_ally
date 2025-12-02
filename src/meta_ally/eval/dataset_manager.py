@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import List, Optional, Union, Dict, Any, Callable
 import json
 from pydantic_evals import Dataset
+from pydantic_evals.evaluators import Evaluator
 from .case_factory import MessageHistoryCase, ExpectedOutput, create_case_variant
 from .dataset_hooks import HookLibrary
 from .dataset_config import SerializableDatasetConfig, DatasetConfig
@@ -31,6 +32,8 @@ class DatasetManager:
     - create_dataset_from_case(): Create a new dataset with variants
     - add_variants_to_dataset(): Add more variants to an existing dataset
     - set_dataset_hooks(): Assign hooks to a dataset
+    - evaluate_dataset(): Run evaluation on a single dataset
+    - evaluate_all_datasets(): Run evaluation on all datasets
     - save(): Save the manager to a directory
     - load(): Load a manager from a directory (classmethod)
     - visualize_dataset_comparison(): Visualize a dataset and its variants
@@ -728,6 +731,7 @@ class DatasetManager:
                 
                 return output
             
+            async_wrapper.__name__ = task.__name__
             return async_wrapper
         else:
             def sync_wrapper(inputs: Any) -> Any:
@@ -744,9 +748,152 @@ class DatasetManager:
                 
                 return output
             
+            sync_wrapper.__name__ = task.__name__
             return sync_wrapper
 
 
+    def evaluate_dataset(
+        self,
+        dataset_id: str,
+        task: Callable,
+        evaluators: Optional[List[Evaluator]] = None,
+        retry_config: Optional[Dict[str, Any]] = None,
+        wrap_with_hooks: bool = True,
+        use_async: bool = False
+    ) -> Any:
+        """Evaluate a single dataset with the provided task and evaluators.
+        
+        This is a convenience method that:
+        1. Gets or builds the dataset
+        2. Optionally wraps the task with pre/post hooks
+        3. Adds evaluators to the dataset
+        4. Runs the evaluation
+        
+        Args:
+            dataset_id: The dataset identifier
+            task: The evaluation task function
+            evaluators: List of evaluators to add to the dataset
+            retry_config: Optional retry configuration dict for tenacity
+            wrap_with_hooks: If True, wraps task with dataset's pre/post hooks
+            use_async: If True, uses evaluate() instead of evaluate_sync()
+            
+        Returns:
+            EvaluationReport from pydantic-evals
+            
+        Raises:
+            KeyError: If dataset_id not found
+            
+        Example:
+            ```python
+            from pydantic_evals.evaluators import LLMJudge
+            from tenacity import stop_after_attempt, wait_exponential
+            
+            retry_config = {
+                'stop': stop_after_attempt(2),
+                'wait': wait_exponential(multiplier=2, min=30, max=200),
+                'reraise': True
+            }
+            
+            report = manager.evaluate_dataset(
+                dataset_id="my_dataset",
+                task=my_task,
+                evaluators=[LLMJudge(...)],
+                retry_config=retry_config
+            )
+            report.print()
+            ```
+        """
+        config = self.get_dataset_config(dataset_id)
+        
+        # Get or build the dataset
+        if config.dataset is None:
+            dataset = self._build_dataset_for_config(dataset_id)
+        else:
+            dataset = config.dataset
+        
+        # Add evaluators if provided
+        if evaluators:
+            for evaluator in evaluators:
+                dataset.add_evaluator(evaluator)
+        
+        # Wrap task with hooks if requested
+        eval_task = self.wrap_task_for_dataset(dataset_id, task) if wrap_with_hooks else task
+        
+        # Run evaluation
+        if use_async:
+            import asyncio
+            if retry_config:
+                return asyncio.run(dataset.evaluate(eval_task, retry_task=retry_config))  # type: ignore
+            else:
+                return asyncio.run(dataset.evaluate(eval_task))  # type: ignore
+        else:
+            if retry_config:
+                return dataset.evaluate_sync(eval_task, retry_task=retry_config)  # type: ignore
+            else:
+                return dataset.evaluate_sync(eval_task)  # type: ignore
+    
+    def evaluate_all_datasets(
+        self,
+        task: Callable,
+        evaluators: Optional[List[Evaluator]] = None,
+        retry_config: Optional[Dict[str, Any]] = None,
+        wrap_with_hooks: bool = True,
+        use_async: bool = False,
+        dataset_ids: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
+        """Evaluate all (or specified) datasets with the same task and evaluators.
+        
+        Args:
+            task: The evaluation task function
+            evaluators: List of evaluators to add to each dataset
+            retry_config: Optional retry configuration dict for tenacity
+            wrap_with_hooks: If True, wraps task with each dataset's pre/post hooks
+            use_async: If True, uses evaluate() instead of evaluate_sync()
+            dataset_ids: Optional list of specific dataset IDs to evaluate. If None, evaluates all.
+            
+        Returns:
+            Dictionary mapping dataset IDs to their EvaluationReports
+            
+        Example:
+            ```python
+            reports = manager.evaluate_all_datasets(
+                task=my_task,
+                evaluators=[LLMJudge(...)],
+                retry_config=retry_config
+            )
+            
+            for dataset_id, report in reports.items():
+                print(f"\\n{'='*80}")
+                print(f"Results for {dataset_id}")
+                print('='*80)
+                report.print()
+            ```
+        """
+        ids_to_evaluate = dataset_ids if dataset_ids is not None else self.list_dataset_ids()
+        
+        reports = {}
+        for dataset_id in ids_to_evaluate:
+            print(f"\n{'='*80}")
+            print(f"Evaluating dataset: {dataset_id}")
+            print('='*80)
+            
+            try:
+                report = self.evaluate_dataset(
+                    dataset_id=dataset_id,
+                    task=task,
+                    evaluators=evaluators,
+                    retry_config=retry_config,
+                    wrap_with_hooks=wrap_with_hooks,
+                    use_async=use_async
+                )
+                reports[dataset_id] = report
+                print(f"✓ Evaluation completed for {dataset_id}")
+            except Exception as e:
+                print(f"✗ Evaluation failed for {dataset_id}: {e}")
+                reports[dataset_id] = {"error": str(e)}
+        
+        return reports
+    
     @staticmethod
     def load_dataset(path: Union[Path, str]) -> Dataset:
         """Load a dataset from a YAML or JSON file.

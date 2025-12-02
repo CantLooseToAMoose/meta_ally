@@ -52,37 +52,22 @@ def main():
     judge_model = model_config.create_model()
 
     # Create the evaluation task
-    task=create_agent_conversation_task(agent, deps)
+    task = create_agent_conversation_task(agent, deps)
 
     # Load dataset from DatasetManager
     data_dir = Path(__file__).parent.parent / "Data" / "add_one"
     manager = DatasetManager.load(directory=data_dir)
     
-    # Get the first dataset (you can change this to any other dataset)
-    dataset_id = "addone_case_1"
-    dataset_config = manager.get_dataset_config(dataset_id)
-    
-    # Get the dataset or build it if not loaded
-    if dataset_config.dataset is None:
-        dataset = manager._build_dataset_for_config(dataset_id)
-    else:
-        dataset = dataset_config.dataset
-    
-    # Add evaluators to the dataset
-    dataset.add_evaluator(ToolCallEvaluator())
-
-    # Add LLMJudge evaluators
-    dataset.add_evaluator(
+    # Define evaluators
+    evaluators = [
+        ToolCallEvaluator(),
         LLMJudge(
             rubric="Evaluate the overall helpfulness and accuracy of the model's responses in the conversation.",
             model=judge_model,
             include_input=True,
             include_expected_output=True,
             score={"evaluation_name": "Helpfulness and accuracy", "include_reason": True}
-
-        )
-    )
-    dataset.add_evaluator(
+        ),
         LLMJudge(
             rubric="Assess the correctness and relevance of the tool calls made by the model during the conversation.",
             model=judge_model,
@@ -90,15 +75,24 @@ def main():
             include_expected_output=True,
             score={"evaluation_name": "Tool Call Evaluation", "include_reason": True}
         )
-    )
-    # Run the evaluation
-
+    ]
+    
+    # Configure retry behavior
     retry_config = {
-    'stop': stop_after_attempt(2),  # Stop after 2 attempts
-    'wait': wait_exponential(multiplier=2, min=30, max=200),  # Exponential backoff: 30s, 60s
-    'reraise': True,  # Re-raise the original exception after exhausting retries
-}
-    report=dataset.evaluate_sync(task,retry_task=retry_config) # type: ignore
+        'stop': stop_after_attempt(2),  # Stop after 2 attempts
+        'wait': wait_exponential(multiplier=2, min=30, max=200),  # Exponential backoff: 30s, 60s
+        'reraise': True,  # Re-raise the original exception after exhausting retries
+    }
+    
+    # Run evaluation on a single dataset using the new convenience method
+    dataset_id = "addone_case_1"
+    report = manager.evaluate_dataset(
+        dataset_id=dataset_id,
+        task=task,
+        evaluators=evaluators,
+        retry_config=retry_config,
+        wrap_with_hooks=True  # This will apply any pre/post hooks defined for the dataset
+    )
     report.print()
 
 if __name__ == "__main__":
