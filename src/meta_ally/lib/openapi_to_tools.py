@@ -158,6 +158,7 @@ class OpenAPIToolsLoader:
         self.regenerate_models = regenerate_models
         self.require_human_approval = require_human_approval
         self.tool_name_prefix = tool_name_prefix
+        self.tool_tags: Dict[str, List[str]] = {}  # Maps tool names to their tags
         
     def fetch_spec(self) -> Dict[str, Any]:
         """Fetch the OpenAPI specification from the URL"""
@@ -594,6 +595,9 @@ class OpenAPIToolsLoader:
                 if not operation_id:
                     continue
                 
+                # Extract tags from the operation
+                tags = operation.get("tags", [])
+                
                 # Extract parameters schema and query parameter names
                 parameters_schema, query_param_names = self._extract_parameters_schema(operation)
                 
@@ -629,6 +633,10 @@ class OpenAPIToolsLoader:
                 tool: Tool[OpenAPIToolDependencies] = cast(Tool[OpenAPIToolDependencies], tool_untyped)
                 
                 self.tools.append(tool)
+                
+                # Store the tags for this tool
+                self.tool_tags[tool_name] = tags
+                
                 print(f"Created tool: {tool_name} [{method.upper()} {path}]")
         
         return self.tools
@@ -714,5 +722,27 @@ class OpenAPIToolsLoader:
     def get_dependencies_type() -> type[OpenAPIToolDependencies]:
         """Get the dependencies type for type annotations"""
         return OpenAPIToolDependencies
+    
+    def get_tags_for_tool(self, tool_name: str) -> List[str]:
+        """
+        Get the tags associated with a specific tool
+        
+        Args:
+            tool_name: The name of the tool (may include prefix)
+            
+        Returns:
+            List of tags for the tool, or empty list if tool not found or has no tags
+        """
+        return self.tool_tags.get(tool_name, [])
+    
+    def get_all_tool_tags(self) -> Dict[str, List[str]]:
+        """
+        Get all tool tags as a dictionary
+        
+        Returns:
+            Dictionary mapping tool names to their tags
+        """
+        return self.tool_tags.copy()
+
 
 

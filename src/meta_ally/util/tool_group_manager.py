@@ -16,28 +16,28 @@ from ..lib.auth_manager import AuthManager
 
 
 class AIKnowledgeToolGroup(Enum):
-    """Tool groups for AI Knowledge API based on the ai_knowledge_to_tool_groups notebook"""
-    SOURCES = "sources"                    # Source management operations
-    DOCUMENTS = "documents"                # Document CRUD operations
-    SEARCH = "search"                      # Search and query functionality
-    RETRIEVAL = "retrieval"                # RAG and vector retrieval operations
-    PROCESSING = "processing"              # Document processing and ingestion
-    METADATA = "metadata"                  # Metadata and tagging operations
+    """Tool groups for AI Knowledge API based on OpenAPI tags"""
     COLLECTIONS = "collections"            # Collection management
-    INDEXING = "indexing"                  # Indexing and vector operations
+    SOURCES = "sources"                    # Source management operations
+    STATUS = "status"                      # Status and health checks
+    CONNECTIONS = "connections"            # Connection management
+    INFO = "info"                         # API information
+    DOCUMENTS = "documents"                # Document CRUD operations
+    INDEX_RUNS = "index-runs"             # Indexing and index run operations
     PERMISSIONS = "permissions"            # Permission and access control
-    ADMIN = "admin"                        # Administrative operations
     ALL = "all"                           # All available tools
 
 
 class AllyConfigToolGroup(Enum):
-    """Tool groups for Ally Config API based on the ally_config_to_tool_groups notebook"""
-    PORTAL_INFO = "portal_info"            # Portal configuration and capabilities
-    COPILOT = "copilot"                    # All copilot operations (CRUD, config, metadata, auth)
+    """Tool groups for Ally Config API based on OpenAPI tags"""
+    INFO = "info"                         # Portal configuration and capabilities
+    COPILOTS = "copilots"                 # Copilot management operations
+    CONFIGURATION = "configuration"        # Configuration management
+    SERVER_AUTHORIZATION = "server authorization"  # Server authorization
     EVALUATION = "evaluation"              # Test suites and evaluation execution
-    ANALYTICS = "analytics"                # Logs, ratings, costs, sessions
+    LOGS = "logs"                         # Logs and analytics
     PERMISSIONS = "permissions"            # Role-based access control
-    FILE_OPERATIONS = "file_operations"    # File uploads
+    DEPRECATED = "DEPRECATED"             # Deprecated operations
     ALL = "all"                           # All available tools
 
 
@@ -95,70 +95,87 @@ class ToolGroupManager:
         self._organize_ally_config_tools()
         
     def _organize_ai_knowledge_tools(self) -> None:
-        """Organize AI Knowledge tools into logical groups based on notebook patterns"""
+        """Organize AI Knowledge tools into logical groups based on tags first, then notebook patterns"""
         # Initialize groups
         for group in AIKnowledgeToolGroup:
             if group != AIKnowledgeToolGroup.ALL:
                 self._ai_knowledge_groups[group] = []
         
-        # Define patterns for categorization (based on notebook analysis)
+        # Create tag to group lookup (using enum values as tags)
+        tag_to_group = {group.value: group for group in AIKnowledgeToolGroup if group != AIKnowledgeToolGroup.ALL}
+        
+        # Define patterns for categorization (based on notebook analysis) - used as fallback
         source_patterns = ["source", "sources"]
         document_patterns = ["document", "documents", "doc"]
-        search_patterns = ["search", "query", "find"]
-        retrieval_patterns = ["retrieve", "rag", "vector", "embedding"]
-        processing_patterns = ["process", "ingest", "parse", "extract"]
-        metadata_patterns = ["metadata", "tag", "label", "annotation"]
         collection_patterns = ["collection", "collections"]
-        indexing_patterns = ["index", "indexing", "reindex", "vector", "embedding"]
         permission_patterns = ["permission", "permissions", "access", "auth", "role", "acl"]
-        admin_patterns = ["admin", "user", "config", "health", "status", "info", "models", "test"]
+        status_patterns = ["status", "health"]
+        connection_patterns = ["connection", "connections"]
+        info_patterns = ["info", "models", "test"]
+        index_patterns = ["index", "indexing", "reindex", "index-run", "index_run"]
         
         for tool in self._ai_knowledge_tools:
             name_lower = tool.name.lower()
+            categorized = False
             
-            # Check patterns in order of specificity
-            if any(pattern in name_lower for pattern in source_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.SOURCES].append(tool)
-            elif any(pattern in name_lower for pattern in document_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.DOCUMENTS].append(tool)
-            elif any(pattern in name_lower for pattern in search_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.SEARCH].append(tool)
-            elif any(pattern in name_lower for pattern in collection_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.COLLECTIONS].append(tool)
-            elif any(pattern in name_lower for pattern in indexing_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.INDEXING].append(tool)
-            elif any(pattern in name_lower for pattern in permission_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.PERMISSIONS].append(tool)
-            elif any(pattern in name_lower for pattern in retrieval_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.RETRIEVAL].append(tool)
-            elif any(pattern in name_lower for pattern in processing_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.PROCESSING].append(tool)
-            elif any(pattern in name_lower for pattern in metadata_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.METADATA].append(tool)
-            elif any(pattern in name_lower for pattern in admin_patterns):
-                self._ai_knowledge_groups[AIKnowledgeToolGroup.ADMIN].append(tool)
+            # First, try to categorize by OpenAPI tags
+            if self._ai_knowledge_loader:
+                tags = self._ai_knowledge_loader.get_tags_for_tool(tool.name)
+                if tags:
+                    # Use the first tag to determine the group
+                    first_tag = tags[0].lower()
+                    if first_tag in tag_to_group:
+                        group = tag_to_group[first_tag]
+                        self._ai_knowledge_groups[group].append(tool)
+                        categorized = True
+            
+            # Fallback to pattern matching if not categorized by tags
+            if not categorized:
+                if any(pattern in name_lower for pattern in source_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.SOURCES].append(tool)
+                elif any(pattern in name_lower for pattern in document_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.DOCUMENTS].append(tool)
+                elif any(pattern in name_lower for pattern in collection_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.COLLECTIONS].append(tool)
+                elif any(pattern in name_lower for pattern in permission_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.PERMISSIONS].append(tool)
+                elif any(pattern in name_lower for pattern in status_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.STATUS].append(tool)
+                elif any(pattern in name_lower for pattern in connection_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.CONNECTIONS].append(tool)
+                elif any(pattern in name_lower for pattern in info_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.INFO].append(tool)
+                elif any(pattern in name_lower for pattern in index_patterns):
+                    self._ai_knowledge_groups[AIKnowledgeToolGroup.INDEX_RUNS].append(tool)
                 
     def _organize_ally_config_tools(self) -> None:
-        """Organize Ally Config tools into logical groups based on notebook patterns"""
+        """Organize Ally Config tools into logical groups based on tags first, then notebook patterns"""
         # Initialize groups
         for group in AllyConfigToolGroup:
             if group != AllyConfigToolGroup.ALL:
                 self._ally_config_groups[group] = []
         
-        # Define categorization rules with exact tool name mappings (based on notebook analysis)
+        # Create tag to group lookup (using enum values as tags)
+        tag_to_group = {group.value: group for group in AllyConfigToolGroup if group != AllyConfigToolGroup.ALL}
+        
+        # Define categorization rules with exact tool name mappings (based on notebook analysis) - used as fallback
         categorization_rules = [
-            # Portal info - highest priority
-            (AllyConfigToolGroup.PORTAL_INFO, ["get_portal_config", "list_models", "list_scopes"]),
+            # Info / Portal info
+            (AllyConfigToolGroup.INFO, ["get_portal_config", "list_models", "list_scopes"]),
             
-            # Copilot operations (management, metadata, config, authorization)
-            (AllyConfigToolGroup.COPILOT, [
-                # Management
+            # Copilot operations (management, metadata)
+            (AllyConfigToolGroup.COPILOTS, [
                 "list_copilots", "create_copilot", "delete_copilot",
-                # Metadata
                 "get_copilot_metadata", "update_copilot_metadata",
-                # Configuration
+            ]),
+            
+            # Configuration
+            (AllyConfigToolGroup.CONFIGURATION, [
                 "get_copilot_config", "update_copilot_config", "validate_copilot_config", "get_copilot_config_history",
-                # Authorization
+            ]),
+            
+            # Server Authorization
+            (AllyConfigToolGroup.SERVER_AUTHORIZATION, [
                 "get_copilot_authorization", "update_copilot_authorization", "delete_copilot_authorization"
             ]),
             
@@ -170,12 +187,13 @@ class ToolGroupManager:
                 "execute_copilot_evaluation_suite", "get_copilot_evaluation_results"
             ]),
             
-            # Analytics (logs, costs, ratings, sessions)
-            (AllyConfigToolGroup.ANALYTICS, [
+            # Logs (logs, costs, ratings, sessions)
+            (AllyConfigToolGroup.LOGS, [
                 "get_copilot_logs",
                 "get_copilot_cost_graph", "get_copilot_cost_daily",
                 "get_copilot_ratings",
-                "get_copilot_sessions"
+                "get_copilot_sessions",
+                "upload_file_to_s3"
             ]),
             
             # Permissions (role-based access control)
@@ -183,27 +201,37 @@ class ToolGroupManager:
                 "get_permissions", "add_role", "remove_role", 
                 "grant_permission", "revoke_permission", "add_user", "remove_user"
             ]),
-            
-            # File operations
-            (AllyConfigToolGroup.FILE_OPERATIONS, ["upload_file_to_s3"]),
         ]
         
         for tool in self._ally_config_tools:
             categorized = False
             
-            # Check exact name matches and keyword matches
-            for category, identifiers in categorization_rules:
-                # Check if tool name exactly matches any identifier (with or without prefix)
-                tool_name_without_prefix = tool.name.replace("ally_config_", "")
-                if tool_name_without_prefix in identifiers or tool.name in identifiers:
-                    self._ally_config_groups[category].append(tool)
-                    categorized = True
-                    break
-                # Otherwise check if any identifier keyword is in the tool name
-                elif any(identifier in tool.name.lower() for identifier in identifiers if len(identifier) > 3):
-                    self._ally_config_groups[category].append(tool)
-                    categorized = True
-                    break
+            # First, try to categorize by OpenAPI tags
+            if self._ally_config_loader:
+                tags = self._ally_config_loader.get_tags_for_tool(tool.name)
+                if tags:
+                    # Use the first tag to determine the group
+                    first_tag = tags[0]  # Keep original case for matching
+                    if first_tag in tag_to_group:
+                        group = tag_to_group[first_tag]
+                        self._ally_config_groups[group].append(tool)
+                        categorized = True
+            
+            # Fallback to pattern matching if not categorized by tags
+            if not categorized:
+                # Check exact name matches and keyword matches
+                for category, identifiers in categorization_rules:
+                    # Check if tool name exactly matches any identifier (with or without prefix)
+                    tool_name_without_prefix = tool.name.replace("ally_config_", "")
+                    if tool_name_without_prefix in identifiers or tool.name in identifiers:
+                        self._ally_config_groups[category].append(tool)
+                        categorized = True
+                        break
+                    # Otherwise check if any identifier keyword is in the tool name
+                    elif any(identifier in tool.name.lower() for identifier in identifiers if len(identifier) > 3):
+                        self._ally_config_groups[category].append(tool)
+                        categorized = True
+                        break
             
             # Tools not matched will remain uncategorized (no default group added)
                 
