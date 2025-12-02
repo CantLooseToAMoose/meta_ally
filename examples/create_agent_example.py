@@ -9,16 +9,10 @@ def main():
     # Create a single factory instance and reuse it
     factory = AgentFactory()
 
-    # Setup the tools first - this will trigger authentication if needed
-    print("Setting up AI Knowledge tools...")
-    factory.setup_ai_knowledge_tools()
-    print("Setting up Ally Config tools...")
-    factory.setup_ally_config_tools()
-
-    model_config = factory.create_azure_model_config()
-
+    # Create agent - tools and model config are loaded automatically!
+    # No need to call setup_ai_knowledge_tools(), setup_ally_config_tools(), 
+    # or create_azure_model_config() manually anymore
     agent = factory.create_hybrid_assistant(
-        model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],
     )

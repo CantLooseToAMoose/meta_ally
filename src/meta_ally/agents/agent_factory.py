@@ -49,14 +49,10 @@ class AgentFactory:
     
     Example usage:
         ```python
-        # Create factory with AuthManager
+        # Create factory
         factory = AgentFactory()
         
-        # Setup tools
-        factory.setup_ai_knowledge_tools()
-        factory.setup_ally_config_tools()
-        
-        # Create agent
+        # Create agent (tools are loaded automatically)
         agent = factory.create_hybrid_assistant()
         
         # Create dependencies and refresh token for authentication
@@ -67,8 +63,14 @@ class AgentFactory:
         result = agent.run_sync("Your question", deps=deps)
         ```
     
-    Note: The auth_manager._refresh_token() call is essential before running agents as it
-    initiates the browser-based authentication process required for API access.
+    Advanced usage (custom tool configuration):
+        ```python
+        # If you need custom tool configuration, you can still call setup methods manually
+        factory = AgentFactory()
+        factory.setup_ai_knowledge_tools(regenerate_models=False)  # Custom config
+        agent = factory.create_ai_knowledge_specialist()
+        ```
+ 
     """
     
     def __init__(
@@ -130,6 +132,26 @@ class AgentFactory:
             require_human_approval=require_human_approval
         )
     
+    def _ensure_tools_loaded(self, tool_groups: List[ToolGroupType]) -> None:
+        """
+        Automatically load tools if they haven't been loaded yet.
+        This makes the API more user-friendly by removing the need for explicit setup calls.
+        
+        Args:
+            tool_groups: List of tool groups that will be used
+        """
+        # Check if we need AI Knowledge tools
+        needs_ai_knowledge = any(isinstance(g, AIKnowledgeToolGroup) for g in tool_groups)
+        if needs_ai_knowledge and not self.tool_manager._ai_knowledge_tools:
+            self.logger.info("Auto-loading AI Knowledge tools...")
+            self.setup_ai_knowledge_tools()
+        
+        # Check if we need Ally Config tools
+        needs_ally_config = any(isinstance(g, AllyConfigToolGroup) for g in tool_groups)
+        if needs_ally_config and not self.tool_manager._ally_config_tools:
+            self.logger.info("Auto-loading Ally Config tools...")
+            self.setup_ally_config_tools()
+    
     def _resolve_model(self, model: Union[str, ModelConfiguration]) -> Union[str, OpenAIChatModel]:
         """
         Resolve model specification to either a string or configured OpenAIChatModel.
@@ -175,6 +197,9 @@ class AgentFactory:
         Returns:
             Configured Agent instance
         """
+        
+        # Automatically load tools if needed
+        self._ensure_tools_loaded(tool_groups)
         
         # Get tools for the specified groups
         tools = self.tool_manager.get_tools_for_groups(tool_groups)
@@ -226,14 +251,31 @@ class AgentFactory:
     def create_ai_knowledge_specialist(
         self,
         tool_groups: Optional[List[AIKnowledgeToolGroup]] = None,
-        model: Union[str, ModelConfiguration] = "openai:gpt-4o",
+        model: Optional[Union[str, ModelConfiguration]] = None,
         additional_instructions: Optional[str] = None,
         include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
-        """Create an AI Knowledge specialist agent"""
+        """
+        Create an AI Knowledge specialist agent.
+        
+        Args:
+            tool_groups: Optional list of AI Knowledge tool groups (defaults to ALL)
+            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
+            additional_instructions: Optional additional instructions
+            include_context_tools: Whether to include context management tools
+            **agent_kwargs: Additional arguments for Agent
+            
+        Returns:
+            Configured AI Knowledge specialist agent
+        """
         if tool_groups is None:
             tool_groups = [AIKnowledgeToolGroup.ALL]
+        
+        # Auto-create Azure model config if no model specified
+        if model is None:
+            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
+            model = self.create_azure_model_config()
             
         return self.create_agent(
             name="ai_knowledge_specialist",
@@ -248,14 +290,31 @@ class AgentFactory:
     def create_ally_config_admin(
         self,
         tool_groups: Optional[List[AllyConfigToolGroup]] = None,
-        model: Union[str, ModelConfiguration] = "openai:gpt-4o",
+        model: Optional[Union[str, ModelConfiguration]] = None,
         additional_instructions: Optional[str] = None,
         include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
-        """Create an Ally Config administrator agent"""
+        """
+        Create an Ally Config administrator agent.
+        
+        Args:
+            tool_groups: Optional list of Ally Config tool groups (defaults to ALL)
+            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
+            additional_instructions: Optional additional instructions
+            include_context_tools: Whether to include context management tools
+            **agent_kwargs: Additional arguments for Agent
+            
+        Returns:
+            Configured Ally Config administrator agent
+        """
         if tool_groups is None:
             tool_groups = [AllyConfigToolGroup.ALL]
+        
+        # Auto-create Azure model config if no model specified
+        if model is None:
+            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
+            model = self.create_azure_model_config()
             
         return self.create_agent(
             name="ally_config_admin",
@@ -271,12 +330,25 @@ class AgentFactory:
         self,
         ai_knowledge_groups: Optional[List[AIKnowledgeToolGroup]] = None,
         ally_config_groups: Optional[List[AllyConfigToolGroup]] = None,
-        model: Union[str, ModelConfiguration] = "openai:gpt-4o",
+        model: Optional[Union[str, ModelConfiguration]] = None,
         additional_instructions: Optional[str] = None,
         include_context_tools: bool = True,
         **agent_kwargs
     ) -> Agent[OpenAPIToolDependencies]:
-        """Create a hybrid agent with both AI Knowledge and Ally Config capabilities"""
+        """
+        Create a hybrid agent with both AI Knowledge and Ally Config capabilities.
+        
+        Args:
+            ai_knowledge_groups: Optional list of AI Knowledge tool groups (defaults to ALL)
+            ally_config_groups: Optional list of Ally Config tool groups (defaults to ALL)
+            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
+            additional_instructions: Optional additional instructions
+            include_context_tools: Whether to include context management tools
+            **agent_kwargs: Additional arguments for Agent
+            
+        Returns:
+            Configured hybrid agent
+        """
         all_groups = []
         
         if ai_knowledge_groups:
@@ -286,6 +358,11 @@ class AgentFactory:
             
         if not all_groups:
             all_groups = [AIKnowledgeToolGroup.ALL, AllyConfigToolGroup.ALL]
+        
+        # Auto-create Azure model config if no model specified
+        if model is None:
+            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
+            model = self.create_azure_model_config()
             
         return self.create_agent(
             name="hybrid_ai_assistant",

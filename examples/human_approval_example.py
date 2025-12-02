@@ -19,12 +19,15 @@ def demonstrate_human_approval():
     factory = AgentFactory()
 
     # Setup the tools with human approval enabled for non-read-only operations
+    # Note: Since we need custom configuration (require_human_approval=True), 
+    # we still need to call setup methods manually before creating the agent
     print("Setting up AI Knowledge tools with human approval...")
     factory.setup_ai_knowledge_tools(require_human_approval=True)
     
     print("Setting up Ally Config tools with human approval...")
     factory.setup_ally_config_tools(require_human_approval=True)
 
+    # Create model config
     model_config = factory.create_azure_model_config()
 
     # Get tools with human approval enabled

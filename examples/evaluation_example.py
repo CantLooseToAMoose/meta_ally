@@ -25,14 +25,9 @@ def create_evaluation_agent():
     """Create the agent like the agent in the create_agent_example with all tools."""
     factory = AgentFactory()
     
-    # Setup the tools
-    print("Setting up AI Knowledge tools...")
-    factory.setup_ai_knowledge_tools()
-    print("Setting up Ally Config tools...")
-    factory.setup_ally_config_tools()
-
+    # Create agent with custom model config - tools are loaded automatically!
     model_config = factory.create_azure_model_config(deployment_name="gpt-4.1")
-
+    
     agent = factory.create_hybrid_assistant(
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
@@ -53,6 +48,8 @@ def main():
     # Create the agent and dependencies
     agent, deps = create_evaluation_agent()
     factory=AgentFactory()
+    
+    # Create model config for LLMJudge evaluators
     model_config = factory.create_azure_model_config()
 
     # Create the evaluation task
