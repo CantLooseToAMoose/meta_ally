@@ -8,12 +8,11 @@ from .case_factory import (
     create_tool_call_part,
 )
 
-from .dataset_manager import (
-    DatasetManager,
-    HookLibrary,
-    DatasetConfig,
-)
+from .dataset_manager import DatasetManager
 
+from .dataset_hooks import HookLibrary, HookConfig
+
+from .dataset_config import DatasetConfig, SerializableDatasetConfig
 
 from .evaluators import ToolCallEvaluator
 
@@ -31,9 +30,14 @@ __all__ = [
     
     # Dataset manager
     "DatasetManager",
+    
+    # Dataset hooks
     "HookLibrary",
-    "DefaultHookLibrary",
+    "HookConfig",
+    
+    # Dataset config
     "DatasetConfig",
+    "SerializableDatasetConfig",
     
     # Evaluators
     "ToolCallEvaluator",

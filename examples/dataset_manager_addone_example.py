@@ -11,7 +11,7 @@ This example demonstrates:
 from pathlib import Path
 from case_factory_addone_example import example_addone_sales_copilot_creation
 from meta_ally.eval.case_factory import MessageHistoryCase
-from meta_ally.eval.dataset_manager import DatasetManager, HookLibrary
+from meta_ally.eval import DatasetManager, HookLibrary
 
 
 class DebugHookLibrary(HookLibrary):

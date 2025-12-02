@@ -8,7 +8,7 @@ This example demonstrates:
 
 from case_factory_addone_example import example_addone_sales_copilot_creation
 from meta_ally.eval.case_factory import MessageHistoryCase, create_case_variant
-from meta_ally.util.case_visualization import (
+from meta_ally.util.visualization import (
     console,
     show_side_by_side_comparison,
     create_summary_table

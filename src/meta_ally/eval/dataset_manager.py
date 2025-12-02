@@ -15,295 +15,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List, Optional, Union, Dict, Any, Callable
 import json
-from abc import ABC, abstractmethod
-from pydantic import BaseModel, Field
 from pydantic_evals import Dataset
 from .case_factory import MessageHistoryCase, ExpectedOutput, create_case_variant
-from ..util.case_visualization import visualize_dataset as viz_dataset
-
-
-class HookConfig(BaseModel):
-    """Configuration for a registered hook with a unique identifier.
-    
-    This allows hooks to be referenced by ID instead of serializing the callable directly.
-    """
-    hook_id: str = Field(description="Unique identifier for the hook")
-    name: str = Field(description="Human-readable name for the hook")
-    description: Optional[str] = Field(default=None, description="Description of what the hook does")
-    hook_type: str = Field(description="Type of hook: 'pre' or 'post'")
-    
-
-
-class HookLibrary(ABC):
-    """Abstract base class for managing reusable hooks with unique identifiers.
-    
-    This class provides a complete implementation for hook storage and retrieval.
-    Subclasses only need to implement the `register_hooks()` method to define
-    which hooks to register.
-    
-    Example:
-        ```python
-        class MyHookLibrary(HookLibrary):
-            def register_hooks(self):
-                self.register_hook(
-                    "log_inputs",
-                    my_log_function,
-                    "Log Inputs",
-                    description="Logs input messages"
-                )
-                self.register_hook(
-                    "validate",
-                    my_validate_function,
-                    "Validate Outputs",
-                    hook_type="post"
-                )
-        
-        # Hooks are automatically registered on initialization
-        library = MyHookLibrary()
-        ```
-    """
-    
-    def __init__(self):
-        """Initialize the hook library and register hooks.
-        
-        Calls register_hooks() automatically to set up the library.
-        """
-        self._hooks: Dict[str, Callable] = {}
-        self._hook_configs: Dict[str, HookConfig] = {}
-        self.register_hooks()
-    
-    @abstractmethod
-    def register_hooks(self) -> None:
-        """Register all custom hooks for this library.
-        
-        Subclasses must implement this method to define which hooks to register.
-        Use self.register_hook() to add hooks.
-        
-        Example:
-            ```python
-            def register_hooks(self):
-                self.register_hook("my_hook", my_fn, "My Hook")
-                self.register_hook("other_hook", other_fn, "Other Hook", hook_type="post")
-            ```
-        """
-        pass
-    
-    def register_hook(
-        self,
-        hook_id: str,
-        hook: Callable,
-        name: str,
-        description: Optional[str] = None,
-        hook_type: str = "pre"
-    ) -> None:
-        """Register a hook with a unique ID.
-        
-        Args:
-            hook_id: Unique identifier for the hook
-            hook: The callable hook function
-            name: Human-readable name
-            description: Optional description
-            hook_type: Type of hook ('pre' or 'post')
-            
-        Raises:
-            ValueError: If hook_id already exists
-        """
-        if hook_id in self._hooks:
-            raise ValueError(f"Hook with ID '{hook_id}' already registered")
-        
-        self._hooks[hook_id] = hook
-        self._hook_configs[hook_id] = HookConfig(
-            hook_id=hook_id,
-            name=name,
-            description=description,
-            hook_type=hook_type
-        )
-    
-    def get_hook(self, hook_id: str) -> Callable:
-        """Get a hook by its ID.
-        
-        Args:
-            hook_id: The hook identifier
-            
-        Returns:
-            The hook callable
-            
-        Raises:
-            KeyError: If hook_id not found
-        """
-        if hook_id not in self._hooks:
-            raise KeyError(f"Hook with ID '{hook_id}' not found in library")
-        return self._hooks[hook_id]
-    
-    def get_hook_config(self, hook_id: str) -> HookConfig:
-        """Get hook configuration by ID.
-        
-        Args:
-            hook_id: The hook identifier
-            
-        Returns:
-            The HookConfig object
-            
-        Raises:
-            KeyError: If hook_id not found
-        """
-        if hook_id not in self._hook_configs:
-            raise KeyError(f"Hook config with ID '{hook_id}' not found")
-        return self._hook_configs[hook_id]
-    
-    def list_hooks(self) -> List[HookConfig]:
-        """Get list of all registered hooks.
-        
-        Returns:
-            List of HookConfig objects
-        """
-        return list(self._hook_configs.values())
-    
-    def has_hook(self, hook_id: str) -> bool:
-        """Check if a hook is registered.
-        
-        Args:
-            hook_id: The hook identifier
-            
-        Returns:
-            True if hook exists, False otherwise
-        """
-        return hook_id in self._hooks
-    
-    def unregister_hook(self, hook_id: str) -> None:
-        """Remove a hook from the library.
-        
-        Args:
-            hook_id: The hook identifier
-            
-        Raises:
-            KeyError: If hook_id not found
-        """
-        if hook_id not in self._hooks:
-            raise KeyError(f"Hook with ID '{hook_id}' not found")
-        del self._hooks[hook_id]
-        del self._hook_configs[hook_id]
-    
-    def clear(self) -> None:
-        """Clear all registered hooks."""
-        self._hooks.clear()
-        self._hook_configs.clear()
-
-
-
-class SerializableDatasetConfig(BaseModel):
-    """Serializable version of DatasetConfig for saving/loading.
-    
-    This model excludes non-serializable fields (callables, Dataset objects)
-    and uses hook IDs instead of the actual callables.
-    """
-    dataset_id: str
-    name: str
-    original_case: MessageHistoryCase
-    variants: List[MessageHistoryCase]
-    description: Optional[str] = None
-    metadata: Dict[str, Any] = Field(default_factory=dict)
-    pre_task_hook_id: Optional[str] = None
-    post_task_hook_id: Optional[str] = None
-    dataset_path: Optional[str] = None  # Path to saved dataset file (if built and saved)
-    
-    @classmethod
-    def from_dataset_config(
-        cls,
-        config: DatasetConfig,
-        hook_library: Optional[HookLibrary] = None
-    ) -> SerializableDatasetConfig:
-        """Create a serializable config from a DatasetConfig.
-        
-        Args:
-            config: The DatasetConfig to serialize
-            hook_library: Optional HookLibrary to look up hook IDs
-            
-        Returns:
-            SerializableDatasetConfig
-        """
-        # Try to find hook IDs if library provided
-        pre_hook_id = None
-        post_hook_id = None
-        
-        if hook_library:
-            # Search for matching hooks in library
-            for hook_config in hook_library.list_hooks():
-                try:
-                    hook_callable = hook_library.get_hook(hook_config.hook_id)
-                    if config.pre_task_hook is hook_callable:
-                        pre_hook_id = hook_config.hook_id
-                    if config.post_task_hook is hook_callable:
-                        post_hook_id = hook_config.hook_id
-                except KeyError:
-                    pass
-        
-        return cls(
-            dataset_id=config.dataset_id,
-            name=config.name,
-            original_case=config.original_case,
-            variants=config.variants,
-            description=config.description,
-            metadata=config.metadata,
-            pre_task_hook_id=pre_hook_id,
-            post_task_hook_id=post_hook_id,
-            dataset_path=None
-        )
-    
-    def to_dataset_config(
-        self,
-        hook_library: Optional[HookLibrary] = None
-    ) -> DatasetConfig:
-        """Convert back to a DatasetConfig.
-        
-        Args:
-            hook_library: Optional HookLibrary to resolve hook IDs
-            
-        Returns:
-            DatasetConfig with hooks restored from library
-        """
-        pre_hook = None
-        post_hook = None
-        
-        if hook_library:
-            if self.pre_task_hook_id and hook_library.has_hook(self.pre_task_hook_id):
-                pre_hook = hook_library.get_hook(self.pre_task_hook_id)
-            if self.post_task_hook_id and hook_library.has_hook(self.post_task_hook_id):
-                post_hook = hook_library.get_hook(self.post_task_hook_id)
-        
-        return DatasetConfig(
-            dataset_id=self.dataset_id,
-            name=self.name,
-            original_case=self.original_case,
-            variants=self.variants,
-            description=self.description,
-            metadata=self.metadata,
-            pre_task_hook=pre_hook,
-            post_task_hook=post_hook,
-            dataset=None
-        )
-
-
-class DatasetConfig(BaseModel):
-    """Configuration for a single dataset with its case, variants, and hooks.
-    
-    This model holds all the information needed to manage a dataset including:
-    - The original case
-    - All generated variants
-    - Pre and post task hooks
-    - Dataset metadata like name and description
-    - The built Dataset object (if created)
-    """
-    
-    dataset_id: str = Field(description="Unique identifier for this dataset")
-    name: str = Field(description="Human-readable name for the dataset")
-    original_case: MessageHistoryCase = Field(description="The original test case")
-    variants: List[MessageHistoryCase] = Field(default_factory=list, description="List of variant cases")
-    description: Optional[str] = Field(default=None, description="Description of the dataset")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
-    pre_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Pre-task hook function")
-    post_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Post-task hook function")
-    dataset: Optional[Dataset] = Field(default=None, exclude=True, description="The built pydantic-evals Dataset")
+from .dataset_hooks import HookLibrary
+from .dataset_config import SerializableDatasetConfig, DatasetConfig
 
 
 class DatasetManager:
@@ -919,16 +634,15 @@ class DatasetManager:
         Raises:
             KeyError: If dataset_id not found
         """
-        dataset = self._build_dataset_for_config(
-            dataset_id,
-            include_original=include_original,
-            include_variants=include_variants
-        )
+        from ..util.visualization import visualize_dataset_from_config
         
-        viz_dataset(
-            dataset,
+        config = self.get_dataset_config(dataset_id)
+        visualize_dataset_from_config(
+            config,
             show_details=show_details,
             max_cases=max_cases,
+            include_original=include_original,
+            include_variants=include_variants,
             console_instance=console_instance
         )
     
@@ -946,41 +660,10 @@ class DatasetManager:
         Raises:
             KeyError: If dataset_id not found
         """
-        from ..util.case_visualization import (
-            visualize_single_case,
-            console as default_console
-        )
+        from ..util.visualization import visualize_dataset_comparison as viz_comparison
         
-        _console = console_instance or default_console
         config = self.get_dataset_config(dataset_id)
-        
-        # Print header
-        _console.print(f"\n[bold magenta]{'═' * 80}[/bold magenta]")
-        _console.print(f"[bold magenta]🔍 Dataset: {config.name}[/bold magenta]")
-        _console.print(f"[bold magenta]{'═' * 80}[/bold magenta]\n")
-        
-        # Show original
-        _console.print("[bold cyan]Original Case:[/bold cyan]")
-        visualize_single_case(config.original_case, console_instance=_console)
-        
-        # Show each variant
-        if config.variants:
-            _console.print(f"\n[bold green]{'─' * 80}[/bold green]")
-            _console.print(f"[bold green]Variants ({len(config.variants)} total):[/bold green]")
-            _console.print(f"[bold green]{'─' * 80}[/bold green]\n")
-            
-            for idx, variant in enumerate(config.variants, 1):
-                visualize_single_case(
-                    variant,
-                    title=f"{variant.name}",
-                    console_instance=_console
-                )
-                if idx < len(config.variants):
-                    _console.print(f"[dim]{'─' * 80}[/dim]\n")
-        else:
-            _console.print("\n[yellow]No variants created for this dataset yet.[/yellow]")
-        
-        _console.print()
+        viz_comparison(config, console_instance=console_instance)
     
     def visualize_all_datasets(
         self,
@@ -993,52 +676,13 @@ class DatasetManager:
             show_details: If True, show detailed stats for each dataset
             console_instance: Optional Console instance to use for output
         """
-        from rich.table import Table
-        from ..util.case_visualization import console as default_console
+        from ..util.visualization import visualize_all_datasets_summary
         
-        _console = console_instance or default_console
-        
-        if not self._datasets:
-            _console.print("[yellow]No datasets created yet.[/yellow]")
-            return
-        
-        _console.print(f"\n[bold cyan]{'═' * 80}[/bold cyan]")
-        _console.print("[bold cyan]📊 All Datasets Summary[/bold cyan]")
-        _console.print(f"[bold cyan]{'═' * 80}[/bold cyan]\n")
-        
-        # Create summary table
-        table = Table(title="Datasets Overview", show_header=True, header_style="bold magenta")
-        table.add_column("Dataset ID", style="cyan", no_wrap=True)
-        table.add_column("Name", style="green")
-        table.add_column("Original Case", style="yellow")
-        table.add_column("Variants", justify="right", style="blue")
-        table.add_column("Total Cases", justify="right", style="bold")
-        
-        for dataset_id in self.list_dataset_ids():
-            stats = self.get_dataset_stats(dataset_id)
-            table.add_row(
-                dataset_id,
-                stats["name"],
-                stats["original_case"],
-                str(stats["num_variants"]),
-                str(stats["total_cases"])
-            )
-        
-        _console.print(table)
-        _console.print()
-        
-        if show_details:
-            _console.print("[bold]Detailed Statistics:[/bold]\n")
-            for dataset_id in self.list_dataset_ids():
-                stats = self.get_dataset_stats(dataset_id)
-                _console.print(f"[cyan]{dataset_id}:[/cyan]")
-                _console.print(f"  Name: {stats['name']}")
-                _console.print(f"  Original: {stats['original_case']}")
-                _console.print(f"  Variants: {stats['num_variants']}")
-                _console.print(f"  Total Cases: {stats['total_cases']}")
-                _console.print(f"  Has Pre-Hook: {stats['has_pre_hook']}")
-                _console.print(f"  Has Post-Hook: {stats['has_post_hook']}")
-                _console.print()
+        visualize_all_datasets_summary(
+            self._datasets,
+            show_details=show_details,
+            console_instance=console_instance
+        )
     
     def wrap_task_for_dataset(
         self,
