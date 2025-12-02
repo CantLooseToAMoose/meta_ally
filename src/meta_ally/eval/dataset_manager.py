@@ -10,6 +10,8 @@ This module provides utilities for:
 6. Saving and loading complete DatasetManager state with hook libraries
 """
 
+from __future__ import annotations
+
 from pathlib import Path
 from typing import List, Optional, Union, Dict, Any, Callable
 import json
@@ -208,9 +210,9 @@ class SerializableDatasetConfig(BaseModel):
     @classmethod
     def from_dataset_config(
         cls,
-        config: "DatasetConfig",
+        config: DatasetConfig,
         hook_library: Optional[HookLibrary] = None
-    ) -> "SerializableDatasetConfig":
+    ) -> SerializableDatasetConfig:
         """Create a serializable config from a DatasetConfig.
         
         Args:
@@ -251,7 +253,7 @@ class SerializableDatasetConfig(BaseModel):
     def to_dataset_config(
         self,
         hook_library: Optional[HookLibrary] = None
-    ) -> "DatasetConfig":
+    ) -> DatasetConfig:
         """Convert back to a DatasetConfig.
         
         Args:
@@ -841,7 +843,7 @@ class DatasetManager:
         cls,
         directory: Union[Path, str],
         hook_library: Optional[HookLibrary] = None
-    ) -> "DatasetManager":
+    ) -> DatasetManager:
         """Load a DatasetManager from a directory.
         
         Args:

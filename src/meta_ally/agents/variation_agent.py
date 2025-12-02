@@ -1,5 +1,5 @@
 from pydantic_ai import Agent, RunContext
-from .agent_factory import AgentFactory
+from .model_config import ModelConfiguration
 from meta_ally.util.system_prompts import SystemPrompts
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field
@@ -34,8 +34,7 @@ def create_variation_agent(
     if previous_variants is None:
         previous_variants = []
 
-    factory = AgentFactory()
-    model = factory.create_azure_model_config(deployment_name="gpt-4.1").create_model()
+    model = ModelConfiguration(deployment_name="gpt-4.1").create_model()
 
     variation_agent = Agent(
         name="Variation Agent",

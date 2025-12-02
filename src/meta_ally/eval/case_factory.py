@@ -1,5 +1,7 @@
 """Factory for creating test cases with message history inputs and outputs."""
 
+from __future__ import annotations
+
 from typing import Any, Optional, List, Dict
 from pydantic import BaseModel
 from pydantic_evals import Case, Dataset
@@ -53,7 +55,7 @@ class MessageHistoryCase(BaseModel):
         )
     
     @classmethod
-    def from_case(cls, case: Case[List[ModelMessage], ExpectedOutput, Dict[str, Any]]) -> "MessageHistoryCase":
+    def from_case(cls, case: Case[List[ModelMessage], ExpectedOutput, Dict[str, Any]]) -> MessageHistoryCase:
         """Create a MessageHistoryCase from a pydantic-eval Case.
         
         This is the reverse operation of to_case().
