@@ -20,6 +20,11 @@ from .eval_tasks import create_agent_conversation_task
 
 from .conversation_turns import ModelMessage
 
+from .evaluation_suite import (
+    EvaluationSuite,
+    EvaluationResult,
+)
+
 __all__ = [
     # Case factory
     "CaseFactory",
@@ -47,4 +52,8 @@ __all__ = [
     
     # Conversation
     "ModelMessage",
+    
+    # Evaluation suite
+    "EvaluationSuite",
+    "EvaluationResult",
 ]
