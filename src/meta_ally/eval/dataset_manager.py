@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import List, Optional, Union, Dict, Any, Callable
 import json
 from pydantic_evals import Dataset
+from pydantic_evals.reporting import EvaluationReport
 from pydantic_evals.evaluators import Evaluator
 from .case_factory import MessageHistoryCase, ExpectedOutput, create_case_variant
 from .dataset_hooks import HookLibrary
@@ -760,7 +761,7 @@ class DatasetManager:
         retry_config: Optional[Dict[str, Any]] = None,
         wrap_with_hooks: bool = True,
         use_async: bool = False
-    ) -> Any:
+    ) -> EvaluationReport[Any,Any,Any]:
         """Evaluate a single dataset with the provided task and evaluators.
         
         This is a convenience method that:
@@ -840,7 +841,7 @@ class DatasetManager:
         wrap_with_hooks: bool = True,
         use_async: bool = False,
         dataset_ids: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+    ) -> Dict[str, Union[EvaluationReport[Any,Any,Any], str]]:
         """Evaluate all (or specified) datasets with the same task and evaluators.
         
         Args:
