@@ -10,6 +10,7 @@ from enum import Enum
 from typing import Any, Optional, Dict, Tuple
 import logging
 
+import httpx
 from azure.identity import (
     AzureCliCredential,
     ChainedTokenCredential,
@@ -161,10 +162,20 @@ class ModelConfiguration:
         if self._azure_client is not None:
             return self._azure_client
         
-        # Create Azure client kwargs
+        # Configure httpx client with larger connection limits to prevent connection pool exhaustion
+        # This is especially important when the same client is used for concurrent requests
+        http_client = httpx.AsyncClient(
+            limits=httpx.Limits(
+                max_connections=100,  # Maximum number of connections in the pool
+                max_keepalive_connections=20,  # Maximum number of idle connections to keep alive
+            ),
+            timeout=httpx.Timeout(60.0, connect=10.0),  # Generous timeouts
+        )
+        
         client_kwargs = {
             "azure_endpoint": self.endpoint,
             "api_version": self.api_version,
+            "http_client": http_client,
             **self._auth_kwargs
         }
         

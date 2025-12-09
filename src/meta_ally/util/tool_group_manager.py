@@ -325,43 +325,47 @@ class ToolGroupManager:
             **kwargs: Parameters to pass to the tool
             
         Returns:
-            The result of the tool execution, or None if an error occurred
+            The result of the tool execution, or None if an API error occurred
+            
+        Raises:
+            ValueError: If the tool with the given operation_id is not found
+            ValueError: If dependencies cannot be created for the tool
         """
         tool = self.get_tool_by_operation_id(operation_id)
         if tool is None:
-            print(f"⚠️ Tool '{operation_id}' not found")
-            return None
+            raise ValueError(f"Tool '{operation_id}' not found in loaded tools")
+        
+        # Determine which loader to use for dependencies
+        dependencies = None
+        if self._ai_knowledge_loader is not None:
+            ai_tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
+            if ai_tool is not None:
+                dependencies = self._ai_knowledge_loader.create_dependencies(auth_manager=self._auth_manager)
+        
+        if dependencies is None and self._ally_config_loader is not None:
+            ally_tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
+            if ally_tool is not None:
+                dependencies = self._ally_config_loader.create_dependencies(auth_manager=self._auth_manager)
+        
+        if dependencies is None:
+            raise ValueError(f"Could not create dependencies for tool '{operation_id}'")
+        
+        # Create a simple context object with the required attributes
+        class SimpleContext:
+            def __init__(self, deps):
+                self.deps = deps
+                self.tool_call_approved = True  # For human approval if needed
+        
+        ctx = SimpleContext(dependencies)
         
         try:
-            # Determine which loader to use for dependencies
-            dependencies = None
-            if self._ai_knowledge_loader is not None:
-                ai_tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
-                if ai_tool is not None:
-                    dependencies = self._ai_knowledge_loader.create_dependencies(auth_manager=self._auth_manager)
-            
-            if dependencies is None and self._ally_config_loader is not None:
-                ally_tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
-                if ally_tool is not None:
-                    dependencies = self._ally_config_loader.create_dependencies(auth_manager=self._auth_manager)
-            
-            if dependencies is None:
-                print(f"⚠️ Could not create dependencies for tool '{operation_id}'")
-                return None
-            
-            # Create a simple context object with the required attributes
-            class SimpleContext:
-                def __init__(self, deps):
-                    self.deps = deps
-                    self.tool_call_approved = True  # For human approval if needed
-            
-            ctx = SimpleContext(dependencies)
-            
             print(f"🔄 Attempting to call: {tool.name}")
             result = await tool.function(ctx, **kwargs)  # type: ignore
             print(f"✅ Success! Result type: {type(result)}")
             return result
             
         except Exception as e:
-            print(f"⚠️ Error calling {tool.name}: {str(e)}")
+            # API errors are handled gracefully - print warning and return None
+            error_msg = str(e) if str(e) else f"{type(e).__name__}: {repr(e)}"
+            print(f"⚠️ Error calling {tool.name}: {error_msg}")
             return None

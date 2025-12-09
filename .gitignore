@@ -5,9 +5,11 @@ pydantic_ai_full_llm_helper.txt
 __pycache__
 setenv.sh
 *api_models.py
+# Data files
 addone_datasets/
 datasets/
 Data/
+evaluation_results/
 
 # Build artifacts
 *.egg-info/

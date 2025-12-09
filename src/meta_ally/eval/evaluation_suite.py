@@ -15,7 +15,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable, Union
 import json
 from datetime import datetime
+from dataclasses import is_dataclass
 from pydantic import BaseModel, Field
+from pydantic_core import to_jsonable_python
 from pydantic_evals.evaluators import Evaluator
 
 from .dataset_manager import DatasetManager
@@ -30,7 +32,6 @@ class EvaluationMetadata(BaseModel):
     dataset_manager_names: List[str] = Field(description="Names of dataset managers used")
     dataset_ids: List[str] = Field(description="List of dataset IDs evaluated")
     evaluator_names: List[str] = Field(description="Names of evaluators used")
-    retry_config: Optional[Dict[str, Any]] = Field(default=None, description="Retry configuration used")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional custom metadata")
     success: bool = Field(default=True, description="Whether the run completed successfully")
     error_message: Optional[str] = Field(default=None, description="Error message if run failed")
@@ -179,7 +180,9 @@ class EvaluationSuite:
         task_name: str = "evaluation",
         dataset_manager_names: Optional[List[str]] = None,
         dataset_ids: Optional[List[str]] = None,
-        retry_config: Optional[Dict[str, Any]] = None,
+        retry_task_config: Optional[Dict[str, Any]] = None,
+        retry_evaluator_config: Optional[Dict[str, Any]] = None,
+        max_concurrency: Optional[int] = None,
         wrap_with_hooks: bool = True,
         use_async: bool = False,
         run_metadata: Optional[Dict[str, Any]] = None
@@ -192,7 +195,9 @@ class EvaluationSuite:
             task_name: Name for this evaluation task
             dataset_manager_names: Specific managers to use (None = all managers)
             dataset_ids: Specific datasets to evaluate (None = all datasets from selected managers)
-            retry_config: Retry configuration for tenacity
+            retry_task_config: Optional retry configuration for task execution
+            retry_evaluator_config: Optional retry configuration for evaluator execution
+            max_concurrency: Maximum number of concurrent test case evaluations. If None, all cases run concurrently.
             wrap_with_hooks: Whether to wrap tasks with dataset hooks
             use_async: Whether to use async evaluation
             run_metadata: Additional custom metadata for this run
@@ -202,6 +207,10 @@ class EvaluationSuite:
         """
         if not self._dataset_managers:
             raise ValueError("No dataset managers available. Add at least one with add_dataset_manager().")
+        
+        # Set the task name on the callable for better tracing
+        if hasattr(task, '__name__'):
+            task.__name__ = task_name
         
         # Determine which managers to use
         manager_names = dataset_manager_names or list(self._dataset_managers.keys())
@@ -225,7 +234,6 @@ class EvaluationSuite:
             dataset_manager_names=manager_names,
             dataset_ids=dataset_ids or all_dataset_ids,
             evaluator_names=[type(e).__name__ for e in evaluators] if evaluators else [],
-            retry_config=retry_config,
             metadata=run_metadata or {}
         )
         
@@ -258,7 +266,9 @@ class EvaluationSuite:
                 manager_reports = manager.evaluate_all_datasets(
                     task=task,
                     evaluators=evaluators,
-                    retry_config=retry_config,
+                    retry_task_config=retry_task_config,
+                    retry_evaluator_config=retry_evaluator_config,
+                    max_concurrency=max_concurrency,
                     wrap_with_hooks=wrap_with_hooks,
                     use_async=use_async,
                     dataset_ids=manager_dataset_ids
@@ -347,13 +357,17 @@ class EvaluationSuite:
                 
                 # Serialize the report
                 if hasattr(report, 'model_dump'):
-                    # It's a Pydantic model (EvaluationReport)
+                    # It's a Pydantic model
                     report_data = report.model_dump(mode='json')
                 elif isinstance(report, dict):
                     # It's an error dict or already serialized
                     report_data = report
+                elif is_dataclass(report):
+                    # It's a dataclass (like pydantic_evals.EvaluationReport)
+                    # Use pydantic_core's serializer which handles complex nested structures
+                    report_data = to_jsonable_python(report)
                 else:
-                    # Try to convert to dict
+                    # Fallback: try to convert to dict
                     report_data = {"__type__": type(report).__name__, "data": str(report)}
                 
                 report_file.write_text(json.dumps(report_data, indent=2))

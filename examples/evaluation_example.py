@@ -27,7 +27,7 @@ def create_evaluation_agent():
     factory = AgentFactory()
     
     # Create agent with custom model config - tools are loaded automatically!
-    model_config = factory.create_azure_model_config(deployment_name="gpt-4.1")
+    model_config = factory.create_azure_model_config(deployment_name="gpt-4.1-mini")
     
     agent = factory.create_hybrid_assistant(
         model=model_config,
@@ -48,8 +48,11 @@ def main():
     # Create the agent, dependencies, and model config
     agent, deps, model_config = create_evaluation_agent()
     
-    # Create model for LLMJudge evaluators
-    judge_model = model_config.create_model()
+    # Create a SEPARATE model config for LLMJudge evaluators to avoid sharing the same Azure client
+    # Sharing the same client can cause connection pool exhaustion and rate limiting issues
+    factory = AgentFactory()
+    judge_model_config = factory.create_azure_model_config(deployment_name="gpt-4.1-mini")
+    judge_model = judge_model_config.create_model()
 
     # Create the evaluation task
     task = create_agent_conversation_task(agent, deps)
@@ -77,10 +80,16 @@ def main():
         )
     ]
     
-    # Configure retry behavior
-    retry_config = {
-        'stop': stop_after_attempt(2),  # Stop after 2 attempts
-        'wait': wait_exponential(multiplier=2, min=30, max=200),  # Exponential backoff: 30s, 60s
+    # Configure retry behavior for tasks and evaluators separately
+    task_retry_config = {
+        'stop': stop_after_attempt(3),  # Stop after 3 attempts for task
+        'wait': wait_exponential(multiplier=5, min=1, max=20),  # Exponential backoff: 5s, 10s, 20s
+        'reraise': True,  # Re-raise the original exception after exhausting retries
+    }
+    
+    evaluator_retry_config = {
+        'stop': stop_after_attempt(2),  # Stop after 2 attempts for evaluators
+        'wait': wait_exponential(multiplier=5, min=1, max=100),  # Exponential backoff: 5s, 10s, 20s
         'reraise': True,  # Re-raise the original exception after exhausting retries
     }
     
@@ -90,8 +99,10 @@ def main():
         dataset_id=dataset_id,
         task=task,
         evaluators=evaluators,
-        retry_config=retry_config,
-        wrap_with_hooks=True  # This will apply any pre/post hooks defined for the dataset
+        retry_task_config=task_retry_config,  # Pass the task retry config
+        retry_evaluator_config=evaluator_retry_config,  # Pass the evaluator retry config
+        max_concurrency=1,  # Run max 1 concurrent test case to keep it sequential
+        wrap_with_hooks=False  # This will apply any pre/post hooks defined for the dataset
     )
     report.print()
 

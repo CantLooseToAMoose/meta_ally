@@ -373,7 +373,10 @@ class OpenAPIToolsLoader:
             auth_header = ctx.deps.auth_manager.get_auth_header()
             headers.update(auth_header)
             
-            async with httpx.AsyncClient() as client:
+            # Configure timeout: 20 seconds for each operation (connect, read, write, pool)
+            timeout = httpx.Timeout(20.0, connect=10.0)
+            
+            async with httpx.AsyncClient(timeout=timeout) as client:
                 try:
                     if method.lower() == "get":
                         response = await client.get(url, params=query_params, headers=headers)
@@ -394,8 +397,11 @@ class OpenAPIToolsLoader:
                     # Convert HTTPStatusError to ModelRetry so the LLM can try again
                     raise ModelRetry(f"API request failed with status {e.response.status_code}: {e.response.text}")
                 except httpx.RequestError as e:
-                    # Handle network/connection errors
-                    raise ModelRetry(f"Network error occurred: {str(e)}")
+                    # Handle network/connection errors with detailed information
+                    error_details = f"{type(e).__name__}: {str(e) or repr(e)}"
+                    if hasattr(e, 'request'):
+                        error_details += f" (URL: {e.request.url})"
+                    raise ModelRetry(f"Network error occurred: {error_details}")
                 except Exception as e:
                     # Catch any other exceptions and convert to ModelRetry
                     raise ModelRetry(f"Unexpected error during API call to {method.upper()} {path}: {type(e).__name__}: {str(e)}")
@@ -530,6 +536,9 @@ class OpenAPIToolsLoader:
                 schema["properties"][param_name]["minimum"] = param_schema["minimum"]
             if "maximum" in param_schema:
                 schema["properties"][param_name]["maximum"] = param_schema["maximum"]
+            # CRITICAL: Handle array types - must include items property
+            if param_type == "array" and "items" in param_schema:
+                schema["properties"][param_name]["items"] = param_schema["items"]
             
             if required:
                 schema["required"].append(param_name)

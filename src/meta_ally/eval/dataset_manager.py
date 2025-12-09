@@ -738,14 +738,20 @@ class DatasetManager:
             def sync_wrapper(inputs: Any) -> Any:
                 # Pre-task hook
                 if config.pre_task_hook is not None:
-                    config.pre_task_hook(inputs)
+                    if asyncio.iscoroutinefunction(config.pre_task_hook):
+                        asyncio.run(config.pre_task_hook(inputs))
+                    else:
+                        config.pre_task_hook(inputs)
                 
                 # Execute task
                 output = task(inputs)
                 
                 # Post-task hook
                 if config.post_task_hook is not None:
-                    config.post_task_hook(inputs, output)
+                    if asyncio.iscoroutinefunction(config.post_task_hook):
+                        asyncio.run(config.post_task_hook(inputs, output))
+                    else:
+                        config.post_task_hook(inputs, output)
                 
                 return output
             
@@ -758,7 +764,9 @@ class DatasetManager:
         dataset_id: str,
         task: Callable,
         evaluators: Optional[List[Evaluator]] = None,
-        retry_config: Optional[Dict[str, Any]] = None,
+        retry_task_config: Optional[Dict[str, Any]] = None,
+        retry_evaluator_config: Optional[Dict[str, Any]] = None,
+        max_concurrency: Optional[int] = None,
         wrap_with_hooks: bool = True,
         use_async: bool = False
     ) -> EvaluationReport[Any,Any,Any]:
@@ -774,7 +782,10 @@ class DatasetManager:
             dataset_id: The dataset identifier
             task: The evaluation task function
             evaluators: List of evaluators to add to the dataset
-            retry_config: Optional retry configuration dict for tenacity
+            retry_task_config: Optional retry configuration dict for task execution
+            retry_evaluator_config: Optional retry configuration dict for evaluator execution
+            max_concurrency: Maximum number of concurrent test case evaluations. If None, all cases run concurrently.
+                           Set this to control rate limits (e.g., max_concurrency=5 for APIs with rate limits).
             wrap_with_hooks: If True, wraps task with dataset's pre/post hooks
             use_async: If True, uses evaluate() instead of evaluate_sync()
             
@@ -789,9 +800,16 @@ class DatasetManager:
             from pydantic_evals.evaluators import LLMJudge
             from tenacity import stop_after_attempt, wait_exponential
             
-            retry_config = {
-                'stop': stop_after_attempt(2),
+            # Configure separate retry configs for task and evaluators
+            task_retry = {
+                'stop': stop_after_attempt(3),
                 'wait': wait_exponential(multiplier=2, min=30, max=200),
+                'reraise': True
+            }
+            
+            evaluator_retry = {
+                'stop': stop_after_attempt(2),
+                'wait': wait_exponential(multiplier=1, min=10, max=100),
                 'reraise': True
             }
             
@@ -799,11 +817,14 @@ class DatasetManager:
                 dataset_id="my_dataset",
                 task=my_task,
                 evaluators=[LLMJudge(...)],
-                retry_config=retry_config
+                retry_task_config=task_retry,
+                retry_evaluator_config=evaluator_retry,
+                max_concurrency=5  # Run max 5 test cases concurrently
             )
             report.print()
             ```
         """
+        
         config = self.get_dataset_config(dataset_id)
         
         # Get or build the dataset
@@ -823,13 +844,23 @@ class DatasetManager:
         # Run evaluation
         if use_async:
             import asyncio
-            if retry_config:
-                return asyncio.run(dataset.evaluate(eval_task, retry_task=retry_config))  # type: ignore
+            if retry_task_config or retry_evaluator_config or max_concurrency is not None:
+                return asyncio.run(dataset.evaluate(
+                    eval_task, 
+                    retry_task=retry_task_config,
+                    retry_evaluators=retry_evaluator_config,
+                    max_concurrency=max_concurrency
+                ))  # type: ignore
             else:
                 return asyncio.run(dataset.evaluate(eval_task))  # type: ignore
         else:
-            if retry_config:
-                return dataset.evaluate_sync(eval_task, retry_task=retry_config)  # type: ignore
+            if retry_task_config or retry_evaluator_config or max_concurrency is not None:
+                return dataset.evaluate_sync(
+                    eval_task, 
+                    retry_task=retry_task_config,
+                    retry_evaluators=retry_evaluator_config,
+                    max_concurrency=max_concurrency
+                )  # type: ignore
             else:
                 return dataset.evaluate_sync(eval_task)  # type: ignore
     
@@ -837,7 +868,9 @@ class DatasetManager:
         self,
         task: Callable,
         evaluators: Optional[List[Evaluator]] = None,
-        retry_config: Optional[Dict[str, Any]] = None,
+        retry_task_config: Optional[Dict[str, Any]] = None,
+        retry_evaluator_config: Optional[Dict[str, Any]] = None,
+        max_concurrency: Optional[int] = None,
         wrap_with_hooks: bool = True,
         use_async: bool = False,
         dataset_ids: Optional[List[str]] = None
@@ -847,7 +880,9 @@ class DatasetManager:
         Args:
             task: The evaluation task function
             evaluators: List of evaluators to add to each dataset
-            retry_config: Optional retry configuration dict for tenacity
+            retry_task_config: Optional retry configuration dict for task execution
+            retry_evaluator_config: Optional retry configuration dict for evaluator execution
+            max_concurrency: Maximum number of concurrent test case evaluations per dataset. If None, all cases run concurrently.
             wrap_with_hooks: If True, wraps task with each dataset's pre/post hooks
             use_async: If True, uses evaluate() instead of evaluate_sync()
             dataset_ids: Optional list of specific dataset IDs to evaluate. If None, evaluates all.
@@ -857,10 +892,25 @@ class DatasetManager:
             
         Example:
             ```python
+            # Configure separate retry configs
+            task_retry = {
+                'stop': stop_after_attempt(3),
+                'wait': wait_exponential(multiplier=2, min=30, max=200),
+                'reraise': True
+            }
+            
+            evaluator_retry = {
+                'stop': stop_after_attempt(2),
+                'wait': wait_exponential(multiplier=1, min=10, max=100),
+                'reraise': True
+            }
+            
             reports = manager.evaluate_all_datasets(
                 task=my_task,
                 evaluators=[LLMJudge(...)],
-                retry_config=retry_config
+                retry_task_config=task_retry,
+                retry_evaluator_config=evaluator_retry,
+                max_concurrency=3  # Limit to 3 concurrent cases per dataset
             )
             
             for dataset_id, report in reports.items():
@@ -883,7 +933,9 @@ class DatasetManager:
                     dataset_id=dataset_id,
                     task=task,
                     evaluators=evaluators,
-                    retry_config=retry_config,
+                    retry_task_config=retry_task_config,
+                    retry_evaluator_config=retry_evaluator_config,
+                    max_concurrency=max_concurrency,
                     wrap_with_hooks=wrap_with_hooks,
                     use_async=use_async
                 )

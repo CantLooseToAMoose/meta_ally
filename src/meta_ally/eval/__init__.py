@@ -21,8 +21,7 @@ from .eval_tasks import create_agent_conversation_task
 from .conversation_turns import ModelMessage
 
 from .evaluation_suite import (
-    EvaluationSuite,
-    EvaluationResult,
+    EvaluationSuite
 )
 
 __all__ = [
@@ -54,6 +53,5 @@ __all__ = [
     "ModelMessage",
     
     # Evaluation suite
-    "EvaluationSuite",
-    "EvaluationResult",
+    "EvaluationSuite"
 ]

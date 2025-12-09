@@ -1,53 +1,20 @@
 """Example usage of DatasetManager with ADD*ONE sales copilot cases.
 
 This example demonstrates:
-1. Creating a HookLibrary with debug hooks
+1. Creating a HookLibrary with API operation hooks for test resource management
 2. Loading cases from case_factory_addone_example
 3. Creating datasets with 3 variants for each case
-4. Saving the manager to disk using save()
-5. Loading the manager back from disk using load()
+4. Assigning appropriate pre-task hooks to manage API resources (sources, collections, copilots)
+5. Saving the manager to disk using save()
+6. Loading the manager back from disk using load()
 """
 
 from pathlib import Path
 from case_factory_addone_example import example_addone_sales_copilot_creation
 from meta_ally.eval.case_factory import MessageHistoryCase
-from meta_ally.eval import DatasetManager, HookLibrary
-
-
-class DebugHookLibrary(HookLibrary):
-    """Custom hook library with simple debug print hooks for ADD*ONE example."""
-    
-    def register_hooks(self) -> None:
-        """Register debug hooks that print information about task execution."""
-        
-        def debug_pre_hook(inputs):
-            """Debug hook that prints before task execution."""
-            print(f"\n[DEBUG PRE-HOOK] Starting task with {len(inputs)} input messages")
-            if inputs:
-                print(f"[DEBUG PRE-HOOK] First message type: {type(inputs[0])}")
-            return inputs
-        
-        def debug_post_hook(result):
-            """Debug hook that prints after task execution."""
-            print("[DEBUG POST-HOOK] Task completed")
-            print(f"[DEBUG POST-HOOK] Result type: {type(result)}")
-            return result
-        
-        self.register_hook(
-            hook_id="debug_pre",
-            hook=debug_pre_hook,
-            name="Debug Pre-Task Hook",
-            description="Prints debug information before task execution",
-            hook_type="pre"
-        )
-        
-        self.register_hook(
-            hook_id="debug_post",
-            hook=debug_post_hook,
-            name="Debug Post-Task Hook",
-            description="Prints debug information after task execution",
-            hook_type="post"
-        )
+from meta_ally.eval import DatasetManager
+from meta_ally.eval.api_test_hooks import APITestHookLibrary
+from meta_ally.lib.auth_manager import AuthManager
 
 
 def main():
@@ -62,10 +29,14 @@ def main():
     original_dataset = example_addone_sales_copilot_creation()
     print(f"    ✓ Loaded {len(original_dataset.cases)} cases")
     
-    # Step 2: Create HookLibrary and DatasetManager
-    print("\n[2] Creating HookLibrary with debug hooks...")
-    hook_library = DebugHookLibrary()
-    print(f"    ✓ Registered hooks: {[h.hook_id for h in hook_library.list_hooks()]}")
+    # Step 2: Create HookLibrary with API operation hooks and DatasetManager
+    print("\n[2] Creating APITestHookLibrary with API operation hooks...")
+    auth_manager = AuthManager()
+    hook_library = APITestHookLibrary(auth_manager)
+    hooks_list = hook_library.list_hooks()
+    print(f"    ✓ Registered {len(hooks_list)} hooks:")
+    for hook in hooks_list:
+        print(f"      • {hook.hook_id}: {hook.name}")
     
     print("\n[3] Creating DatasetManager...")
     manager = DatasetManager(hook_library=hook_library)
@@ -88,14 +59,23 @@ def main():
             description=f"ADD*ONE sales copilot test case {i} with variants"
         )
         
-        # Set hooks for this dataset
-        manager.set_dataset_hooks(
-            dataset_id=dataset_id,
-            pre_task_hook_id="debug_pre",
-            post_task_hook_id="debug_post"
-        )
-        
-        print("        ✓ Created with 3 variants")
+        # Set appropriate hooks based on the case
+        # Case 4: Tests creating sources and collections - need to delete them first
+        # Case 5: Tests creating copilot - need sources/collections to exist, copilot to not exist
+        if i == 4:  # Case 4: Creating sources and collections
+            manager.set_dataset_hooks(
+                dataset_id=dataset_id,
+                pre_task_hook_id="delete_addone_sources_and_collection"
+            )
+            print("        ✓ Created with 3 variants + cleanup hook (deletes sources/collections)")
+        elif i == 5:  # Case 5: Creating copilot
+            manager.set_dataset_hooks(
+                dataset_id=dataset_id,
+                pre_task_hook_id="cleanup_and_setup_addone_resources"
+            )
+            print("        ✓ Created with 3 variants + setup hook (ensures sources exist, copilot doesn't)")
+        else:
+            print("        ✓ Created with 3 variants (no hooks needed)")
     
     # Step 4: Display statistics
     print("\n[5] Dataset Statistics:")
@@ -122,7 +102,8 @@ def main():
     print(f"\n[7] Loading manager state from: {output_dir}")
     
     # Create a new hook library for loading (must have same hooks registered)
-    new_hook_library = DebugHookLibrary()
+    new_auth_manager = AuthManager()
+    new_hook_library = APITestHookLibrary(new_auth_manager)
     
     # Load the manager
     loaded_manager = DatasetManager.load(
