@@ -249,8 +249,8 @@ def main():
     
     print(f"    ✓ Saved {save_info['num_runs']} evaluation run(s)")
     print(f"    ✓ Results directory: {save_info['results_directory']}")
-    print(f"    ✓ Metadata file: {save_info['metadata_file']}")
-    print(f"    ✓ Report files: {len(save_info['report_files'])}")
+    print(f"    ✓ Run directories: {len(save_info['run_directories'])}")
+    print("    ✓ Each run has its own directory with metadata.json and reports/")
     
     # Step 10: Demonstrate loading results back
     print("\n[10] Demonstrating result loading...")

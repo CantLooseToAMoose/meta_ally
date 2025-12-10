@@ -23,30 +23,29 @@ def load_evaluation_run(base_dir: str, run_id: str) -> Dict[str, Any]:
         Dictionary with 'metadata' and 'reports' keys
     """
     base_path = Path(base_dir)
+    run_dir = base_path / run_id
     
-    # Load metadata
-    metadata_path = base_path / "metadata.json"
+    if not run_dir.exists():
+        raise ValueError(f"Run directory not found: {run_dir}")
+    
+    # Load metadata for this specific run
+    metadata_path = run_dir / "metadata.json"
+    if not metadata_path.exists():
+        raise ValueError(f"Metadata file not found: {metadata_path}")
+    
     with open(metadata_path, 'r') as f:
-        all_metadata = json.load(f)
-    
-    # Find the specific run metadata
-    run_metadata = None
-    for meta in all_metadata:
-        if meta['run_id'] == run_id:
-            run_metadata = meta
-            break
-    
-    if not run_metadata:
-        raise ValueError(f"Run ID '{run_id}' not found in metadata")
+        run_metadata = json.load(f)
     
     # Load all report files for this run
-    reports_dir = base_path / "reports" / run_id
+    reports_dir = run_dir / "reports"
     reports = {}
     
-    for dataset_id in run_metadata['dataset_ids']:
-        report_path = reports_dir / f"{dataset_id}.json"
-        with open(report_path, 'r') as f:
-            reports[dataset_id] = json.load(f)
+    if reports_dir.exists():
+        for dataset_id in run_metadata['dataset_ids']:
+            report_path = reports_dir / f"{dataset_id}.json"
+            if report_path.exists():
+                with open(report_path, 'r') as f:
+                    reports[dataset_id] = json.load(f)
     
     return {
         'metadata': run_metadata,

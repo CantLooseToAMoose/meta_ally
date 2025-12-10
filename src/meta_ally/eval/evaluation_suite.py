@@ -311,9 +311,9 @@ class EvaluationSuite:
         
         Creates directory structure:
         - directory/
-          - metadata.json (all EvaluationMetadata records)
-          - reports/
-            - {run_id}/
+          - {run_id}/
+            - metadata.json (metadata for this specific run)
+            - reports/
               - {dataset_id}.json (each EvaluationReport serialized)
         
         Args:
@@ -333,50 +333,51 @@ class EvaluationSuite:
         
         saved_info = {
             "results_directory": str(dir_path),
-            "metadata_file": None,
             "num_runs": len(self._metadata),
-            "report_files": []
+            "run_directories": []
         }
         
-        # Save metadata
-        metadata_file = dir_path / "metadata.json"
-        metadata_data = [m.model_dump() for m in self._metadata]
-        metadata_file.write_text(json.dumps(metadata_data, indent=2))
-        saved_info["metadata_file"] = str(metadata_file)
-        
-        # Save reports
-        reports_dir = dir_path / "reports"
-        reports_dir.mkdir(exist_ok=True)
-        
-        for run_id, dataset_reports in self._reports.items():
-            run_dir = reports_dir / run_id
+        # Save each run in its own directory
+        for metadata in self._metadata:
+            run_id = metadata.run_id
+            run_dir = dir_path / run_id
             run_dir.mkdir(exist_ok=True)
             
-            for dataset_id, report in dataset_reports.items():
-                report_file = run_dir / f"{dataset_id}.json"
+            # Save metadata for this run
+            metadata_file = run_dir / "metadata.json"
+            metadata_file.write_text(json.dumps(metadata.model_dump(), indent=2))
+            
+            # Save reports for this run
+            if run_id in self._reports:
+                reports_dir = run_dir / "reports"
+                reports_dir.mkdir(exist_ok=True)
                 
-                # Serialize the report
-                if hasattr(report, 'model_dump'):
-                    # It's a Pydantic model
-                    report_data = report.model_dump(mode='json')
-                elif isinstance(report, dict):
-                    # It's an error dict or already serialized
-                    report_data = report
-                elif is_dataclass(report):
-                    # It's a dataclass (like pydantic_evals.EvaluationReport)
-                    # Use pydantic_core's serializer which handles complex nested structures
-                    report_data = to_jsonable_python(report)
-                else:
-                    # Fallback: try to convert to dict
-                    report_data = {"__type__": type(report).__name__, "data": str(report)}
-                
-                report_file.write_text(json.dumps(report_data, indent=2))
-                saved_info["report_files"].append(str(report_file))
+                dataset_reports = self._reports[run_id]
+                for dataset_id, report in dataset_reports.items():
+                    report_file = reports_dir / f"{dataset_id}.json"
+                    
+                    # Serialize the report
+                    if hasattr(report, 'model_dump'):
+                        # It's a Pydantic model
+                        report_data = report.model_dump(mode='json')
+                    elif isinstance(report, dict):
+                        # It's an error dict or already serialized
+                        report_data = report
+                    elif is_dataclass(report):
+                        # It's a dataclass (like pydantic_evals.EvaluationReport)
+                        # Use pydantic_core's serializer which handles complex nested structures
+                        report_data = to_jsonable_python(report)
+                    else:
+                        # Fallback: try to convert to dict
+                        report_data = {"__type__": type(report).__name__, "data": str(report)}
+                    
+                    report_file.write_text(json.dumps(report_data, indent=2))
+            
+            saved_info["run_directories"].append(str(run_dir))
         
         print(f"\n✓ Evaluation results saved to: {dir_path}")
-        print("  - Metadata: metadata.json")
         print(f"  - Total runs: {len(self._metadata)}")
-        print(f"  - Total reports: {len(saved_info['report_files'])}")
+        print("  - Each run has its own directory with metadata.json and reports/")
         
         return saved_info
     
@@ -400,13 +401,12 @@ class EvaluationSuite:
             EvaluationSuite with loaded reports and metadata
             
         Raises:
-            FileNotFoundError: If metadata file not found
+            FileNotFoundError: If directory not found or no run directories exist
         """
         dir_path = Path(directory) if isinstance(directory, str) else directory
-        metadata_file = dir_path / "metadata.json"
         
-        if not metadata_file.exists():
-            raise FileNotFoundError(f"Metadata file not found: {metadata_file}")
+        if not dir_path.exists():
+            raise FileNotFoundError(f"Directory not found: {dir_path}")
         
         # Create suite instance with managers
         if isinstance(dataset_managers, dict):
@@ -416,23 +416,32 @@ class EvaluationSuite:
         else:
             suite = cls(dataset_managers)
         
-        # Load metadata
-        metadata_data = json.loads(metadata_file.read_text())
-        suite._metadata = [EvaluationMetadata(**m) for m in metadata_data]
+        # Load each run directory
+        run_dirs = [d for d in dir_path.iterdir() if d.is_dir()]
         
-        # Load reports
-        reports_dir = dir_path / "reports"
-        if reports_dir.exists():
-            for run_dir in reports_dir.iterdir():
-                if run_dir.is_dir():
-                    run_id = run_dir.name
-                    suite._reports[run_id] = {}
-                    
-                    for report_file in run_dir.glob("*.json"):
-                        dataset_id = report_file.stem
-                        report_data = json.loads(report_file.read_text())
-                        # Store as dict - user can convert back to EvaluationReport if needed
-                        suite._reports[run_id][dataset_id] = report_data
+        if not run_dirs:
+            raise FileNotFoundError(f"No run directories found in: {dir_path}")
+        
+        for run_dir in run_dirs:
+            run_id = run_dir.name
+            
+            # Load metadata for this run
+            metadata_file = run_dir / "metadata.json"
+            if metadata_file.exists():
+                metadata_data = json.loads(metadata_file.read_text())
+                metadata = EvaluationMetadata(**metadata_data)
+                suite._metadata.append(metadata)
+            
+            # Load reports for this run
+            reports_dir = run_dir / "reports"
+            if reports_dir.exists():
+                suite._reports[run_id] = {}
+                
+                for report_file in reports_dir.glob("*.json"):
+                    dataset_id = report_file.stem
+                    report_data = json.loads(report_file.read_text())
+                    # Store as dict - user can convert back to EvaluationReport if needed
+                    suite._reports[run_id][dataset_id] = report_data
         
         print(f"\n✓ Loaded {len(suite._metadata)} evaluation runs from: {dir_path}")
         print(f"  - Total reports: {sum(len(r) for r in suite._reports.values())}")
