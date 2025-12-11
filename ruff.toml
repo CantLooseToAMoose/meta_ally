@@ -1,0 +1,108 @@
+indent-width = 4
+target-version = "py312"
+
+exclude = [
+  ".git",
+  ".git-rewrite",
+  ".ipynb_checkpoints",
+  ".pyenv",
+  ".pytest_cache",
+  ".pytype",
+  ".ruff_cache",
+  ".venv",
+  ".vscode",
+  "__pypackages__",
+  "_build",
+  "build",
+  "dist",
+  "site-packages",
+  "venv",
+]
+
+# The formatter wraps lines at a length of 80.
+line-length = 80
+
+[format]
+quote-style = "preserve"
+indent-style = "space"
+docstring-code-format = true
+
+[lint.pycodestyle]
+# E501 reports lines that exceed the length of 120.
+max-line-length = 120
+
+[lint.pylint]
+max-args = 8
+
+[lint]
+preview = true
+
+select = [
+  # "ALL"
+  "A",    # flake8-builtins: checks for built-in names
+  "ARG",  # flake8-arguments: argument checks
+  "B",    # flake8-bugbear: likely bugs and design problems
+  "C4",   # flake8-comprehensions: comprehensions
+  "C90",  # McCabe: complexity checker
+  "D",    # pydocstyle: docstring conventions
+  "DOC",  # pydoclint: docstring conventions
+  "E",    # PEP8: various style errors
+  "ERA",  # flake8-eradicate: commented-out code
+  "F",    # Pyflakes: various errors
+  "G",    # flake8-gettext: gettext calls
+  "I",    # isort: import order checker
+  "ISC",  # flake8-implicit-str-concat: implicit string concatenation
+  "N",    # pep8-naming: naming conventions
+  "PIE",  # flake8-pie: various Python idioms
+  "PL",   # flake8-pytest-style: pytest style
+# "PTH",  # flake8-pathlib: pathlib usage
+  "PT",   # flake8-pyi: type hinting in stub files
+  "Q",    # flake8-quotes: quotes consistency
+  "RET",  # flake8-requirements: requirements consistency
+  "RSE",  # flake8-return: return statement consistency
+  "RUF",  # ruff: various rules
+  "S",    # flake8-bandit: security issues
+  "SIM",  # flake8-simplify: simplifications
+  "SLF",  # flake8-self: self convention in methods
+  "UP",   # pyupgrade: Python syntax upgrades
+  "W",    # PEP8: various warnings
+  "YTT"   # flake8-typing-imports: typing imports
+]
+
+ignore = [
+  # Docstring conventions: These settings allow both Numpy and Google style docstrings.
+  "D200",    # D200: One-line docstring should fit on one line
+  "D204",    # D204: 1 blank line required after class docstring
+  "D205",    # D205: 1 blank line required between summary line and description
+  "D212",    # D213: Multi-line docstring summary should start at the first line
+  "D400",    # D400: First line should end with a period
+  "D401",    # D401: First line should be in imperative mood; try rephrasing
+  "D410",    # D410: Missing blank line after section
+  "D411",    # D411: Missing blank line before section
+  "D413",    # DOC413: Missing blank line after last section
+  "D415",    # D415: First line should end with a period, question mark, or exclamation point
+  "D416",    # D416: Section name should end with a colon
+  "DOC502",  # DOC502: Checks for function docstrings that state that exceptions could be raised even though they are not directly raised in the function body.
+  # other rules
+  "E241",    # E241: Multiple spaces after comma
+  "PLR2004", # PLR2004: Magic value used in comparison
+  "PLR6301", # Method could be a function, class method, or static method
+  "Q000",    # Q000: Avoid using double quotes for string literals
+  "RET504",  # RET504: unnecessary-assign
+  "RET505",  # RET505: superfluous-else-return
+  "RET506",  # RET506: Unnecessary `elif` after `raise` statement
+  "SIM105",  # SIM105: Use `contextlib.suppress(...)` instead of `try`-`except`-`pass`
+  "SIM108",  # SIM108: Use of classical if-else statement
+  "SIM114",  # SIM114: if-with-same-arms
+]
+
+[lint.per-file-ignores]
+"tests/*" = [
+  "DOC201",  # DOC402: Return not documented in docstring
+  "DOC402",  # DOC402: Yield not documented in docstring
+  "E402",    # §402: Module level import not at top of file
+  "PLR2004", # PLR2004: Checks for the use of unnamed numerical constants ("magic") values in comparisons.
+  "PT009",   # PT009: Regular assert statement is preferred over unittest's assertion methods.
+  "S101",    # S101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+  "SLF001",  # SLF001: Private member accessed.
+]
