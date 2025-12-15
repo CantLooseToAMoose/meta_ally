@@ -1,10 +1,18 @@
-from pydantic_ai import Agent, RunContext
-from .model_config import ModelConfiguration
-from meta_ally.util.system_prompts import SystemPrompts
-from typing import Any, List, Optional
-from pydantic import BaseModel, Field
+"""
+Module for creating variation agents that generate diverse conversation variants.
 
-from pydantic_ai import ModelMessage
+This module provides functionality to create agents that generate different variations
+of conversations while avoiding duplicates of previously generated variants.
+"""
+
+from typing import Any
+
+from pydantic import BaseModel, Field
+from pydantic_ai import Agent, ModelMessage, RunContext
+
+from meta_ally.util.system_prompts import SystemPrompts
+
+from .model_config import ModelConfiguration
 
 
 class ConversationVariant(BaseModel):
@@ -13,13 +21,13 @@ class ConversationVariant(BaseModel):
 
     """
 
-    messages: List[ModelMessage] = Field(
+    messages: list[ModelMessage] = Field(
         description="List of messages in the conversation variant, maintaining the original flow"
     )
 
 
 def create_variation_agent(
-    previous_variants: Optional[List[Any]] = None,
+    previous_variants: list[Any] | None = None,
 ) -> Agent[Any, ConversationVariant]:
     """
     Creates and returns a variation agent for generating diverse outputs.
@@ -45,8 +53,9 @@ def create_variation_agent(
     )
 
     @variation_agent.tool
-    def get_previous_variants(ctx: RunContext[Any]) -> str:
-        """Get information about all previously generated variants to avoid creating duplicates.
+    def get_previous_variants(_ctx: RunContext[Any]) -> str:
+        """
+        Get information about all previously generated variants to avoid creating duplicates.
 
         Returns:
             A formatted string containing all previous variant conversations, or a message
@@ -55,7 +64,10 @@ def create_variation_agent(
         if not previous_variants:
             return "No previous variants have been generated yet. This is the first variant."
 
-        result = f"There are {len(previous_variants)} previous variants. Ensure your new variant is different from all of these:\n\n"
+        result = (
+            f"There are {len(previous_variants)} previous variants. "
+            "Ensure your new variant is different from all of these:\n\n"
+        )
 
         for idx, variant in enumerate(previous_variants, 1):
             result += f"--- Previous Variant #{idx} ---\n"

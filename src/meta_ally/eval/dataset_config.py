@@ -1,4 +1,5 @@
-"""Configuration models for dataset management.
+"""
+Configuration models for dataset management.
 
 This module provides configuration classes for managing datasets with their cases,
 variants, and associated hooks.
@@ -6,49 +7,54 @@ variants, and associated hooks.
 
 from __future__ import annotations
 
-from typing import List, Optional, Dict, Any, Callable
+from collections.abc import Callable
+from typing import Any
+
 from pydantic import BaseModel, Field
 from pydantic_evals import Dataset
+
 from .case_factory import MessageHistoryCase
 from .dataset_hooks import HookLibrary
 
 
-
 class SerializableDatasetConfig(BaseModel):
-    """Serializable version of DatasetConfig for saving/loading.
-    
+    """
+    Serializable version of DatasetConfig for saving/loading.
+
     This model excludes non-serializable fields (callables, Dataset objects)
     and uses hook IDs instead of the actual callables.
     """
+
     dataset_id: str
     name: str
     original_case: MessageHistoryCase
-    variants: List[MessageHistoryCase]
-    description: Optional[str] = None
-    metadata: Dict[str, Any] = Field(default_factory=dict)
-    pre_task_hook_id: Optional[str] = None
-    post_task_hook_id: Optional[str] = None
-    dataset_path: Optional[str] = None  # Path to saved dataset file (if built and saved)
-    
+    variants: list[MessageHistoryCase]
+    description: str | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    pre_task_hook_id: str | None = None
+    post_task_hook_id: str | None = None
+    dataset_path: str | None = None  # Path to saved dataset file (if built and saved)
+
     @classmethod
     def from_dataset_config(
         cls,
         config: DatasetConfig,
-        hook_library: Optional[HookLibrary] = None
+        hook_library: HookLibrary | None = None,
     ) -> SerializableDatasetConfig:
-        """Create a serializable config from a DatasetConfig.
-        
+        """
+        Create a serializable config from a DatasetConfig.
+
         Args:
             config: The DatasetConfig to serialize
             hook_library: Optional HookLibrary to look up hook IDs
-            
+
         Returns:
             SerializableDatasetConfig
         """
         # Try to find hook IDs if library provided
         pre_hook_id = None
         post_hook_id = None
-        
+
         if hook_library:
             # Search for matching hooks in library
             for hook_config in hook_library.list_hooks():
@@ -60,7 +66,7 @@ class SerializableDatasetConfig(BaseModel):
                         post_hook_id = hook_config.hook_id
                 except KeyError:
                     pass
-        
+
         return cls(
             dataset_id=config.dataset_id,
             name=config.name,
@@ -70,30 +76,31 @@ class SerializableDatasetConfig(BaseModel):
             metadata=config.metadata,
             pre_task_hook_id=pre_hook_id,
             post_task_hook_id=post_hook_id,
-            dataset_path=None
+            dataset_path=None,
         )
-    
+
     def to_dataset_config(
         self,
-        hook_library: Optional[HookLibrary] = None
+        hook_library: HookLibrary | None = None,
     ) -> DatasetConfig:
-        """Convert back to a DatasetConfig.
-        
+        """
+        Convert back to a DatasetConfig.
+
         Args:
             hook_library: Optional HookLibrary to resolve hook IDs
-            
+
         Returns:
             DatasetConfig with hooks restored from library
         """
         pre_hook = None
         post_hook = None
-        
+
         if hook_library:
             if self.pre_task_hook_id and hook_library.has_hook(self.pre_task_hook_id):
                 pre_hook = hook_library.get_hook(self.pre_task_hook_id)
             if self.post_task_hook_id and hook_library.has_hook(self.post_task_hook_id):
                 post_hook = hook_library.get_hook(self.post_task_hook_id)
-        
+
         return DatasetConfig(
             dataset_id=self.dataset_id,
             name=self.name,
@@ -103,13 +110,14 @@ class SerializableDatasetConfig(BaseModel):
             metadata=self.metadata,
             pre_task_hook=pre_hook,
             post_task_hook=post_hook,
-            dataset=None
+            dataset=None,
         )
 
 
 class DatasetConfig(BaseModel):
-    """Configuration for a single dataset with its case, variants, and hooks.
-    
+    """
+    Configuration for a single dataset with its case, variants, and hooks.
+
     This model holds all the information needed to manage a dataset including:
     - The original case
     - All generated variants
@@ -117,13 +125,13 @@ class DatasetConfig(BaseModel):
     - Dataset metadata like name and description
     - The built Dataset object (if created)
     """
-    
+
     dataset_id: str = Field(description="Unique identifier for this dataset")
     name: str = Field(description="Human-readable name for the dataset")
     original_case: MessageHistoryCase = Field(description="The original test case")
-    variants: List[MessageHistoryCase] = Field(default_factory=list, description="List of variant cases")
-    description: Optional[str] = Field(default=None, description="Description of the dataset")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
-    pre_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Pre-task hook function")
-    post_task_hook: Optional[Callable] = Field(default=None, exclude=True, description="Post-task hook function")
-    dataset: Optional[Dataset] = Field(default=None, exclude=True, description="The built pydantic-evals Dataset")
+    variants: list[MessageHistoryCase] = Field(default_factory=list, description="List of variant cases")
+    description: str | None = Field(default=None, description="Description of the dataset")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
+    pre_task_hook: Callable | None = Field(default=None, exclude=True, description="Pre-task hook function")
+    post_task_hook: Callable | None = Field(default=None, exclude=True, description="Post-task hook function")
+    dataset: Dataset | None = Field(default=None, exclude=True, description="The built pydantic-evals Dataset")

@@ -1,11 +1,12 @@
 """Tests for evaluators module."""
 
-import pytest
 from datetime import datetime
+
+import pytest
 from pydantic_ai.messages import ModelResponse
 
-from meta_ally.eval.evaluators import ToolCallEvaluator
 from meta_ally.eval.case_factory import ExpectedOutput, create_tool_call_part
+from meta_ally.eval.evaluators import ToolCallEvaluator
 
 
 @pytest.fixture
@@ -36,6 +37,7 @@ def create_expected(tool_names: list[str]) -> ExpectedOutput:
 class MockContext:
     """Mock EvaluatorContext for testing."""
     def __init__(self, expected_output, output):
+        """Initialize mock context with expected and actual output."""
         self.expected_output = expected_output
         self.output = output
 
@@ -43,10 +45,10 @@ class MockContext:
 class TestToolCallEvaluatorSets:
     """Test set-based comparison (default)."""
 
-    @pytest.mark.parametrize("expected_tools,actual_tools,expected_score", [
+    @pytest.mark.parametrize(("expected_tools", "actual_tools", "expected_score"), [
         (["get_user"], ["get_user"], 1.0),
         (["a", "b", "c"], ["a", "b", "c"], 1.0),
-        (["a", "b", "c"], ["a", "b"], 2/3),
+        (["a", "b", "c"], ["a", "b"], 2 / 3),
         (["a", "b"], ["c", "d"], 0.0),
         (["a"], ["a", "b", "c"], 1.0),  # Extra tools ignored
         (["a", "a", "a"], ["a"], 1.0),  # Duplicates ignored
@@ -114,11 +116,11 @@ class TestToolCallEvaluatorSets:
 class TestToolCallEvaluatorCounts:
     """Test count-based comparison."""
 
-    @pytest.mark.parametrize("expected_tools,actual_tools,expected_score", [
+    @pytest.mark.parametrize(("expected_tools", "actual_tools", "expected_score"), [
         (["a", "a", "b"], ["a", "a", "b"], 1.0),
         (["a", "a", "a", "b"], ["a", "a", "b"], 0.75),  # 3/4 matched
         (["a"], ["a", "a", "a"], 1.0),  # Extra calls don't hurt
-        (["a", "a", "b", "b", "b", "c"], ["a", "b", "b", "b"], 4/6),  # Mixed
+        (["a", "a", "b", "b", "b", "c"], ["a", "b", "b", "b"], 4 / 6),  # Mixed
     ])
     def test_count_matching(self, evaluator_counts, expected_tools, actual_tools, expected_score):
         """Test count-based matching scenarios."""
@@ -151,4 +153,3 @@ class TestEdgeCases:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

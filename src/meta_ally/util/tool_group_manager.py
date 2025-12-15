@@ -9,10 +9,9 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 from __future__ import annotations
 
 from enum import Enum
-from typing import List, Dict, Union, Optional
 
-from ..lib.openapi_to_tools import OpenAPIToolsLoader, OpenAPIToolDependencies
 from ..lib.auth_manager import AuthManager
+from ..lib.openapi_to_tools import OpenAPIToolDependencies, OpenAPIToolsLoader
 
 
 class AIKnowledgeToolGroup(Enum):
@@ -41,23 +40,24 @@ class AllyConfigToolGroup(Enum):
     ALL = "all"                           # All available tools
 
 
-ToolGroupType = Union[AIKnowledgeToolGroup, AllyConfigToolGroup]
+ToolGroupType = AIKnowledgeToolGroup | AllyConfigToolGroup
 
 
 class ToolGroupManager:
     """Manages tool groups and organizes tools from OpenAPI loaders"""
-    
+
     def __init__(self, auth_manager: AuthManager):
+        """Initialize the ToolGroupManager with an AuthManager instance."""
         self._auth_manager = auth_manager
-        self._ai_knowledge_tools: List = []
-        self._ally_config_tools: List = []
-        self._ai_knowledge_groups: Dict[AIKnowledgeToolGroup, List] = {}
-        self._ally_config_groups: Dict[AllyConfigToolGroup, List] = {}
-        self._ai_knowledge_loader: Optional[OpenAPIToolsLoader] = None
-        self._ally_config_loader: Optional[OpenAPIToolsLoader] = None
-        
+        self._ai_knowledge_tools: list = []
+        self._ally_config_tools: list = []
+        self._ai_knowledge_groups: dict[AIKnowledgeToolGroup, list] = {}
+        self._ally_config_groups: dict[AllyConfigToolGroup, list] = {}
+        self._ai_knowledge_loader: OpenAPIToolsLoader | None = None
+        self._ally_config_loader: OpenAPIToolsLoader | None = None
+
     def load_ai_knowledge_tools(
-        self, 
+        self,
         openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ai_knowledge_api_models.py",
         regenerate_models: bool = True,
@@ -71,10 +71,10 @@ class ToolGroupManager:
             require_human_approval=require_human_approval,
             tool_name_prefix="ai_knowledge_"
         )
-        
+
         self._ai_knowledge_tools = self._ai_knowledge_loader.load_tools()
         self._organize_ai_knowledge_tools()
-        
+
     def load_ally_config_tools(
         self,
         openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
@@ -90,104 +90,151 @@ class ToolGroupManager:
             require_human_approval=require_human_approval,
             tool_name_prefix="ally_config_"
         )
-        
+
         self._ally_config_tools = self._ally_config_loader.load_tools()
         self._organize_ally_config_tools()
-        
+
+    def _categorize_by_tag(self, tool, tag_to_group: dict) -> bool:
+        """
+        Try to categorize a tool by its OpenAPI tags.
+
+        Returns:
+            True if the tool was successfully categorized, False otherwise.
+        """
+        if not self._ai_knowledge_loader:
+            return False
+
+        tags = self._ai_knowledge_loader.get_tags_for_tool(tool.name)
+        if tags:
+            first_tag = tags[0].lower()
+            if first_tag in tag_to_group:
+                group = tag_to_group[first_tag]
+                self._ai_knowledge_groups[group].append(tool)
+                return True
+        return False
+
+    def _categorize_by_patterns(self, tool, name_lower: str) -> None:
+        """Categorize a tool by name patterns as fallback."""
+        patterns_map = {
+            AIKnowledgeToolGroup.SOURCES: ["source", "sources"],
+            AIKnowledgeToolGroup.DOCUMENTS: ["document", "documents", "doc"],
+            AIKnowledgeToolGroup.COLLECTIONS: ["collection", "collections"],
+            AIKnowledgeToolGroup.PERMISSIONS: ["permission", "permissions", "access", "auth", "role", "acl"],
+            AIKnowledgeToolGroup.STATUS: ["status", "health"],
+            AIKnowledgeToolGroup.CONNECTIONS: ["connection", "connections"],
+            AIKnowledgeToolGroup.INFO: ["info", "models", "test"],
+            AIKnowledgeToolGroup.INDEX_RUNS: ["index", "indexing", "reindex", "index-run", "index_run"],
+        }
+
+        for group, patterns in patterns_map.items():
+            if any(pattern in name_lower for pattern in patterns):
+                self._ai_knowledge_groups[group].append(tool)
+                break
+
     def _organize_ai_knowledge_tools(self) -> None:
         """Organize AI Knowledge tools into logical groups based on tags first, then notebook patterns"""
         # Initialize groups
         for group in AIKnowledgeToolGroup:
             if group != AIKnowledgeToolGroup.ALL:
                 self._ai_knowledge_groups[group] = []
-        
+
         # Create tag to group lookup (using enum values as tags)
         tag_to_group = {group.value: group for group in AIKnowledgeToolGroup if group != AIKnowledgeToolGroup.ALL}
-        
-        # Define patterns for categorization (based on notebook analysis) - used as fallback
-        source_patterns = ["source", "sources"]
-        document_patterns = ["document", "documents", "doc"]
-        collection_patterns = ["collection", "collections"]
-        permission_patterns = ["permission", "permissions", "access", "auth", "role", "acl"]
-        status_patterns = ["status", "health"]
-        connection_patterns = ["connection", "connections"]
-        info_patterns = ["info", "models", "test"]
-        index_patterns = ["index", "indexing", "reindex", "index-run", "index_run"]
-        
+
         for tool in self._ai_knowledge_tools:
             name_lower = tool.name.lower()
-            categorized = False
-            
+
             # First, try to categorize by OpenAPI tags
-            if self._ai_knowledge_loader:
-                tags = self._ai_knowledge_loader.get_tags_for_tool(tool.name)
-                if tags:
-                    # Use the first tag to determine the group
-                    first_tag = tags[0].lower()
-                    if first_tag in tag_to_group:
-                        group = tag_to_group[first_tag]
-                        self._ai_knowledge_groups[group].append(tool)
-                        categorized = True
-            
+            categorized = self._categorize_by_tag(tool, tag_to_group)
+
             # Fallback to pattern matching if not categorized by tags
             if not categorized:
-                if any(pattern in name_lower for pattern in source_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.SOURCES].append(tool)
-                elif any(pattern in name_lower for pattern in document_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.DOCUMENTS].append(tool)
-                elif any(pattern in name_lower for pattern in collection_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.COLLECTIONS].append(tool)
-                elif any(pattern in name_lower for pattern in permission_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.PERMISSIONS].append(tool)
-                elif any(pattern in name_lower for pattern in status_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.STATUS].append(tool)
-                elif any(pattern in name_lower for pattern in connection_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.CONNECTIONS].append(tool)
-                elif any(pattern in name_lower for pattern in info_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.INFO].append(tool)
-                elif any(pattern in name_lower for pattern in index_patterns):
-                    self._ai_knowledge_groups[AIKnowledgeToolGroup.INDEX_RUNS].append(tool)
-                
+                self._categorize_by_patterns(tool, name_lower)
+
+    def _categorize_ally_tool_by_tag(self, tool, tag_to_group: dict) -> bool:
+        """
+        Try to categorize an Ally Config tool by its OpenAPI tags.
+
+        Returns:
+            True if the tool was successfully categorized, False otherwise.
+        """
+        if not self._ally_config_loader:
+            return False
+
+        tags = self._ally_config_loader.get_tags_for_tool(tool.name)
+        if not tags:
+            return False
+
+        first_tag = tags[0]  # Keep original case for matching
+        if first_tag not in tag_to_group:
+            return False
+
+        group = tag_to_group[first_tag]
+        self._ally_config_groups[group].append(tool)
+        return True
+
+    def _categorize_ally_tool_by_rules(self, tool, categorization_rules: list) -> bool:
+        """
+        Categorize an Ally Config tool using categorization rules.
+
+        Returns:
+            True if the tool was successfully categorized, False otherwise.
+        """
+        tool_name_without_prefix = tool.name.replace("ally_config_", "")
+
+        for category, identifiers in categorization_rules:
+            # Check if tool name exactly matches any identifier (with or without prefix)
+            if tool_name_without_prefix in identifiers or tool.name in identifiers:
+                self._ally_config_groups[category].append(tool)
+                return True
+
+            # Otherwise check if any identifier keyword is in the tool name
+            if any(identifier in tool.name.lower() for identifier in identifiers if len(identifier) > 3):
+                self._ally_config_groups[category].append(tool)
+                return True
+
+        return False
+
     def _organize_ally_config_tools(self) -> None:
         """Organize Ally Config tools into logical groups based on tags first, then notebook patterns"""
         # Initialize groups
         for group in AllyConfigToolGroup:
             if group != AllyConfigToolGroup.ALL:
                 self._ally_config_groups[group] = []
-        
+
         # Create tag to group lookup (using enum values as tags)
         tag_to_group = {group.value: group for group in AllyConfigToolGroup if group != AllyConfigToolGroup.ALL}
-        
+
         # Define categorization rules with exact tool name mappings (based on notebook analysis) - used as fallback
         categorization_rules = [
             # Info / Portal info
             (AllyConfigToolGroup.INFO, ["get_portal_config", "list_models", "list_scopes"]),
-            
+
             # Copilot operations (management, metadata)
             (AllyConfigToolGroup.COPILOTS, [
                 "list_copilots", "create_copilot", "delete_copilot",
                 "get_copilot_metadata", "update_copilot_metadata",
             ]),
-            
+
             # Configuration
             (AllyConfigToolGroup.CONFIGURATION, [
                 "get_copilot_config", "update_copilot_config", "validate_copilot_config", "get_copilot_config_history",
             ]),
-            
+
             # Server Authorization
             (AllyConfigToolGroup.SERVER_AUTHORIZATION, [
                 "get_copilot_authorization", "update_copilot_authorization", "delete_copilot_authorization"
             ]),
-            
+
             # Evaluation (suites management + execution)
             (AllyConfigToolGroup.EVALUATION, [
-                "list_copilot_evaluation_suites", "get_copilot_evaluation_suite", 
+                "list_copilot_evaluation_suites", "get_copilot_evaluation_suite",
                 "create_copilot_evaluation_suite", "update_copilot_evaluation_suite",
                 "get_copilot_evaluation_suite_history", "add_copilot_evaluation_test_cases",
                 "execute_copilot_evaluation_suite", "get_copilot_evaluation_results"
             ]),
-            
-            # Logs (logs, costs, ratings, sessions)
+
+            # Logs and analytics operations
             (AllyConfigToolGroup.LOGS, [
                 "get_copilot_logs",
                 "get_copilot_cost_graph", "get_copilot_cost_daily",
@@ -195,50 +242,33 @@ class ToolGroupManager:
                 "get_copilot_sessions",
                 "upload_file_to_s3"
             ]),
-            
+
             # Permissions (role-based access control)
             (AllyConfigToolGroup.PERMISSIONS, [
-                "get_permissions", "add_role", "remove_role", 
+                "get_permissions", "add_role", "remove_role",
                 "grant_permission", "revoke_permission", "add_user", "remove_user"
             ]),
         ]
-        
+
         for tool in self._ally_config_tools:
-            categorized = False
-            
             # First, try to categorize by OpenAPI tags
-            if self._ally_config_loader:
-                tags = self._ally_config_loader.get_tags_for_tool(tool.name)
-                if tags:
-                    # Use the first tag to determine the group
-                    first_tag = tags[0]  # Keep original case for matching
-                    if first_tag in tag_to_group:
-                        group = tag_to_group[first_tag]
-                        self._ally_config_groups[group].append(tool)
-                        categorized = True
-            
+            categorized = self._categorize_ally_tool_by_tag(tool, tag_to_group)
+
             # Fallback to pattern matching if not categorized by tags
             if not categorized:
-                # Check exact name matches and keyword matches
-                for category, identifiers in categorization_rules:
-                    # Check if tool name exactly matches any identifier (with or without prefix)
-                    tool_name_without_prefix = tool.name.replace("ally_config_", "")
-                    if tool_name_without_prefix in identifiers or tool.name in identifiers:
-                        self._ally_config_groups[category].append(tool)
-                        categorized = True
-                        break
-                    # Otherwise check if any identifier keyword is in the tool name
-                    elif any(identifier in tool.name.lower() for identifier in identifiers if len(identifier) > 3):
-                        self._ally_config_groups[category].append(tool)
-                        categorized = True
-                        break
-            
+                self._categorize_ally_tool_by_rules(tool, categorization_rules)
+
             # Tools not matched will remain uncategorized (no default group added)
-                
-    def get_tools_for_groups(self, tool_groups: List[ToolGroupType]) -> List:
-        """Get all tools for the specified tool groups"""
+
+    def get_tools_for_groups(self, tool_groups: list[ToolGroupType]) -> list:
+        """
+        Get all tools for the specified tool groups
+
+        Returns:
+            List of tools from the specified groups
+        """
         all_tools = []
-        
+
         for group in tool_groups:
             if isinstance(group, AIKnowledgeToolGroup):
                 if group == AIKnowledgeToolGroup.ALL:
@@ -250,55 +280,81 @@ class ToolGroupManager:
                     all_tools.extend(self._ally_config_tools)
                 else:
                     all_tools.extend(self._ally_config_groups.get(group, []))
-                    
+
         return all_tools
-        
+
     def create_dependencies(
         self,
-        auth_manager: Optional[AuthManager] = None,
+        auth_manager: AuthManager | None = None,
     ) -> OpenAPIToolDependencies:
-        """Create dependencies for API tools"""
+        """
+        Create dependencies for API tools
+
+        Returns:
+            OpenAPIToolDependencies instance configured with the auth manager
+        """
         if auth_manager is None:
             auth_manager = self._auth_manager
         return OpenAPIToolDependencies(auth_manager=auth_manager)
-        
-    def get_available_groups(self) -> Dict[str, Dict[str, List[str]]]:
-        """Get information about available tool groups and their tools"""
+
+    def get_available_groups(self) -> dict[str, dict[str, list[str]]]:
+        """
+        Get information about available tool groups and their tools
+
+        Returns:
+            Dictionary mapping API names to their groups and associated tool names
+        """
         info = {
             "ai_knowledge_groups": {},
             "ally_config_groups": {}
         }
-        
+
         for group, tools in self._ai_knowledge_groups.items():
             info["ai_knowledge_groups"][group.value] = [tool.name for tool in tools]
-            
+
         for group, tools in self._ally_config_groups.items():
             info["ally_config_groups"][group.value] = [tool.name for tool in tools]
-            
+
         return info
-        
+
     def get_ai_knowledge_tool_by_operation_id(self, operation_id: str):
-        """Get an AI Knowledge tool by its operation ID"""
+        """
+        Get an AI Knowledge tool by its operation ID
+
+        Returns:
+            The tool if found
+
+        Raises:
+            ValueError: If AI Knowledge tools are not loaded
+        """
         if self._ai_knowledge_loader is None:
             raise ValueError("AI Knowledge tools not loaded. Call load_ai_knowledge_tools() first.")
         return self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
-    
+
     def get_ally_config_tool_by_operation_id(self, operation_id: str):
-        """Get an Ally Config tool by its operation ID"""
+        """
+        Get an Ally Config tool by its operation ID
+
+        Returns:
+            The tool if found
+
+        Raises:
+            ValueError: If Ally Config tools are not loaded
+        """
         if self._ally_config_loader is None:
             raise ValueError("Ally Config tools not loaded. Call load_ally_config_tools() first.")
         return self._ally_config_loader.get_tool_by_operation_id(operation_id)
-    
+
     def get_tool_by_operation_id(self, operation_id: str):
         """
         Get a tool by operation ID from either AI Knowledge or Ally Config APIs
-        
+
         Args:
             operation_id: The operation ID to search for
-            
+
         Returns:
             The tool if found, None otherwise
-            
+
         Note:
             Searches AI Knowledge tools first, then Ally Config tools
         """
@@ -307,26 +363,26 @@ class ToolGroupManager:
             tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
             if tool is not None:
                 return tool
-        
+
         # Try Ally Config tools
         if self._ally_config_loader is not None:
             tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
             if tool is not None:
                 return tool
-        
+
         return None
-    
+
     async def execute_tool_safely(self, operation_id: str, **kwargs):
         """
         Safely execute a tool by operation ID with proper error handling
-        
+
         Args:
             operation_id: The operation ID of the tool to execute
             **kwargs: Parameters to pass to the tool
-            
+
         Returns:
             The result of the tool execution, or None if an API error occurred
-            
+
         Raises:
             ValueError: If the tool with the given operation_id is not found
             ValueError: If dependencies cannot be created for the tool
@@ -334,38 +390,38 @@ class ToolGroupManager:
         tool = self.get_tool_by_operation_id(operation_id)
         if tool is None:
             raise ValueError(f"Tool '{operation_id}' not found in loaded tools")
-        
+
         # Determine which loader to use for dependencies
         dependencies = None
         if self._ai_knowledge_loader is not None:
             ai_tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
             if ai_tool is not None:
                 dependencies = self._ai_knowledge_loader.create_dependencies(auth_manager=self._auth_manager)
-        
+
         if dependencies is None and self._ally_config_loader is not None:
             ally_tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
             if ally_tool is not None:
                 dependencies = self._ally_config_loader.create_dependencies(auth_manager=self._auth_manager)
-        
+
         if dependencies is None:
             raise ValueError(f"Could not create dependencies for tool '{operation_id}'")
-        
+
         # Create a simple context object with the required attributes
         class SimpleContext:
             def __init__(self, deps):
                 self.deps = deps
                 self.tool_call_approved = True  # For human approval if needed
-        
+
         ctx = SimpleContext(dependencies)
-        
+
         try:
             print(f"🔄 Attempting to call: {tool.name}")
             result = await tool.function(ctx, **kwargs)  # type: ignore
             print(f"✅ Success! Result type: {type(result)}")
             return result
-            
+
         except Exception as e:
             # API errors are handled gracefully - print warning and return None
-            error_msg = str(e) if str(e) else f"{type(e).__name__}: {repr(e)}"
+            error_msg = str(e) if str(e) else f"{type(e).__name__}: {e!r}"
             print(f"⚠️ Error calling {tool.name}: {error_msg}")
             return None

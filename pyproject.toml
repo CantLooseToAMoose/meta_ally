@@ -18,6 +18,7 @@ dependencies = [
     "pydantic-ai-slim[ag-ui]>=1.2.0",
     "pydantic-evals[logfire]>=1.2.0",
     "pytest>=8.4.2",
+    "ruff>=0.14.8",
     "trio>=0.31.0",
 ]
 

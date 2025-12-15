@@ -1,16 +1,21 @@
+"""Example demonstrating how to create and use a hybrid assistant agent with meta_ally."""
+
 from pydantic_ai import ModelRetry
 
-# Now import from meta_ally
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
+from meta_ally.util.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+)
 
 
 def main():
+    """Create and test a hybrid assistant agent with AI Knowledge and Ally Config tools."""
     # Create a single factory instance and reuse it
     factory = AgentFactory()
 
     # Create agent - tools and model config are loaded automatically!
-    # No need to call setup_ai_knowledge_tools(), setup_ally_config_tools(), 
+    # No need to call setup_ai_knowledge_tools(), setup_ally_config_tools(),
     # or create_azure_model_config() manually anymore
     agent = factory.create_hybrid_assistant(
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
@@ -20,7 +25,12 @@ def main():
     # Create a custom tool to simulate an error
     @agent.tool_plain
     def call_dev_infos():
-        """Call some developer info endpoints."""
+        """
+        Call some developer info endpoints.
+
+        Raises:
+            ModelRetry: Simulates an HTTP error that can be retried.
+        """
         # Create mock request and response for HTTPStatusError
         raise ModelRetry("HTTP error occurred. You can try again.")
 

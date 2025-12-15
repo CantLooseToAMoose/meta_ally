@@ -1,22 +1,37 @@
-"""Example usage of the refactored CaseFactory with ConversationTurns for testing a meta agent that creates sales copilots for ADD*ONE."""
+"""
+Example usage of the refactored CaseFactory with ConversationTurns.
+
+For testing a meta agent that creates sales copilots for ADD*ONE.
+"""
 
 from meta_ally.eval.case_factory import CaseFactory, create_tool_call_part
 
+
 def example_addone_sales_copilot_creation():
-    """Demonstrate test cases for ADD*ONE frontend developer creating a sales copilot for their website."""
-    
+    """
+    Demonstrate test cases for ADD*ONE frontend developer creating a sales copilot for their website.
+
+    Returns:
+        Dataset: Test dataset with conversation cases.
+    """
     factory = CaseFactory()
-    
+
     # Verwende eine einzige ConversationTurns Instanz für alle Phasen
     convo = factory.create_conversation_turns()
 
     # Case 1: Initiale Anfrage - Agent fragt nach Geschäftsbereich und Projektnummer
     convo.add_user_message(
-        "Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen."
+        "Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte "
+        "Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen."
     )
-    case1_expected = "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 80000)"
+    case1_expected = (
+        "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich "
+        "AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: "
+        "In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? "
+        "(z.B. GB10 mit Projektnummer 80000)"
+    )
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Initiale Anfrage",
+        name="ADD*ONE Sales Copilot - Initiale Anfrage",
         conversation_turns=convo,
         expected_final_response=case1_expected,
         description="Erste Nutzeranfrage zur Erstellung eines Sales Copiloten"
@@ -27,11 +42,17 @@ def example_addone_sales_copilot_creation():
 
     # Case 2: Nutzer gibt Geschäftsbereich und Projektnummer an, Agent speichert beide und fragt nach Links
     convo.add_user_message(
-        "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 80000. Wir haben eine INFORM Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus."
+        "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 80000. Wir haben eine INFORM "
+        "Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade "
+        "die Links heraus."
     )
-    case2_expected = "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 80000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und füge die Quellen hinzu."
+    case2_expected = (
+        "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 80000 arbeiten. "
+        "Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, "
+        "erstelle ich die Collection und füge die Quellen hinzu."
+    )
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Geschäftsbereich & Projektnummer gespeichert & Link-Anfrage",
+        name="ADD*ONE Sales Copilot - Geschäftsbereich & Projektnummer gespeichert & Link-Anfrage",
         conversation_turns=convo,
         expected_final_response=case2_expected,
         expected_final_tool_calls=[
@@ -46,7 +67,10 @@ def example_addone_sales_copilot_creation():
                 tool_call_id="set_project_number_1"
             )
         ],
-        description="Agent speichert Geschäftsbereich und Projektnummer und fordert konkrete Links für strukturierte Quellenanlage"
+        description=(
+            "Agent speichert Geschäftsbereich und Projektnummer und fordert konkrete Links "
+            "für strukturierte Quellenanlage"
+        )
     )
 
     convo.add_tool_call(
@@ -72,14 +96,17 @@ def example_addone_sales_copilot_creation():
     convo.add_model_message(case2_expected)
 
     # Case 3: Nutzer liefert Webseiten-Link -> wird notiert
-    # Im Case 1 wird erwähnt, dass der Assistent erst beide Quellen und die Collection anlegt sobald er beide Links hat.
-    # Macht das Testen etwas robuster.
+    # Im Case 1 wird erwähnt, dass der Assistent erst beide Quellen und die Collection anlegt
+    # sobald er beide Links hat. Macht das Testen etwas robuster.
     convo.add_user_message(
         "INFORM Webseite Link: https://www.inform-software.com/de"
     )
-    case3_expected = "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers."
+    case3_expected = (
+        "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den "
+        "SharePoint/OneDrive Link zu den AddOne-InfoPapers."
+    )
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Webseite Link erhalten",
+        name="ADD*ONE Sales Copilot - Webseite Link erhalten",
         conversation_turns=convo,
         expected_final_response=case3_expected,
         description="Erste Quelle (Website) wird vom Agenten notiert"
@@ -88,11 +115,14 @@ def example_addone_sales_copilot_creation():
 
     # Case 4: Nutzer liefert SharePoint Link -> beide Sources + Collection werden erstellt
     convo.add_user_message(
-        "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+        "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/"
+        "johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
     )
-    case4_expected = "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint für den Sales-Copiloten erstellen?"
+    case4_expected = (
+        "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint für den Sales-Copiloten erstellen?"
+    )
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Collection mit beiden Quellen erstellt",
+        name="ADD*ONE Sales Copilot - Collection mit beiden Quellen erstellt",
         conversation_turns=convo,
         expected_final_response=case4_expected,
         expected_final_tool_calls=[
@@ -100,7 +130,9 @@ def example_addone_sales_copilot_creation():
                 tool_name="ai_knowledge_create_source",
                 args={
                     "sourceId": "inform_website",
-                    "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen",
+                    "description": (
+                        "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
+                    ),
                     "properties": {
                         "sourceType": "website",
                         "urls": ["https://www.inform-software.com/de"]
@@ -115,7 +147,11 @@ def example_addone_sales_copilot_creation():
                     "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren",
                     "properties": {
                         "sourceType": "sharepoint",
-                        "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+                        "sharingUrl": (
+                            "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/"
+                            "johannes_schillberg_inform-software_com/"
+                            "Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+                        )
                     }
                 },
                 tool_call_id="create_source_sharepoint_1"
@@ -139,7 +175,9 @@ def example_addone_sales_copilot_creation():
         tool_name="ai_knowledge_create_source",
         args={
             "sourceId": "inform_website",
-            "description": "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen",
+            "description": (
+                "INFORM Webseite über KI-Systeme & Optimierung von Geschäftsprozessen"
+            ),
             "properties": {
                 "sourceType": "website",
                 "urls": ["https://www.inform-software.com/de"]
@@ -160,7 +198,11 @@ def example_addone_sales_copilot_creation():
             "description": "SharePoint Ordner mit AddOne-InfoPapers Broschüren",
             "properties": {
                 "sourceType": "sharepoint",
-                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+                "sharingUrl": (
+                    "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/"
+                    "johannes_schillberg_inform-software_com/"
+                    "Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+                )
             }
         }
     )
@@ -169,7 +211,9 @@ def example_addone_sales_copilot_creation():
         tool_name="ai_knowledge_create_source",
         content="Quelle 'addone_infopapers' erstellt"
     )
-    convo.add_model_message("Beide Quellen erstellt. Jetzt lege ich die Collection mit beiden Quellen an.")
+    convo.add_model_message(
+        "Beide Quellen erstellt. Jetzt lege ich die Collection mit beiden Quellen an."
+    )
     convo.add_tool_call(
         tool_call_id="create_collection_1",
         tool_name="ai_knowledge_create_collection",
@@ -188,9 +232,12 @@ def example_addone_sales_copilot_creation():
 
     # Case 5: Nutzer bestätigt Endpoint Erstellung -> Modellabfrage + Endpoint (mit endpoint_name speichern)
     convo.add_user_message("Ja, bitte erstellen Sie jetzt den Sales-Copilot Endpoint.")
-    case5_expected = "Der Endpoint 'addone_sales_copilot' ist bereit. Möchten Sie, dass ich die konfigurierten Quellen zur Verifikation aufliste?"
+    case5_expected = (
+        "Der Endpoint 'addone_sales_copilot' ist bereit. Möchten Sie, dass ich die konfigurierten "
+        "Quellen zur Verifikation aufliste?"
+    )
     factory.create_conversation_case(
-        name="ADD*ONE Sales Copilot – Endpoint erstellt & gespeichert",
+        name="ADD*ONE Sales Copilot - Endpoint erstellt & gespeichert",
         conversation_turns=convo,
         expected_final_response=case5_expected,
         expected_final_tool_calls=[
@@ -205,8 +252,13 @@ def example_addone_sales_copilot_creation():
                     "endpoint": "/gb10/addone_sales_copilot",
                     "endpoint_attributes": {
                         "dep_name": "gpt-4o-mini",
-                        "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
-                        "default_message": "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                        "instructions": (
+                            "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+                            "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
+                        ),
+                        "default_message": (
+                            "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                        )
                     },
                     "endpoint_metadata": {
                         "display_name": "ADD*ONE Sales Copilot",
@@ -242,8 +294,13 @@ def example_addone_sales_copilot_creation():
             "endpoint": "/gb10/addone_sales_copilot",
             "endpoint_attributes": {
                 "dep_name": "gpt-4o-mini",
-                "instructions": "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen (INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.",
-                "default_message": "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                "instructions": (
+                    "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+                    "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
+                ),
+                "default_message": (
+                    "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                )
             },
             "endpoint_metadata": {
                 "display_name": "ADD*ONE Sales Copilot",
@@ -271,42 +328,44 @@ def example_addone_sales_copilot_creation():
 
     # Dataset erstellen
     dataset = factory.build_dataset("ADD*ONE Sales Copilot Test Suite")
-    
+
     print(f"ADD*ONE Sales-Copilot Test-Dataset erstellt mit {len(dataset.cases)} Test-Fällen:")
     for case in dataset.cases:
         print(f"  - {case.name}")
-    
+
     return dataset
+
 
 def example_addone_conversation_validation():
     """Demonstriere Konversations-Validierungsfunktionen für ADD*ONE Use Cases."""
-    
     factory = CaseFactory()
-    
+
     # Beispiel 1: Gültige ADD*ONE Konversation
     valid_conversation = factory.create_conversation_turns()
     valid_conversation.add_user_message("Hallo, ich brauche einen Sales-Copiloten für ADD*ONE")
     valid_conversation.add_model_message("Gerne helfe ich Ihnen dabei!")
     valid_conversation.add_user_message("Wie können Sie mir dabei helfen?")
-    
+
     errors = valid_conversation.validate()
     print(f"Gültige ADD*ONE Konversation Fehler: {errors}")  # Sollte leer sein
-    
+
     # Beispiel 2: Ungültige Konversation - endet nicht mit Benutzer-Anfrage
     invalid_conversation = factory.create_conversation_turns()
     invalid_conversation.add_user_message("Hallo")
     invalid_conversation.add_model_message("Hi! Wie kann ich helfen?")
     # Fehlende finale Benutzer-Nachricht
-    
+
     errors = invalid_conversation.validate()
     print(f"Ungültige ADD*ONE Konversation Fehler: {errors}")  # Sollte Validierungsfehler zeigen
-    
+
     # Beispiel 3: Tool-Aufruf ohne Antwort
     incomplete_conversation = factory.create_conversation_turns()
     incomplete_conversation.add_user_message("Erstellen Sie eine Collection für ADD*ONE")
-    incomplete_conversation.add_tool_call("call_1", "ai_knowledge_create_collection", {"collectionId": "addone_test"})
+    incomplete_conversation.add_tool_call(
+        "call_1", "ai_knowledge_create_collection", {"collectionId": "addone_test"}
+    )
     # Fehlende Tool-Antwort
-    
+
     errors = incomplete_conversation.validate()
     print(f"Unvollständige ADD*ONE Konversation Fehler: {errors}")  # Sollte Tool-Aufruf-Fehler zeigen
 
@@ -315,34 +374,33 @@ if __name__ == "__main__":
     # Führe die angepassten ADD*ONE Beispiele aus
     dataset = example_addone_sales_copilot_creation()
 
-    case_1=dataset.cases[0]
+    case_1 = dataset.cases[0]
     from meta_ally.eval.case_factory import MessageHistoryCase
     from meta_ally.util.visualization import visualize_single_case
-    
+
     print("\n--- Beispiel Fall 1 ---")
     print(f"Name: {case_1.name}")
-    message_history_case=MessageHistoryCase.from_case(case_1)
-    
+    message_history_case = MessageHistoryCase.from_case(case_1)
+
     # Visualize the first case
     print("\n=== Visualizing Case 1 ===")
     visualize_single_case(message_history_case)
-        
-    case_2=dataset.cases[1]
+
+    case_2 = dataset.cases[1]
     print("\n--- Beispiel Fall 2 ---")
     print(f"Name: {case_2.name}")
-    message_history_case_2=MessageHistoryCase.from_case(case_2)
+    message_history_case_2 = MessageHistoryCase.from_case(case_2)
 
     print("\n=== Visualizing Case 2 (with expected tool calls) ===")
     visualize_single_case(message_history_case_2)
 
-    last_case=dataset.cases[-1]
+    last_case = dataset.cases[-1]
 
     print("\n -- Komplette Konversation -- ")
     print(f"Name: {last_case.name}")
-    message_history_case_last=MessageHistoryCase.from_case(last_case)
+    message_history_case_last = MessageHistoryCase.from_case(last_case)
     print("\n=== Visualizing Last Case ===")
     visualize_single_case(message_history_case_last)
-
 
     # Demonstriere Validierung
     print("\n--- ADD*ONE Validierungsbeispiele ---")

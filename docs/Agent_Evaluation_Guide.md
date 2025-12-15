@@ -253,8 +253,13 @@ def main():
     
     # Step 3: Set up agent
     print("Creating agent...")
+    from meta_ally.agents.model_config import create_azure_model_config
+    
     factory = AgentFactory()
-    model_config = factory.create_azure_model_config(deployment_name="gpt-4.1")
+    model_config = create_azure_model_config(
+        deployment_name="gpt-4.1",
+        endpoint="https://ally-frcentral.openai.azure.com/",
+    )
     agent = factory.create_hybrid_assistant(
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
@@ -268,9 +273,9 @@ def main():
     
     # Step 5: Define evaluators
     print("Setting up evaluators...")
-    factory_for_judge = AgentFactory()
-    judge_model_config = factory_for_judge.create_azure_model_config(
-        deployment_name="gpt-4.1-mini"
+    judge_model_config = create_azure_model_config(
+        deployment_name="gpt-4.1-mini",
+        endpoint="https://ally-frcentral.openai.azure.com/",
     )
     judge_model = judge_model_config.create_model()
     

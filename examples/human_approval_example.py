@@ -6,29 +6,41 @@ This example demonstrates how to enable human approval for non-read-only API ope
 Non-read-only operations (POST, PUT, DELETE) will require approval before execution.
 """
 
-# Now import from meta_ally
+from pydantic_ai import (
+    Agent,
+    DeferredToolRequests,
+    DeferredToolResults,
+    ToolApproved,
+    ToolDenied,
+)
+
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
-from pydantic_ai import DeferredToolRequests, DeferredToolResults, ToolApproved, ToolDenied
+from meta_ally.agents.model_config import create_azure_model_config
+from meta_ally.util.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+)
 
 
 def demonstrate_human_approval():
     """Demonstrates the human approval functionality"""
-    
     # Create a single factory instance and reuse it
     factory = AgentFactory()
 
     # Setup the tools with human approval enabled for non-read-only operations
-    # Note: Since we need custom configuration (require_human_approval=True), 
+    # Note: Since we need custom configuration (require_human_approval=True),
     # we still need to call setup methods manually before creating the agent
     print("Setting up AI Knowledge tools with human approval...")
     factory.setup_ai_knowledge_tools(require_human_approval=True)
-    
+
     print("Setting up Ally Config tools with human approval...")
     factory.setup_ally_config_tools(require_human_approval=True)
 
     # Create model config
-    model_config = factory.create_azure_model_config()
+    model_config = create_azure_model_config(
+        deployment_name="gpt-4.1-mini",
+        endpoint="https://ally-frcentral.openai.azure.com/",
+    )
 
     # Get tools with human approval enabled
     tools = factory.tool_manager.get_tools_for_groups([
@@ -37,7 +49,6 @@ def demonstrate_human_approval():
     ])
 
     # Create agent directly with proper output type for handling approvals
-    from pydantic_ai import Agent
     agent = Agent(
         model_config.create_model(),
         deps_type=factory.tool_manager.create_dependencies().__class__,
@@ -50,38 +61,43 @@ def demonstrate_human_approval():
 
     # Create dependencies for the agent
     deps = factory.create_dependencies()
-    deps.auth_manager._refresh_token()
+    deps.auth_manager._refresh_token()  # noqa: SLF001
 
-    endpoint_path="/test/clothes_advisor"
+    endpoint_path = "/test/clothes_advisor"
 
     print("Testing Agent with Human Approval Functionality\n Creating a Copilot Endpoint\n" + "=" * 50)
 
-    #Delete endpoint if it exists from previous runs
-    result = factory.tool_manager.execute_tool_safely("delete_endpoint_api_deleteEndpoint_post",endpoint=endpoint_path)
-    
+    # Delete endpoint if it exists from previous runs
+    result = factory.tool_manager.execute_tool_safely(
+        "delete_endpoint_api_deleteEndpoint_post", endpoint=endpoint_path
+    )
+
     # Example 1: Try to make a non-read-only operation (will require approval)
-    question = f"I want to create a chatbot that helps me decide what to wear. Can you create an Endpoint for me?" \
-    f"The Endpoint name should be \"{endpoint_path}\". I want to use \"gpt-4.1-nano\" as a model and you should figure the rest out yourself."
+    question = (
+        f"I want to create a chatbot that helps me decide what to wear. Can you create an Endpoint for me? "
+        f'The Endpoint name should be "{endpoint_path}". I want to use "gpt-4.1-nano" as a model and you should '
+        f"figure the rest out yourself."
+    )
     print(f"Ask agent: {question}")
-    
+
     # Initial run - this should result in DeferredToolRequests
     result = agent.run_sync(question, deps=deps)
-    
+
     # Check if we got deferred tool requests (requiring approval)
     if isinstance(result.output, DeferredToolRequests):
         print("\n✋ Tool approval required!")
         print(f"Number of tools requiring approval: {len(result.output.approvals)}")
-        
+
         # Show what tools need approval
         for approval_request in result.output.approvals:
             print(f"- Tool: {approval_request.tool_name}")
             print(f"  Arguments: {approval_request.args}")
             print(f"  Call ID: {approval_request.tool_call_id}")
-        
+
         # Simulate user approval process
         print("\n🤔 Simulating user approval process...")
         approvals = {}
-        
+
         for approval_request in result.output.approvals:
             # For this demo, we'll approve endpoint creation but deny other operations
             if "create_endpoint" in approval_request.tool_name.lower():
@@ -90,31 +106,31 @@ def demonstrate_human_approval():
             else:
                 approvals[approval_request.tool_call_id] = ToolDenied("Operation not approved by user")
                 print(f"❌ Denied: {approval_request.tool_name}")
-        
+
         # Continue the agent run with approvals
         deferred_results = DeferredToolResults(approvals=approvals)
-        
+
         print("\n🔄 Continuing with user approvals...")
         final_result = agent.run_sync(
             message_history=result.all_messages(),
             deferred_tool_results=deferred_results,
             deps=deps
         )
-        
+
         print("\n✅ Final Result:")
         print(final_result.output)
-        
+
     else:
         print(f"✅ No approval required. Result: {result.output}")
-    
+
     print("\n" + "=" * 50)
-    
+
     # Example 2: Try a read-only operation (should not require approval)
     question2 = "List all available collections"
     print(f"\nAsk agent: {question2}")
-    
+
     result2 = agent.run_sync(question2, deps=deps)
-    
+
     if isinstance(result2.output, DeferredToolRequests):
         print("⚠️ Unexpected: Read-only operation required approval")
     else:

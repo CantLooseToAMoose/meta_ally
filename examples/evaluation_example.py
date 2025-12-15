@@ -7,28 +7,39 @@ Comprehensive evaluation example that combines:
 - Two LLMJudge evaluators from pydantic_evals
 """
 
-# Import pydantic_evals
-import logfire
-from pydantic_evals.evaluators import LLMJudge
-
 from pathlib import Path
+
+import logfire
+from pydantic_ai.retries import RetryConfig
+from pydantic_evals.evaluators import LLMJudge
 from tenacity import stop_after_attempt, wait_exponential
 
-# Import required modules
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
-from meta_ally.eval.evaluators import ToolCallEvaluator
+from meta_ally.agents.model_config import create_azure_model_config
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
+from meta_ally.eval.evaluators import ToolCallEvaluator
+from meta_ally.util.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+)
 
 
 def create_evaluation_agent():
-    """Create the agent like the agent in the create_agent_example with all tools."""
+    """
+    Create the agent like the agent in the create_agent_example with all tools.
+
+    Returns:
+        tuple: A tuple containing (agent, deps, model_config).
+    """
     factory = AgentFactory()
-    
+
     # Create agent with custom model config - tools are loaded automatically!
-    model_config = factory.create_azure_model_config(deployment_name="gpt-4.1-mini")
-    
+    model_config = create_azure_model_config(
+        deployment_name="gpt-4.1-mini",
+        endpoint="https://ally-frcentral.openai.azure.com/",
+    )
+
     agent = factory.create_hybrid_assistant(
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
@@ -37,21 +48,23 @@ def create_evaluation_agent():
 
     # Create dependencies for the agent
     deps = factory.create_dependencies()
-    
+
     return agent, deps, model_config
+
 
 def main():
     """Main function to run the evaluation."""
-            
     logfire.configure()
     logfire.instrument_pydantic_ai()
     # Create the agent, dependencies, and model config
-    agent, deps, model_config = create_evaluation_agent()
-    
+    agent, deps, _model_config = create_evaluation_agent()
+
     # Create a SEPARATE model config for LLMJudge evaluators to avoid sharing the same Azure client
     # Sharing the same client can cause connection pool exhaustion and rate limiting issues
-    factory = AgentFactory()
-    judge_model_config = factory.create_azure_model_config(deployment_name="gpt-4.1-mini")
+    judge_model_config = create_azure_model_config(
+        deployment_name="gpt-4.1-mini",
+        endpoint="https://ally-frcentral.openai.azure.com/",
+    )
     judge_model = judge_model_config.create_model()
 
     # Create the evaluation task
@@ -60,7 +73,7 @@ def main():
     # Load dataset from DatasetManager
     data_dir = Path(__file__).parent.parent / "Data" / "add_one"
     manager = DatasetManager.load(directory=data_dir)
-    
+
     # Define evaluators
     evaluators = [
         ToolCallEvaluator(),
@@ -79,20 +92,20 @@ def main():
             score={"evaluation_name": "Tool Call Evaluation", "include_reason": True}
         )
     ]
-    
+
     # Configure retry behavior for tasks and evaluators separately
-    task_retry_config = {
+    task_retry_config: RetryConfig = {
         'stop': stop_after_attempt(3),  # Stop after 3 attempts for task
         'wait': wait_exponential(multiplier=5, min=1, max=20),  # Exponential backoff: 5s, 10s, 20s
         'reraise': True,  # Re-raise the original exception after exhausting retries
     }
-    
-    evaluator_retry_config = {
+
+    evaluator_retry_config: RetryConfig = {
         'stop': stop_after_attempt(2),  # Stop after 2 attempts for evaluators
         'wait': wait_exponential(multiplier=5, min=1, max=100),  # Exponential backoff: 5s, 10s, 20s
         'reraise': True,  # Re-raise the original exception after exhausting retries
     }
-    
+
     # Run evaluation on a single dataset using the new convenience method
     dataset_id = "addone_case_1"
     report = manager.evaluate_dataset(
@@ -105,6 +118,7 @@ def main():
         wrap_with_hooks=False  # This will apply any pre/post hooks defined for the dataset
     )
     report.print()
+
 
 if __name__ == "__main__":
     main()

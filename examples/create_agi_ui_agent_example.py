@@ -1,15 +1,17 @@
-from pprint import pprint
-from pathlib import Path
-import uvicorn
-import logfire
+"""Example script demonstrating how to create an AGI UI agent with meta_ally."""
 
-# Now import from meta_ally
+import logfire
+import uvicorn
+
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
+from meta_ally.util.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+)
 
 
 def main():
-        
+    """Create and run a hybrid assistant agent with AGI UI interface."""
     logfire.configure()
     logfire.instrument_pydantic_ai()
     # Create a single factory instance and reuse it
