@@ -35,7 +35,9 @@ from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.evaluators import ToolCallEvaluator
 from meta_ally.lib.auth_manager import AuthManager
-from meta_ally.util.api_mock_service import create_ally_config_mock_tool_replacements
+from meta_ally.util.api_mock_service import (
+    create_ally_config_mock_tool_replacements,
+)
 from meta_ally.util.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
@@ -145,12 +147,12 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
 
     # Step 1: Load the DatasetManagers from disk with API hooks
     print("\n[1] Loading DatasetManagers from Data/add_one and Data/analytics...")
-    
+
     # Create hook library for loading (required to restore hooks)
     auth_manager = AuthManager()
     hook_library = APITestHookLibrary(auth_manager)
     print(f"    [i] Loaded hook library with {len(hook_library.list_hooks())} hooks")
-    
+
     # Load add_one dataset manager
     addone_data_dir = Path(__file__).parent.parent / "Data" / "add_one"
     if not addone_data_dir.exists():
@@ -165,7 +167,7 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
         stats = addone_manager.get_dataset_stats(dataset_id)
         hook_info = " (with hooks)" if stats.get("has_pre_hook") or stats.get("has_post_hook") else ""
         print(f"      • {dataset_id}: {stats['num_variants']} variants, {stats['total_cases']} cases{hook_info}")
-    
+
     # Load analytics dataset manager
     analytics_data_dir = Path(__file__).parent.parent / "Data" / "analytics"
     if not analytics_data_dir.exists():
@@ -343,7 +345,7 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     print("\n[12] Accessing specific report from loaded suite:")
     print("-" * 80)
 
-    if runs:  # noqa: PLR1702
+    if runs:
         first_run_id = runs[0].run_id
         # Get first dataset ID from the first run's metadata
         first_dataset_id = runs[0].dataset_ids[0] if runs[0].dataset_ids else None
@@ -352,25 +354,16 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
         if report:
             print(f"  Retrieved report for {first_run_id} / {first_dataset_id}")
 
-            # Note: Loaded reports are stored as dictionaries, not EvaluationReport objects
-            if isinstance(report, dict):
-                print("\n  Sample report structure (loaded from disk as dict):")
-                if "cases" in report:
-                    print(f"    • Number of cases: {len(report['cases'])}")
-                if "failures" in report:
-                    print(f"    • Number of failures: {len(report['failures'])}")
-                print("\n  [i] Loaded reports are stored as dicts. Use fresh reports for .averages() method.")
+            # Loaded reports are now EvaluationReport objects
+            print("\n  Sample averages from loaded report:")
+            averages = report.averages()
+            if averages:
+                if averages.scores:
+                    print("  Scores:")
+                    for metric, value in list(averages.scores.items())[:3]:  # Show first 3
+                        print(f"    • {metric}: {value:.3f}")
             else:
-                # Fresh report - has averages() method
-                print("\n  Sample averages:")
-                averages = report.averages()
-                if averages:
-                    if averages.scores:
-                        print("  Scores:")
-                        for metric, value in list(averages.scores.items())[:3]:  # Show first 3
-                            print(f"    • {metric}: {value:.3f}")
-                else:
-                    print("    • No averages available")
+                print("    • No averages available")
 
     # Final summary
     print("\n" + "=" * 80)

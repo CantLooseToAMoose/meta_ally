@@ -20,11 +20,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, TypeAdapter
 from pydantic_ai.retries import RetryConfig
 from pydantic_core import to_jsonable_python
 from pydantic_evals.evaluators import Evaluator
+from pydantic_evals.reporting import EvaluationReport
 
+from .case_factory import ExpectedOutput
+from .conversation_turns import ModelMessage
 from .dataset_manager import DatasetManager
 
 
@@ -456,11 +459,21 @@ class EvaluationSuite:
             if reports_dir.exists():
                 suite._reports[run_id] = {}
 
+                # Create a TypeAdapter for deserializing EvaluationReport
+                # Using the specific types from CaseFactory: list[ModelMessage], ExpectedOutput, dict[str, Any]
+                eval_report_adapter = TypeAdapter(EvaluationReport[list[ModelMessage], ExpectedOutput, dict[str, Any]])
+
                 for report_file in reports_dir.glob("*.json"):
                     dataset_id = report_file.stem
                     report_data = json.loads(report_file.read_text())
-                    # Store as dict - user can convert back to EvaluationReport if needed
-                    suite._reports[run_id][dataset_id] = report_data
+                    # Deserialize dict to EvaluationReport object
+                    try:
+                        report = eval_report_adapter.validate_python(report_data)
+                        suite._reports[run_id][dataset_id] = report
+                    except Exception as e:
+                        # If deserialization fails, store as dict with error info
+                        print(f"Warning: Could not deserialize report for {dataset_id}: {e}")
+                        suite._reports[run_id][dataset_id] = report_data
 
         print(f"\n✓ Loaded {len(suite._metadata)} evaluation runs from: {dir_path}")
         print(f"  - Total reports: {sum(len(r) for r in suite._reports.values())}")
@@ -476,7 +489,7 @@ class EvaluationSuite:
             dataset_id: The dataset identifier
 
         Returns:
-            EvaluationReport (or dict if loaded from disk) or None if not found
+            EvaluationReport or None if not found
         """
         if run_id in self._reports:
             return self._reports[run_id].get(dataset_id)
