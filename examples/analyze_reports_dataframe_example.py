@@ -17,7 +17,7 @@ from meta_ally.util.analyze_reports import (
 )
 
 
-def main():  # noqa: PLR0915
+def main():  # noqa: PLR0915, C901, PLR0912
     """Run the DataFrame analysis examples."""
     print("=" * 80)
     print("EXAMPLE 1: Convert a single dataset to DataFrame")
@@ -42,6 +42,29 @@ def main():  # noqa: PLR0915
     print("\nFirst few rows:")
     print(df_dataset[['case_name', 'input_tokens', 'output_tokens', 'cost']].head())
     print()
+
+    # Show input/output examples
+    if 'inputs' in df_dataset.columns:
+        print("\nExample: First case input/output structures:")
+        first_case = df_dataset.iloc[0]
+
+        # Access the complete input structure
+        if first_case['inputs']:
+            first_input = first_case['inputs'][0]
+            if first_input.get('parts'):
+                print(f"Input text: {first_input['parts'][0]['content'][:100]}...")
+
+        # Access the complete output structure
+        if first_case['output']:
+            first_output = first_case['output'][0]
+            if first_output.get('parts'):
+                print(f"Output text: {first_output['parts'][0]['content'][:100]}...")
+
+        # Access expected output
+        if first_case['expected_output']:
+            expected_msg = first_case['expected_output'].get('output_message', '')
+            print(f"Expected: {expected_msg[:100]}...")
+        print()
 
     # ========================================================================
     print("=" * 80)
@@ -112,13 +135,6 @@ def main():  # noqa: PLR0915
     export_dataframe(df_agg, "evaluation_results/aggregated_stats.csv")
     print("✓ Exported aggregated stats to: evaluation_results/aggregated_stats.csv")
 
-    # Export all cases to Excel (if openpyxl is installed)
-    try:
-        export_dataframe(df_all_cases, "evaluation_results/all_cases.xlsx")
-        print("✓ Exported all cases to: evaluation_results/all_cases.xlsx")
-    except ImportError:
-        print("⚠ Excel export requires openpyxl: pip install openpyxl")
-
     # Export to JSON
     export_dataframe(df_agg, "evaluation_results/aggregated_stats.json")
     print("✓ Exported aggregated stats to: evaluation_results/aggregated_stats.json")
@@ -171,6 +187,57 @@ def main():  # noqa: PLR0915
     print("Statistics grouped by dataset:")
     print(grouped)
     print()
+
+    # ========================================================================
+    print("=" * 80)
+    print("EXAMPLE 8: Analyzing input/output structures")
+    print("=" * 80)
+    print()
+
+    if 'inputs' in df_all_cases.columns:
+        # Helper function to extract text from inputs
+        def get_input_text(inputs):
+            if inputs and len(inputs) > 0 and inputs[0].get('parts'):
+                return inputs[0]['parts'][0].get('content', '')
+            return ''
+
+        def get_output_text(output):
+            if output and len(output) > 0 and output[0].get('parts'):
+                return output[0]['parts'][0].get('content', '')
+            return ''
+
+        # Extract text for analysis
+        df_all_cases['input_text'] = df_all_cases['inputs'].apply(get_input_text)
+        df_all_cases['output_text'] = df_all_cases['output'].apply(get_output_text)
+
+        # Calculate text lengths
+        df_all_cases['input_length'] = df_all_cases['input_text'].str.len()
+        df_all_cases['output_length'] = df_all_cases['output_text'].str.len()
+
+        print("Text length statistics:")
+        print(df_all_cases[['input_length', 'output_length']].describe())
+        print()
+
+        # Find cases with very long outputs
+        if len(df_all_cases) > 0:
+            longest_output = df_all_cases.nlargest(1, 'output_length').iloc[0]
+            print(f"Longest output case: {longest_output['case_name']}")
+            print(f"Output length: {longest_output['output_length']} characters")
+            print()
+
+        # You can also access the complete structures for detailed analysis
+        print("Example: Accessing complete structures for first case")
+        first_case = df_all_cases.iloc[0]
+        print(f"  - Number of inputs: {len(first_case['inputs']) if first_case['inputs'] else 0}")
+        print(f"  - Number of outputs: {len(first_case['output']) if first_case['output'] else 0}")
+        if first_case['output'] and len(first_case['output']) > 0:
+            print(f"  - Output model: {first_case['output'][0].get('model_name', 'N/A')}")
+            print(f"  - Output timestamp: {first_case['output'][0].get('timestamp', 'N/A')}")
+        print()
+    else:
+        print("Input/output structures not included in DataFrame.")
+        print("Use include_io=True when calling reports_to_dataframe().")
+        print()
 
     # ========================================================================
     print("=" * 80)

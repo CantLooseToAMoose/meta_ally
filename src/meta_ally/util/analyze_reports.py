@@ -333,7 +333,8 @@ def _create_empty_run_summary_table(metadata: dict[str, Any]) -> str:
 def reports_to_dataframe(
     reports: dict[str, Any],
     dataset_id: str,
-    flatten_scores: bool = True
+    flatten_scores: bool = True,
+    include_io: bool = True
 ) -> pd.DataFrame:
     """
     Convert a single dataset's report to a pandas DataFrame.
@@ -343,6 +344,8 @@ def reports_to_dataframe(
         dataset_id: The dataset to convert
         flatten_scores: If True, create separate columns for each score.
                        If False, keep scores as a dict in a single column.
+        include_io: If True, include input, output, and expected_output columns.
+                   If False, omit these columns (smaller DataFrame).
 
     Returns:
         DataFrame with one row per test case
@@ -371,6 +374,13 @@ def reports_to_dataframe(
             'case_name': case['name'],
             'dataset_id': dataset_id,
         }
+
+        # Add input/output/expected_output if requested
+        if include_io:
+            # Store complete structures as they are in the case
+            row['inputs'] = case.get('inputs', None)
+            row['output'] = case.get('output', None)
+            row['expected_output'] = case.get('expected_output', None)
 
         # Add metrics
         metrics = case.get('metrics', {})
@@ -448,7 +458,8 @@ def _aggregate_dataset_stats(
 def run_to_dataframe(
     run_data: dict[str, Any],
     flatten_scores: bool = True,
-    aggregate: bool = False
+    aggregate: bool = False,
+    include_io: bool = True
 ) -> pd.DataFrame:
     """
     Convert an entire evaluation run to a pandas DataFrame.
@@ -458,6 +469,8 @@ def run_to_dataframe(
         flatten_scores: If True, create separate columns for each score
         aggregate: If True, aggregate by dataset (one row per dataset).
                   If False, include all individual cases.
+        include_io: If True, include input, output, and expected_output columns.
+                   Only applicable when aggregate=False.
 
     Returns:
         DataFrame with all cases across all datasets, or aggregated by dataset
@@ -492,7 +505,7 @@ def run_to_dataframe(
     dfs = []
     for dataset_id in metadata['dataset_ids']:
         if dataset_id in reports:
-            df = reports_to_dataframe(reports, dataset_id, flatten_scores)
+            df = reports_to_dataframe(reports, dataset_id, flatten_scores, include_io)
             if not df.empty:
                 df['run_id'] = metadata['run_id']
                 df['task_name'] = metadata['task_name']
@@ -507,7 +520,8 @@ def run_to_dataframe(
 def compare_runs(
     base_dir: str,
     run_ids: list[str],
-    aggregate: bool = True
+    aggregate: bool = True,
+    include_io: bool = False
 ) -> pd.DataFrame:
     """
     Compare multiple evaluation runs in a single DataFrame.
@@ -517,6 +531,8 @@ def compare_runs(
         run_ids: List of run IDs to compare
         aggregate: If True, show one row per dataset per run.
                   If False, show all individual cases.
+        include_io: If True, include input/output/expected_output columns.
+                   Only applicable when aggregate=False.
 
     Returns:
         DataFrame with data from all specified runs
@@ -541,7 +557,7 @@ def compare_runs(
     for run_id in run_ids:
         try:
             run_data = load_evaluation_run(base_dir, run_id)
-            df = run_to_dataframe(run_data, aggregate=aggregate)
+            df = run_to_dataframe(run_data, aggregate=aggregate, include_io=include_io)
             if not df.empty:
                 dfs.append(df)
         except ValueError as e:
@@ -597,14 +613,10 @@ def export_dataframe(
     # Export based on format
     if file_format == 'csv':
         df.to_csv(path, index=False)
-    elif file_format == 'excel':
-        df.to_excel(path, index=False, engine='openpyxl')
-    elif file_format == 'parquet':
-        df.to_parquet(path, index=False)
     elif file_format == 'json':
         df.to_json(path, orient='records', indent=2)
     else:
         raise ValueError(
             f"Unsupported format '{file_format}'. "
-            "Supported formats: 'csv', 'excel', 'parquet', 'json'"
+            "Supported formats: 'csv', 'json'"
         )
