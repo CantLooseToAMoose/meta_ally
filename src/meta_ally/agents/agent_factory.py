@@ -9,6 +9,7 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass
 
 from pydantic_ai import Agent
@@ -198,6 +199,7 @@ class AgentFactory:
         additional_instructions: str | None = None,
         max_retries: int = 3,
         include_context_tools: bool = True,
+        tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
         """
@@ -211,6 +213,7 @@ class AgentFactory:
             additional_instructions: Optional additional instructions
             max_retries: Maximum number of retries for failed operations
             include_context_tools: Whether to include context management tools (default: True)
+            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional keyword arguments for Agent
 
         Returns:
@@ -218,6 +221,11 @@ class AgentFactory:
         """
         # Automatically load tools if needed
         self._ensure_tools_loaded(tool_groups)
+
+        # Apply tool replacements if provided (for mock API testing)
+        if tool_replacements:
+            print(f"\n[Mock API] Applying {len(tool_replacements)} tool replacement(s)...")
+            self.tool_manager.apply_tool_replacements(tool_replacements)
 
         # Get tools for the specified groups
         tools = self.tool_manager.get_tools_for_groups(tool_groups)
@@ -274,6 +282,7 @@ class AgentFactory:
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
         """
@@ -284,6 +293,7 @@ class AgentFactory:
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
         Returns:
@@ -308,6 +318,7 @@ class AgentFactory:
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            tool_replacements=tool_replacements,
             **agent_kwargs
         )
 
@@ -317,6 +328,7 @@ class AgentFactory:
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
         """
@@ -327,6 +339,7 @@ class AgentFactory:
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
         Returns:
@@ -351,6 +364,7 @@ class AgentFactory:
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            tool_replacements=tool_replacements,
             **agent_kwargs
         )
 
@@ -361,6 +375,7 @@ class AgentFactory:
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
         """
@@ -372,6 +387,7 @@ class AgentFactory:
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
         Returns:
@@ -403,6 +419,7 @@ class AgentFactory:
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            tool_replacements=tool_replacements,
             **agent_kwargs
         )
 

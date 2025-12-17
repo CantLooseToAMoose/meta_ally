@@ -1,18 +1,24 @@
 """
-Comprehensive evaluation suite example using the DatasetManager data from Data/add_one.
+Comprehensive evaluation suite example using multiple DatasetManagers from Data/add_one and Data/analytics.
 
 This example demonstrates:
-1. Loading a DatasetManager from disk (Data/add_one) with APITestHookLibrary
-2. Creating an EvaluationSuite with the loaded manager
-3. Setting up an agent with tools for evaluation
+1. Loading multiple DatasetManagers from disk (Data/add_one and Data/analytics) with APITestHookLibrary
+2. Creating an EvaluationSuite with the loaded managers
+3. Setting up an agent with tools for evaluation (using mock API for analytics by default)
 4. Defining multiple evaluators (custom + LLM judges)
-5. Running evaluations across all datasets with automatic API resource management
+5. Running evaluations across all datasets from both managers with automatic API resource management
 6. Saving and loading evaluation results
 7. Analyzing results from saved evaluations
 
 Note: The APITestHookLibrary automatically manages API resources before tests:
 - Case 4 tests: Deletes existing sources/collections before running
 - Case 5 tests: Ensures sources/collections exist and copilot doesn't before running
+
+Mock API Usage:
+- By default, analytics endpoints (get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions)
+  use time-shifted mock data instead of real API calls
+- This avoids rate limits and provides reproducible results
+- To use real APIs instead, change create_evaluation_agent(use_mock_api=False)
 """
 
 from pathlib import Path
@@ -29,15 +35,20 @@ from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.evaluators import ToolCallEvaluator
 from meta_ally.lib.auth_manager import AuthManager
+from meta_ally.util.api_mock_service import create_ally_config_mock_tool_replacements
 from meta_ally.util.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
 )
 
 
-def create_evaluation_agent():
+def create_evaluation_agent(use_mock_api: bool = True):
     """
     Create an agent with all tools for evaluation.
+
+    Args:
+        use_mock_api: If True, use mock API for analytics endpoints (default: True).
+                     Set to False to use real API calls.
 
     Returns:
         Tuple of (agent, dependencies, model_config)
@@ -50,10 +61,28 @@ def create_evaluation_agent():
         endpoint="https://ally-frcentral.openai.azure.com/",
     )
 
+    # Optionally use mock API for analytics endpoints
+    tool_replacements = None
+    if use_mock_api:
+        print("\n[Mock API] Creating mock tool replacements for analytics endpoints...")
+        try:
+            tool_replacements = create_ally_config_mock_tool_replacements()
+            print(f"    ✓ Created {len(tool_replacements)} mock replacements:")
+            for tool_name in tool_replacements:
+                print(f"      • {tool_name}")
+            print("    ✓ Analytics endpoints will use time-shifted mock data")
+            print("    ✓ Benefits: No rate limits, reproducible results, offline capable")
+        except FileNotFoundError as e:
+            print(f"    ✗ Warning: Could not load mock data: {e}")
+            print("    ✗ Falling back to real API calls")
+            print("    [i] Run capture_anonymize_api_data.ipynb to create mock data")
+            tool_replacements = None
+
     agent = factory.create_hybrid_assistant(
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],
+        tool_replacements=tool_replacements,  # Pass mock replacements if available
     )
 
     # Create dependencies for the agent
@@ -98,46 +127,70 @@ def setup_evaluators(judge_model):
 
 
 def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
-    """Main function demonstrating EvaluationSuite usage."""
+    """
+    Main function demonstrating EvaluationSuite usage with mock API support.
+
+    By default, uses mock API for analytics endpoints to avoid rate limits
+    and provide reproducible results. Set use_mock_api=False to use real APIs.
+    """
     print("=" * 80)
-    print("ADD*ONE EvaluationSuite Example")
+    print("Multi-Dataset EvaluationSuite Example (ADD*ONE + Analytics)")
     print("=" * 80)
+    print("\n[Mock API] This example uses mock data for analytics endpoints by default.")
+    print("           To use real API calls, edit create_evaluation_agent(use_mock_api=False)")
 
     # Configure logging with logfire
     logfire.configure()
     logfire.instrument_pydantic_ai()
 
-    # Step 1: Load the DatasetManager from disk with API hooks
-    print("\n[1] Loading DatasetManager from Data/add_one with API hooks...")
-    data_dir = Path(__file__).parent.parent / "Data" / "add_one"
-
-    if not data_dir.exists():
-        print(f"    ✗ Error: Dataset directory not found: {data_dir}")
-        print("    Please run dataset_manager_addone_example.py first to create the dataset.")
-        return
-
+    # Step 1: Load the DatasetManagers from disk with API hooks
+    print("\n[1] Loading DatasetManagers from Data/add_one and Data/analytics...")
+    
     # Create hook library for loading (required to restore hooks)
     auth_manager = AuthManager()
     hook_library = APITestHookLibrary(auth_manager)
     print(f"    [i] Loaded hook library with {len(hook_library.list_hooks())} hooks")
+    
+    # Load add_one dataset manager
+    addone_data_dir = Path(__file__).parent.parent / "Data" / "add_one"
+    if not addone_data_dir.exists():
+        print(f"    ✗ Error: Dataset directory not found: {addone_data_dir}")
+        print("    Please run dataset_manager_addone_example.py first to create the dataset.")
+        return
 
-    manager = DatasetManager.load(directory=data_dir, hook_library=hook_library)
-    dataset_ids = manager.list_dataset_ids()
-    print(f"    ✓ Loaded DatasetManager with {len(dataset_ids)} datasets")
-    for dataset_id in dataset_ids:
-        stats = manager.get_dataset_stats(dataset_id)
+    addone_manager = DatasetManager.load(directory=addone_data_dir, hook_library=hook_library)
+    addone_dataset_ids = addone_manager.list_dataset_ids()
+    print(f"    ✓ Loaded add_one DatasetManager with {len(addone_dataset_ids)} datasets")
+    for dataset_id in addone_dataset_ids:
+        stats = addone_manager.get_dataset_stats(dataset_id)
+        hook_info = " (with hooks)" if stats.get("has_pre_hook") or stats.get("has_post_hook") else ""
+        print(f"      • {dataset_id}: {stats['num_variants']} variants, {stats['total_cases']} cases{hook_info}")
+    
+    # Load analytics dataset manager
+    analytics_data_dir = Path(__file__).parent.parent / "Data" / "analytics"
+    if not analytics_data_dir.exists():
+        print(f"    ✗ Error: Dataset directory not found: {analytics_data_dir}")
+        print("    Please run dataset_manager_analytics_example.py first to create the dataset.")
+        return
+
+    analytics_manager = DatasetManager.load(directory=analytics_data_dir, hook_library=hook_library)
+    analytics_dataset_ids = analytics_manager.list_dataset_ids()
+    print(f"    ✓ Loaded analytics DatasetManager with {len(analytics_dataset_ids)} datasets")
+    for dataset_id in analytics_dataset_ids:
+        stats = analytics_manager.get_dataset_stats(dataset_id)
         hook_info = " (with hooks)" if stats.get("has_pre_hook") or stats.get("has_post_hook") else ""
         print(f"      • {dataset_id}: {stats['num_variants']} variants, {stats['total_cases']} cases{hook_info}")
 
-    # Step 2: Create EvaluationSuite with the loaded manager
+    # Step 2: Create EvaluationSuite with both loaded managers
     print("\n[2] Creating EvaluationSuite...")
     suite = EvaluationSuite()
-    suite.add_dataset_manager(manager, name="add_one")
+    suite.add_dataset_manager(addone_manager, name="add_one")
+    suite.add_dataset_manager(analytics_manager, name="analytics")
     print(f"    ✓ Suite created with managers: {suite.list_dataset_managers()}")
 
     # Step 3: Create agent for evaluation
     print("\n[3] Creating evaluation agent...")
-    agent, deps, _ = create_evaluation_agent()
+    agent, deps, _ = create_evaluation_agent(use_mock_api=True)  # Change to False to use real APIs
     print("    ✓ Agent created with AI Knowledge and Ally Config tools")
 
     # Step 4: Create evaluation task
@@ -183,14 +236,14 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     reports = suite.run_evaluation(
         task=task,
         evaluators=evaluators,
-        task_name="add_one_sales_copilot_eval",
-        dataset_ids=None,  # Evaluate all datasets (can filter by passing a list of dataset IDs)
+        task_name="multi_dataset_eval",
+        dataset_ids=None,  # Evaluate all datasets from both managers (can filter by passing a list of dataset IDs)
         retry_task_config=task_retry_config,
         retry_evaluator_config=evaluator_retry_config,
         max_concurrency=1,  # Run max 1 concurrent test case to keep it sequential
         wrap_with_hooks=True,  # Apply pre/post hooks if defined
         run_metadata={
-            "description": "Evaluation of ADD*ONE sales copilot with tool calls",
+            "description": "Evaluation of agent with both ADD*ONE and Analytics datasets",
             "agent_type": "hybrid_assistant",
             "model": "gpt-4.1"
         }
@@ -269,7 +322,7 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     # Create a new suite and load results
     loaded_suite = EvaluationSuite.load(
         directory=results_dir,
-        dataset_managers=[manager]
+        dataset_managers=[addone_manager, analytics_manager]
     )
 
     print(f"    ✓ Loaded suite with {len(loaded_suite.list_runs())} run(s)")
@@ -292,9 +345,10 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
 
     if runs:  # noqa: PLR1702
         first_run_id = runs[0].run_id
-        first_dataset_id = dataset_ids[0]
+        # Get first dataset ID from the first run's metadata
+        first_dataset_id = runs[0].dataset_ids[0] if runs[0].dataset_ids else None
 
-        report = loaded_suite.get_report(first_run_id, first_dataset_id)
+        report = loaded_suite.get_report(first_run_id, first_dataset_id) if first_dataset_id else None
         if report:
             print(f"  Retrieved report for {first_run_id} / {first_dataset_id}")
 
@@ -326,13 +380,21 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     print(f"  1. Evaluation results: {results_dir}")
     print(f"  2. Metadata: {results_dir / 'metadata.json'}")
     print(f"  3. Reports: {results_dir / 'reports'}/")
+    print("\nDatasets Evaluated:")
+    print(f"  • ADD*ONE: {len(addone_dataset_ids)} datasets")
+    print(f"  • Analytics: {len(analytics_dataset_ids)} datasets")
+    print("\nMock API Configuration:")
+    print("  • Analytics endpoints used mock data (time-shifted)")
+    print("  • Mocked: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions")
+    print("  • Benefits: No rate limits, reproducible results, offline capable")
+    print("  • To use real APIs: edit create_evaluation_agent(use_mock_api=False)")
     print("\nAPI Resource Management:")
     print("  • Hooks automatically cleaned up and set up resources before tests")
     print("  • Case 4: Sources/collections were deleted before creation tests")
     print("  • Case 5: Sources/collections created, copilot deleted before copilot tests")
     print("\nNext steps:")
     print("  • Analyze the reports for insights")
-    print("  • Compare performance across datasets")
+    print("  • Compare performance across both ADD*ONE and Analytics datasets")
     print("  • Iterate on agent configuration based on results")
     print("  • Run additional evaluations with different configurations")
     print("=" * 80)

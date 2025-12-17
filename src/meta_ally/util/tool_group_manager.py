@@ -8,6 +8,7 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from enum import Enum
 
 from ..lib.auth_manager import AuthManager
@@ -371,6 +372,111 @@ class ToolGroupManager:
                 return tool
 
         return None
+
+    def apply_tool_replacements(
+        self,
+        tool_replacements: dict[str, Callable]
+    ) -> None:
+        """
+        Replace tool functions with mock functions.
+
+        This is useful for testing with mock API services instead of real API calls.
+        The replacements are applied in-place to tools that have already been loaded
+        and organized into groups.
+
+        Args:
+            tool_replacements: Dictionary mapping prefixed tool names to replacement functions.
+                              Keys should be full tool names with prefix like "ally_config_get_copilot_ratings"
+                              or "ai_knowledge_get_sources".
+                              Values should be callable mock functions with the same signature.
+
+        Example:
+            ```python
+            from meta_ally.util.api_mock_service import create_mock_service
+
+            # Create mock service
+            mock_service = create_mock_service()
+
+            # Define replacements with prefixed names
+            replacements = {
+                "ally_config_get_copilot_ratings": mock_service.get_copilot_ratings,
+                "ally_config_get_copilot_cost_daily": mock_service.get_copilot_cost_daily,
+                "ally_config_get_copilot_sessions": mock_service.get_copilot_sessions,
+            }
+
+            # Apply to tool manager
+            tool_manager.apply_tool_replacements(replacements)
+            ```
+
+        Note:
+            - Tool names MUST include the prefix (ally_config_ or ai_knowledge_)
+            - The prefix determines which tool list the replacement is applied to
+            - Replacements only affect tools in the matching tool list
+        """
+        replaced_count = 0
+
+        # Separate replacements by prefix
+        ai_knowledge_replacements = {}
+        ally_config_replacements = {}
+        unknown_replacements = []
+
+        for tool_name, new_function in tool_replacements.items():
+            if tool_name.startswith("ai_knowledge_"):
+                ai_knowledge_replacements[tool_name] = new_function
+            elif tool_name.startswith("ally_config_"):
+                ally_config_replacements[tool_name] = new_function
+            else:
+                unknown_replacements.append(tool_name)
+
+        # Warn about unknown prefixes
+        if unknown_replacements:
+            print(f"  ⚠️  Warning: {len(unknown_replacements)} tool name(s) without recognized prefix:")
+            for tool_name in unknown_replacements:
+                print(f"      • {tool_name} (expected 'ai_knowledge_' or 'ally_config_' prefix)")
+
+        # Apply replacements to AI Knowledge tools
+        if ai_knowledge_replacements:
+            replaced_count += self._replace_in_tool_list(
+                self._ai_knowledge_tools, ai_knowledge_replacements, "AI Knowledge"
+            )
+
+        # Apply replacements to Ally Config tools
+        if ally_config_replacements:
+            replaced_count += self._replace_in_tool_list(
+                self._ally_config_tools, ally_config_replacements, "Ally Config"
+            )
+
+        if replaced_count == 0:
+            print("  ⚠️  Warning: No tools were replaced. Check that tool names match loaded tools.")
+        else:
+            print(f"  ✓ Successfully replaced {replaced_count} tool function(s)")
+
+    def _replace_in_tool_list(
+        self,
+        tools: list,
+        tool_replacements: dict[str, Callable],
+        api_name: str,
+    ) -> int:
+        """
+        Replace tools in a tool list with mock functions.
+
+        Args:
+            tools: List of tools to search
+            tool_replacements: Mapping of prefixed tool names to replacement functions
+            api_name: Name of the API for logging
+
+        Returns:
+            Number of tools replaced
+        """
+        replaced_count = 0
+        for tool_name, new_function in tool_replacements.items():
+            for tool in tools:
+                if tool.name == tool_name:
+                    tool.function = new_function
+                    replaced_count += 1
+                    print(f"  ✓ Replaced {api_name} tool: {tool.name}")
+                    break  # Move to next replacement after finding match
+        return replaced_count
 
     async def execute_tool_safely(self, operation_id: str, **kwargs):
         """
