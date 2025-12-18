@@ -11,6 +11,8 @@ from __future__ import annotations
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
@@ -240,6 +242,19 @@ class AgentFactory:
         complete_prompt = system_prompt
         if additional_instructions:
             complete_prompt += f"\n\nAdditional Instructions:\n{additional_instructions}"
+
+        # Add current date and time information
+        now = datetime.now(ZoneInfo("Europe/Berlin"))
+        date_time_info = f"""
+
+Current Date and Time:
+- Date: {now.strftime('%A, %B %d, %Y')}
+- Time: {now.strftime('%H:%M:%S')} (Europe/Berlin timezone)
+- ISO Format: {now.isoformat()}
+
+Use this information when the user asks about current dates, times, or when time-based context is relevant.
+"""
+        complete_prompt += date_time_info
 
         # Add context management instructions to system prompt
         if include_context_tools:
