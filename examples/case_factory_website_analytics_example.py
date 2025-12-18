@@ -64,12 +64,12 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
         expected_final_response=case2_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="set_endpoint_name",
+                tool_name="ally_config_set_endpoint_name",
                 args={"endpoint_name": "/gb80/inform_webseite_dummy"},
                 tool_call_id="set_endpoint_name_1"
             ),
             create_tool_call_part(
-                tool_name="get_copilot_sessions",
+                tool_name="ally_config_get_copilot_sessions",
                 args={
                     "endpoint": "/gb80/inform_webseite_dummy",
                     "start_time": "<ISO_8601_start_time>",
@@ -78,7 +78,7 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
                 tool_call_id="get_sessions_1"
             ),
             create_tool_call_part(
-                tool_name="get_copilot_ratings",
+                tool_name="ally_config_get_copilot_ratings",
                 args={
                     "endpoint": "/gb80/inform_webseite_dummy",
                     "start_time": "<ISO_8601_start_time>",
@@ -87,7 +87,7 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
                 tool_call_id="get_ratings_1"
             ),
             create_tool_call_part(
-                tool_name="get_copilot_cost_daily",
+                tool_name="ally_config_get_copilot_cost_daily",
                 args={
                     "endpoint": "/gb80/inform_webseite_dummy",
                     "unit": "euro"
@@ -100,17 +100,17 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
 
     convo.add_tool_call(
         tool_call_id="set_endpoint_name_1",
-        tool_name="set_endpoint_name",
+        tool_name="ally_config_set_endpoint_name",
         args={"endpoint_name": "/gb80/inform_webseite_dummy"}
     )
     convo.add_tool_response(
         tool_call_id="set_endpoint_name_1",
-        tool_name="set_endpoint_name",
+        tool_name="ally_config_set_endpoint_name",
         content="Endpoint name set to: /gb80/inform_webseite_dummy"
     )
     convo.add_tool_call(
         tool_call_id="get_sessions_1",
-        tool_name="get_copilot_sessions",
+        tool_name="ally_config_get_copilot_sessions",
         args={
             "endpoint": "/gb80/inform_webseite_dummy",
             "start_time": "<ISO_8601_start_time>",
@@ -119,12 +119,12 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     )
     convo.add_tool_response(
         tool_call_id="get_sessions_1",
-        tool_name="get_copilot_sessions",
+        tool_name="ally_config_get_copilot_sessions",
         content='<Session-Daten mit sessions Array: [{session_id, timestamp, messages: [{role, content, timestamp}]}]>'
     )
     convo.add_tool_call(
         tool_call_id="get_ratings_1",
-        tool_name="get_copilot_ratings",
+        tool_name="ally_config_get_copilot_ratings",
         args={
             "endpoint": "/gb80/inform_webseite_dummy",
             "start_time": "<ISO_8601_start_time>",
@@ -133,12 +133,12 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     )
     convo.add_tool_response(
         tool_call_id="get_ratings_1",
-        tool_name="get_copilot_ratings",
+        tool_name="ally_config_get_copilot_ratings",
         content='<Rating-Daten als Array: [{endpoint, rating, user_name, model_name, session_id, timestamp}]>'
     )
     convo.add_tool_call(
         tool_call_id="get_costs_1",
-        tool_name="get_copilot_cost_daily",
+        tool_name="ally_config_get_copilot_cost_daily",
         args={
             "endpoint": "/gb80/inform_webseite_dummy",
             "unit": "euro"
@@ -146,7 +146,7 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     )
     convo.add_tool_response(
         tool_call_id="get_costs_1",
-        tool_name="get_copilot_cost_daily",
+        tool_name="ally_config_get_copilot_cost_daily",
         content='<Kosten-Daten mit daily_data Array: [{date, cost/tokens, model_name}] für letzte 30 Tage>'
     )
     convo.add_model_message(case2_expected)
@@ -172,7 +172,7 @@ Möchten Sie Details zu den verfügbaren günstigeren Modelloptionen?"""
         expected_final_response=case3_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="list_models",
+                tool_name="ai_knowledge_list_models",
                 args={},
                 tool_call_id="list_models_1"
             )
@@ -182,12 +182,12 @@ Möchten Sie Details zu den verfügbaren günstigeren Modelloptionen?"""
 
     convo.add_tool_call(
         tool_call_id="list_models_1",
-        tool_name="list_models",
+        tool_name="ai_knowledge_list_models",
         args={}
     )
     convo.add_tool_response(
         tool_call_id="list_models_1",
-        tool_name="list_models",
+        tool_name="ai_knowledge_list_models",
         content='<Liste verfügbarer Modelle: [{label, name, description, enabled}]>'
     )
     convo.add_model_message(case3_expected)
