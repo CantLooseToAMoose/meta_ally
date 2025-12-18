@@ -310,7 +310,7 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
 
     save_info = suite.save_results(
         directory=results_dir,
-        overwrite=True
+        overwrite=False
     )
 
     print(f"    ✓ Saved {save_info['num_runs']} evaluation run(s)")
