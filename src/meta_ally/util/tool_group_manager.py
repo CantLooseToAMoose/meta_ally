@@ -11,6 +11,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from enum import Enum
 
+from pydantic_ai import Tool
+
 from ..lib.auth_manager import AuthManager
 from ..lib.openapi_to_tools import OpenAPIToolDependencies, OpenAPIToolsLoader
 
@@ -439,11 +441,19 @@ class ToolGroupManager:
             replaced_count += self._replace_in_tool_list(
                 self._ai_knowledge_tools, ai_knowledge_replacements, "AI Knowledge"
             )
+            # Also update group references
+            self._update_group_references(
+                self._ai_knowledge_groups, self._ai_knowledge_tools
+            )
 
         # Apply replacements to Ally Config tools
         if ally_config_replacements:
             replaced_count += self._replace_in_tool_list(
                 self._ally_config_tools, ally_config_replacements, "Ally Config"
+            )
+            # Also update group references
+            self._update_group_references(
+                self._ally_config_groups, self._ally_config_tools
             )
 
         if replaced_count == 0:
@@ -460,8 +470,10 @@ class ToolGroupManager:
         """
         Replace tools in a tool list with mock functions.
 
+        Creates a new Tool with the same properties but with the replacement function.
+
         Args:
-            tools: List of tools to search
+            tools: List of tools to search and update
             tool_replacements: Mapping of prefixed tool names to replacement functions
             api_name: Name of the API for logging
 
@@ -470,13 +482,48 @@ class ToolGroupManager:
         """
         replaced_count = 0
         for tool_name, new_function in tool_replacements.items():
-            for tool in tools:
+            for idx, tool in enumerate(tools):
                 if tool.name == tool_name:
-                    tool.function = new_function
+                    # Create a new tool with the same properties but new function
+                    new_tool = Tool.from_schema(
+                        function=new_function,
+                        name=tool.name,
+                        description=tool.description,
+                        json_schema=tool.tool_def.parameters_json_schema,
+                        takes_ctx=tool.takes_ctx
+                    )
+
+                    # Replace the tool in the list
+                    tools[idx] = new_tool
                     replaced_count += 1
                     print(f"  ✓ Replaced {api_name} tool: {tool.name}")
                     break  # Move to next replacement after finding match
         return replaced_count
+
+    def _update_group_references(
+        self,
+        groups: dict,
+        main_tools_list: list,
+    ) -> None:
+        """
+        Update tool references in groups to point to the updated tools in the main list.
+
+        After replacing tools in the main tool list, this method updates the group
+        dictionaries so they reference the new tool objects instead of the old ones.
+
+        Args:
+            groups: Dictionary mapping groups to lists of tools
+            main_tools_list: The main tool list that contains the updated tools
+        """
+        # Create a mapping of tool names to updated tools from the main list
+        tool_map = {tool.name: tool for tool in main_tools_list}
+
+        # Update each group's tool references
+        for _group, group_tools in groups.items():
+            for idx, tool in enumerate(group_tools):
+                if tool.name in tool_map:
+                    # Replace with the updated tool from main list
+                    group_tools[idx] = tool_map[tool.name]
 
     async def execute_tool_safely(self, operation_id: str, **kwargs):
         """

@@ -309,6 +309,7 @@ def start_terminal_chat_with_mock_tools():
 
     # Create and apply mock tool replacements
     mock_tools = create_ally_config_mock_tool_replacements()
+    print(f"\nCreated {len(mock_tools)} mock tool replacements")
 
     # Create agent with the replaced tools
     agent = factory.create_hybrid_assistant(
@@ -322,7 +323,7 @@ def start_terminal_chat_with_mock_tools():
 
     console.print("[dim]✓ Agent initialized with mock tools[/dim]")
     console.print(f"[dim]Model: {agent.model}[/dim]")
-    console.print("[dim]Available tools: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions[/dim]")
+    console.print("[dim]Replaced tools: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions[/dim]")
     console.print("\n[yellow]Note: These tools will return mock data instead of making real API calls[/yellow]\n")
 
     # Start the chat session

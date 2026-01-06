@@ -225,16 +225,14 @@ class AgentFactory:
         # Automatically load tools if needed
         self._ensure_tools_loaded(tool_groups)
 
-        # Create a copy of the tool manager if tool replacements are provided
-        # This prevents modifications to the shared tool manager instance
-        tool_manager = self.tool_manager
+        # Apply tool replacements to the tool manager if provided
+        # This modifies the tool objects in-place to use mock functions
         if tool_replacements:
             print(f"\n[Mock API] Applying {len(tool_replacements)} tool replacement(s)...")
-            tool_manager = copy.deepcopy(self.tool_manager)
-            tool_manager.apply_tool_replacements(tool_replacements)
+            self.tool_manager.apply_tool_replacements(tool_replacements)
 
         # Get tools for the specified groups
-        tools = tool_manager.get_tools_for_groups(tool_groups)
+        tools = self.tool_manager.get_tools_for_groups(tool_groups)
 
         # Add context management tools if requested
         if include_context_tools:

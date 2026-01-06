@@ -65,9 +65,9 @@ class AllyConfigMockService:
         Raises:
             ModelRetry: If the endpoint does not contain 'website'.
         """
-        if "website" not in endpoint.lower():
+        if "website" not in endpoint.lower() and "webseite" not in endpoint.lower():
             raise ModelRetry(
-                "Internal server error occurred while processing the request."
+            "Internal server error occurred while processing the request."
             )
 
     def get_copilot_ratings(
