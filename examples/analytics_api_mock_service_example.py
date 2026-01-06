@@ -6,13 +6,24 @@ This example shows how to:
 2. Test the time-shifting capabilities
 3. Use the convenience functions to create mock tool replacements
 4. Integrate mock tools with AgentFactory
+5. Optional terminal chat with replaced mock tools
 """
 
 from datetime import UTC, datetime, timedelta
 
+from rich.console import Console
+
+from meta_ally.agents import AgentFactory
+from meta_ally.lib.auth_manager import AuthManager
 from meta_ally.util.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
     create_mock_service,
+)
+from meta_ally.util.terminal_chat import start_chat_session
+from meta_ally.util.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+    ToolGroupManager,
 )
 
 
@@ -112,7 +123,7 @@ def test_time_shifting():
     cost_data = mock_service.get_copilot_cost_daily(endpoint, "tokens")
 
     if cost_data:
-        dates = [datetime.fromisoformat(date) for date in cost_data]
+        dates = [datetime.fromisoformat(date).replace(tzinfo=UTC) for date in cost_data]
         most_recent = max(dates)
         oldest = min(dates)
 
@@ -191,6 +202,133 @@ async def test_async_mock_tools():
     print(f"Found {len(sessions)} sessions")
 
 
+async def test_tool_group_manager_with_replacement():  # noqa: PLR0914, PLR0915
+    """Test replacing tools in a ToolGroupManager and calling them."""  # noqa: DOC201
+    print("\n" + "=" * 80)
+    print("TEST 5: ToolGroupManager with Tool Replacement")
+    print("=" * 80)
+
+    # Create auth manager and tool group manager
+    auth_manager = AuthManager()
+    tool_manager = ToolGroupManager(auth_manager)
+
+    # Load Ally Config tools
+    print("\n--- Loading Ally Config tools ---")
+    tool_manager.load_ally_config_tools(regenerate_models=True)
+
+    # Get initial LOGS tools
+    logs_tools = tool_manager.get_tools_for_groups([AllyConfigToolGroup.LOGS])
+    print(f"Loaded {len(logs_tools)} LOGS tools")
+
+    # Create mock tool replacements
+    print("\n--- Creating mock tool replacements ---")
+    mock_tools = create_ally_config_mock_tool_replacements()
+    print(f"Created {len(mock_tools)} mock tool replacements")
+
+    # Apply tool replacements to the tool manager
+    print("\n--- Applying tool replacements ---")
+    tool_manager.apply_tool_replacements(mock_tools)
+
+    # Test that replaced tools work correctly
+    print("\n--- Testing replaced tools by calling them ---")
+
+    # Get the actual tools to check their operation IDs
+    all_tools = tool_manager.get_tools_for_groups([AllyConfigToolGroup.ALL])
+    ratings_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_ratings"), None)
+    cost_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_cost_daily"), None)
+    sessions_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions"), None)
+
+    # Test get_copilot_ratings
+    if ratings_tool:
+        print("\n• Testing get_copilot_ratings:")
+        try:
+            endpoint = "website_analytics"
+            # Call the tool function directly with a dummy context
+
+            class DummyCtx:
+                pass
+            ctx = DummyCtx()
+            ratings = await ratings_tool.function(ctx, endpoint)
+            print(f"  Ratings: {ratings}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+    # Test get_copilot_cost_daily
+    if cost_tool:
+        print("\n• Testing get_copilot_cost_daily:")
+        try:
+            cost_data = await cost_tool.function(ctx, endpoint, "tokens")
+            print(f"  Found {len(cost_data)} days of cost data")
+            if cost_data:
+                # Show first 2 entries
+                for _i, (date, values) in enumerate(list(cost_data.items())[:2]):
+                    print(f"    {date}: {values}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+    # Test get_copilot_sessions
+    if sessions_tool:
+        print("\n• Testing get_copilot_sessions:")
+        try:
+            end_time = datetime.now(UTC)
+            start_time = end_time - timedelta(days=7)
+
+            sessions = await sessions_tool.function(
+                ctx,
+                endpoint,
+                start_time.isoformat(),
+                end_time.isoformat()
+            )
+            print(f"  Found {len(sessions)} sessions")
+            if sessions:
+                first_session = sessions[0]
+                print(f"    First session ID: {first_session['session_id']}")
+                print(f"    Messages: {len(first_session['messages'])}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+    print("\n✓ Tool replacement and execution test completed!")
+
+    # Return the tool_manager for optional chat usage
+    return tool_manager
+
+
+def start_terminal_chat_with_mock_tools():
+    """Start an interactive terminal chat with mock tools."""
+    print("\n" + "=" * 80)
+    print("TEST 6: Terminal Chat with Mock Tools")
+    print("=" * 80)
+
+    console = Console()
+
+    # Initialize
+    console.print("\n[dim]Setting up agent with mock tools...[/dim]")
+
+    auth_manager = AuthManager()
+    factory = AgentFactory(auth_manager=auth_manager)
+
+    # Create and apply mock tool replacements
+    mock_tools = create_ally_config_mock_tool_replacements()
+
+    # Create agent with the replaced tools
+    agent = factory.create_hybrid_assistant(
+        ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
+        ally_config_groups=[AllyConfigToolGroup.ALL],
+        tool_replacements=mock_tools
+    )
+
+    # Create dependencies
+    deps = factory.create_dependencies()
+
+    console.print("[dim]✓ Agent initialized with mock tools[/dim]")
+    console.print(f"[dim]Model: {agent.model}[/dim]")
+    console.print("[dim]Available tools: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions[/dim]")
+    console.print("\n[yellow]Note: These tools will return mock data instead of making real API calls[/yellow]\n")
+
+    # Start the chat session
+    start_chat_session(agent, deps, console_width=200)
+
+
 def main():
     """Run all tests."""
     print("\n")
@@ -204,13 +342,22 @@ def main():
         test_time_shifting()
         test_mock_tool_replacements()
 
-        # Run async test
+        # Run async tests
         import asyncio  # noqa: PLC0415
         asyncio.run(test_async_mock_tools())
+        asyncio.run(test_tool_group_manager_with_replacement())
 
         print("\n" + "=" * 80)
         print("✓ All tests completed successfully!")
         print("=" * 80)
+
+        # Optional: Start terminal chat with mock tools
+        print("\n" + "=" * 80)
+        user_input = input("Would you like to start a terminal chat with the mock tools? (y/n): ")
+        if user_input.lower() in {'y', 'yes'}:
+            asyncio.run(start_terminal_chat_with_mock_tools())
+        else:
+            print("Skipping terminal chat.")
 
     except FileNotFoundError as e:
         print(f"\n❌ Error: {e}")
