@@ -20,7 +20,7 @@ from meta_ally.lib.openapi_to_tools import OpenAPIToolDependencies
 
 
 def set_geschaeftsbereich(
-    ctx: RunContext[OpenAPIToolDependencies],
+    _ctx: RunContext[OpenAPIToolDependencies],
     geschaeftsbereich: str
 ) -> str:
     """
@@ -30,18 +30,17 @@ def set_geschaeftsbereich(
     This helps provide context-aware assistance tailored to their specific domain.
 
     Args:
-        ctx: The run context containing dependencies
-        geschaeftsbereich: The business area name (e.g., "Logistics", "Manufacturing", "Sales")
+        geschaeftsbereich: The business area name
 
     Returns:
         Confirmation message
     """
-    ctx.deps.geschaeftsbereich = geschaeftsbereich
+    _ctx.deps.geschaeftsbereich = geschaeftsbereich
     return f"Business area set to: {geschaeftsbereich}"
 
 
 def get_geschaeftsbereich(
-    ctx: RunContext[OpenAPIToolDependencies]
+    _ctx: RunContext[OpenAPIToolDependencies]
 ) -> str:
     """
     Get the user's current business area (Geschäftsbereich).
@@ -49,18 +48,15 @@ def get_geschaeftsbereich(
     Use this tool to check if the user's business area is already known.
     If not set, ask the user to provide this information.
 
-    Args:
-        ctx: The run context containing dependencies
-
     Returns:
         The business area if set, or a message prompting for the information
     """
-    if ctx.deps.geschaeftsbereich is None:
+    if _ctx.deps.geschaeftsbereich is None:
         return (
             "The business area (Geschäftsbereich) has not been set yet. "
             "Please ask the user: 'What is your business area (Geschäftsbereich)?'"
         )
-    return f"Current business area: {ctx.deps.geschaeftsbereich}"
+    return f"Current business area: {_ctx.deps.geschaeftsbereich}"
 
 
 # ============================================================================
@@ -68,7 +64,7 @@ def get_geschaeftsbereich(
 # ============================================================================
 
 def set_project_number(
-    ctx: RunContext[OpenAPIToolDependencies],
+    _ctx: RunContext[OpenAPIToolDependencies],
     project_number: str
 ) -> str:
     """
@@ -78,13 +74,12 @@ def set_project_number(
     This helps filter and retrieve project-specific information.
 
     Args:
-        ctx: The run context containing dependencies
         project_number: The project number (e.g., "80300")
 
     Returns:
         Confirmation message
     """
-    ctx.deps.project_number = project_number
+    _ctx.deps.project_number = project_number
     return f"Project number set to: {project_number}"
 
 
@@ -96,9 +91,6 @@ def get_project_number(
 
     Use this tool to check if the user's project number is already known.
     If not set, ask the user to provide this information.
-
-    Args:
-        ctx: The run context containing dependencies
 
     Returns:
         The project number if set, or a message prompting for the information
@@ -116,7 +108,7 @@ def get_project_number(
 # ============================================================================
 
 def set_endpoint_name(
-    ctx: RunContext[OpenAPIToolDependencies],
+    _ctx: RunContext[OpenAPIToolDependencies],
     endpoint_name: str
 ) -> str:
     """
@@ -126,13 +118,12 @@ def set_endpoint_name(
     This helps maintain context about which endpoint configuration is being discussed.
 
     Args:
-        ctx: The run context containing dependencies
         endpoint_name: The endpoint configuration name (e.g., "production-api", "staging-endpoint")
 
     Returns:
         Confirmation message
     """
-    ctx.deps.endpoint_name = endpoint_name
+    _ctx.deps.endpoint_name = endpoint_name
     return f"Endpoint name set to: {endpoint_name}"
 
 
@@ -164,7 +155,7 @@ def get_endpoint_name(
 # ============================================================================
 
 def clear_context(
-    ctx: RunContext[OpenAPIToolDependencies]
+    _ctx: RunContext[OpenAPIToolDependencies]
 ) -> str:
     """
     Clear all stored context information.
@@ -172,46 +163,41 @@ def clear_context(
     Use this tool when the user wants to start fresh or switch to a different context
     (e.g., different project, business area, or endpoint).
 
-    Args:
-        ctx: The run context containing dependencies
 
     Returns:
         Confirmation message
     """
-    ctx.deps.geschaeftsbereich = None
-    ctx.deps.project_number = None
-    ctx.deps.endpoint_name = None
+    _ctx.deps.geschaeftsbereich = None
+    _ctx.deps.project_number = None
+    _ctx.deps.endpoint_name = None
     return "All context information has been cleared. You can now set new values."
 
 
 def get_all_context(
-    ctx: RunContext[OpenAPIToolDependencies]
+    _ctx: RunContext[OpenAPIToolDependencies]
 ) -> str:
     """
     Get all stored context information at once.
 
     Use this tool to display a summary of all known context about the user.
 
-    Args:
-        ctx: The run context containing dependencies
-
     Returns:
         Summary of all context information
     """
     context_parts = []
 
-    if ctx.deps.geschaeftsbereich:
-        context_parts.append(f"Business Area (Geschäftsbereich): {ctx.deps.geschaeftsbereich}")
+    if _ctx.deps.geschaeftsbereich:
+        context_parts.append(f"Business Area (Geschäftsbereich): {_ctx.deps.geschaeftsbereich}")
     else:
         context_parts.append("Business Area (Geschäftsbereich): Not set")
 
-    if ctx.deps.project_number:
-        context_parts.append(f"Project Number: {ctx.deps.project_number}")
+    if _ctx.deps.project_number:
+        context_parts.append(f"Project Number: {_ctx.deps.project_number}")
     else:
         context_parts.append("Project Number: Not set")
 
-    if ctx.deps.endpoint_name:
-        context_parts.append(f"Endpoint Name: {ctx.deps.endpoint_name}")
+    if _ctx.deps.endpoint_name:
+        context_parts.append(f"Endpoint Name: {_ctx.deps.endpoint_name}")
     else:
         context_parts.append("Endpoint Name: Not set")
 
