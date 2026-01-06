@@ -286,19 +286,16 @@ def create_ally_config_mock_tool_replacements(
     # These match the signature expected by pydantic-ai tools
     # Note: Functions must be async even though they don't await, to match tool signatures
 
-    async def mock_get_copilot_ratings(ctx, endpoint: str, start_time: str | None = None, end_time: str | None = None):  # noqa: RUF029
-        """Mock version of get_copilot_ratings using time-shifted data."""
-        del ctx  # Context required by pydantic-ai but not used in mock
+    async def mock_get_copilot_ratings(_ctx, endpoint: str, start_time: str | None = None, end_time: str | None = None):  # noqa: RUF029
+        """Mock version of get_copilot_ratings using time-shifted data."""  # noqa: DOC201
         return mock_service.get_copilot_ratings(endpoint, start_time, end_time)
 
-    async def mock_get_copilot_cost_daily(ctx, endpoint: str, unit: str):  # noqa: RUF029
-        """Mock version of get_copilot_cost_daily using time-shifted data."""
-        del ctx  # Context required by pydantic-ai but not used in mock
+    async def mock_get_copilot_cost_daily(_ctx, endpoint: str, unit: str):  # noqa: RUF029
+        """Mock version of get_copilot_cost_daily using time-shifted data."""  # noqa: DOC201
         return mock_service.get_copilot_cost_daily(endpoint, unit)
 
-    async def mock_get_copilot_sessions(ctx, endpoint: str, start_time: str, end_time: str):  # noqa: RUF029
-        """Mock version of get_copilot_sessions using time-shifted data."""
-        del ctx  # Context required by pydantic-ai but not used in mock
+    async def mock_get_copilot_sessions(_ctx, endpoint: str, start_time: str, end_time: str):  # noqa: RUF029
+        """Mock version of get_copilot_sessions using time-shifted data."""  # noqa: DOC201
         return mock_service.get_copilot_sessions(endpoint, start_time, end_time)
 
     # Return the mapping with PREFIXED tool names
