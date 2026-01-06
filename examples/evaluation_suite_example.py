@@ -35,7 +35,7 @@ from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.evaluators import ToolCallEvaluator
 from meta_ally.lib.auth_manager import AuthManager
-from meta_ally.util.api_mock_service import (
+from meta_ally.util.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
 )
 from meta_ally.util.tool_group_manager import (
