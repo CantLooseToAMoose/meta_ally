@@ -26,7 +26,7 @@ from pathlib import Path
 import logfire
 from pydantic_ai.retries import RetryConfig
 from pydantic_evals.evaluators import LLMJudge
-from tenacity import stop_after_attempt, wait_exponential
+from tenacity import stop_after_attempt, wait_chain, wait_fixed
 
 from meta_ally.agents import AgentFactory
 from meta_ally.agents.model_config import create_azure_model_config
@@ -142,7 +142,7 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     print("           To use real API calls, edit create_evaluation_agent(use_mock_api=False)")
 
     # Configure logging with logfire
-    logfire.configure()
+    logfire.configure(scrubbing=False)
     logfire.instrument_pydantic_ai()
 
     # Step 1: Load the DatasetManagers from disk with API hooks
@@ -217,16 +217,16 @@ def main():  # noqa: C901, PLR0912, PLR0915, PLR0914
     # Step 6: Configure retry behavior
     print("\n[6] Configuring retry behavior...")
     task_retry_config = RetryConfig(
-        stop=stop_after_attempt(2),
-        wait=wait_exponential(multiplier=2, min=30, max=200),
+        stop=stop_after_attempt(3),
+        wait=wait_chain(wait_fixed(30), wait_fixed(60), wait_fixed(120)),
         reraise=True,
     )
     evaluator_retry_config = RetryConfig(
-        stop=stop_after_attempt(2),
-        wait=wait_exponential(multiplier=2, min=30, max=200),
+        stop=stop_after_attempt(3),
+        wait=wait_chain(wait_fixed(30), wait_fixed(60), wait_fixed(120)),
         reraise=True,
     )
-    print("    ✓ Retry config: 2 attempts with exponential backoff (30s-200s)")
+    print("    ✓ Retry config: 3 attempts with fixed waits (30s, 60s, 120s)")
 
     # Step 7: Run evaluation
     print("\n[7] Running evaluation...")

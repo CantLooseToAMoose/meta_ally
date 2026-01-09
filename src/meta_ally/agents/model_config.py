@@ -164,12 +164,18 @@ class ModelConfiguration:
 
         # Configure httpx client with larger connection limits to prevent connection pool exhaustion
         # This is especially important when the same client is used for concurrent requests
-        http_client = httpx.AsyncClient(
+        # Transport with retries for rate limit errors (429)
+        transport = httpx.AsyncHTTPTransport(
+            retries=3,  # Retry up to 3 times on network/transport errors
             limits=httpx.Limits(
                 max_connections=100,  # Maximum number of connections in the pool
                 max_keepalive_connections=20,  # Maximum number of idle connections to keep alive
             ),
-            timeout=httpx.Timeout(60.0, connect=10.0),  # Generous timeouts
+        )
+        
+        http_client = httpx.AsyncClient(
+            transport=transport,
+            timeout=httpx.Timeout(90.0, connect=10.0),  # Increased timeout for rate limit waits
         )
 
         client_kwargs = {
