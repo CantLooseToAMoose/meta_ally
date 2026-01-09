@@ -35,6 +35,8 @@ Usage:
 """
 
 import importlib
+import json
+import logging
 import os
 import shutil
 import subprocess  # noqa: S404
@@ -48,6 +50,8 @@ from pydantic import BaseModel
 from pydantic_ai import ModelRetry, RunContext, Tool
 
 from .auth_manager import AuthManager
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -139,7 +143,8 @@ class OpenAPIToolsLoader:
         models_filename: str = "api_models.py",
         regenerate_models: bool = False,
         require_human_approval: bool = False,
-        tool_name_prefix: str = ""
+        tool_name_prefix: str = "",
+        max_response_chars: int | None = None
     ):
         """
         Initialize the loader with an OpenAPI spec URL
@@ -151,6 +156,8 @@ class OpenAPIToolsLoader:
             regenerate_models: Whether to regenerate the models file if it exists (default: False)
             require_human_approval: Whether to require human approval for non-read-only operations (default: False)
             tool_name_prefix: Optional prefix to add to all tool names to avoid conflicts (default: "")
+            max_response_chars: Maximum characters in API responses. If exceeded, response is truncated
+                (default: None = no truncation)
         """
         self.openapi_url = openapi_url
         self.base_url = base_url or openapi_url.rsplit('/', maxsplit=1)[0]  # Remove /openapi.json
@@ -160,6 +167,7 @@ class OpenAPIToolsLoader:
         self.regenerate_models = regenerate_models
         self.require_human_approval = require_human_approval
         self.tool_name_prefix = tool_name_prefix
+        self.max_response_chars = max_response_chars
         self.tool_tags: dict[str, list[str]] = {}  # Maps tool names to their tags
 
     def fetch_spec(self) -> dict[str, Any]:
@@ -271,6 +279,45 @@ class OpenAPIToolsLoader:
         """
         return method.lower() == "get"
 
+    def _truncate_response(self, response: Any) -> Any:
+        """
+        Truncate response if it exceeds max_response_chars
+
+        Args:
+            response: The API response (typically a dict)
+
+        Returns:
+            Truncated response with metadata about truncation, or original response if no truncation needed
+        """
+        if self.max_response_chars is None:
+            return response
+
+        # Convert to JSON string to measure size
+        response_str = json.dumps(response, default=str)
+
+        if len(response_str) <= self.max_response_chars:
+            return response
+
+        # Truncate and add metadata
+        truncated_str = response_str[:self.max_response_chars]
+
+        # Try to keep valid JSON by closing structures at a safe point
+        try:
+            # Find last comma to avoid breaking in the middle of a value
+            last_comma = truncated_str.rfind(',')
+            if last_comma > 0:
+                truncated_str = truncated_str[:last_comma]
+        except Exception as exc:
+            logger.exception("Failed to truncate response at comma boundary: %s", exc)
+
+        return {
+            "_truncated": True,
+            "_original_size": len(response_str),
+            "_truncated_at": self.max_response_chars,
+            "_message": f"Response truncated from {len(response_str)} to {self.max_response_chars} characters",
+            "_partial_data": truncated_str
+        }
+
     def _resolve_ref(self, ref: str) -> type[BaseModel] | None:
         """
         Resolve a $ref to a Pydantic model from ally_config_api_models
@@ -305,7 +352,7 @@ class OpenAPIToolsLoader:
             print(f"Warning: Could not resolve model {model_name}: {e}")
             return None
 
-    def _create_tool_function(  # noqa: C901
+    def _create_tool_function(  # noqa: C901, PLR0915
         self,
         operation_id: str,
         path: str,
@@ -408,7 +455,8 @@ class OpenAPIToolsLoader:
                         raise ValueError(f"Unsupported HTTP method: {method}")
 
                     response.raise_for_status()
-                    return response.json()
+                    result = response.json()
+                    return self._truncate_response(result)
                 except httpx.HTTPStatusError as e:
                     # Convert HTTPStatusError to ModelRetry so the LLM can try again
                     msg = f"API request failed with status {e.response.status_code}: {e.response.text}"

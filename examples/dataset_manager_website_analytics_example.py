@@ -12,8 +12,9 @@ This example demonstrates:
 
 from pathlib import Path
 
-from examples.case_factory_website_analytics_example import example_inform_webseite_analytics
-
+from examples.case_factory_website_analytics_example import (
+    example_inform_webseite_analytics,
+)
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.case_factory import MessageHistoryCase

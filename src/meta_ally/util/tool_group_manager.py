@@ -72,7 +72,8 @@ class ToolGroupManager:
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval,
-            tool_name_prefix="ai_knowledge_"
+            tool_name_prefix="ai_knowledge_",
+            max_response_chars=20000  # 20k chars generous limit for AI Knowledge responses
         )
 
         self._ai_knowledge_tools = self._ai_knowledge_loader.load_tools()
@@ -91,7 +92,8 @@ class ToolGroupManager:
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval,
-            tool_name_prefix="ally_config_"
+            tool_name_prefix="ally_config_",
+            max_response_chars=20000  # 20k chars generous limit for Ally Config responses
         )
 
         self._ally_config_tools = self._ally_config_loader.load_tools()

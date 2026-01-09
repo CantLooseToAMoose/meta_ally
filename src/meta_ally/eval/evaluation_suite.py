@@ -460,8 +460,10 @@ class EvaluationSuite:
                 suite._reports[run_id] = {}
 
                 # Create a TypeAdapter for deserializing EvaluationReport
-                # Using the specific types from CaseFactory: list[ModelMessage], ExpectedOutput, dict[str, Any]
-                eval_report_adapter = TypeAdapter(EvaluationReport[list[ModelMessage], ExpectedOutput, dict[str, Any]])
+                # Using the specific types from CaseFactory: list[ModelMessage], Any, dict[str, Any]
+                eval_report_adapter = TypeAdapter(
+                    EvaluationReport[list[ModelMessage], ExpectedOutput | list[ModelMessage], dict[str, Any]]
+                )
 
                 for report_file in reports_dir.glob("*.json"):
                     dataset_id = report_file.stem

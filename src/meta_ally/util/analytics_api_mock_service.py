@@ -7,6 +7,7 @@ captured API data. It automatically adjusts timestamps so that data appears
 """
 
 import json
+import logging
 from collections.abc import Callable
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -14,9 +15,13 @@ from typing import Any
 
 from pydantic_ai import ModelRetry
 
+logger = logging.getLogger(__name__)
+
 
 class AllyConfigMockService:
     """Service for providing time-shifted mock data for Ally Config analytics."""
+
+    MAX_RESPONSE_CHARS: int = 20000  # Maximum characters in API responses
 
     def __init__(self, mock_data_path: str | Path):
         """
@@ -70,6 +75,42 @@ class AllyConfigMockService:
             "Internal server error occurred while processing the request."
             )
 
+    def _truncate_response(self, response: Any) -> Any:
+        """
+        Truncate response if it exceeds MAX_RESPONSE_CHARS.
+
+        Args:
+            response: The API response (typically a dict or list).
+
+        Returns:
+            Truncated response with metadata about truncation, or original response if no truncation needed.
+        """
+        # Convert to JSON string to measure size
+        response_str = json.dumps(response, default=str)
+
+        if len(response_str) <= self.MAX_RESPONSE_CHARS:
+            return response
+
+        # Truncate and add metadata
+        truncated_str = response_str[:self.MAX_RESPONSE_CHARS]
+
+        # Try to keep valid JSON by closing structures at a safe point
+        try:
+            # Find last comma to avoid breaking in the middle of a value
+            last_comma = truncated_str.rfind(',')
+            if last_comma > 0:
+                truncated_str = truncated_str[:last_comma]
+        except Exception:
+            logger.exception("Failed to find safe truncation point, using hard truncation")
+
+        return {
+            "_truncated": True,
+            "_original_size": len(response_str),
+            "_truncated_at": self.MAX_RESPONSE_CHARS,
+            "_message": f"Response truncated from {len(response_str)} to {self.MAX_RESPONSE_CHARS} characters",
+            "_partial_data": truncated_str
+        }
+
     def get_copilot_ratings(
         self,
         endpoint: str,
@@ -91,7 +132,7 @@ class AllyConfigMockService:
             ModelRetry: If the endpoint does not contain 'website'.
         """
         self._validate_endpoint(endpoint)
-        return []
+        return self._truncate_response([])
 
     def get_copilot_cost_daily(
         self, endpoint: str, unit: str
@@ -138,7 +179,7 @@ class AllyConfigMockService:
             # Convert back to string in same format
             shifted_data[shifted_date.isoformat()] = values
 
-        return shifted_data
+        return self._truncate_response(shifted_data)
 
     def get_copilot_sessions(
         self, endpoint: str, start_time: str, end_time: str
@@ -204,7 +245,7 @@ class AllyConfigMockService:
 
                 shifted_sessions.append(shifted_session)
 
-        return shifted_sessions
+        return self._truncate_response(shifted_sessions)
 
     def reload_data(self) -> None:
         """Reload data from disk (useful if the file has been updated)."""
