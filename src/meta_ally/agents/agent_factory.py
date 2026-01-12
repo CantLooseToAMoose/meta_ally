@@ -8,7 +8,6 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 
 from __future__ import annotations
 
-import copy
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -131,13 +130,15 @@ class AgentFactory:
         models_filename: str = "ai_knowledge_api_models.py",
         regenerate_models: bool = True,
         require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
     ) -> None:
         """Setup AI Knowledge tools with custom configuration"""
         self.tool_manager.load_ai_knowledge_tools(
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
-            require_human_approval=require_human_approval
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback
         )
 
     def setup_ally_config_tools(
@@ -146,34 +147,49 @@ class AgentFactory:
         models_filename: str = "ally_config_api_models.py",
         regenerate_models: bool = True,
         require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
     ) -> None:
         """Setup Ally Config tools with custom configuration"""
         self.tool_manager.load_ally_config_tools(
             openapi_url=openapi_url,
             models_filename=models_filename,
             regenerate_models=regenerate_models,
-            require_human_approval=require_human_approval
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback
         )
 
-    def _ensure_tools_loaded(self, tool_groups: list[ToolGroupType]) -> None:
+    def _ensure_tools_loaded(
+        self,
+        tool_groups: list[ToolGroupType],
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None
+    ) -> None:
         """
         Automatically load tools if they haven't been loaded yet.
         This makes the API more user-friendly by removing the need for explicit setup calls.
 
         Args:
             tool_groups: List of tool groups that will be used
+            require_human_approval: Whether to require human approval for non-read-only operations
+            approval_callback: Optional callback for human approval
         """
         # Check if we need AI Knowledge tools
         needs_ai_knowledge = any(isinstance(g, AIKnowledgeToolGroup) for g in tool_groups)
         if needs_ai_knowledge and not self.tool_manager._ai_knowledge_tools:  # noqa: SLF001
             self.logger.info("Auto-loading AI Knowledge tools...")
-            self.setup_ai_knowledge_tools()
+            self.setup_ai_knowledge_tools(
+                require_human_approval=require_human_approval,
+                approval_callback=approval_callback
+            )
 
         # Check if we need Ally Config tools
         needs_ally_config = any(isinstance(g, AllyConfigToolGroup) for g in tool_groups)
         if needs_ally_config and not self.tool_manager._ally_config_tools:  # noqa: SLF001
             self.logger.info("Auto-loading Ally Config tools...")
-            self.setup_ally_config_tools()
+            self.setup_ally_config_tools(
+                require_human_approval=require_human_approval,
+                approval_callback=approval_callback
+            )
 
     def _resolve_model(self, model: str | ModelConfiguration) -> str | OpenAIChatModel:
         """
@@ -193,7 +209,7 @@ class AgentFactory:
             return model.create_model()
         return model
 
-    def create_agent(
+    def create_agent(  # noqa: PLR0913
         self,
         name: str,
         system_prompt: str,
@@ -202,6 +218,8 @@ class AgentFactory:
         additional_instructions: str | None = None,
         max_retries: int = 3,
         include_context_tools: bool = True,
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
         tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
@@ -216,6 +234,8 @@ class AgentFactory:
             additional_instructions: Optional additional instructions
             max_retries: Maximum number of retries for failed operations
             include_context_tools: Whether to include context management tools (default: True)
+            require_human_approval: Whether to require human approval for non-read-only operations
+            approval_callback: Optional callback for human approval
             tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional keyword arguments for Agent
 
@@ -223,7 +243,11 @@ class AgentFactory:
             Configured Agent instance
         """
         # Automatically load tools if needed
-        self._ensure_tools_loaded(tool_groups)
+        self._ensure_tools_loaded(
+            tool_groups,
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback
+        )
 
         # Apply tool replacements to the tool manager if provided
         # This modifies the tool objects in-place to use mock functions
@@ -299,6 +323,8 @@ Use this information when the user asks about current dates, times, or when time
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
         tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
@@ -310,6 +336,8 @@ Use this information when the user asks about current dates, times, or when time
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            require_human_approval: Whether to require human approval for non-read-only operations
+            approval_callback: Optional callback for human approval
             tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
@@ -335,6 +363,8 @@ Use this information when the user asks about current dates, times, or when time
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
             tool_replacements=tool_replacements,
             **agent_kwargs
         )
@@ -345,6 +375,8 @@ Use this information when the user asks about current dates, times, or when time
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
         tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
@@ -356,6 +388,8 @@ Use this information when the user asks about current dates, times, or when time
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            require_human_approval: Whether to require human approval for non-read-only operations
+            approval_callback: Optional callback for human approval
             tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
@@ -381,6 +415,8 @@ Use this information when the user asks about current dates, times, or when time
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
             tool_replacements=tool_replacements,
             **agent_kwargs
         )
@@ -392,6 +428,8 @@ Use this information when the user asks about current dates, times, or when time
         model: str | ModelConfiguration | None = None,
         additional_instructions: str | None = None,
         include_context_tools: bool = True,
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
         tool_replacements: dict[str, Callable] | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
@@ -404,6 +442,8 @@ Use this information when the user asks about current dates, times, or when time
             model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
             additional_instructions: Optional additional instructions
             include_context_tools: Whether to include context management tools
+            require_human_approval: Whether to require human approval for non-read-only operations
+            approval_callback: Optional callback for human approval
             tool_replacements: Optional dict mapping operation IDs to mock functions for testing
             **agent_kwargs: Additional arguments for Agent
 
@@ -436,6 +476,8 @@ Use this information when the user asks about current dates, times, or when time
             model=model,
             additional_instructions=additional_instructions,
             include_context_tools=include_context_tools,
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
             tool_replacements=tool_replacements,
             **agent_kwargs
         )

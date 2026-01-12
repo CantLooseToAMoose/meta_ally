@@ -54,6 +54,12 @@ from .auth_manager import AuthManager
 logger = logging.getLogger(__name__)
 
 
+class ApprovalResponse(BaseModel):
+    """Response from an approval callback"""
+    approved: bool
+    reason: str | None = None
+
+
 @dataclass
 class OpenAPIToolDependencies:
     """
@@ -143,6 +149,7 @@ class OpenAPIToolsLoader:
         models_filename: str = "api_models.py",
         regenerate_models: bool = False,
         require_human_approval: bool = False,
+        approval_callback: Callable[[str, str, dict], ApprovalResponse] | None = None,
         tool_name_prefix: str = "",
         max_response_chars: int | None = None
     ):
@@ -155,6 +162,8 @@ class OpenAPIToolsLoader:
             models_filename: Filename for the generated Pydantic models (default: api_models.py)
             regenerate_models: Whether to regenerate the models file if it exists (default: False)
             require_human_approval: Whether to require human approval for non-read-only operations (default: False)
+            approval_callback: Optional callback for human approval. Receives (operation_id, method, params)
+                and returns ApprovalResponse. Only called if require_human_approval is True.
             tool_name_prefix: Optional prefix to add to all tool names to avoid conflicts (default: "")
             max_response_chars: Maximum characters in API responses. If exceeded, response is truncated
                 (default: None = no truncation)
@@ -166,6 +175,7 @@ class OpenAPIToolsLoader:
         self.models_filename = models_filename
         self.regenerate_models = regenerate_models
         self.require_human_approval = require_human_approval
+        self.approval_callback = approval_callback
         self.tool_name_prefix = tool_name_prefix
         self.max_response_chars = max_response_chars
         self.tool_tags: dict[str, list[str]] = {}  # Maps tool names to their tags
@@ -376,7 +386,7 @@ class OpenAPIToolsLoader:
             A callable function that can be wrapped as a Tool
         """
         # Create the actual API call function
-        async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> dict[str, Any]:  # noqa: C901, PLR0912
+        async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> dict[str, Any]:  # noqa: C901, PLR0912, PLR0915
             """
             Make an HTTP request to the API endpoint
 
@@ -388,18 +398,22 @@ class OpenAPIToolsLoader:
                 The JSON response from the API
 
             Raises:
-                ApprovalRequired: If human approval is required for non-read-only operations
-                ModelRetry: If the API request fails or encounters an error
+                ModelRetry: If the API request fails, approval is denied, or encounters an error
                 ValueError: If an unsupported HTTP method is used
             """
             # Check if human approval is required for non-read-only operations
             if (self.require_human_approval and
-                not self._is_read_only_operation(method) and
-                not ctx.tool_call_approved):
-                from pydantic_ai import ApprovalRequired  # noqa: PLC0415
-                raise ApprovalRequired(
-                    f"Human approval required for {method.upper()} operation on {path}"
-                )
+                not self._is_read_only_operation(method)):
+                if self.approval_callback is None:
+                    raise ModelRetry(
+                        f"Human approval required for {method.upper()} operation on {path}, "
+                        "but no approval callback configured"
+                    )
+                
+                approval_response = self.approval_callback(operation_id, method.upper(), kwargs)
+                if not approval_response.approved:
+                    reason = approval_response.reason or "User denied approval"
+                    raise ModelRetry(f"Operation denied: {reason}")
 
             # Build the URL - replace path parameters
             final_path = path

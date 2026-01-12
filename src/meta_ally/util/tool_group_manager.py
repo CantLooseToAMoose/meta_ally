@@ -64,7 +64,8 @@ class ToolGroupManager:
         openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ai_knowledge_api_models.py",
         regenerate_models: bool = True,
-        require_human_approval: bool = False
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None
     ) -> None:
         """Load AI Knowledge API tools and organize them into groups"""
         self._ai_knowledge_loader = OpenAPIToolsLoader(
@@ -72,6 +73,7 @@ class ToolGroupManager:
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
             tool_name_prefix="ai_knowledge_",
             max_response_chars=20000  # 20k chars generous limit for AI Knowledge responses
         )
@@ -84,7 +86,8 @@ class ToolGroupManager:
         openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ally_config_api_models.py",
         regenerate_models: bool = True,
-        require_human_approval: bool = False
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None
     ) -> None:
         """Load Ally Config API tools and organize them into groups"""
         self._ally_config_loader = OpenAPIToolsLoader(
@@ -92,6 +95,7 @@ class ToolGroupManager:
             models_filename=models_filename,
             regenerate_models=regenerate_models,
             require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
             tool_name_prefix="ally_config_",
             max_response_chars=20000  # 20k chars generous limit for Ally Config responses
         )
@@ -565,7 +569,6 @@ class ToolGroupManager:
         class SimpleContext:
             def __init__(self, deps):
                 self.deps = deps
-                self.tool_call_approved = True  # For human approval if needed
 
         ctx = SimpleContext(dependencies)
 
