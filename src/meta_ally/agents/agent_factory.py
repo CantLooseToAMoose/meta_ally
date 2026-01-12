@@ -209,7 +209,7 @@ class AgentFactory:
             return model.create_model()
         return model
 
-    def create_agent(  # noqa: PLR0913
+    def create_agent(  # noqa: PLR0913, PLR0917
         self,
         name: str,
         system_prompt: str,

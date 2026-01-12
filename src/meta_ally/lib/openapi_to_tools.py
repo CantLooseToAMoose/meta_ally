@@ -409,7 +409,7 @@ class OpenAPIToolsLoader:
                         f"Human approval required for {method.upper()} operation on {path}, "
                         "but no approval callback configured"
                     )
-                
+
                 approval_response = self.approval_callback(operation_id, method.upper(), kwargs)
                 if not approval_response.approved:
                     reason = approval_response.reason or "User denied approval"
