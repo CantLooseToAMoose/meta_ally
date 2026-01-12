@@ -172,7 +172,7 @@ class ModelConfiguration:
                 max_keepalive_connections=20,  # Maximum number of idle connections to keep alive
             ),
         )
-        
+
         http_client = httpx.AsyncClient(
             transport=transport,
             timeout=httpx.Timeout(90.0, connect=10.0),  # Increased timeout for rate limit waits

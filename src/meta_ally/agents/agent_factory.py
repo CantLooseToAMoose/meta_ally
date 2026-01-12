@@ -12,12 +12,14 @@ import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 from zoneinfo import ZoneInfo
 
-from pydantic_ai import Agent
+from pydantic_ai import Agent, RunContext, Tool
 from pydantic_ai.models.openai import OpenAIChatModel
 
 from ..lib.auth_manager import AuthManager
+from ..lib.dependencies import MultiAgentDependencies
 from ..lib.openapi_to_tools import OpenAPIToolDependencies
 from ..util.context_tools import get_context_tools
 from ..util.system_prompts import SystemPrompts
@@ -191,6 +193,22 @@ class AgentFactory:
                 approval_callback=approval_callback
             )
 
+    def _get_default_model(self) -> ModelConfiguration:
+        """
+        Get the default Azure GPT-4.1-mini model configuration.
+
+        Returns
+        -------
+        ModelConfiguration
+            Default Azure model configuration.
+        """
+        self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
+        return create_azure_model_config(
+            deployment_name="gpt-4.1-mini",
+            endpoint="https://ally-frcentral.openai.azure.com/",
+            logger=self.logger,
+        )
+
     def _resolve_model(self, model: str | ModelConfiguration) -> str | OpenAIChatModel:
         """
         Resolve model specification to either a string or configured OpenAIChatModel.
@@ -208,6 +226,61 @@ class AgentFactory:
         if isinstance(model, ModelConfiguration):
             return model.create_model()
         return model
+
+    def _get_datetime_instructions(self) -> str:
+        """
+        Get current date and time instructions for system prompts.
+
+        Returns
+        -------
+        str
+            Formatted date/time instructions.
+        """
+        now = datetime.now(ZoneInfo("Europe/Berlin"))
+        return f"""
+
+Current Date and Time:
+- Date: {now.strftime('%A, %B %d, %Y')}
+- Time: {now.strftime('%H:%M:%S')} (Europe/Berlin timezone)
+- ISO Format: {now.isoformat()}
+
+Use this information when the user asks about current dates, times, or when time-based context is relevant.
+"""
+
+    def _get_context_management_instructions(self, is_orchestrator: bool = False) -> str:
+        """
+        Get context management instructions for system prompts.
+
+        Parameters
+        ----------
+        is_orchestrator : bool
+            Whether this is for an orchestrator agent (affects instruction wording).
+
+        Returns
+        -------
+        str
+            Context management instructions.
+        """
+        base_instructions = """
+
+        Context Management:
+        You have access to tools for tracking user context information:
+        - Business Area (Geschäftsbereich): The user's business domain or department
+        - Project Number: The project the user is working on
+        - Endpoint Name: The specific endpoint configuration being discussed
+
+        When the user mentions any of these, use the appropriate set_* tool to remember it."""
+
+        if is_orchestrator:
+            return base_instructions + """
+        Include relevant context when delegating to specialists.
+        """
+        return base_instructions + """
+        Before performing operations that require this context, use the get_* tools to check
+        if the information is available.
+        If required information is missing, the get_* tool will return a message asking you
+        to gather it from the user.
+        """
 
     def create_agent(  # noqa: PLR0913, PLR0917
         self,
@@ -269,35 +342,9 @@ class AgentFactory:
         if additional_instructions:
             complete_prompt += f"\n\nAdditional Instructions:\n{additional_instructions}"
 
-        # Add current date and time information
-        now = datetime.now(ZoneInfo("Europe/Berlin"))
-        date_time_info = f"""
-
-Current Date and Time:
-- Date: {now.strftime('%A, %B %d, %Y')}
-- Time: {now.strftime('%H:%M:%S')} (Europe/Berlin timezone)
-- ISO Format: {now.isoformat()}
-
-Use this information when the user asks about current dates, times, or when time-based context is relevant.
-"""
-        complete_prompt += date_time_info
-
         # Add context management instructions to system prompt
         if include_context_tools:
-            complete_prompt += """
-
-        Context Management:
-        You have access to tools for tracking user context information:
-        - Business Area (Geschäftsbereich): The user's business domain or department
-        - Project Number: The project the user is working on
-        - Endpoint Name: The specific endpoint configuration being discussed
-
-        When the user mentions any of these, use the appropriate set_* tool to remember it.
-        Before performing operations that require this context, use the get_* tools to check
-        if the information is available.
-        If required information is missing, the get_* tool will return a message asking you
-        to gather it from the user.
-        """
+            complete_prompt += self._get_context_management_instructions(is_orchestrator=False)
 
         # Resolve model configuration
         resolved_model = self._resolve_model(model)
@@ -312,6 +359,17 @@ Use this information when the user asks about current dates, times, or when time
             name=name,
             **agent_kwargs
         )
+
+        # Add dynamic datetime instructions that are evaluated at runtime
+        @agent.instructions
+        def add_current_datetime() -> str:
+            """
+            Add current date and time information dynamically at runtime.
+
+            Returns:
+                str: Formatted date and time instructions for the agent.
+            """
+            return self._get_datetime_instructions()
 
         self.logger.info("Created agent '%s' with %d tools", name, len(tools))
 
@@ -349,12 +407,7 @@ Use this information when the user asks about current dates, times, or when time
 
         # Auto-create Azure model config if no model specified
         if model is None:
-            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
-            model = create_azure_model_config(
-                deployment_name="gpt-4.1-mini",
-                endpoint="https://ally-frcentral.openai.azure.com/",
-                logger=self.logger,
-            )
+            model = self._get_default_model()
 
         return self.create_agent(
             name="ai_knowledge_specialist",
@@ -401,12 +454,7 @@ Use this information when the user asks about current dates, times, or when time
 
         # Auto-create Azure model config if no model specified
         if model is None:
-            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
-            model = create_azure_model_config(
-                deployment_name="gpt-4.1-mini",
-                endpoint="https://ally-frcentral.openai.azure.com/",
-                logger=self.logger,
-            )
+            model = self._get_default_model()
 
         return self.create_agent(
             name="ally_config_admin",
@@ -462,12 +510,7 @@ Use this information when the user asks about current dates, times, or when time
 
         # Auto-create Azure model config if no model specified
         if model is None:
-            self.logger.info("No model specified, creating default Azure GPT-4.1-mini configuration")
-            model = create_azure_model_config(
-                deployment_name="gpt-4.1-mini",
-                endpoint="https://ally-frcentral.openai.azure.com/",
-                logger=self.logger,
-            )
+            model = self._get_default_model()
 
         return self.create_agent(
             name="hybrid_ai_assistant",
@@ -486,13 +529,10 @@ Use this information when the user asks about current dates, times, or when time
         """
         Create dependencies for running agents with OpenAPI tools.
 
-        IMPORTANT: After creating dependencies, you must call deps.auth_manager._refresh_token()
-        to initiate the browser-based authentication flow before running any agents.
 
         Example:
             ```python
             deps = factory.create_dependencies()
-            deps.auth_manager._refresh_token()  # Opens browser for authentication
             result = agent.run_sync("question", deps=deps)
             ```
 
@@ -500,6 +540,282 @@ Use this information when the user asks about current dates, times, or when time
             OpenAPIToolDependencies instance with the configured AuthManager
         """
         return OpenAPIToolDependencies(auth_manager=self.auth_manager)
+
+    def create_multi_agent_dependencies(self) -> MultiAgentDependencies:
+        """
+        Create dependencies for multi-agent systems with conversation tracking.
+
+        Example:
+            ```python
+            deps = factory.create_multi_agent_dependencies()
+            result = orchestrator.run_sync("question", deps=deps)
+            ```
+
+        Returns:
+            MultiAgentDependencies instance with conversation tracking
+        """
+        return MultiAgentDependencies(auth_manager=self.auth_manager)
+
+    def _create_specialist_tool(
+        self,
+        agent_name: str,
+        agent: Agent[OpenAPIToolDependencies],
+        description: str,
+    ) -> Tool[MultiAgentDependencies]:
+        """
+        Create a tool that wraps a specialist agent for use by an orchestrator.
+
+        Args:
+            agent_name: Name identifier for the specialist
+            agent: The specialist agent instance
+            description: Description for the tool (used by orchestrator to decide when to call)
+
+        Returns:
+            A Tool that can be used by the orchestrator agent
+        """
+        # Create the tool function dynamically
+        async def specialist_tool(
+            ctx: RunContext[MultiAgentDependencies],
+            task: str,
+        ) -> str:
+            """
+            Dynamically created specialist tool function.
+
+            Returns:
+                The text response from the specialist agent.
+            """
+            # Get conversation history for this specialist
+            message_history = ctx.deps.get_conversation(agent_name)
+
+            # Run the specialist agent
+            result = await agent.run(
+                task,
+                deps=ctx.deps,
+                message_history=message_history if message_history else None,
+            )
+
+            # Get the response text
+            response_text = result.output if isinstance(result.output, str) else str(result.output)
+
+            # Update conversation history
+            ctx.deps.update_conversation(agent_name, list(result.all_messages()))
+
+            # Record the run to the timeline (before returning, so it appears in correct order)
+            ctx.deps.add_specialist_run(
+                agent_name=agent_name,
+                task=task,
+                response=response_text,
+                new_messages=list(result.new_messages()),
+                all_messages=list(result.all_messages()),
+            )
+
+            return response_text
+
+        # Create the Tool with dynamic name and description
+        tool = Tool(
+            function=specialist_tool,
+            name=f"call_{agent_name}",
+            description=description,
+        )
+
+        return tool
+
+    def create_orchestrator_with_specialists(
+        self,
+        specialists: dict[str, tuple[Agent[OpenAPIToolDependencies], str]],
+        orchestrator_model: str | ModelConfiguration | None = None,
+        orchestrator_instructions: str | None = None,
+        include_context_tools: bool = True,
+        max_retries: int = 3,
+        **agent_kwargs,
+    ) -> Agent[MultiAgentDependencies]:
+        """
+        Create an orchestrator agent with specialist agents registered as tools.
+
+        The orchestrator can delegate tasks to specialists, and conversation history
+        is maintained per specialist across multiple turns.
+
+        Args:
+            specialists: Dict mapping agent names to (agent, description) tuples.
+                         The description is used as the tool description for the orchestrator.
+            orchestrator_model: Model for the orchestrator. If None, creates Azure GPT-4.1-mini.
+            orchestrator_instructions: Additional instructions for the orchestrator.
+            include_context_tools: Whether to include context management tools.
+            max_retries: Maximum retries for failed operations.
+            **agent_kwargs: Additional arguments for the Agent.
+
+        Returns:
+            Orchestrator Agent configured with specialist tools.
+
+        Example:
+            ```python
+            factory = AgentFactory()
+
+            # Create specialist agents
+            ai_knowledge = factory.create_ai_knowledge_specialist()
+            ally_config = factory.create_ally_config_admin()
+
+            # Create orchestrator with specialists as tools
+            orchestrator = factory.create_orchestrator_with_specialists(
+                specialists={
+                    "ai_knowledge": (ai_knowledge, "Expert in knowledge management, sources, and collections"),
+                    "ally_config": (ally_config, "Expert in Copilot configuration and endpoint management"),
+                }
+            )
+
+            # Run with multi-agent dependencies
+            deps = factory.create_multi_agent_dependencies()
+            deps.auth_manager._refresh_token()
+            result = orchestrator.run_sync("Set up a new knowledge source", deps=deps)
+            ```
+        """
+        # Create specialist tools
+        specialist_tools: list[Tool[MultiAgentDependencies]] = []
+        for agent_name, (agent, description) in specialists.items():
+            tool = self._create_specialist_tool(agent_name, agent, description)
+            specialist_tools.append(tool)
+            self.logger.info("Created specialist tool: call_%s", agent_name)
+
+        # Build tools list
+        tools: list[Any] = list(specialist_tools)
+
+        # Add context management tools if requested
+        if include_context_tools:
+            context_tools = get_context_tools()
+            tools.extend(context_tools)
+            self.logger.info("Added %d context management tools to orchestrator", len(context_tools))
+
+        # Build system prompt
+        system_prompt = SystemPrompts.MULTI_AGENT_ORCHESTRATOR
+        if orchestrator_instructions:
+            system_prompt += f"\n\nAdditional Instructions:\n{orchestrator_instructions}"
+
+        # Add context management instructions
+        if include_context_tools:
+            system_prompt += self._get_context_management_instructions(is_orchestrator=True)
+
+        # Auto-create Azure model config if no model specified
+        if orchestrator_model is None:
+            orchestrator_model = self._get_default_model()
+
+        # Resolve model configuration
+        resolved_model = self._resolve_model(orchestrator_model)
+
+        # Create orchestrator agent
+        orchestrator = Agent(
+            resolved_model,
+            deps_type=MultiAgentDependencies,
+            instructions=system_prompt,
+            tools=tools,
+            retries=max_retries,
+            name="orchestrator",
+            **agent_kwargs,
+        )
+
+        # Add dynamic datetime instructions that are evaluated at runtime
+        @orchestrator.instructions
+        def add_current_datetime() -> str:
+            """
+            Add current date and time information dynamically at runtime.
+
+            Returns:
+                str: Formatted date and time instructions for the agent.
+            """
+            return self._get_datetime_instructions()
+
+        self.logger.info(
+            "Created orchestrator with %d specialist tools and %d total tools",
+            len(specialist_tools),
+            len(tools),
+        )
+
+        return orchestrator
+
+    def create_default_multi_agent_system(
+        self,
+        orchestrator_model: str | ModelConfiguration | None = None,
+        specialist_model: str | ModelConfiguration | None = None,
+        include_context_tools: bool = True,
+        require_human_approval: bool = False,
+        approval_callback: Callable | None = None,
+        **agent_kwargs,
+    ) -> Agent[MultiAgentDependencies]:
+        """
+        Create a default multi-agent system with AI Knowledge and Ally Config specialists.
+
+        This is a convenience method that sets up a complete multi-agent system with:
+        - An AI Knowledge specialist for knowledge management
+        - An Ally Config specialist for Copilot configuration
+        - An orchestrator that delegates to these specialists
+
+        Args:
+            orchestrator_model: Model for the orchestrator. If None, uses Azure GPT-4.1-mini.
+            specialist_model: Model for specialists. If None, uses Azure GPT-4.1-mini.
+            include_context_tools: Whether to include context management tools.
+            require_human_approval: Whether specialists require human approval for operations.
+            approval_callback: Optional callback for human approval.
+            **agent_kwargs: Additional arguments for agents.
+
+        Returns:
+            Orchestrator Agent configured with AI Knowledge and Ally Config specialists.
+
+        Example:
+            ```python
+            factory = AgentFactory()
+            orchestrator = factory.create_default_multi_agent_system()
+
+            deps = factory.create_multi_agent_dependencies()
+            deps.auth_manager._refresh_token()
+
+            result = orchestrator.run_sync("Help me set up a SharePoint source", deps=deps)
+            ```
+        """
+        # Extend specialist instructions
+        specialist_extension = SystemPrompts.SPECIALIST_INSTRUCTION_EXTENSION
+
+        # Create AI Knowledge specialist with extended instructions
+        ai_knowledge = self.create_ai_knowledge_specialist(
+            model=specialist_model,
+            additional_instructions=specialist_extension,
+            include_context_tools=False,  # Orchestrator handles context
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
+        )
+
+        # Create Ally Config specialist with extended instructions
+        ally_config = self.create_ally_config_admin(
+            model=specialist_model,
+            additional_instructions=specialist_extension,
+            include_context_tools=False,  # Orchestrator handles context
+            require_human_approval=require_human_approval,
+            approval_callback=approval_callback,
+        )
+
+        # Define specialists with descriptions
+        specialists = {
+            "ai_knowledge_specialist": (
+                ai_knowledge,
+                "Expert in AI Knowledge management. Call this specialist for tasks involving: "
+                "creating and managing knowledge sources (websites, SharePoint, OneDrive, S3, GitHub), "
+                "building and configuring collections, setting up indexing and search, "
+                "and managing document metadata. Use for any knowledge-related queries."
+            ),
+            "ally_config_admin": (
+                ally_config,
+                "Expert in Ally Config and Copilot management. Call this specialist for tasks involving: "
+                "creating and configuring AI Copilot endpoints, managing model deployments, "
+                "setting up plugins (including AI Knowledge plugin), running evaluations, "
+                "monitoring costs and usage, and managing permissions. Use for any Copilot configuration queries."
+            ),
+        }
+
+        # Create orchestrator
+        return self.create_orchestrator_with_specialists(
+            specialists=specialists,
+            orchestrator_model=orchestrator_model,
+            include_context_tools=include_context_tools,
+            **agent_kwargs,
+        )
 
     def get_available_groups(self) -> dict[str, dict[str, list[str]]]:
         """
