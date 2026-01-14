@@ -34,13 +34,159 @@ def format_message_parts(parts: list) -> str:
             content = part.content if isinstance(part.content, str) else str(part.content)
             if part_type in {'UserPromptPart', 'SystemPromptPart'}:
                 output.append(f"[dim]{part_type}:[/dim]\n{content}")
+            elif part_type == 'ToolReturnPart':
+                output.append(f"[dim cyan]🔧 Tool Return:[/dim cyan]\n{content}")
             else:
                 output.append(f"[dim]{part_type}:[/dim] {content}")
         elif hasattr(part, 'tool_name'):
             # ToolCallPart
             output.append(f"[bold yellow]🔧 Tool Call:[/bold yellow] {part.tool_name}")
-            output.append(f"[dim]Args:[/dim] {part.args}")
+            if hasattr(part, 'args') and part.args:
+                output.append(f"[dim]Args:[/dim] {part.args}")
     return "\n".join(output)
+
+
+def display_chat_message(
+    message,
+    panel_width: int,
+    console_instance: Console,
+    agent_prefix: str | None = None,
+):
+    """
+    Display a single chat message in the appropriate style.
+
+    Args:
+        message: The message to display (ModelRequest or ModelResponse)
+        panel_width: Width of the panel
+        console_instance: Rich Console instance for output
+        agent_prefix: Optional prefix to show agent name (for multi-agent visualization)
+    """
+    content = format_message_parts(message.parts)
+    msg_type = type(message).__name__
+
+    if msg_type == "ModelRequest":
+        # User messages on the left (blue)
+        title = "[bold blue]👤 User[/bold blue]"
+        if agent_prefix:
+            title = f"[bold blue]👤 Task → {agent_prefix}[/bold blue]"
+        panel = Panel(
+            content,
+            title=title,
+            border_style="blue",
+            padding=(1, 2),
+            width=panel_width
+        )
+        console_instance.print(panel)
+    elif msg_type == "ModelResponse":
+        # Assistant messages on the right (green)
+        title = "[bold green]🤖 Assistant[/bold green]"
+        if agent_prefix:
+            title = f"[bold green]🤖 {agent_prefix}[/bold green]"
+        panel = Panel(
+            content,
+            title=title,
+            border_style="green",
+            padding=(1, 2),
+            width=panel_width
+        )
+        left_padding = console_instance.width - panel_width
+        padded_panel = Padding(panel, (0, 0, 0, left_padding))
+        console_instance.print(padded_panel)
+
+
+def display_specialist_run(
+    specialist_run,
+    panel_width: int,
+    console_instance: Console,
+):
+    """
+    Display a specialist agent's conversation from a single run.
+
+    Args:
+        specialist_run: The SpecialistRun record containing the specialist's messages
+        panel_width: Width of the panel
+        console_instance: Rich Console instance for output
+    """
+    agent_name = specialist_run.agent_name
+    # Format agent name nicely (e.g., "ai_knowledge_specialist" -> "AI Knowledge Specialist")
+    display_name = agent_name.replace("_", " ").title()
+
+    console_instance.print(f"\n[bold cyan]{'─' * 60}[/bold cyan]")
+    console_instance.print(f"[bold cyan]🔧 Specialist: {display_name}[/bold cyan]")
+    console_instance.print(f"[dim]Task: {specialist_run.task[:100]}{'...' if len(specialist_run.task) > 100 else ''}[/dim]")
+    console_instance.print(f"[bold cyan]{'─' * 60}[/bold cyan]\n")
+
+    # Display new messages from the specialist run
+    for message in specialist_run.new_messages:
+        display_chat_message(message, panel_width - 4, console_instance, agent_prefix=display_name)
+
+    console_instance.print(f"[bold cyan]{'─' * 60}[/bold cyan]\n")
+
+
+def display_orchestrator_message(
+    message,
+    panel_width: int,
+    console_instance: Console,
+):
+    """
+    Display an orchestrator message with special styling.
+
+    Args:
+        message: The message to display
+        panel_width: Width of the panel
+        console_instance: Rich Console instance for output
+    """
+    content = format_message_parts(message.parts)
+    msg_type = type(message).__name__
+
+    if msg_type == "ModelRequest":
+        panel = Panel(
+            content,
+            title="[bold blue]👤 User[/bold blue]",
+            border_style="blue",
+            padding=(1, 2),
+            width=panel_width
+        )
+        console_instance.print(panel)
+    elif msg_type == "ModelResponse":
+        panel = Panel(
+            content,
+            title="[bold magenta]🎯 Orchestrator[/bold magenta]",
+            border_style="magenta",
+            padding=(1, 2),
+            width=panel_width
+        )
+        left_padding = console_instance.width - panel_width
+        padded_panel = Padding(panel, (0, 0, 0, left_padding))
+        console_instance.print(padded_panel)
+
+
+def display_conversation_timeline(
+    timeline: list,
+    panel_width: int,
+    console_instance: Console,
+):
+    """
+    Display a unified conversation timeline with orchestrator messages and specialist runs.
+
+    The timeline shows events in chronological order:
+    - User messages (blue, left-aligned)
+    - Orchestrator responses (magenta, right-aligned)
+    - Specialist runs (cyan, indented) - shown when the orchestrator called a specialist
+
+    Args:
+        timeline: List of TimelineEntry objects in chronological order
+        panel_width: Width of the panel
+        console_instance: Rich Console instance for output
+    """
+    # Import here to avoid circular dependency
+    from ..lib.dependencies import TimelineEntryType
+
+    for entry in timeline:
+        if entry.entry_type == TimelineEntryType.ORCHESTRATOR_MESSAGE:
+            display_orchestrator_message(entry.data, panel_width, console_instance)
+        elif entry.entry_type == TimelineEntryType.SPECIALIST_RUN:
+            display_specialist_run(entry.data, panel_width, console_instance)
 
 
 def _print_case_header(panel_title: str, output_console: Console) -> None:
