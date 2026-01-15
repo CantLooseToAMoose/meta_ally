@@ -9,6 +9,12 @@ This module provides a clean terminal-based chat interface with:
 - Multi-agent visualization with unified conversation timeline
 """
 
+from pydantic_ai.messages import (
+    ModelRequest,
+    ModelResponse,
+    TextPart,
+    UserPromptPart,
+)
 from rich.console import Console
 from rich.prompt import IntPrompt, Prompt
 
@@ -277,6 +283,16 @@ def start_chat_session(agent, deps, console_width: int = 200):
             console.print("\n[yellow]Response interrupted. Type 'exit' to quit.[/yellow]\n")
             continue
         except Exception as e:
+            # Add user input and error response to message history so the agent has context
+            error_message = f"Error occurred: {e!s}"
+            user_request = ModelRequest(parts=[UserPromptPart(content=user_input)])
+            error_response = ModelResponse(parts=[TextPart(content=error_message)])
+
+            # Add to message history
+            message_history.append(user_request)
+            message_history.append(error_response)
+
+            # Display the error to user
             console.print(f"\n[red]❌ Error: {e}[/red]\n")
             console.print("[dim]You can continue chatting or type 'exit' to quit.[/dim]\n")
             continue
