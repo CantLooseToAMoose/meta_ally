@@ -12,6 +12,8 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
+from ..lib.dependencies import TimelineEntryType
+
 # Default console with wider width for side-by-side display
 console = Console(width=200)
 
@@ -35,7 +37,7 @@ def format_message_parts(parts: list) -> str:
             if part_type in {'UserPromptPart', 'SystemPromptPart'}:
                 output.append(f"[dim]{part_type}:[/dim]\n{content}")
             elif part_type == 'ToolReturnPart':
-                output.append(f"[dim cyan]🔧 Tool Return:[/dim cyan]\n{content}")
+                output.append(f"[dim yellow]🔧 Tool Return:[/dim yellow]\n{content}")
             else:
                 output.append(f"[dim]{part_type}:[/dim] {content}")
         elif hasattr(part, 'tool_name'):
@@ -59,33 +61,43 @@ def display_chat_message(
         message: The message to display (ModelRequest or ModelResponse)
         panel_width: Width of the panel
         console_instance: Rich Console instance for output
-        agent_prefix: Optional prefix to show agent name (for multi-agent visualization)
+        agent_prefix: Optional prefix to show agent name (for multi-agent visualization).
+                      When provided, requests are shown as from Orchestrator.
     """
     content = format_message_parts(message.parts)
     msg_type = type(message).__name__
 
     if msg_type == "ModelRequest":
-        # User messages on the left (blue)
-        title = "[bold blue]👤 User[/bold blue]"
         if agent_prefix:
-            title = f"[bold blue]👤 Task → {agent_prefix}[/bold blue]"
+            # Within specialist context, requests come from orchestrator (purple)
+            title = "[bold magenta]🎯 Orchestrator[/bold magenta]"
+            border = "magenta"
+        else:
+            # User messages (light blue)
+            title = "[bold bright_blue]👤 User[/bold bright_blue]"
+            border = "bright_blue"
         panel = Panel(
             content,
             title=title,
-            border_style="blue",
+            border_style=border,
             padding=(1, 2),
             width=panel_width
         )
         console_instance.print(panel)
     elif msg_type == "ModelResponse":
-        # Assistant messages on the right (green)
-        title = "[bold green]🤖 Assistant[/bold green]"
+        # Assistant messages on the right (purple for single agent, green for specialists)
         if agent_prefix:
+            # Specialist agent - green
             title = f"[bold green]🤖 {agent_prefix}[/bold green]"
+            border = "green"
+        else:
+            # Single agent - purple
+            title = "[bold magenta]🤖 Assistant[/bold magenta]"
+            border = "magenta"
         panel = Panel(
             content,
             title=title,
-            border_style="green",
+            border_style=border,
             padding=(1, 2),
             width=panel_width
         )
@@ -113,7 +125,9 @@ def display_specialist_run(
 
     console_instance.print(f"\n[bold cyan]{'─' * 60}[/bold cyan]")
     console_instance.print(f"[bold cyan]🔧 Specialist: {display_name}[/bold cyan]")
-    console_instance.print(f"[dim]Task: {specialist_run.task[:100]}{'...' if len(specialist_run.task) > 100 else ''}[/dim]")
+    task_preview = specialist_run.task[:100]
+    task_suffix = '...' if len(specialist_run.task) > 100 else ''
+    console_instance.print(f"[dim]Task: {task_preview}{task_suffix}[/dim]")
     console_instance.print(f"[bold cyan]{'─' * 60}[/bold cyan]\n")
 
     # Display new messages from the specialist run
@@ -142,8 +156,8 @@ def display_orchestrator_message(
     if msg_type == "ModelRequest":
         panel = Panel(
             content,
-            title="[bold blue]👤 User[/bold blue]",
-            border_style="blue",
+            title="[bold bright_blue]👤 User[/bold bright_blue]",
+            border_style="bright_blue",
             padding=(1, 2),
             width=panel_width
         )
@@ -179,9 +193,6 @@ def display_conversation_timeline(
         panel_width: Width of the panel
         console_instance: Rich Console instance for output
     """
-    # Import here to avoid circular dependency
-    from ..lib.dependencies import TimelineEntryType
-
     for entry in timeline:
         if entry.entry_type == TimelineEntryType.ORCHESTRATOR_MESSAGE:
             display_orchestrator_message(entry.data, panel_width, console_instance)
@@ -218,8 +229,8 @@ def _print_messages(input_messages: list, panel_width: int, output_console: Cons
         if msg_type == "ModelRequest":
             panel = Panel(
                 content,
-                title="[bold blue]👤 User[/bold blue]",
-                border_style="blue",
+                title="[bold bright_blue]👤 User[/bold bright_blue]",
+                border_style="bright_blue",
                 padding=(1, 2),
                 width=panel_width
             )
@@ -227,8 +238,8 @@ def _print_messages(input_messages: list, panel_width: int, output_console: Cons
         elif msg_type == "ModelResponse":
             panel = Panel(
                 content,
-                title="[bold green]🤖 Assistant[/bold green]",
-                border_style="green",
+                title="[bold magenta]🤖 Assistant[/bold magenta]",
+                border_style="magenta",
                 padding=(1, 2),
                 width=panel_width
             )
