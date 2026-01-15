@@ -795,14 +795,14 @@ Use this information when the user asks about current dates, times, or when time
         specialists = {
             "ai_knowledge_specialist": (
                 ai_knowledge,
-                "Expert in AI Knowledge management. Call this specialist for tasks involving: "
-                "creating and managing knowledge sources (websites, SharePoint, OneDrive, S3, GitHub), "
+                "Expert in AI Knowledge management. Call or ask this specialist for tasks involving: "
+                "creating and managing knowledge sources (document upload, websites, SharePoint, OneDrive, S3, GitHub),"
                 "building and configuring collections, setting up indexing and search, "
                 "and managing document metadata. Use for any knowledge-related queries."
             ),
             "ally_config_admin": (
                 ally_config,
-                "Expert in Ally Config and Copilot management. Call this specialist for tasks involving: "
+                "Expert in Ally Config and Copilot management. Call or ask this specialist for tasks involving: "
                 "creating and configuring AI Copilot endpoints, managing model deployments, "
                 "setting up plugins (including AI Knowledge plugin), running evaluations, "
                 "monitoring costs and usage, and managing permissions. Use for any Copilot configuration queries."
