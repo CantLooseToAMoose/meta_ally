@@ -743,7 +743,7 @@ class OpenAPIToolsLoader:
         auth_manager: AuthManager | None = None,
         keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
-        client_id: str = "ally-portal-frontend-dev"
+        client_id: str = "ai-cli-device"
     ) -> OpenAPIToolDependencies:
         """
         Create dependencies for the OpenAPI tools
