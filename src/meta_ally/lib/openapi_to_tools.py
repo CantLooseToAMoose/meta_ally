@@ -449,9 +449,9 @@ class OpenAPIToolsLoader:
             # Add authorization header from context dependencies
             auth_header = ctx.deps.auth_manager.get_auth_header()
             headers.update(auth_header)
-
-            # Configure timeout: 20 seconds for each operation (connect, read, write, pool)
-            timeout = httpx.Timeout(20.0, connect=10.0)
+            # Configure timeout: 60 seconds for read operations, 10 seconds for connect
+            # This allows slow API endpoints (like list_collections) to complete
+            timeout = httpx.Timeout(60.0, connect=10.0, read=60.0)
 
             async with httpx.AsyncClient(timeout=timeout) as client:
                 try:
@@ -469,8 +469,20 @@ class OpenAPIToolsLoader:
                         raise ValueError(f"Unsupported HTTP method: {method}")
 
                     response.raise_for_status()
-                    result = response.json()
-                    return self._truncate_response(result)
+
+                    # Handle empty response bodies
+                    if not response.content or response.content.strip() == b"":
+                        return f"API request succeeded with status {response.status_code}"
+
+                    try:
+                        result = response.json()
+                        # Handle empty JSON responses (None, empty dict, empty list, empty string)
+                        if result is None or result in ("", {}, []):
+                            return f"API request succeeded with status {response.status_code} and response is empty"
+                        return self._truncate_response(result)
+                    except ValueError:
+                        # If response is not JSON but has content, return success message
+                        return f"API request succeeded with status {response.status_code}"
                 except httpx.HTTPStatusError as e:
                     # Convert HTTPStatusError to ModelRetry so the LLM can try again
                     msg = f"API request failed with status {e.response.status_code}: {e.response.text}"
