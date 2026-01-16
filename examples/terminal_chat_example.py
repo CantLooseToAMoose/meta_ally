@@ -13,7 +13,6 @@ Configuration:
 - Set USE_MULTI_AGENT to True to use a multi-agent orchestrator with specialists
 - Set REQUIRE_HUMAN_APPROVAL to True to prompt for approval on non-read-only operations
 """
-
 import logfire
 from rich.console import Console
 
@@ -37,7 +36,7 @@ REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read op
 def main():
     """Main function to set up and run the chat interface."""
     # Configure logging with logfire
-    logfire.configure(scrubbing=False)
+    logfire.configure(scrubbing=False, console=False)
     logfire.instrument_pydantic_ai()
     # Initialize console for setup messages
     console = Console()

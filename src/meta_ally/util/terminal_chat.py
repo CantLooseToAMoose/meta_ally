@@ -21,6 +21,7 @@ from rich.prompt import IntPrompt, Prompt
 from ..lib.dependencies import MultiAgentDependencies
 from .conversation_saver import (
     save_conversation,
+    save_conversation_html,
 )
 from .visualization import (
     display_chat_message,
@@ -123,11 +124,13 @@ def handle_special_command(
             grade = IntPrompt.ask("  [cyan]Grade (1-10)[/cyan]", default=5)
             notes = Prompt.ask("  [cyan]Notes (optional)[/cyan]", default="")
 
-            # Save in all three formats
+            # Save in JSON and HTML formats
             json_path = save_conversation(timeline_to_save, name, grade, notes)
+            html_path = save_conversation_html(timeline_to_save, name, grade, notes)
 
             console.print("\n[green]✓ Conversation saved:[/green]")
-            console.print(f"[green]  • JSON:  {json_path}[/green]")
+            console.print(f"[green]  • JSON: {json_path}[/green]")
+            console.print(f"[green]  • HTML: {html_path}[/green]")
 
         except ValueError as e:
             console.print(f"\n[red]❌ Error: {e}[/red]\n")

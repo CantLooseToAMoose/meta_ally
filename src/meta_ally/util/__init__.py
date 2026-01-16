@@ -4,6 +4,7 @@ from meta_ally.util.conversation_saver import (
     list_saved_conversations,
     load_conversation,
     save_conversation,
+    save_conversation_html,
 )
 from meta_ally.util.terminal_chat import start_chat_session
 from meta_ally.util.visualization import (
@@ -28,6 +29,7 @@ __all__ = [
     "list_saved_conversations",
     "load_conversation",
     "save_conversation",
+    "save_conversation_html",
     "show_side_by_side_comparison",
     "start_chat_session",
     "visualize_dataset",
