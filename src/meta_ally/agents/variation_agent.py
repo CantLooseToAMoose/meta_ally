@@ -10,7 +10,7 @@ from typing import Any
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ModelMessage, RunContext
 
-from meta_ally.util.system_prompts import SystemPrompts
+from meta_ally.prompts.system_prompts import SystemPrompts
 
 from .model_config import ModelConfiguration
 

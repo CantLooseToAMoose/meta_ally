@@ -49,7 +49,7 @@ import httpx
 from pydantic import BaseModel
 from pydantic_ai import ModelRetry, RunContext, Tool
 
-from .auth_manager import AuthManager
+from ..auth.auth_manager import AuthManager
 
 logger = logging.getLogger(__name__)
 

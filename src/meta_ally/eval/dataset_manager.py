@@ -672,7 +672,7 @@ class DatasetManager:  # noqa: PLR0904
         Raises:
             KeyError: If dataset_id not found
         """
-        from ..util.visualization import visualize_dataset_from_config  # noqa: PLC0415, I001
+        from ..ui.visualization import visualize_dataset_from_config  # noqa: PLC0415, I001
 
         config = self.get_dataset_config(dataset_id)
         visualize_dataset_from_config(
@@ -699,7 +699,7 @@ class DatasetManager:  # noqa: PLR0904
         Raises:
             KeyError: If dataset_id not found
         """
-        from ..util.visualization import visualize_dataset_comparison as viz_comparison  # noqa: PLC0415, I001
+        from ..ui.visualization import visualize_dataset_comparison as viz_comparison  # noqa: PLC0415, I001
 
         config = self.get_dataset_config(dataset_id)
         viz_comparison(config, console_instance=console_instance)
@@ -716,7 +716,7 @@ class DatasetManager:  # noqa: PLR0904
             show_details: If True, show detailed stats for each dataset
             console_instance: Optional Console instance to use for output
         """
-        from ..util.visualization import visualize_all_datasets_summary  # noqa: PLC0415, I001
+        from ..ui.visualization import visualize_all_datasets_summary  # noqa: PLC0415, I001
 
         visualize_all_datasets_summary(
             self._datasets,

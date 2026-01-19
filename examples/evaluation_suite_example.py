@@ -30,15 +30,15 @@ from tenacity import stop_after_attempt, wait_chain, wait_fixed
 
 from meta_ally.agents import AgentFactory
 from meta_ally.agents.model_config import create_azure_model_config
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval import DatasetManager, EvaluationSuite
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.evaluators import ToolCallEvaluator
-from meta_ally.lib.auth_manager import AuthManager
-from meta_ally.util.analytics_api_mock_service import (
+from meta_ally.mock.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
 )
-from meta_ally.util.tool_group_manager import (
+from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
 )

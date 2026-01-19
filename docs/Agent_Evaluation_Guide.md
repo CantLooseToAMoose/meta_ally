@@ -127,7 +127,7 @@ def example_your_agent_creation():
 from pathlib import Path
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
-from meta_ally.lib.auth_manager import AuthManager
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval.case_factory import MessageHistoryCase
 from your_case_factory import example_your_agent_creation
 
@@ -231,12 +231,12 @@ from tenacity import stop_after_attempt, wait_exponential
 from pydantic_evals.evaluators import LLMJudge
 
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
+from meta_ally.tools.tool_group_manager import AIKnowledgeToolGroup, AllyConfigToolGroup
 from meta_ally.eval import DatasetManager, EvaluationSuite
 from meta_ally.eval.evaluators import ToolCallEvaluator
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
-from meta_ally.lib.auth_manager import AuthManager
+from meta_ally.auth.auth_manager import AuthManager
 
 def main():
     # Step 1: Load DatasetManager from disk
@@ -377,7 +377,7 @@ This ensures consistent API state across test runs without manual intervention.
 ### Example Structure
 
 ```python
-from meta_ally.util.analyze_reports import (
+from meta_ally.eval.analyze_reports import (
     load_evaluation_run,
     create_dataset_table,
     create_run_summary_table

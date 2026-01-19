@@ -13,8 +13,8 @@ like sources, collections, and copilots during test execution.
 
 import asyncio
 
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
-from meta_ally.lib.auth_manager import AuthManager
 
 
 def list_all_hooks():

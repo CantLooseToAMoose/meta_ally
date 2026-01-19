@@ -18,12 +18,12 @@ from zoneinfo import ZoneInfo
 from pydantic_ai import Agent, RunContext, Tool
 from pydantic_ai.models.openai import OpenAIChatModel
 
-from ..lib.auth_manager import AuthManager
+from ..auth.auth_manager import AuthManager
 from ..lib.dependencies import MultiAgentDependencies
 from ..lib.openapi_to_tools import OpenAPIToolDependencies
-from ..util.context_tools import get_context_tools
-from ..util.system_prompts import SystemPrompts
-from ..util.tool_group_manager import (
+from ..prompts.system_prompts import SystemPrompts
+from ..tools.context_tools import get_context_tools
+from ..tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
     ToolGroupManager,

@@ -376,7 +376,7 @@ if __name__ == "__main__":
 
     case_1 = dataset.cases[0]
     from meta_ally.eval.case_factory import MessageHistoryCase
-    from meta_ally.util.visualization import visualize_single_case
+    from meta_ally.ui.visualization import visualize_single_case
 
     print("\n--- Beispiel Fall 1 ---")
     print(f"Name: {case_1.name}")

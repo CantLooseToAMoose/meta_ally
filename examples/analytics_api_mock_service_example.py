@@ -14,17 +14,17 @@ from datetime import UTC, datetime, timedelta
 from rich.console import Console
 
 from meta_ally.agents import AgentFactory
-from meta_ally.lib.auth_manager import AuthManager
-from meta_ally.util.analytics_api_mock_service import (
+from meta_ally.auth.auth_manager import AuthManager
+from meta_ally.mock.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
     create_mock_service,
 )
-from meta_ally.util.terminal_chat import start_chat_session
-from meta_ally.util.tool_group_manager import (
+from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
     ToolGroupManager,
 )
+from meta_ally.ui.terminal_chat import start_chat_session
 
 
 def test_direct_mock_service():

@@ -10,7 +10,7 @@ This example demonstrates how to:
 6. Export results to various formats
 """
 
-from meta_ally.util.analyze_reports import (
+from meta_ally.eval.analyze_reports import (
     create_dataset_table,
     create_run_summary_table,
     export_dataframe,

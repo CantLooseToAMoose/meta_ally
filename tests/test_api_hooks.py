@@ -20,8 +20,8 @@ Examples:
 
 import pytest
 
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
-from meta_ally.lib.auth_manager import AuthManager
 
 
 @pytest.fixture
@@ -142,8 +142,8 @@ class TestAPITestHookLibraryInspection:
     @pytest.mark.anyio
     async def test_inspect_delete_source_result(self):
         """Test and inspect the result of deleting a source."""
-        from meta_ally.lib.auth_manager import AuthManager  # noqa: PLC0415
-        from meta_ally.util.tool_group_manager import (  # noqa: PLC0415
+        from meta_ally.auth.auth_manager import AuthManager  # noqa: PLC0415
+        from meta_ally.tools.tool_group_manager import (  # noqa: PLC0415
             ToolGroupManager,
         )
 
@@ -171,8 +171,8 @@ class TestAPITestHookLibraryInspection:
     @pytest.mark.anyio
     async def test_inspect_create_source_result(self):
         """Test and inspect the result of creating a source."""
-        from meta_ally.lib.auth_manager import AuthManager  # noqa: PLC0415
-        from meta_ally.util.tool_group_manager import (  # noqa: PLC0415
+        from meta_ally.auth.auth_manager import AuthManager  # noqa: PLC0415
+        from meta_ally.tools.tool_group_manager import (  # noqa: PLC0415
             ToolGroupManager,
         )
 
@@ -215,8 +215,8 @@ class TestAPITestHookLibraryInspection:
     @pytest.mark.anyio
     async def test_inspect_list_sources_result(self):
         """Test and inspect the result of listing sources."""
-        from meta_ally.lib.auth_manager import AuthManager  # noqa: PLC0415
-        from meta_ally.util.tool_group_manager import (  # noqa: PLC0415
+        from meta_ally.auth.auth_manager import AuthManager  # noqa: PLC0415
+        from meta_ally.tools.tool_group_manager import (  # noqa: PLC0415
             ToolGroupManager,
         )
 
@@ -250,8 +250,8 @@ class TestAPITestHookLibraryInspection:
     @pytest.mark.anyio
     async def test_inspect_copilot_operations(self):
         """Test and inspect the result of copilot operations."""
-        from meta_ally.lib.auth_manager import AuthManager  # noqa: PLC0415
-        from meta_ally.util.tool_group_manager import (  # noqa: PLC0415
+        from meta_ally.auth.auth_manager import AuthManager  # noqa: PLC0415
+        from meta_ally.tools.tool_group_manager import (  # noqa: PLC0415
             ToolGroupManager,
         )
 

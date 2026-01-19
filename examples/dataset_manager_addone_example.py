@@ -14,10 +14,10 @@ from pathlib import Path
 
 from case_factory_addone_example import example_addone_sales_copilot_creation
 
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.case_factory import MessageHistoryCase
-from meta_ally.lib.auth_manager import AuthManager
 
 
 def main():  # noqa: PLR0915

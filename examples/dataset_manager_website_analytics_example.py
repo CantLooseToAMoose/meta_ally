@@ -15,10 +15,10 @@ from pathlib import Path
 from examples.case_factory_website_analytics_example import (
     example_inform_webseite_analytics,
 )
+from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.api_test_hooks import APITestHookLibrary
 from meta_ally.eval.case_factory import MessageHistoryCase
-from meta_ally.lib.auth_manager import AuthManager
 
 
 def main():

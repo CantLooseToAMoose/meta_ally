@@ -19,7 +19,7 @@ from meta_ally.agents.model_config import create_azure_model_config
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
 from meta_ally.eval.evaluators import ToolCallEvaluator
-from meta_ally.util.tool_group_manager import (
+from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
 )

@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from ..lib.auth_manager import AuthManager
-from ..util.tool_group_manager import ToolGroupManager
+from ..auth.auth_manager import AuthManager
+from ..tools.tool_group_manager import ToolGroupManager
 from .dataset_hooks import HookLibrary
 
 

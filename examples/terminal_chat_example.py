@@ -17,14 +17,14 @@ import logfire
 from rich.console import Console
 
 from meta_ally.agents import AgentFactory
-from meta_ally.util.human_approval_callback import (
-    create_human_approval_callback,
-)
-from meta_ally.util.terminal_chat import start_chat_session
-from meta_ally.util.tool_group_manager import (
+from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
 )
+from meta_ally.ui.human_approval_callback import (
+    create_human_approval_callback,
+)
+from meta_ally.ui.terminal_chat import start_chat_session
 
 # ============================================================================
 # CONFIGURATION - Change these to toggle features

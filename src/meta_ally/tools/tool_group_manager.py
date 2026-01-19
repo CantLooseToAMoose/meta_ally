@@ -13,7 +13,7 @@ from enum import Enum
 
 from pydantic_ai import Tool
 
-from ..lib.auth_manager import AuthManager
+from ..auth.auth_manager import AuthManager
 from ..lib.openapi_to_tools import OpenAPIToolDependencies, OpenAPIToolsLoader
 
 

@@ -3,7 +3,7 @@
 from pydantic_ai import ModelRetry
 
 from meta_ally.agents import AgentFactory
-from meta_ally.util.tool_group_manager import (
+from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
 )

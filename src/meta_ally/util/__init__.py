@@ -1,13 +1,13 @@
 """Utility functions and modules for meta_ally."""
 
-from meta_ally.util.conversation_saver import (
+from meta_ally.ui.conversation_saver import (
     list_saved_conversations,
     load_conversation,
     save_conversation,
     save_conversation_html,
 )
-from meta_ally.util.terminal_chat import start_chat_session
-from meta_ally.util.visualization import (
+from meta_ally.ui.terminal_chat import start_chat_session
+from meta_ally.ui.visualization import (
     console,
     create_summary_table,
     display_chat_message,
