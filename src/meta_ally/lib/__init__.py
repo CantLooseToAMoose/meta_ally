@@ -1,6 +1,6 @@
 """Library modules for meta_ally"""
 
-from .dependencies import (
+from ..agents.dependencies import (
     MultiAgentDependencies,
     SpecialistRun,
     TimelineEntry,

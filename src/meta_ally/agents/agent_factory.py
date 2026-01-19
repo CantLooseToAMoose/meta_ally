@@ -19,7 +19,6 @@ from pydantic_ai import Agent, RunContext, Tool
 from pydantic_ai.models.openai import OpenAIChatModel
 
 from ..auth.auth_manager import AuthManager
-from ..lib.dependencies import MultiAgentDependencies
 from ..lib.openapi_to_tools import OpenAPIToolDependencies
 from ..prompts.system_prompts import SystemPrompts
 from ..tools.context_tools import get_context_tools
@@ -29,6 +28,7 @@ from ..tools.tool_group_manager import (
     ToolGroupManager,
     ToolGroupType,
 )
+from .dependencies import MultiAgentDependencies
 from .model_config import (
     ModelConfiguration,
     create_azure_model_config,

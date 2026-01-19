@@ -18,7 +18,7 @@ from pydantic_ai.messages import (
 from rich.console import Console
 from rich.prompt import IntPrompt, Prompt
 
-from ..lib.dependencies import MultiAgentDependencies
+from ..agents.dependencies import MultiAgentDependencies
 from .conversation_saver import (
     save_conversation,
     save_conversation_html,

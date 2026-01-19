@@ -12,7 +12,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-from ..lib.dependencies import TimelineEntryType
+from ..agents.dependencies import TimelineEntryType
 
 # Default console with wider width for side-by-side display
 console = Console(width=200)

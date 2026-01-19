@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-from .openapi_to_tools import OpenAPIToolDependencies
+from ..lib.openapi_to_tools import OpenAPIToolDependencies
 
 
 class TimelineEntryType(Enum):
