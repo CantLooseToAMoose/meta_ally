@@ -28,7 +28,7 @@ def example_addone_sales_copilot_creation():
         "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich "
         "AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: "
         "In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? "
-        "(z.B. GB10 mit Projektnummer 80000)"
+        "(z.B. GB10 mit Projektnummer 10000)"
     )
     factory.create_conversation_case(
         name="ADD*ONE Sales Copilot - Initiale Anfrage",
@@ -42,12 +42,12 @@ def example_addone_sales_copilot_creation():
 
     # Case 2: Nutzer gibt Geschäftsbereich und Projektnummer an, Agent speichert beide und fragt nach Links
     convo.add_user_message(
-        "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 80000. Wir haben eine INFORM "
+        "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 10000. Wir haben eine INFORM "
         "Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade "
         "die Links heraus."
     )
     case2_expected = (
-        "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 80000 arbeiten. "
+        "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 10000 arbeiten. "
         "Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, "
         "erstelle ich die Collection und füge die Quellen hinzu."
     )
@@ -63,7 +63,7 @@ def example_addone_sales_copilot_creation():
             ),
             create_tool_call_part(
                 tool_name="set_project_number",
-                args={"project_number": "80000"},
+                args={"project_number": "10000"},
                 tool_call_id="set_project_number_1"
             )
         ],
@@ -86,12 +86,12 @@ def example_addone_sales_copilot_creation():
     convo.add_tool_call(
         tool_call_id="set_project_number_1",
         tool_name="set_project_number",
-        args={"project_number": "80000"}
+        args={"project_number": "10000"}
     )
     convo.add_tool_response(
         tool_call_id="set_project_number_1",
         tool_name="set_project_number",
-        content="Project number set to: 80000"
+        content="Project number set to: 10000"
     )
     convo.add_model_message(case2_expected)
 
@@ -263,7 +263,7 @@ def example_addone_sales_copilot_creation():
                     "endpoint_metadata": {
                         "display_name": "ADD*ONE Sales Copilot",
                         "description": "Sales Assistant für die ADD*ONE Webseite",
-                        "project_number": "80000"
+                        "project_number": "10000"
                     }
                 },
                 tool_call_id="create_copilot_1"
@@ -305,7 +305,7 @@ def example_addone_sales_copilot_creation():
             "endpoint_metadata": {
                 "display_name": "ADD*ONE Sales Copilot",
                 "description": "Sales Assistant für die ADD*ONE Webseite",
-                "project_number": "80000"
+                "project_number": "10000"
             }
         }
     )
