@@ -186,6 +186,7 @@ def create_default_multi_agent_system(
     include_context_tools: bool = True,
     require_human_approval: bool = False,
     approval_callback: Callable | None = None,
+    tool_replacements: dict[str, Callable] | None = None,
     **agent_kwargs,
 ) -> Agent[MultiAgentDependencies]:
     """
@@ -203,7 +204,8 @@ def create_default_multi_agent_system(
         include_context_tools: Whether to include context management tools.
         require_human_approval: Whether specialists require human approval for operations.
         approval_callback: Optional callback for human approval.
-        **agent_kwargs: Additional arguments for agents.
+        tool_replacements: Optional dict mapping operation IDs to mock functions (applied to specialists).
+        **agent_kwargs: Additional arguments for orchestrator agent only.
 
     Returns:
         Orchestrator Agent configured with AI Knowledge and Ally Config specialists.
@@ -233,6 +235,7 @@ def create_default_multi_agent_system(
         include_context_tools=True,
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
+        tool_replacements=tool_replacements,
     )
 
     # Create Ally Config specialist with extended instructions
@@ -243,6 +246,7 @@ def create_default_multi_agent_system(
         include_context_tools=True,
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
+        tool_replacements=tool_replacements,
     )
 
     # Define specialists with descriptions
@@ -263,7 +267,7 @@ def create_default_multi_agent_system(
         ),
     }
 
-    # Create orchestrator
+    # Create orchestrator (note: orchestrators don't use tool_replacements, only specialists do)
     return factory.create_orchestrator_with_specialists(
         specialists=specialists,
         orchestrator_model=orchestrator_model,
