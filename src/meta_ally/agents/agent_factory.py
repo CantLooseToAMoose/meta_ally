@@ -777,7 +777,7 @@ Use this information when the user asks about current dates, times, or when time
         ai_knowledge = self.create_ai_knowledge_specialist(
             model=specialist_model,
             additional_instructions=specialist_extension,
-            include_context_tools=False,  # Orchestrator handles context
+            include_context_tools=True,
             require_human_approval=require_human_approval,
             approval_callback=approval_callback,
         )
@@ -786,7 +786,7 @@ Use this information when the user asks about current dates, times, or when time
         ally_config = self.create_ally_config_admin(
             model=specialist_model,
             additional_instructions=specialist_extension,
-            include_context_tools=False,  # Orchestrator handles context
+            include_context_tools=True,
             require_human_approval=require_human_approval,
             approval_callback=approval_callback,
         )

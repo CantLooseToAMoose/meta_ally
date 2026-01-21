@@ -29,10 +29,8 @@ class SystemPrompts:
 if allowFileUpload is toggled on in the Configuration page), Query, User Access
       * Source item pages: Configuration, User Access"""
 
-    _BUSINESS_DEPARTMENT_GUIDANCE = """IMPORTANT: Business Department (Geschäftsbereich) Information and Project number
+    _BUSINESS_DEPARTMENT_GUIDANCE = """Business Department (Geschäftsbereich) Information and Project number
     - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number
-    - When creating endpoints, collections, or configurations, always ask the user for their business department \
-and Project number if you dont already have it
     - This information is critical for proper resource allocation, cost tracking, and access control
     - Include the business department in all relevant configurations"""
 
