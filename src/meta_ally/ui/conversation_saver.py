@@ -2,7 +2,7 @@
 Conversation saver for terminal chat sessions.
 
 Provides functionality to save and load conversation timelines with metadata
-including name, grade, and user notes. Also supports HTML export for visual
+including name, SUS score, and user notes. Also supports HTML export for visual
 representation matching the terminal display style.
 """
 
@@ -12,6 +12,103 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+# System Usability Scale (SUS) - 10 standard questions
+SUS_QUESTIONS = [
+    "I think that I would like to use this system frequently.",
+    "I found the system unnecessarily complex.",
+    "I thought the system was easy to use.",
+    "I think that I would need the support of a technical person to be able to use this system.",
+    "I found the various functions in this system were well integrated.",
+    "I thought there was too much inconsistency in this system.",
+    "I would imagine that most people would learn to use this system very quickly.",
+    "I found the system very cumbersome to use.",
+    "I felt very confident using the system.",
+    "I needed to learn a lot of things before I could get going with this system."
+]
+
+
+def calculate_sus_score(responses: list[int]) -> float:
+    """
+    Calculate the System Usability Scale (SUS) score from responses.
+
+    The SUS uses a 5-point Likert scale (1=Strongly Disagree, 5=Strongly Agree).
+    Scoring: For odd items (1,3,5,7,9): subtract 1 from response.
+             For even items (2,4,6,8,10): subtract response from 5.
+             Sum all contributions and multiply by 2.5 for final score (0-100).
+
+    Args:
+        responses: List of 10 integers from 1-5 (Likert scale responses)
+
+    Returns:
+        SUS score from 0-100
+
+    Raises:
+        ValueError: If responses list is not exactly 10 items or values not 1-5
+    """
+    if len(responses) != 10:
+        raise ValueError(f"SUS requires exactly 10 responses, got {len(responses)}")
+
+    if not all(1 <= r <= 5 for r in responses):
+        raise ValueError("All responses must be between 1 and 5")
+
+    score = 0
+    for i, response in enumerate(responses):
+        if i % 2 == 0:  # Odd questions (0-indexed, so 0,2,4,6,8)
+            score += response - 1
+        else:  # Even questions (1,3,5,7,9)
+            score += 5 - response
+
+    return score * 2.5
+
+
+def prompt_sus_questionnaire() -> tuple[bool, list[int] | None]:
+    """
+    Prompt user to complete the System Usability Scale (SUS) questionnaire.
+
+    First asks if they want to complete it. If yes, presents all 10 questions.
+    Uses a 5-point Likert scale: 1=Strongly Disagree, 5=Strongly Agree.
+
+    Returns:
+        Tuple of (completed: bool, responses: list[int] | None)
+        - If user declines: (False, None)
+        - If user completes: (True, [list of 10 responses])
+    """
+    # Ask if user wants to complete SUS
+    print("\n" + "=" * 70)
+    print("System Usability Scale (SUS) Questionnaire")
+    print("=" * 70)
+    print("\nWould you like to complete a brief 10-question usability survey?")
+    print("This will help evaluate the system's usability (takes ~2 minutes).")
+
+    while True:
+        choice = input("\nComplete SUS questionnaire? (y/n): ").strip().lower()
+        if choice in {'y', 'yes'}:
+            break
+        if choice in {'n', 'no'}:
+            return False, None
+        else:
+            print("Please enter 'y' or 'n'.")
+
+    # Collect responses
+    print("\nPlease rate each statement on a scale of 1-5:")
+    print("1 = Strongly Disagree | 2 = Disagree | 3 = Neutral | 4 = Agree | 5 = Strongly Agree\n")
+
+    responses = []
+    for i, question in enumerate(SUS_QUESTIONS, 1):
+        while True:
+            try:
+                print(f"\nQuestion {i}/10: {question}")
+                response = input("Your rating (1-5): ").strip()
+                rating = int(response)
+                if 1 <= rating <= 5:
+                    responses.append(rating)
+                    break
+                print("Please enter a number between 1 and 5.")
+            except ValueError:
+                print("Invalid input. Please enter a number between 1 and 5.")
+
+    return True, responses
 
 
 def _to_serializable(obj: Any) -> Any:  # noqa: PLR0911
@@ -62,7 +159,8 @@ def _to_serializable(obj: Any) -> Any:  # noqa: PLR0911
 def save_conversation(
     conversation_timeline: list[dict[str, Any]],
     name: str,
-    grade: int,
+    sus_score: float | None = None,
+    sus_responses: list[int] | None = None,
     notes: str = "",
     save_dir: str | Path = "Data/UserRecords"
 ) -> Path:
@@ -72,7 +170,8 @@ def save_conversation(
     Args:
         conversation_timeline: List of conversation entries to save
         name: Name/title for this conversation
-        grade: Grade rating from 1-10
+        sus_score: Optional SUS score (0-100 scale)
+        sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
         notes: Optional notes about the conversation
         save_dir: Directory to save the conversation (default: Data/UserRecords)
 
@@ -80,10 +179,10 @@ def save_conversation(
         Path to the saved file
 
     Raises:
-        ValueError: If grade is not between 1 and 10
+        ValueError: If sus_score is provided and not between 0 and 100
     """
-    if not 1 <= grade <= 10:
-        raise ValueError("Grade must be between 1 and 10")
+    if sus_score is not None and not 0 <= sus_score <= 100:
+        raise ValueError("SUS score must be between 0 and 100")
 
     # Create save directory if it doesn't exist
     save_path = Path(save_dir)
@@ -99,14 +198,21 @@ def save_conversation(
     # Convert timeline to serializable format (handles nested objects, enums, etc.)
     serializable_timeline = _to_serializable(conversation_timeline)
 
+    metadata = {
+        "name": name,
+        "notes": notes,
+        "timestamp": datetime.now().isoformat(),
+        "saved_at": timestamp
+    }
+
+    # Add SUS data if provided
+    if sus_score is not None:
+        metadata["sus_score"] = sus_score
+    if sus_responses is not None:
+        metadata["sus_responses"] = sus_responses
+
     data = {
-        "metadata": {
-            "name": name,
-            "grade": grade,
-            "notes": notes,
-            "timestamp": datetime.now().isoformat(),
-            "saved_at": timestamp
-        },
+        "metadata": metadata,
         "conversation_timeline": serializable_timeline
     }
 
@@ -623,25 +729,40 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
         HTML string for the metadata section
     """
     name = html.escape(str(metadata.get('name', 'Conversation')))
-    grade = metadata.get('grade', 0)
+    sus_score = metadata.get('sus_score')
     notes = html.escape(str(metadata.get('notes', '')))
     timestamp = metadata.get('timestamp', '')
 
-    # Determine grade badge class
-    if grade >= 8:
-        grade_class = 'grade-high'
-    elif grade >= 5:
-        grade_class = 'grade-medium'
-    else:
-        grade_class = 'grade-low'
+    # Build score HTML if SUS score exists
+    score_html = ''
+    if sus_score is not None:
+        # SUS score interpretation:
+        # 80+ = Excellent (A), 68-79 = Good (B), 51-67 = OK (C), <51 = Poor (F)
+        if sus_score >= 80:
+            score_class = 'grade-high'
+            interpretation = 'Excellent'
+        elif sus_score >= 68:
+            score_class = 'grade-high'
+            interpretation = 'Good'
+        elif sus_score >= 51:
+            score_class = 'grade-medium'
+            interpretation = 'OK'
+        else:
+            score_class = 'grade-low'
+            interpretation = 'Poor'
+
+        score_html = (
+            f'<span class="metadata-item"><strong>SUS Score:</strong> '
+            f'<span class="grade-badge {score_class}">{sus_score:.1f}/100 '
+            f'({interpretation})</span></span>'
+        )
 
     notes_html = f'<div class="metadata-notes"><strong>Notes:</strong> {notes}</div>' if notes else ''
-    grade_html = f'<span class="grade-badge {grade_class}">{grade}/10</span>'
 
     return f"""
         <div class="metadata">
             <span class="metadata-item"><strong>Name:</strong> {name}</span>
-            <span class="metadata-item"><strong>Grade:</strong> {grade_html}</span>
+            {score_html}
             <span class="metadata-item"><strong>Date:</strong> {html.escape(str(timestamp))}</span>
             {notes_html}
         </div>
@@ -651,7 +772,8 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
 def save_conversation_html(
     conversation_timeline: list[dict[str, Any]],
     name: str,
-    grade: int,
+    sus_score: float | None = None,
+    sus_responses: list[int] | None = None,
     notes: str = "",
     save_dir: str | Path = "Data/UserRecords"
 ) -> Path:
@@ -667,7 +789,8 @@ def save_conversation_html(
     Args:
         conversation_timeline: List of conversation entries to save
         name: Name/title for this conversation
-        grade: Grade rating from 1-10
+        sus_score: Optional SUS score (0-100 scale)
+        sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
         notes: Optional notes about the conversation
         save_dir: Directory to save the HTML file (default: Data/UserRecords)
 
@@ -675,7 +798,7 @@ def save_conversation_html(
         Path to the saved HTML file
 
     Raises:
-        ValueError: If grade is not between 1 and 10
+        ValueError: If sus_score is provided and not between 0 and 100
 
     Example:
         ```python
@@ -685,14 +808,14 @@ def save_conversation_html(
         html_path = save_conversation_html(
             conversation_timeline=deps.conversation_timeline,
             name="API Integration Discussion",
-            grade=8,
+            sus_score=82.5,
             notes="Successful multi-agent conversation about data analytics"
         )
         print(f"HTML saved to: {html_path}")
         ```
     """
-    if not 1 <= grade <= 10:
-        raise ValueError("Grade must be between 1 and 10")
+    if sus_score is not None and not 0 <= sus_score <= 100:
+        raise ValueError("SUS score must be between 0 and 100")
 
     # Create save directory if it doesn't exist
     save_path = Path(save_dir)
@@ -711,10 +834,15 @@ def save_conversation_html(
     # Build metadata
     metadata = {
         "name": name,
-        "grade": grade,
         "notes": notes,
         "timestamp": datetime.now().isoformat(),
     }
+
+    # Add SUS data if provided
+    if sus_score is not None:
+        metadata["sus_score"] = sus_score
+    if sus_responses is not None:
+        metadata["sus_responses"] = sus_responses
 
     # Render HTML
     metadata_html = _render_metadata_html(metadata)

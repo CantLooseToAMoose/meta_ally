@@ -16,10 +16,12 @@ from pydantic_ai.messages import (
     UserPromptPart,
 )
 from rich.console import Console
-from rich.prompt import IntPrompt, Prompt
+from rich.prompt import Prompt
 
 from ..agents.dependencies import MultiAgentDependencies
 from .conversation_saver import (
+    calculate_sus_score,
+    prompt_sus_questionnaire,
     save_conversation,
     save_conversation_html,
 )
@@ -121,12 +123,19 @@ def handle_special_command(
             # Get metadata from user
             console.print("\n[cyan]💾 Save Conversation[/cyan]")
             name = Prompt.ask("  [cyan]Name[/cyan]")
-            grade = IntPrompt.ask("  [cyan]Grade (1-10)[/cyan]", default=5)
+
+            # Prompt for SUS questionnaire
+            completed, sus_responses = prompt_sus_questionnaire()
+            sus_score = None
+            if completed and sus_responses:
+                sus_score = calculate_sus_score(sus_responses)
+                console.print(f"\n[green]✓ SUS Score: {sus_score:.1f}/100[/green]")
+
             notes = Prompt.ask("  [cyan]Notes (optional)[/cyan]", default="")
 
             # Save in JSON and HTML formats
-            json_path = save_conversation(timeline_to_save, name, grade, notes)
-            html_path = save_conversation_html(timeline_to_save, name, grade, notes)
+            json_path = save_conversation(timeline_to_save, name, sus_score, sus_responses, notes)
+            html_path = save_conversation_html(timeline_to_save, name, sus_score, sus_responses, notes)
 
             console.print("\n[green]✓ Conversation saved:[/green]")
             console.print(f"[green]  • JSON: {json_path}[/green]")
