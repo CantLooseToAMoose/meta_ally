@@ -27,7 +27,12 @@ class SystemPrompts:
     - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:
       * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files \
 if allowFileUpload is toggled on in the Configuration page), Query, User Access
-      * Source item pages: Configuration, User Access"""
+      * Source item pages: Configuration, User Access
+
+    Note about Correlation IDs:
+    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. \
+These correlation IDs have no real meaning and are not intended for logging purposes. They are also not \
+equivalent to session IDs and should not be treated as such."""
 
     _BUSINESS_DEPARTMENT_GUIDANCE = """Business Department (Geschäftsbereich) Information and Project number
     - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number
