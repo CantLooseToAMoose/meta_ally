@@ -17,6 +17,9 @@ import logfire
 from rich.console import Console
 
 from meta_ally.agents import AgentFactory
+from meta_ally.mock.analytics_api_mock_service import (
+    create_ally_config_mock_tool_replacements,
+)
 from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
@@ -31,6 +34,7 @@ from meta_ally.ui.terminal_chat import start_chat_session
 # ============================================================================
 USE_MULTI_AGENT = True  # Set to True to use multi-agent orchestrator
 REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read operations
+USE_MOCK_API = False  # Set to True to use mock API data instead of real API calls
 
 
 def main():
@@ -45,7 +49,9 @@ def main():
     console.print("[bold cyan]Terminal Chat Configuration:[/bold cyan]")
     console.print(f"  Multi-Agent Mode: {'[green]Enabled[/green]' if USE_MULTI_AGENT else '[dim]Disabled[/dim]'}")
     approval_status = '[green]Enabled[/green]' if REQUIRE_HUMAN_APPROVAL else '[dim]Disabled[/dim]'
-    console.print(f"  Human Approval: {approval_status}\n")
+    console.print(f"  Human Approval: {approval_status}")
+    mock_api_status = '[green]Enabled[/green]' if USE_MOCK_API else '[dim]Disabled[/dim]'
+    console.print(f"  Mock API: {mock_api_status}\n")
 
     # Create agent factory
     console.print("[dim]Initializing agent...[/dim]")
@@ -57,12 +63,20 @@ def main():
         approval_callback = create_human_approval_callback(console_width=200)
         console.print("[yellow]Human approval enabled - non-read operations will require confirmation[/yellow]")
 
+    # Create mock tool replacements if needed
+    tool_replacements = None
+    if USE_MOCK_API:
+        console.print("[yellow]Creating mock API tool replacements...[/yellow]")
+        tool_replacements = create_ally_config_mock_tool_replacements()
+        console.print(f"[green]✓ Created {len(tool_replacements)} mock tool replacements[/green]")
+
     # Create agent based on configuration
     if USE_MULTI_AGENT:
         console.print("[cyan]Creating multi-agent orchestrator with specialists...[/cyan]")
         agent = factory.create_default_multi_agent_system(
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
+            tool_replacements=tool_replacements,
         )
         deps = factory.create_multi_agent_dependencies()
         console.print("[green]✓ Multi-agent orchestrator initialized[/green]")
@@ -74,6 +88,7 @@ def main():
             ally_config_groups=[AllyConfigToolGroup.ALL],
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
+            tool_replacements=tool_replacements,
         )
         deps = factory.create_dependencies()
         console.print("[green]✓ Hybrid assistant initialized[/green]")
