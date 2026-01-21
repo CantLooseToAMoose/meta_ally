@@ -15,6 +15,7 @@ from pydantic_evals.evaluators import LLMJudge
 from tenacity import stop_after_attempt, wait_exponential
 
 from meta_ally.agents import AgentFactory
+from meta_ally.agents.agent_presets import create_hybrid_assistant
 from meta_ally.agents.model_config import create_azure_model_config
 from meta_ally.eval import DatasetManager
 from meta_ally.eval.eval_tasks import create_agent_conversation_task
@@ -40,7 +41,8 @@ def create_evaluation_agent():
         endpoint="https://ally-frcentral.openai.azure.com/",
     )
 
-    agent = factory.create_hybrid_assistant(
+    agent = create_hybrid_assistant(
+        factory=factory,
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],

@@ -3,6 +3,7 @@
 from pydantic_ai import ModelRetry
 
 from meta_ally.agents import AgentFactory
+from meta_ally.agents.agent_presets import create_hybrid_assistant
 from meta_ally.tools.tool_group_manager import (
     AIKnowledgeToolGroup,
     AllyConfigToolGroup,
@@ -17,7 +18,8 @@ def main():
     # Create agent - tools and model config are loaded automatically!
     # No need to call setup_ai_knowledge_tools(), setup_ally_config_tools(),
     # or create_azure_model_config() manually anymore
-    agent = factory.create_hybrid_assistant(
+    agent = create_hybrid_assistant(
+        factory=factory,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],
     )

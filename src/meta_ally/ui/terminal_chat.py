@@ -217,10 +217,11 @@ def start_chat_session(agent, deps, console_width: int = 200):
     Example (single agent):
         ```python
         from meta_ally.agents import AgentFactory
+        from meta_ally.agents.agent_presets import create_hybrid_assistant
         from meta_ally.util.terminal_chat import start_chat_session
 
         factory = AgentFactory()
-        agent = factory.create_hybrid_assistant()
+        agent = create_hybrid_assistant(factory)
         deps = factory.create_dependencies()
 
         start_chat_session(agent, deps)
@@ -229,10 +230,11 @@ def start_chat_session(agent, deps, console_width: int = 200):
     Example (multi-agent orchestrator):
         ```python
         from meta_ally.agents import AgentFactory
+        from meta_ally.agents.agent_presets import create_default_multi_agent_system
         from meta_ally.util.terminal_chat import start_chat_session
 
         factory = AgentFactory()
-        orchestrator = factory.create_default_multi_agent_system()
+        orchestrator = create_default_multi_agent_system(factory)
         deps = factory.create_multi_agent_dependencies()
 
         start_chat_session(orchestrator, deps)

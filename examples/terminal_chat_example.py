@@ -17,6 +17,10 @@ import logfire
 from rich.console import Console
 
 from meta_ally.agents import AgentFactory
+from meta_ally.agents.agent_presets import (
+    create_default_multi_agent_system,
+    create_hybrid_assistant,
+)
 from meta_ally.mock.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
 )
@@ -73,7 +77,8 @@ def main():
     # Create agent based on configuration
     if USE_MULTI_AGENT:
         console.print("[cyan]Creating multi-agent orchestrator with specialists...[/cyan]")
-        agent = factory.create_default_multi_agent_system(
+        agent = create_default_multi_agent_system(
+            factory=factory,
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
             tool_replacements=tool_replacements,
@@ -83,7 +88,8 @@ def main():
         console.print("[dim]  Specialists: AI Knowledge, Ally Config[/dim]")
     else:
         console.print("[cyan]Creating hybrid assistant agent...[/cyan]")
-        agent = factory.create_hybrid_assistant(
+        agent = create_hybrid_assistant(
+            factory=factory,
             ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
             ally_config_groups=[AllyConfigToolGroup.ALL],
             require_human_approval=REQUIRE_HUMAN_APPROVAL,

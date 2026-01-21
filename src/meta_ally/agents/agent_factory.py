@@ -4,6 +4,9 @@ Pydantic AI Agent Factory
 
 A comprehensive factory for creating pydantic-ai agents with specific tool groups and system prompts.
 Based on the tool categorization patterns found in the AI Knowledge and Ally Config notebooks.
+
+Note: For pre-configured default agents, see agent_presets.py which provides convenience functions
+for creating AI Knowledge specialists, Ally Config admins, hybrid assistants, and multi-agent systems.
 """
 
 from __future__ import annotations
@@ -56,11 +59,14 @@ class AgentFactory:
 
     Example usage:
         ```python
+        from meta_ally.agents import AgentFactory
+        from meta_ally.agents.agent_presets import create_hybrid_assistant
+
         # Create factory
         factory = AgentFactory()
 
-        # Create agent (tools are loaded automatically)
-        agent = factory.create_hybrid_assistant()
+        # Create agent using preset (tools are loaded automatically)
+        agent = create_hybrid_assistant(factory)
 
         # Create dependencies and refresh token for authentication
         deps = factory.create_dependencies()
@@ -70,29 +76,20 @@ class AgentFactory:
         result = agent.run_sync("Your question", deps=deps)
         ```
 
-    Advanced usage (custom model configuration):
+    Advanced usage (custom agents):
         ```python
         from meta_ally.agents import AgentFactory
-        from meta_ally.agents.model_config import create_azure_model_config
+        from meta_ally.tools.tool_group_manager import AIKnowledgeToolGroup
 
-        # Create custom model configuration
-        model_config = create_azure_model_config(
-            deployment_name="gpt-4o",
-            endpoint="https://ally-frcentral.openai.azure.com/",
-            temperature=0.5
+        factory = AgentFactory()
+
+        # Create custom agent with specific tool groups
+        agent = factory.create_agent(
+            name="custom_assistant",
+            system_prompt="You are a custom assistant...",
+            tool_groups=[AIKnowledgeToolGroup.SOURCES],
+            model="openai:gpt-4o"
         )
-
-        # Create agent with custom model
-        factory = AgentFactory()
-        agent = factory.create_hybrid_assistant(model=model_config)
-        ```
-
-    Advanced usage (custom tool configuration):
-        ```python
-        # If you need custom tool configuration, you can still call setup methods manually
-        factory = AgentFactory()
-        factory.setup_ai_knowledge_tools(regenerate_models=False)  # Custom config
-        agent = factory.create_ai_knowledge_specialist()
         ```
 
     """
@@ -375,155 +372,7 @@ Use this information when the user asks about current dates, times, or when time
 
         return agent
 
-    def create_ai_knowledge_specialist(
-        self,
-        tool_groups: list[AIKnowledgeToolGroup] | None = None,
-        model: str | ModelConfiguration | None = None,
-        additional_instructions: str | None = None,
-        include_context_tools: bool = True,
-        require_human_approval: bool = False,
-        approval_callback: Callable | None = None,
-        tool_replacements: dict[str, Callable] | None = None,
-        **agent_kwargs,
-    ) -> Agent[OpenAPIToolDependencies]:
-        """
-        Create an AI Knowledge specialist agent.
 
-        Args:
-            tool_groups: Optional list of AI Knowledge tool groups (defaults to ALL)
-            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
-            additional_instructions: Optional additional instructions
-            include_context_tools: Whether to include context management tools
-            require_human_approval: Whether to require human approval for non-read-only operations
-            approval_callback: Optional callback for human approval
-            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
-            **agent_kwargs: Additional arguments for Agent
-
-        Returns:
-            Configured AI Knowledge specialist agent
-        """
-        if tool_groups is None:
-            tool_groups = [AIKnowledgeToolGroup.ALL]
-
-        # Auto-create Azure model config if no model specified
-        if model is None:
-            model = self._get_default_model()
-
-        return self.create_agent(
-            name="ai_knowledge_specialist",
-            system_prompt=SystemPrompts.AI_KNOWLEDGE_SPECIALIST,
-            tool_groups=tool_groups,  # type: ignore
-            model=model,
-            additional_instructions=additional_instructions,
-            include_context_tools=include_context_tools,
-            require_human_approval=require_human_approval,
-            approval_callback=approval_callback,
-            tool_replacements=tool_replacements,
-            **agent_kwargs
-        )
-
-    def create_ally_config_admin(
-        self,
-        tool_groups: list[AllyConfigToolGroup] | None = None,
-        model: str | ModelConfiguration | None = None,
-        additional_instructions: str | None = None,
-        include_context_tools: bool = True,
-        require_human_approval: bool = False,
-        approval_callback: Callable | None = None,
-        tool_replacements: dict[str, Callable] | None = None,
-        **agent_kwargs,
-    ) -> Agent[OpenAPIToolDependencies]:
-        """
-        Create an Ally Config administrator agent.
-
-        Args:
-            tool_groups: Optional list of Ally Config tool groups (defaults to ALL)
-            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
-            additional_instructions: Optional additional instructions
-            include_context_tools: Whether to include context management tools
-            require_human_approval: Whether to require human approval for non-read-only operations
-            approval_callback: Optional callback for human approval
-            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
-            **agent_kwargs: Additional arguments for Agent
-
-        Returns:
-            Configured Ally Config administrator agent
-        """
-        if tool_groups is None:
-            tool_groups = [AllyConfigToolGroup.ALL]
-
-        # Auto-create Azure model config if no model specified
-        if model is None:
-            model = self._get_default_model()
-
-        return self.create_agent(
-            name="ally_config_admin",
-            system_prompt=SystemPrompts.ALLY_CONFIG_ADMIN,
-            tool_groups=tool_groups,  # type: ignore
-            model=model,
-            additional_instructions=additional_instructions,
-            include_context_tools=include_context_tools,
-            require_human_approval=require_human_approval,
-            approval_callback=approval_callback,
-            tool_replacements=tool_replacements,
-            **agent_kwargs
-        )
-
-    def create_hybrid_assistant(
-        self,
-        ai_knowledge_groups: list[AIKnowledgeToolGroup] | None = None,
-        ally_config_groups: list[AllyConfigToolGroup] | None = None,
-        model: str | ModelConfiguration | None = None,
-        additional_instructions: str | None = None,
-        include_context_tools: bool = True,
-        require_human_approval: bool = False,
-        approval_callback: Callable | None = None,
-        tool_replacements: dict[str, Callable] | None = None,
-        **agent_kwargs,
-    ) -> Agent[OpenAPIToolDependencies]:
-        """
-        Create a hybrid agent with both AI Knowledge and Ally Config capabilities.
-
-        Args:
-            ai_knowledge_groups: Optional list of AI Knowledge tool groups (defaults to ALL)
-            ally_config_groups: Optional list of Ally Config tool groups (defaults to ALL)
-            model: Model to use. If None, creates Azure GPT-4.1-mini model automatically
-            additional_instructions: Optional additional instructions
-            include_context_tools: Whether to include context management tools
-            require_human_approval: Whether to require human approval for non-read-only operations
-            approval_callback: Optional callback for human approval
-            tool_replacements: Optional dict mapping operation IDs to mock functions for testing
-            **agent_kwargs: Additional arguments for Agent
-
-        Returns:
-            Configured hybrid agent
-        """
-        all_groups = []
-
-        if ai_knowledge_groups:
-            all_groups.extend(ai_knowledge_groups)
-        if ally_config_groups:
-            all_groups.extend(ally_config_groups)
-
-        if not all_groups:
-            all_groups = [AIKnowledgeToolGroup.ALL, AllyConfigToolGroup.ALL]
-
-        # Auto-create Azure model config if no model specified
-        if model is None:
-            model = self._get_default_model()
-
-        return self.create_agent(
-            name="hybrid_ai_assistant",
-            system_prompt=SystemPrompts.HYBRID_AI_ASSISTANT,
-            tool_groups=all_groups,
-            model=model,
-            additional_instructions=additional_instructions,
-            include_context_tools=include_context_tools,
-            require_human_approval=require_human_approval,
-            approval_callback=approval_callback,
-            tool_replacements=tool_replacements,
-            **agent_kwargs
-        )
 
     def create_dependencies(self) -> OpenAPIToolDependencies:
         """
@@ -649,11 +498,16 @@ Use this information when the user asks about current dates, times, or when time
 
         Example:
             ```python
+            from meta_ally.agents.agent_presets import (
+                create_ai_knowledge_specialist,
+                create_ally_config_admin,
+            )
+
             factory = AgentFactory()
 
             # Create specialist agents
-            ai_knowledge = factory.create_ai_knowledge_specialist()
-            ally_config = factory.create_ally_config_admin()
+            ai_knowledge = create_ai_knowledge_specialist(factory)
+            ally_config = create_ally_config_admin(factory)
 
             # Create orchestrator with specialists as tools
             orchestrator = factory.create_orchestrator_with_specialists(
@@ -731,91 +585,7 @@ Use this information when the user asks about current dates, times, or when time
 
         return orchestrator
 
-    def create_default_multi_agent_system(
-        self,
-        orchestrator_model: str | ModelConfiguration | None = None,
-        specialist_model: str | ModelConfiguration | None = None,
-        include_context_tools: bool = True,
-        require_human_approval: bool = False,
-        approval_callback: Callable | None = None,
-        **agent_kwargs,
-    ) -> Agent[MultiAgentDependencies]:
-        """
-        Create a default multi-agent system with AI Knowledge and Ally Config specialists.
 
-        This is a convenience method that sets up a complete multi-agent system with:
-        - An AI Knowledge specialist for knowledge management
-        - An Ally Config specialist for Copilot configuration
-        - An orchestrator that delegates to these specialists
-
-        Args:
-            orchestrator_model: Model for the orchestrator. If None, uses Azure GPT-4.1-mini.
-            specialist_model: Model for specialists. If None, uses Azure GPT-4.1-mini.
-            include_context_tools: Whether to include context management tools.
-            require_human_approval: Whether specialists require human approval for operations.
-            approval_callback: Optional callback for human approval.
-            **agent_kwargs: Additional arguments for agents.
-
-        Returns:
-            Orchestrator Agent configured with AI Knowledge and Ally Config specialists.
-
-        Example:
-            ```python
-            factory = AgentFactory()
-            orchestrator = factory.create_default_multi_agent_system()
-
-            deps = factory.create_multi_agent_dependencies()
-            deps.auth_manager._refresh_token()
-
-            result = orchestrator.run_sync("Help me set up a SharePoint source", deps=deps)
-            ```
-        """
-        # Extend specialist instructions
-        specialist_extension = SystemPrompts.SPECIALIST_INSTRUCTION_EXTENSION
-
-        # Create AI Knowledge specialist with extended instructions
-        ai_knowledge = self.create_ai_knowledge_specialist(
-            model=specialist_model,
-            additional_instructions=specialist_extension,
-            include_context_tools=True,
-            require_human_approval=require_human_approval,
-            approval_callback=approval_callback,
-        )
-
-        # Create Ally Config specialist with extended instructions
-        ally_config = self.create_ally_config_admin(
-            model=specialist_model,
-            additional_instructions=specialist_extension,
-            include_context_tools=True,
-            require_human_approval=require_human_approval,
-            approval_callback=approval_callback,
-        )
-
-        # Define specialists with descriptions
-        specialists = {
-            "ai_knowledge_specialist": (
-                ai_knowledge,
-                "Expert in AI Knowledge management. Call or ask this specialist for tasks involving: "
-                "creating and managing knowledge sources (document upload, websites, SharePoint, OneDrive, S3, GitHub),"
-                "building and configuring collections, setting up indexing and search, "
-                "and managing document metadata. Use for any knowledge-related queries."
-            ),
-            "ally_config_admin": (
-                ally_config,
-                "Expert in Ally Config and Copilot management. Call or ask this specialist for tasks involving: "
-                "creating and configuring AI Copilot endpoints, managing model deployments, "
-                "setting up plugins (including AI Knowledge plugin), running evaluations, "
-                "monitoring costs and usage, and managing permissions. Use for any Copilot configuration queries."
-            ),
-        }
-
-        # Create orchestrator
-        return self.create_orchestrator_with_specialists(
-            specialists=specialists,
-            orchestrator_model=orchestrator_model,
-            include_context_tools=include_context_tools,
-            **agent_kwargs,
-        )
 
     def get_available_groups(self) -> dict[str, dict[str, list[str]]]:
         """

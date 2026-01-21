@@ -29,6 +29,7 @@ from pydantic_evals.evaluators import LLMJudge
 from tenacity import stop_after_attempt, wait_chain, wait_fixed
 
 from meta_ally.agents import AgentFactory
+from meta_ally.agents.agent_presets import create_hybrid_assistant
 from meta_ally.agents.model_config import create_azure_model_config
 from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.eval import DatasetManager, EvaluationSuite
@@ -80,7 +81,8 @@ def create_evaluation_agent(use_mock_api: bool = True):
             print("    [i] Run capture_anonymize_api_data.ipynb to create mock data")
             tool_replacements = None
 
-    agent = factory.create_hybrid_assistant(
+    agent = create_hybrid_assistant(
+        factory=factory,
         model=model_config,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],

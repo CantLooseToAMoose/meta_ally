@@ -304,6 +304,7 @@ def create_ally_config_mock_tool_replacements(
     Example:
         ```python
         from meta_ally.agents import AgentFactory
+        from meta_ally.agents.agent_presets import create_hybrid_assistant
         from meta_ally.util.api_mock_service import create_ally_config_mock_tool_replacements
 
         # Create mock replacements
@@ -311,7 +312,8 @@ def create_ally_config_mock_tool_replacements(
 
         # Create agent with mock tools
         factory = AgentFactory()
-        agent = factory.create_hybrid_assistant(
+        agent = create_hybrid_assistant(
+            factory=factory,
             tool_replacements=mock_replacements
         )
 

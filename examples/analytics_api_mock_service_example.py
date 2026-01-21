@@ -14,6 +14,7 @@ from datetime import UTC, datetime, timedelta
 from rich.console import Console
 
 from meta_ally.agents import AgentFactory
+from meta_ally.agents.agent_presets import create_hybrid_assistant
 from meta_ally.auth.auth_manager import AuthManager
 from meta_ally.mock.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
@@ -312,7 +313,8 @@ def start_terminal_chat_with_mock_tools():
     print(f"\nCreated {len(mock_tools)} mock tool replacements")
 
     # Create agent with the replaced tools
-    agent = factory.create_hybrid_assistant(
+    agent = create_hybrid_assistant(
+        factory=factory,
         ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
         ally_config_groups=[AllyConfigToolGroup.ALL],
         tool_replacements=mock_tools
