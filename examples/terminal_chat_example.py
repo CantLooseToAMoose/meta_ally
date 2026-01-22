@@ -38,7 +38,7 @@ from meta_ally.ui.terminal_chat import start_chat_session
 # ============================================================================
 USE_MULTI_AGENT = True  # Set to True to use multi-agent orchestrator
 REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read operations
-USE_MOCK_API = False  # Set to True to use mock API data instead of real API calls
+USE_MOCK_API = True  # Set to True to use mock API data instead of real API calls
 
 
 def main():

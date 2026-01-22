@@ -227,6 +227,17 @@ def create_default_multi_agent_system(
     # Extend specialist instructions
     specialist_extension = SystemPrompts.SPECIALIST_INSTRUCTION_EXTENSION
 
+    # Filter tool replacements by prefix to avoid trying to replace tools that haven't been loaded yet
+    ai_knowledge_replacements = None
+    ally_config_replacements = None
+    if tool_replacements:
+        ai_knowledge_replacements = {
+            k: v for k, v in tool_replacements.items() if k.startswith("ai_knowledge_")
+        }
+        ally_config_replacements = {
+            k: v for k, v in tool_replacements.items() if k.startswith("ally_config_")
+        }
+
     # Create AI Knowledge specialist with extended instructions
     ai_knowledge = create_ai_knowledge_specialist(
         factory=factory,
@@ -235,7 +246,7 @@ def create_default_multi_agent_system(
         include_context_tools=True,
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
-        tool_replacements=tool_replacements,
+        tool_replacements=ai_knowledge_replacements,
     )
 
     # Create Ally Config specialist with extended instructions
@@ -246,7 +257,7 @@ def create_default_multi_agent_system(
         include_context_tools=True,
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
-        tool_replacements=tool_replacements,
+        tool_replacements=ally_config_replacements,
     )
 
     # Define specialists with descriptions
