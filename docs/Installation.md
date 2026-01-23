@@ -1,4 +1,4 @@
-You need the AI-Core Package
+You need Informs AI-Core Package
 
 For that you need to run `aws configure sso` and `aws sso login` first and then add the correct codeartifact.
 
