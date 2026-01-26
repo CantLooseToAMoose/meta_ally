@@ -68,7 +68,7 @@ class AllyConfigMockService:
             endpoint: The endpoint identifier to validate.
 
         Raises:
-            ModelRetry: If the endpoint does not contain 'website'.
+            ModelRetry: If the endpoint does not contain 'website' or 'webseite'.
         """
         if "website" not in endpoint.lower() and "webseite" not in endpoint.lower():
             raise ModelRetry(
@@ -180,6 +180,117 @@ class AllyConfigMockService:
             shifted_data[shifted_date.isoformat()] = values
 
         return self._truncate_response(shifted_data)
+
+    def get_copilot_session(
+        self, session_id: str, endpoint: str
+    ) -> dict[str, Any]:
+        """
+        Get a specific session by its ID with time-shifted timestamps.
+
+        Args:
+            session_id: The ID of the session to retrieve.
+            endpoint: The endpoint identifier for the Copilot.
+
+        Returns:
+            A session dictionary with adjusted timestamps.
+
+        Raises:
+            ModelRetry: If the endpoint does not contain 'website' or if the session is not found.
+        """
+        self._validate_endpoint(endpoint)
+
+        # Calculate time shift
+        time_shift = self._calculate_time_shift()
+
+        # Find the requested session
+        for session in self.data.get("sessions", []):
+            if session["session_id"] == session_id:
+                # Parse original session timestamp
+                original_timestamp = datetime.fromisoformat(session["timestamp"])
+                shifted_timestamp = original_timestamp + time_shift
+
+                # Create shifted session
+                shifted_session = {
+                    "session_id": session["session_id"],
+                    "timestamp": shifted_timestamp.isoformat(),
+                    "messages": [],
+                }
+
+                # Shift all message timestamps
+                for message in session.get("messages", []):
+                    original_msg_time = datetime.fromisoformat(
+                        message["timestamp"]
+                    )
+                    shifted_msg_time = original_msg_time + time_shift
+
+                    shifted_session["messages"].append(
+                        {
+                            "role": message["role"],
+                            "content": message["content"],
+                            "timestamp": shifted_msg_time.isoformat(),
+                        }
+                    )
+
+                return self._truncate_response(shifted_session)
+
+        # Session not found
+        raise ModelRetry(
+            f"Session {session_id} not found"
+        )
+
+    def get_copilot_sessions_summaries(
+        self, endpoint: str, start_time: str, end_time: str
+    ) -> dict[str, Any]:
+        """
+        Get session summaries with time-shifted timestamps.
+
+        Returns lightweight session metadata without message content,
+        useful for listing and pagination.
+
+        Args:
+            endpoint: The endpoint identifier for the Copilot.
+            start_time: The start time (ISO 8601 format) for filtering.
+            end_time: The end time (ISO 8601 format) for filtering.
+
+        Returns:
+            A dictionary containing a list of session summaries and total count.
+
+        Raises:
+            ModelRetry: If the endpoint does not contain 'website'.
+        """
+        self._validate_endpoint(endpoint)
+
+        # Parse the requested time range
+        requested_start = datetime.fromisoformat(start_time)
+        requested_end = datetime.fromisoformat(end_time)
+
+        # Calculate time shift
+        time_shift = self._calculate_time_shift()
+
+        # Filter and create summaries
+        session_summaries = []
+        for session in self.data.get("sessions", []):
+            # Parse original session timestamp
+            original_timestamp = datetime.fromisoformat(session["timestamp"])
+            shifted_timestamp = original_timestamp + time_shift
+
+            # Check if this session falls within the requested range
+            if requested_start <= shifted_timestamp <= requested_end:
+                # Create summary (no message content, just metadata)
+                summary = {
+                    "session_id": session["session_id"],
+                    "timestamp": shifted_timestamp.isoformat(),
+                    "message_count": len(session.get("messages", [])),
+                }
+                session_summaries.append(summary)
+
+        # Return in the expected format
+        response = {
+            "sessions": session_summaries,
+            "total_count": len(session_summaries),
+        }
+
+        return self._truncate_response(response)
 
     def get_copilot_sessions(
         self, endpoint: str, start_time: str, end_time: str
@@ -341,10 +452,20 @@ def create_ally_config_mock_tool_replacements(
         """Mock version of get_copilot_sessions using time-shifted data."""  # noqa: DOC201
         return mock_service.get_copilot_sessions(endpoint, start_time, end_time)
 
+    async def mock_get_copilot_session(_ctx, session_id: str, endpoint: str):  # noqa: RUF029
+        """Mock version of get_copilot_session using time-shifted data."""  # noqa: DOC201
+        return mock_service.get_copilot_session(session_id, endpoint)
+
+    async def mock_get_copilot_sessions_summaries(_ctx, endpoint: str, start_time: str, end_time: str):  # noqa: RUF029
+        """Mock version of get_copilot_sessions_summaries using time-shifted data."""  # noqa: DOC201
+        return mock_service.get_copilot_sessions_summaries(endpoint, start_time, end_time)
+
     # Return the mapping with PREFIXED tool names
     # The prefix determines which tool list the replacement is applied to
     return {
         "ally_config_get_copilot_ratings": mock_get_copilot_ratings,
         "ally_config_get_copilot_cost_daily": mock_get_copilot_cost_daily,
         "ally_config_get_copilot_sessions": mock_get_copilot_sessions,
+        "ally_config_get_copilot_session": mock_get_copilot_session,
+        "ally_config_get_copilot_sessions_summaries": mock_get_copilot_sessions_summaries,
     }

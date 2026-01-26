@@ -82,19 +82,65 @@ def test_direct_mock_service():
     )
 
     print(f"Requested sessions from {start_time.date()} to {end_time.date()}")
-    print(f"Found {len(sessions)} sessions")
 
-    # Show details of first session
-    if sessions:
-        first_session = sessions[0]
-        print("\nFirst session:")
-        print(f"  Session ID: {first_session['session_id']}")
-        print(f"  Timestamp: {first_session['timestamp']}")
-        print(f"  Messages: {len(first_session['messages'])}")
-        if first_session['messages']:
-            first_msg = first_session['messages'][0]
-            print(f"  First message role: {first_msg['role']}")
-            print(f"  First message content (truncated): {first_msg['content'][:100]}...")
+    # Check if response was truncated
+    if isinstance(sessions, dict) and sessions.get("_truncated"):
+        print("⚠ Response was truncated:")
+        print(f"  Original size: {sessions['_original_size']} chars")
+        print(f"  Truncated at: {sessions['_truncated_at']} chars")
+        print(f"  Message: {sessions['_message']}")
+    else:
+        print(f"Found {len(sessions)} sessions")
+
+        # Show details of first session
+        if sessions:
+            first_session = sessions[0]
+            print("\nFirst session:")
+            print(f"  Session ID: {first_session['session_id']}")
+            print(f"  Timestamp: {first_session['timestamp']}")
+            print(f"  Messages: {len(first_session['messages'])}")
+            if first_session['messages']:
+                first_msg = first_session['messages'][0]
+                print(f"  First message role: {first_msg['role']}")
+                print(f"  First message content (truncated): {first_msg['content'][:100]}...")
+
+    # Test get_copilot_sessions_summaries
+    print("\n--- Testing get_copilot_sessions_summaries ---")
+    summaries = mock_service.get_copilot_sessions_summaries(
+        endpoint,
+        start_time.isoformat(),
+        end_time.isoformat()
+    )
+
+    if isinstance(summaries, dict) and summaries.get("_truncated"):
+        print("⚠ Response was truncated")
+    else:
+        print(f"Total count: {summaries.get('total_count', 0)}")
+        print(f"Sessions returned: {len(summaries.get('sessions', []))}")
+        if summaries.get('sessions'):
+            first_summary = summaries['sessions'][0]
+            print("\nFirst session summary:")
+            print(f"  Session ID: {first_summary['session_id']}")
+            print(f"  Timestamp: {first_summary['timestamp']}")
+            print(f"  Message count: {first_summary['message_count']}")
+
+    # Test get_copilot_session (retrieve single session)
+    print("\n--- Testing get_copilot_session ---")
+    if sessions and not isinstance(sessions, dict):
+        # Use the first session ID from the previous call
+        test_session_id = sessions[0]['session_id']
+        print(f"Retrieving session: {test_session_id}")
+
+        single_session = mock_service.get_copilot_session(test_session_id, endpoint)
+
+        if isinstance(single_session, dict) and single_session.get("_truncated"):
+            print("⚠ Response was truncated")
+        else:
+            print(f"Session ID: {single_session['session_id']}")
+            print(f"Timestamp: {single_session['timestamp']}")
+            print(f"Messages: {len(single_session['messages'])}")
+    else:
+        print("Skipping (no sessions available for testing)")
 
     # Test error handling with invalid endpoint
     print("\n--- Testing error handling ---")
@@ -200,7 +246,35 @@ async def test_async_mock_tools():
         start_time.isoformat(),
         end_time.isoformat()
     )
-    print(f"Found {len(sessions)} sessions")
+    if isinstance(sessions, dict) and sessions.get("_truncated"):
+        print("Response was truncated")
+    else:
+        print(f"Found {len(sessions)} sessions")
+
+    print("\n--- Testing mock_get_copilot_sessions_summaries ---")
+    summaries_func = mock_tools["ally_config_get_copilot_sessions_summaries"]
+    summaries = await summaries_func(
+        ctx,
+        endpoint,
+        start_time.isoformat(),
+        end_time.isoformat()
+    )
+    if isinstance(summaries, dict) and summaries.get("_truncated"):
+        print("Response was truncated")
+    else:
+        print(f"Total count: {summaries.get('total_count', 0)}")
+
+    print("\n--- Testing mock_get_copilot_session ---")
+    session_func = mock_tools["ally_config_get_copilot_session"]
+    if sessions and not isinstance(sessions, dict):
+        test_session_id = sessions[0]['session_id']
+        single_session = await session_func(ctx, test_session_id, endpoint)
+        if isinstance(single_session, dict) and single_session.get("_truncated"):
+            print("Response was truncated")
+        else:
+            print(f"Retrieved session: {single_session['session_id']}")
+    else:
+        print("Skipping (no sessions available)")
 
 
 async def test_tool_group_manager_with_replacement():  # noqa: PLR0914, PLR0915
@@ -238,6 +312,8 @@ async def test_tool_group_manager_with_replacement():  # noqa: PLR0914, PLR0915
     ratings_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_ratings"), None)
     cost_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_cost_daily"), None)
     sessions_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions"), None)
+    session_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_session"), None)
+    summaries_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions_summaries"), None)
 
     # Test get_copilot_ratings
     if ratings_tool:
@@ -280,11 +356,48 @@ async def test_tool_group_manager_with_replacement():  # noqa: PLR0914, PLR0915
                 start_time.isoformat(),
                 end_time.isoformat()
             )
-            print(f"  Found {len(sessions)} sessions")
-            if sessions:
-                first_session = sessions[0]
-                print(f"    First session ID: {first_session['session_id']}")
-                print(f"    Messages: {len(first_session['messages'])}")
+            if isinstance(sessions, dict) and sessions.get("_truncated"):
+                print("  Response was truncated")
+            else:
+                print(f"  Found {len(sessions)} sessions")
+                if sessions:
+                    first_session = sessions[0]
+                    print(f"    First session ID: {first_session['session_id']}")
+                    print(f"    Messages: {len(first_session['messages'])}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+    # Test get_copilot_sessions_summaries
+    if summaries_tool:
+        print("\n• Testing get_copilot_sessions_summaries:")
+        try:
+            summaries = await summaries_tool.function(
+                ctx,
+                endpoint,
+                start_time.isoformat(),
+                end_time.isoformat()
+            )
+            if isinstance(summaries, dict) and summaries.get("_truncated"):
+                print("  Response was truncated")
+            else:
+                print(f"  Total count: {summaries.get('total_count', 0)}")
+                if summaries.get('sessions'):
+                    print(f"    First summary ID: {summaries['sessions'][0]['session_id']}")
+                    print(f"    Message count: {summaries['sessions'][0]['message_count']}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+    # Test get_copilot_session
+    if session_tool and sessions and not isinstance(sessions, dict):
+        print("\n• Testing get_copilot_session:")
+        try:
+            test_session_id = sessions[0]['session_id']
+            single_session = await session_tool.function(ctx, test_session_id, endpoint)
+            if isinstance(single_session, dict) and single_session.get("_truncated"):
+                print("  Response was truncated")
+            else:
+                print(f"  Retrieved session: {single_session['session_id']}")
+                print(f"    Messages: {len(single_session['messages'])}")
         except Exception as e:
             print(f"  Error: {e}")
 
@@ -325,7 +438,8 @@ def start_terminal_chat_with_mock_tools():
 
     console.print("[dim]✓ Agent initialized with mock tools[/dim]")
     console.print(f"[dim]Model: {agent.model}[/dim]")
-    console.print("[dim]Replaced tools: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions[/dim]")
+    console.print("[dim]Replaced tools: get_copilot_ratings, get_copilot_cost_daily, get_copilot_sessions,[/dim]")
+    console.print("[dim]                 get_copilot_session, get_copilot_sessions_summaries[/dim]")
     console.print("\n[yellow]Note: These tools will return mock data instead of making real API calls[/yellow]\n")
 
     # Start the chat session
