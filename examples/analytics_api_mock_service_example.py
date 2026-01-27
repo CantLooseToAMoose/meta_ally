@@ -1,5 +1,5 @@
 """
-Example demonstrating the analytics_api_mock_service.py functionality.
+Example demonstrating the analytics_api_mock_service.py functionality and serving as a light weight test.
 
 This example shows how to:
 1. Create and use the AllyConfigMockService directly
@@ -28,53 +28,44 @@ from meta_ally.tools.tool_group_manager import (
 from meta_ally.ui.terminal_chat import start_chat_session
 
 
-def test_direct_mock_service():
-    """Test the AllyConfigMockService directly."""
-    print("=" * 80)
-    print("TEST 1: Direct Mock Service Usage")
-    print("=" * 80)
-
-    # Create the mock service
-    mock_service = create_mock_service()
-
-    print(f"\nCapture time: {mock_service.capture_time}")
-    print(f"Original time range: {mock_service.original_start} to {mock_service.original_end}")
-
-    # Test get_copilot_ratings
+def _test_ratings(mock_service, endpoint):
+    """Test get_copilot_ratings endpoint."""
     print("\n--- Testing get_copilot_ratings ---")
-    endpoint = "website_analytics"
     ratings = mock_service.get_copilot_ratings(endpoint)
     print(f"Ratings for endpoint '{endpoint}': {ratings}")
 
-    # Test get_copilot_cost_daily with tokens
+
+def _test_cost_data(mock_service, endpoint):
+    """Test get_copilot_cost_daily with both tokens and euro."""
+    # Test with tokens
     print("\n--- Testing get_copilot_cost_daily (tokens) ---")
     cost_tokens = mock_service.get_copilot_cost_daily(endpoint, "tokens")
     if cost_tokens:
         print(f"Found {len(cost_tokens)} days of token cost data")
-        # Show first 3 entries
         for _i, (date, values) in enumerate(list(cost_tokens.items())[:3]):
             print(f"  {date}: {values}")
     else:
         print("No token cost data available")
 
-    # Test get_copilot_cost_daily with euro
+    # Test with euro
     print("\n--- Testing get_copilot_cost_daily (euro) ---")
     cost_euro = mock_service.get_copilot_cost_daily(endpoint, "euro")
     if cost_euro:
         print(f"Found {len(cost_euro)} days of euro cost data")
-        # Show first 3 entries
         for _i, (date, values) in enumerate(list(cost_euro.items())[:3]):
             print(f"  {date}: {values}")
     else:
         print("No euro cost data available")
 
-    # Test get_copilot_sessions
-    print("\n--- Testing get_copilot_sessions ---")
-    # Request sessions for the last 7 days
-    # Use timezone-aware datetime to match the mock data format
-    end_time = datetime.now(UTC)
-    start_time = end_time - timedelta(days=7)
 
+def _test_sessions(mock_service, endpoint, start_time, end_time):
+    """
+    Test get_copilot_sessions endpoint.
+
+    Returns:
+        The sessions data returned from the mock service.
+    """
+    print("\n--- Testing get_copilot_sessions ---")
     sessions = mock_service.get_copilot_sessions(
         endpoint,
         start_time.isoformat(),
@@ -83,7 +74,6 @@ def test_direct_mock_service():
 
     print(f"Requested sessions from {start_time.date()} to {end_time.date()}")
 
-    # Check if response was truncated
     if isinstance(sessions, dict) and sessions.get("_truncated"):
         print("⚠ Response was truncated:")
         print(f"  Original size: {sessions['_original_size']} chars")
@@ -91,8 +81,6 @@ def test_direct_mock_service():
         print(f"  Message: {sessions['_message']}")
     else:
         print(f"Found {len(sessions)} sessions")
-
-        # Show details of first session
         if sessions:
             first_session = sessions[0]
             print("\nFirst session:")
@@ -104,7 +92,11 @@ def test_direct_mock_service():
                 print(f"  First message role: {first_msg['role']}")
                 print(f"  First message content (truncated): {first_msg['content'][:100]}...")
 
-    # Test get_copilot_sessions_summaries
+    return sessions
+
+
+def _test_sessions_summaries(mock_service, endpoint, start_time, end_time):
+    """Test get_copilot_sessions_summaries endpoint."""
     print("\n--- Testing get_copilot_sessions_summaries ---")
     summaries = mock_service.get_copilot_sessions_summaries(
         endpoint,
@@ -124,10 +116,11 @@ def test_direct_mock_service():
             print(f"  Timestamp: {first_summary['timestamp']}")
             print(f"  Message count: {first_summary['message_count']}")
 
-    # Test get_copilot_session (retrieve single session)
+
+def _test_single_session(mock_service, endpoint, sessions):
+    """Test get_copilot_session for retrieving a single session."""
     print("\n--- Testing get_copilot_session ---")
     if sessions and not isinstance(sessions, dict):
-        # Use the first session ID from the previous call
         test_session_id = sessions[0]['session_id']
         print(f"Retrieving session: {test_session_id}")
 
@@ -142,7 +135,9 @@ def test_direct_mock_service():
     else:
         print("Skipping (no sessions available for testing)")
 
-    # Test error handling with invalid endpoint
+
+def _test_error_handling(mock_service):
+    """Test error handling with invalid endpoint."""
     print("\n--- Testing error handling ---")
     try:
         invalid_endpoint = "invalid_endpoint"
@@ -151,6 +146,31 @@ def test_direct_mock_service():
     except Exception as e:
         print(f"Correctly raised exception: {type(e).__name__}")
         print(f"Exception message: {e}")
+
+
+def test_direct_mock_service():
+    """Test the AllyConfigMockService directly."""
+    print("=" * 80)
+    print("TEST 1: Direct Mock Service Usage")
+    print("=" * 80)
+
+    mock_service = create_mock_service()
+    endpoint = "website_analytics"
+
+    print(f"\nCapture time: {mock_service.capture_time}")
+    print(f"Original time range: {mock_service.original_start} to {mock_service.original_end}")
+
+    # Run all test components
+    _test_ratings(mock_service, endpoint)
+    _test_cost_data(mock_service, endpoint)
+
+    end_time = datetime.now(UTC)
+    start_time = end_time - timedelta(days=7)
+
+    sessions = _test_sessions(mock_service, endpoint, start_time, end_time)
+    _test_sessions_summaries(mock_service, endpoint, start_time, end_time)
+    _test_single_session(mock_service, endpoint, sessions)
+    _test_error_handling(mock_service)
 
 
 def test_time_shifting():
@@ -207,34 +227,29 @@ def test_mock_tool_replacements():
         print(f"  {tool_name}: callable = {callable(tool_func)}")
 
 
-async def test_async_mock_tools():
-    """Test that async mock tools work correctly."""
-    print("\n" + "=" * 80)
-    print("TEST 4: Async Mock Tools")
-    print("=" * 80)
-
-    # Create mock tool replacements
-    mock_tools = create_ally_config_mock_tool_replacements()
-
-    # Create a dummy context (tools expect this as first parameter)
-    class DummyCtx:
-        pass
-
-    ctx = DummyCtx()
-
-    # Test each mock tool
-    endpoint = "website_analytics"
-
+async def _test_async_ratings(mock_tools, ctx, endpoint):
+    """Test mock_get_copilot_ratings."""
     print("\n--- Testing mock_get_copilot_ratings ---")
     ratings_func = mock_tools["ally_config_get_copilot_ratings"]
     ratings = await ratings_func(ctx, endpoint)
     print(f"Result: {ratings}")
 
+
+async def _test_async_cost(mock_tools, ctx, endpoint):
+    """Test mock_get_copilot_cost_daily."""
     print("\n--- Testing mock_get_copilot_cost_daily ---")
     cost_func = mock_tools["ally_config_get_copilot_cost_daily"]
     cost_data = await cost_func(ctx, endpoint, "tokens")
     print(f"Found {len(cost_data)} days of data")
 
+
+async def _test_async_sessions(mock_tools, ctx, endpoint):
+    """
+    Test mock_get_copilot_sessions.
+
+    Returns:
+        A tuple containing the sessions data, start_time, and end_time.
+    """
     print("\n--- Testing mock_get_copilot_sessions ---")
     sessions_func = mock_tools["ally_config_get_copilot_sessions"]
     end_time = datetime.now(UTC)
@@ -251,6 +266,11 @@ async def test_async_mock_tools():
     else:
         print(f"Found {len(sessions)} sessions")
 
+    return sessions, start_time, end_time
+
+
+async def _test_async_summaries(mock_tools, ctx, endpoint, start_time, end_time):
+    """Test mock_get_copilot_sessions_summaries."""
     print("\n--- Testing mock_get_copilot_sessions_summaries ---")
     summaries_func = mock_tools["ally_config_get_copilot_sessions_summaries"]
     summaries = await summaries_func(
@@ -264,6 +284,9 @@ async def test_async_mock_tools():
     else:
         print(f"Total count: {summaries.get('total_count', 0)}")
 
+
+async def _test_async_single_session(mock_tools, ctx, endpoint, sessions):
+    """Test mock_get_copilot_session."""
     print("\n--- Testing mock_get_copilot_session ---")
     session_func = mock_tools["ally_config_get_copilot_session"]
     if sessions and not isinstance(sessions, dict):
@@ -277,133 +300,209 @@ async def test_async_mock_tools():
         print("Skipping (no sessions available)")
 
 
-async def test_tool_group_manager_with_replacement():  # noqa: PLR0914, PLR0915
-    """Test replacing tools in a ToolGroupManager and calling them."""  # noqa: DOC201
+async def test_async_mock_tools():
+    """Test that async mock tools work correctly."""
     print("\n" + "=" * 80)
-    print("TEST 5: ToolGroupManager with Tool Replacement")
+    print("TEST 4: Async Mock Tools")
     print("=" * 80)
 
-    # Create auth manager and tool group manager
+    # Create mock tool replacements
+    mock_tools = create_ally_config_mock_tool_replacements()
+
+    # Create a dummy context (tools expect this as first parameter)
+    class DummyCtx:
+        pass
+
+    ctx = DummyCtx()
+    endpoint = "website_analytics"
+
+    # Test each mock tool
+    await _test_async_ratings(mock_tools, ctx, endpoint)
+    await _test_async_cost(mock_tools, ctx, endpoint)
+    sessions, start_time, end_time = await _test_async_sessions(mock_tools, ctx, endpoint)
+    await _test_async_summaries(mock_tools, ctx, endpoint, start_time, end_time)
+    await _test_async_single_session(mock_tools, ctx, endpoint, sessions)
+
+
+class DummyCtx:
+    """Dummy context class for tool testing."""
+
+
+def _setup_tool_manager():
+    """
+    Set up and configure tool manager with mock replacements.
+
+    Returns:
+        ToolGroupManager: Configured tool manager with mock replacements applied.
+    """
     auth_manager = AuthManager()
     tool_manager = ToolGroupManager(auth_manager)
 
-    # Load Ally Config tools
     print("\n--- Loading Ally Config tools ---")
     tool_manager.load_ally_config_tools(regenerate_models=True)
 
-    # Get initial LOGS tools
     logs_tools = tool_manager.get_tools_for_groups([AllyConfigToolGroup.LOGS])
     print(f"Loaded {len(logs_tools)} LOGS tools")
 
-    # Create mock tool replacements
     print("\n--- Creating mock tool replacements ---")
     mock_tools = create_ally_config_mock_tool_replacements()
     print(f"Created {len(mock_tools)} mock tool replacements")
 
-    # Apply tool replacements to the tool manager
     print("\n--- Applying tool replacements ---")
     tool_manager.apply_tool_replacements(mock_tools)
 
-    # Test that replaced tools work correctly
+    return tool_manager
+
+
+def _get_test_tools(tool_manager):
+    """
+    Retrieve tools for testing.
+
+    Returns:
+        dict: Dictionary mapping tool names to tool objects.
+    """
+    all_tools = tool_manager.get_tools_for_groups([AllyConfigToolGroup.ALL])
+    return {
+        'ratings': next((t for t in all_tools if t.name == "ally_config_get_copilot_ratings"), None),
+        'cost': next((t for t in all_tools if t.name == "ally_config_get_copilot_cost_daily"), None),
+        'sessions': next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions"), None),
+        'session': next((t for t in all_tools if t.name == "ally_config_get_copilot_session"), None),
+        'summaries': next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions_summaries"), None),
+    }
+
+
+async def _test_ratings_tool(tool, ctx, endpoint):
+    """Test the get_copilot_ratings tool."""
+    if not tool:
+        return
+    print("\n• Testing get_copilot_ratings:")
+    try:
+        ratings = await tool.function(ctx, endpoint)
+        print(f"  Ratings: {ratings}")
+    except Exception as e:
+        print(f"  Error: {e}")
+
+
+async def _test_cost_tool(tool, ctx, endpoint):
+    """Test the get_copilot_cost_daily tool."""
+    if not tool:
+        return
+    print("\n• Testing get_copilot_cost_daily:")
+    try:
+        cost_data = await tool.function(ctx, endpoint, "tokens")
+        print(f"  Found {len(cost_data)} days of cost data")
+        if cost_data:
+            for _i, (date, values) in enumerate(list(cost_data.items())[:2]):
+                print(f"    {date}: {values}")
+    except Exception as e:
+        print(f"  Error: {e}")
+
+
+async def _test_sessions_tool(tool, ctx, endpoint):
+    """
+    Test the get_copilot_sessions tool.
+
+    Returns:
+        list | None: List of sessions or None if error or tool not found.
+    """
+    if not tool:
+        return None
+    print("\n• Testing get_copilot_sessions:")
+    try:
+        end_time = datetime.now(UTC)
+        start_time = end_time - timedelta(days=7)
+
+        sessions = await tool.function(
+            ctx,
+            endpoint,
+            start_time.isoformat(),
+            end_time.isoformat()
+        )
+        if isinstance(sessions, dict) and sessions.get("_truncated"):
+            print("  Response was truncated")
+        else:
+            print(f"  Found {len(sessions)} sessions")
+            if sessions:
+                first_session = sessions[0]
+                print(f"    First session ID: {first_session['session_id']}")
+                print(f"    Messages: {len(first_session['messages'])}")
+        return sessions
+    except Exception as e:
+        print(f"  Error: {e}")
+        return None
+
+
+async def _test_summaries_tool(tool, ctx, endpoint, start_time, end_time):
+    """Test the get_copilot_sessions_summaries tool."""
+    if not tool:
+        return
+    print("\n• Testing get_copilot_sessions_summaries:")
+    try:
+        summaries = await tool.function(
+            ctx,
+            endpoint,
+            start_time.isoformat(),
+            end_time.isoformat()
+        )
+        if isinstance(summaries, dict) and summaries.get("_truncated"):
+            print("  Response was truncated")
+        else:
+            print(f"  Total count: {summaries.get('total_count', 0)}")
+            if summaries.get('sessions'):
+                print(f"    First summary ID: {summaries['sessions'][0]['session_id']}")
+                print(f"    Message count: {summaries['sessions'][0]['message_count']}")
+    except Exception as e:
+        print(f"  Error: {e}")
+
+
+async def _test_session_tool(tool, ctx, endpoint, sessions):
+    """Test the get_copilot_session tool."""
+    if not tool or not sessions or isinstance(sessions, dict):
+        return
+    print("\n• Testing get_copilot_session:")
+    try:
+        test_session_id = sessions[0]['session_id']
+        single_session = await tool.function(ctx, test_session_id, endpoint)
+        if isinstance(single_session, dict) and single_session.get("_truncated"):
+            print("  Response was truncated")
+        else:
+            print(f"  Retrieved session: {single_session['session_id']}")
+            print(f"    Messages: {len(single_session['messages'])}")
+    except Exception as e:
+        print(f"  Error: {e}")
+
+
+async def test_tool_group_manager_with_replacement():
+    """
+    Test replacing tools in a ToolGroupManager and calling them.
+
+    Returns:
+        ToolGroupManager: The configured tool manager for optional chat usage.
+    """
+    print("\n" + "=" * 80)
+    print("TEST 5: ToolGroupManager with Tool Replacement")
+    print("=" * 80)
+
+    tool_manager = _setup_tool_manager()
+
     print("\n--- Testing replaced tools by calling them ---")
 
-    # Get the actual tools to check their operation IDs
-    all_tools = tool_manager.get_tools_for_groups([AllyConfigToolGroup.ALL])
-    ratings_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_ratings"), None)
-    cost_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_cost_daily"), None)
-    sessions_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions"), None)
-    session_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_session"), None)
-    summaries_tool = next((t for t in all_tools if t.name == "ally_config_get_copilot_sessions_summaries"), None)
+    tools = _get_test_tools(tool_manager)
+    ctx = DummyCtx()
+    endpoint = "website_analytics"
 
-    # Test get_copilot_ratings
-    if ratings_tool:
-        print("\n• Testing get_copilot_ratings:")
-        try:
-            endpoint = "website_analytics"
-            # Call the tool function directly with a dummy context
+    await _test_ratings_tool(tools['ratings'], ctx, endpoint)
+    await _test_cost_tool(tools['cost'], ctx, endpoint)
 
-            class DummyCtx:
-                pass
-            ctx = DummyCtx()
-            ratings = await ratings_tool.function(ctx, endpoint)
-            print(f"  Ratings: {ratings}")
-        except Exception as e:
-            print(f"  Error: {e}")
+    sessions = await _test_sessions_tool(tools['sessions'], ctx, endpoint)
 
-    # Test get_copilot_cost_daily
-    if cost_tool:
-        print("\n• Testing get_copilot_cost_daily:")
-        try:
-            cost_data = await cost_tool.function(ctx, endpoint, "tokens")
-            print(f"  Found {len(cost_data)} days of cost data")
-            if cost_data:
-                # Show first 2 entries
-                for _i, (date, values) in enumerate(list(cost_data.items())[:2]):
-                    print(f"    {date}: {values}")
-        except Exception as e:
-            print(f"  Error: {e}")
-
-    # Test get_copilot_sessions
-    if sessions_tool:
-        print("\n• Testing get_copilot_sessions:")
-        try:
-            end_time = datetime.now(UTC)
-            start_time = end_time - timedelta(days=7)
-
-            sessions = await sessions_tool.function(
-                ctx,
-                endpoint,
-                start_time.isoformat(),
-                end_time.isoformat()
-            )
-            if isinstance(sessions, dict) and sessions.get("_truncated"):
-                print("  Response was truncated")
-            else:
-                print(f"  Found {len(sessions)} sessions")
-                if sessions:
-                    first_session = sessions[0]
-                    print(f"    First session ID: {first_session['session_id']}")
-                    print(f"    Messages: {len(first_session['messages'])}")
-        except Exception as e:
-            print(f"  Error: {e}")
-
-    # Test get_copilot_sessions_summaries
-    if summaries_tool:
-        print("\n• Testing get_copilot_sessions_summaries:")
-        try:
-            summaries = await summaries_tool.function(
-                ctx,
-                endpoint,
-                start_time.isoformat(),
-                end_time.isoformat()
-            )
-            if isinstance(summaries, dict) and summaries.get("_truncated"):
-                print("  Response was truncated")
-            else:
-                print(f"  Total count: {summaries.get('total_count', 0)}")
-                if summaries.get('sessions'):
-                    print(f"    First summary ID: {summaries['sessions'][0]['session_id']}")
-                    print(f"    Message count: {summaries['sessions'][0]['message_count']}")
-        except Exception as e:
-            print(f"  Error: {e}")
-
-    # Test get_copilot_session
-    if session_tool and sessions and not isinstance(sessions, dict):
-        print("\n• Testing get_copilot_session:")
-        try:
-            test_session_id = sessions[0]['session_id']
-            single_session = await session_tool.function(ctx, test_session_id, endpoint)
-            if isinstance(single_session, dict) and single_session.get("_truncated"):
-                print("  Response was truncated")
-            else:
-                print(f"  Retrieved session: {single_session['session_id']}")
-                print(f"    Messages: {len(single_session['messages'])}")
-        except Exception as e:
-            print(f"  Error: {e}")
+    end_time = datetime.now(UTC)
+    start_time = end_time - timedelta(days=7)
+    await _test_summaries_tool(tools['summaries'], ctx, endpoint, start_time, end_time)
+    await _test_session_tool(tools['session'], ctx, endpoint, sessions)
 
     print("\n✓ Tool replacement and execution test completed!")
 
-    # Return the tool_manager for optional chat usage
     return tool_manager
 
 
