@@ -39,6 +39,7 @@ from meta_ally.ui.terminal_chat import start_chat_session
 USE_MULTI_AGENT = True  # Set to True to use multi-agent orchestrator
 REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read operations
 USE_MOCK_API = True  # Set to True to use mock API data instead of real API calls
+USE_IMPROVED_DESCRIPTIONS = True  # Set to True to use improved tool descriptions
 
 
 def main():
@@ -55,7 +56,9 @@ def main():
     approval_status = '[green]Enabled[/green]' if REQUIRE_HUMAN_APPROVAL else '[dim]Disabled[/dim]'
     console.print(f"  Human Approval: {approval_status}")
     mock_api_status = '[green]Enabled[/green]' if USE_MOCK_API else '[dim]Disabled[/dim]'
-    console.print(f"  Mock API: {mock_api_status}\n")
+    console.print(f"  Mock API: {mock_api_status}")
+    improved_desc_status = '[green]Enabled[/green]' if USE_IMPROVED_DESCRIPTIONS else '[dim]Disabled[/dim]'
+    console.print(f"  Improved Descriptions: {improved_desc_status}\n")
 
     # Create agent factory
     console.print("[dim]Initializing agent...[/dim]")
@@ -74,6 +77,14 @@ def main():
         tool_replacements = create_ally_config_mock_tool_replacements()
         console.print(f"[green]✓ Created {len(tool_replacements)} mock tool replacements[/green]")
 
+    # Set up improved descriptions paths if enabled
+    ai_knowledge_descriptions_path = None
+    ally_config_descriptions_path = None
+    if USE_IMPROVED_DESCRIPTIONS:
+        ai_knowledge_descriptions_path = "Data/improved_tool_descriptions/ai_knowledge_improved_descriptions.json"
+        ally_config_descriptions_path = "Data/improved_tool_descriptions/ally_config_improved_descriptions.json"
+        console.print("[yellow]Using improved tool descriptions[/yellow]")
+
     # Create agent based on configuration
     if USE_MULTI_AGENT:
         console.print("[cyan]Creating multi-agent orchestrator with specialists...[/cyan]")
@@ -82,6 +93,8 @@ def main():
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
             tool_replacements=tool_replacements,
+            ai_knowledge_descriptions_path=ai_knowledge_descriptions_path,
+            ally_config_descriptions_path=ally_config_descriptions_path,
         )
         deps = factory.create_multi_agent_dependencies()
         console.print("[green]✓ Multi-agent orchestrator initialized[/green]")
@@ -95,6 +108,8 @@ def main():
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
             tool_replacements=tool_replacements,
+            ai_knowledge_descriptions_path=ai_knowledge_descriptions_path,
+            ally_config_descriptions_path=ally_config_descriptions_path,
         )
         deps = factory.create_dependencies()
         console.print("[green]✓ Hybrid assistant initialized[/green]")

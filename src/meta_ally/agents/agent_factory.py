@@ -190,7 +190,7 @@ class AgentFactory:
                 approval_callback=approval_callback
             )
 
-    def _get_default_model(self) -> ModelConfiguration:
+    def get_default_model(self) -> ModelConfiguration:
         """
         Get the default Azure GPT-4.1-mini model configuration.
 
@@ -291,6 +291,8 @@ Use this information when the user asks about current dates, times, or when time
         require_human_approval: bool = False,
         approval_callback: Callable | None = None,
         tool_replacements: dict[str, Callable] | None = None,
+        ai_knowledge_descriptions_path: str | None = None,
+        ally_config_descriptions_path: str | None = None,
         **agent_kwargs,
     ) -> Agent[OpenAPIToolDependencies]:
         """
@@ -307,6 +309,8 @@ Use this information when the user asks about current dates, times, or when time
             require_human_approval: Whether to require human approval for non-read-only operations
             approval_callback: Optional callback for human approval
             tool_replacements: Optional dict mapping operation IDs to mock functions for testing
+            ai_knowledge_descriptions_path: Optional path to JSON file with improved AI Knowledge tool descriptions
+            ally_config_descriptions_path: Optional path to JSON file with improved Ally Config tool descriptions
             **agent_kwargs: Additional keyword arguments for Agent
 
         Returns:
@@ -318,6 +322,13 @@ Use this information when the user asks about current dates, times, or when time
             require_human_approval=require_human_approval,
             approval_callback=approval_callback
         )
+
+        # Apply improved descriptions if provided
+        if ai_knowledge_descriptions_path or ally_config_descriptions_path:
+            self.tool_manager.apply_improved_descriptions(
+                ai_knowledge_json_path=ai_knowledge_descriptions_path,
+                ally_config_json_path=ally_config_descriptions_path
+            )
 
         # Apply tool replacements to the tool manager if provided
         # This modifies the tool objects in-place to use mock functions
@@ -371,8 +382,6 @@ Use this information when the user asks about current dates, times, or when time
         self.logger.info("Created agent '%s' with %d tools", name, len(tools))
 
         return agent
-
-
 
     def create_dependencies(self) -> OpenAPIToolDependencies:
         """
@@ -550,7 +559,7 @@ Use this information when the user asks about current dates, times, or when time
 
         # Auto-create Azure model config if no model specified
         if orchestrator_model is None:
-            orchestrator_model = self._get_default_model()
+            orchestrator_model = self.get_default_model()
 
         # Resolve model configuration
         resolved_model = self._resolve_model(orchestrator_model)
@@ -584,8 +593,6 @@ Use this information when the user asks about current dates, times, or when time
         )
 
         return orchestrator
-
-
 
     def get_available_groups(self) -> dict[str, dict[str, list[str]]]:
         """

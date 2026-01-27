@@ -23,7 +23,7 @@ from .dependencies import MultiAgentDependencies
 from .model_config import ModelConfiguration
 
 
-def create_ai_knowledge_specialist(
+def create_ai_knowledge_specialist(  # noqa: PLR0913, PLR0917
     factory: AgentFactory,
     tool_groups: list[AIKnowledgeToolGroup] | None = None,
     model: str | ModelConfiguration | None = None,
@@ -32,6 +32,7 @@ def create_ai_knowledge_specialist(
     require_human_approval: bool = False,
     approval_callback: Callable | None = None,
     tool_replacements: dict[str, Callable] | None = None,
+    improved_descriptions_path: str | None = None,
     **agent_kwargs,
 ) -> Agent[OpenAPIToolDependencies]:
     """
@@ -46,6 +47,7 @@ def create_ai_knowledge_specialist(
         require_human_approval: Whether to require human approval for non-read-only operations
         approval_callback: Optional callback for human approval
         tool_replacements: Optional dict mapping operation IDs to mock functions for testing
+        improved_descriptions_path: Optional path to JSON file with improved AI Knowledge tool descriptions
         **agent_kwargs: Additional arguments for Agent
 
     Returns:
@@ -56,7 +58,7 @@ def create_ai_knowledge_specialist(
 
     # Auto-create Azure model config if no model specified
     if model is None:
-        model = factory._get_default_model()
+        model = factory.get_default_model()
 
     return factory.create_agent(
         name="ai_knowledge_specialist",
@@ -68,11 +70,12 @@ def create_ai_knowledge_specialist(
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
         tool_replacements=tool_replacements,
+        ai_knowledge_descriptions_path=improved_descriptions_path,
         **agent_kwargs
     )
 
 
-def create_ally_config_admin(
+def create_ally_config_admin(  # noqa: PLR0913, PLR0917
     factory: AgentFactory,
     tool_groups: list[AllyConfigToolGroup] | None = None,
     model: str | ModelConfiguration | None = None,
@@ -81,6 +84,7 @@ def create_ally_config_admin(
     require_human_approval: bool = False,
     approval_callback: Callable | None = None,
     tool_replacements: dict[str, Callable] | None = None,
+    improved_descriptions_path: str | None = None,
     **agent_kwargs,
 ) -> Agent[OpenAPIToolDependencies]:
     """
@@ -95,6 +99,7 @@ def create_ally_config_admin(
         require_human_approval: Whether to require human approval for non-read-only operations
         approval_callback: Optional callback for human approval
         tool_replacements: Optional dict mapping operation IDs to mock functions for testing
+        improved_descriptions_path: Optional path to JSON file with improved Ally Config tool descriptions
         **agent_kwargs: Additional arguments for Agent
 
     Returns:
@@ -105,7 +110,7 @@ def create_ally_config_admin(
 
     # Auto-create Azure model config if no model specified
     if model is None:
-        model = factory._get_default_model()
+        model = factory.get_default_model()
 
     return factory.create_agent(
         name="ally_config_admin",
@@ -117,11 +122,12 @@ def create_ally_config_admin(
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
         tool_replacements=tool_replacements,
+        ally_config_descriptions_path=improved_descriptions_path,
         **agent_kwargs
     )
 
 
-def create_hybrid_assistant(
+def create_hybrid_assistant(  # noqa: PLR0913, PLR0917
     factory: AgentFactory,
     ai_knowledge_groups: list[AIKnowledgeToolGroup] | None = None,
     ally_config_groups: list[AllyConfigToolGroup] | None = None,
@@ -131,6 +137,8 @@ def create_hybrid_assistant(
     require_human_approval: bool = False,
     approval_callback: Callable | None = None,
     tool_replacements: dict[str, Callable] | None = None,
+    ai_knowledge_descriptions_path: str | None = None,
+    ally_config_descriptions_path: str | None = None,
     **agent_kwargs,
 ) -> Agent[OpenAPIToolDependencies]:
     """
@@ -146,6 +154,8 @@ def create_hybrid_assistant(
         require_human_approval: Whether to require human approval for non-read-only operations
         approval_callback: Optional callback for human approval
         tool_replacements: Optional dict mapping operation IDs to mock functions for testing
+        ai_knowledge_descriptions_path: Optional path to JSON file with improved AI Knowledge tool descriptions
+        ally_config_descriptions_path: Optional path to JSON file with improved Ally Config tool descriptions
         **agent_kwargs: Additional arguments for Agent
 
     Returns:
@@ -163,7 +173,7 @@ def create_hybrid_assistant(
 
     # Auto-create Azure model config if no model specified
     if model is None:
-        model = factory._get_default_model()
+        model = factory.get_default_model()
 
     return factory.create_agent(
         name="hybrid_ai_assistant",
@@ -175,11 +185,13 @@ def create_hybrid_assistant(
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
         tool_replacements=tool_replacements,
+        ai_knowledge_descriptions_path=ai_knowledge_descriptions_path,
+        ally_config_descriptions_path=ally_config_descriptions_path,
         **agent_kwargs
     )
 
 
-def create_default_multi_agent_system(
+def create_default_multi_agent_system(  # noqa: PLR0913, PLR0917
     factory: AgentFactory,
     orchestrator_model: str | ModelConfiguration | None = None,
     specialist_model: str | ModelConfiguration | None = None,
@@ -187,6 +199,8 @@ def create_default_multi_agent_system(
     require_human_approval: bool = False,
     approval_callback: Callable | None = None,
     tool_replacements: dict[str, Callable] | None = None,
+    ai_knowledge_descriptions_path: str | None = None,
+    ally_config_descriptions_path: str | None = None,
     **agent_kwargs,
 ) -> Agent[MultiAgentDependencies]:
     """
@@ -205,6 +219,8 @@ def create_default_multi_agent_system(
         require_human_approval: Whether specialists require human approval for operations.
         approval_callback: Optional callback for human approval.
         tool_replacements: Optional dict mapping operation IDs to mock functions (applied to specialists).
+        ai_knowledge_descriptions_path: Optional path to JSON file with improved AI Knowledge tool descriptions
+        ally_config_descriptions_path: Optional path to JSON file with improved Ally Config tool descriptions
         **agent_kwargs: Additional arguments for orchestrator agent only.
 
     Returns:
@@ -247,6 +263,7 @@ def create_default_multi_agent_system(
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
         tool_replacements=ai_knowledge_replacements,
+        improved_descriptions_path=ai_knowledge_descriptions_path,
     )
 
     # Create Ally Config specialist with extended instructions
@@ -258,6 +275,7 @@ def create_default_multi_agent_system(
         require_human_approval=require_human_approval,
         approval_callback=approval_callback,
         tool_replacements=ally_config_replacements,
+        improved_descriptions_path=ally_config_descriptions_path,
     )
 
     # Define specialists with descriptions

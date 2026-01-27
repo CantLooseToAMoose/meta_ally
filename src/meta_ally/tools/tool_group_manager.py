@@ -8,8 +8,10 @@ Based on the tool categorization patterns found in the AI Knowledge and Ally Con
 
 from __future__ import annotations
 
+import json
 from collections.abc import Callable
 from enum import Enum
+from pathlib import Path
 
 from pydantic_ai import Tool
 
@@ -530,6 +532,147 @@ class ToolGroupManager:
                 if tool.name in tool_map:
                     # Replace with the updated tool from main list
                     group_tools[idx] = tool_map[tool.name]
+
+    def apply_improved_descriptions(
+        self,
+        ai_knowledge_json_path: str | None = None,
+        ally_config_json_path: str | None = None
+    ) -> None:
+        """
+        Apply improved tool descriptions from JSON files.
+
+        This method replaces tool descriptions with enhanced versions generated
+        by LLM-based improvement processes. The improved descriptions provide
+        better context and clarity for agents using these tools.
+
+        Args:
+            ai_knowledge_json_path: Path to JSON file with improved AI Knowledge tool descriptions
+            ally_config_json_path: Path to JSON file with improved Ally Config tool descriptions
+
+        Example:
+            ```python
+            tool_manager = ToolGroupManager(auth_manager)
+            tool_manager.load_ai_knowledge_tools()
+            tool_manager.load_ally_config_tools()
+
+            # Apply improved descriptions
+            tool_manager.apply_improved_descriptions(
+                ai_knowledge_json_path="Data/improved_tool_descriptions/ai_knowledge_improved_descriptions.json",
+                ally_config_json_path="Data/improved_tool_descriptions/ally_config_improved_descriptions.json"
+            )
+            ```
+
+        Note:
+            - Tools are immutable, so new Tool instances are created with updated descriptions
+            - Matching is done by operation ID (without prefix)
+            - JSON files should have structure: {"api_name": str, "tools": [{"name": str, "new_description": str}, ...]}
+        """
+        updated_count = 0
+
+        # Apply AI Knowledge descriptions
+        if ai_knowledge_json_path:
+            if not self._ai_knowledge_tools:
+                print("  ⚠️  Warning: AI Knowledge tools not loaded. Call load_ai_knowledge_tools() first.")
+            else:
+                updated_count += self._apply_descriptions_from_json(
+                    json_path=ai_knowledge_json_path,
+                    tools_list=self._ai_knowledge_tools,
+                    groups_dict=self._ai_knowledge_groups,
+                    tool_prefix="ai_knowledge_",
+                    api_name="AI Knowledge"
+                )
+
+        # Apply Ally Config descriptions
+        if ally_config_json_path:
+            if not self._ally_config_tools:
+                print("  ⚠️  Warning: Ally Config tools not loaded. Call load_ally_config_tools() first.")
+            else:
+                updated_count += self._apply_descriptions_from_json(
+                    json_path=ally_config_json_path,
+                    tools_list=self._ally_config_tools,
+                    groups_dict=self._ally_config_groups,
+                    tool_prefix="ally_config_",
+                    api_name="Ally Config"
+                )
+
+        if updated_count == 0:
+            print("  ⚠️  Warning: No tool descriptions were updated.")
+        else:
+            print(f"  ✓ Successfully updated {updated_count} tool description(s)")
+
+    def _apply_descriptions_from_json(
+        self,
+        json_path: str,
+        tools_list: list,
+        groups_dict: dict,
+        tool_prefix: str,
+        api_name: str
+    ) -> int:
+        """
+        Apply improved descriptions from a JSON file to a tool list.
+
+        Args:
+            json_path: Path to the JSON file containing improved descriptions
+            tools_list: List of tools to update
+            groups_dict: Dictionary of tool groups to update
+            tool_prefix: Prefix used for tool names (e.g., "ai_knowledge_")
+            api_name: Name of the API for logging
+
+        Returns:
+            Number of tools updated
+        """
+        json_file = Path(json_path)
+        if not json_file.exists():
+            print(f"  ⚠️  Warning: JSON file not found: {json_path}")
+            return 0
+
+        try:
+            with open(json_file, encoding="utf-8") as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"  ⚠️  Warning: Failed to parse JSON file {json_path}: {e}")
+            return 0
+
+        # Extract improved descriptions keyed by operation ID (without prefix)
+        improved_descriptions = {}
+        for tool_data in data.get("tools", []):
+            operation_id = tool_data.get("name")
+            new_description = tool_data.get("new_description")
+            if operation_id and new_description:
+                improved_descriptions[operation_id] = new_description
+
+        if not improved_descriptions:
+            print(f"  ⚠️  Warning: No valid tool descriptions found in {json_path}")
+            return 0
+
+        # Update tools in the list
+        updated_count = 0
+        for idx, tool in enumerate(tools_list):
+            # Strip prefix to get operation ID
+            operation_id = tool.name.replace(tool_prefix, "", 1)
+
+            if operation_id in improved_descriptions:
+                new_description = improved_descriptions[operation_id]
+
+                # Create a new tool with the updated description
+                new_tool = Tool.from_schema(
+                    function=tool.function,
+                    name=tool.name,
+                    description=new_description,
+                    json_schema=tool.tool_def.parameters_json_schema,
+                    takes_ctx=tool.takes_ctx
+                )
+
+                # Replace the tool in the list
+                tools_list[idx] = new_tool
+                updated_count += 1
+                print(f"  ✓ Updated {api_name} tool description: {tool.name}")
+
+        # Update group references to point to new tool instances
+        if updated_count > 0:
+            self._update_group_references(groups_dict, tools_list)
+
+        return updated_count
 
     async def execute_tool_safely(self, operation_id: str, **kwargs):
         """
