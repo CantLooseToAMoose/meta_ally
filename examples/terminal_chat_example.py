@@ -132,8 +132,17 @@ def main():
 
     console.print(f"[dim]Model: {agent.model}[/dim]\n")
 
+    # Prepare configuration dictionary to save with conversations
+    config = {
+        "use_multi_agent": USE_MULTI_AGENT,
+        "require_human_approval": REQUIRE_HUMAN_APPROVAL,
+        "use_mock_api": USE_MOCK_API,
+        "use_improved_descriptions": USE_IMPROVED_DESCRIPTIONS,
+        "model_deployment_name": MODEL_DEPLOYMENT_NAME,
+    }
+
     # Start the chat session using the utility function
-    start_chat_session(agent, deps, console_width=200)
+    start_chat_session(agent, deps, console_width=200, config=config)
 
 
 if __name__ == "__main__":

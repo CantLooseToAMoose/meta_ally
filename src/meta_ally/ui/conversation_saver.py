@@ -162,7 +162,8 @@ def save_conversation(
     sus_score: float | None = None,
     sus_responses: list[int] | None = None,
     notes: str = "",
-    save_dir: str | Path = "Data/UserRecords"
+    save_dir: str | Path = "Data/UserRecords",
+    config: dict[str, Any] | None = None
 ) -> Path:
     """
     Save a conversation timeline with metadata to a JSON file.
@@ -174,6 +175,7 @@ def save_conversation(
         sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
         notes: Optional notes about the conversation
         save_dir: Directory to save the conversation (default: Data/UserRecords)
+        config: Optional configuration dictionary to include in metadata
 
     Returns:
         Path to the saved file
@@ -210,6 +212,10 @@ def save_conversation(
         metadata["sus_score"] = sus_score
     if sus_responses is not None:
         metadata["sus_responses"] = sus_responses
+    
+    # Add configuration if provided
+    if config is not None:
+        metadata["config"] = config
 
     data = {
         "metadata": metadata,
@@ -775,7 +781,8 @@ def save_conversation_html(
     sus_score: float | None = None,
     sus_responses: list[int] | None = None,
     notes: str = "",
-    save_dir: str | Path = "Data/UserRecords"
+    save_dir: str | Path = "Data/UserRecords",
+    config: dict[str, Any] | None = None
 ) -> Path:
     """
     Save a conversation timeline as an HTML file with visual styling matching the terminal display.
@@ -793,6 +800,7 @@ def save_conversation_html(
         sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
         notes: Optional notes about the conversation
         save_dir: Directory to save the HTML file (default: Data/UserRecords)
+        config: Optional configuration dictionary to include in metadata
 
     Returns:
         Path to the saved HTML file
@@ -843,6 +851,10 @@ def save_conversation_html(
         metadata["sus_score"] = sus_score
     if sus_responses is not None:
         metadata["sus_responses"] = sus_responses
+    
+    # Add configuration if provided
+    if config is not None:
+        metadata["config"] = config
 
     # Render HTML
     metadata_html = _render_metadata_html(metadata)

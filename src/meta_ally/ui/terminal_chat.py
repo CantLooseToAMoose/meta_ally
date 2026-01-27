@@ -81,7 +81,8 @@ def handle_special_command(
     message_history: list,
     panel_width: int,
     console: Console,
-    conversation_timeline: list | None = None
+    conversation_timeline: list | None = None,
+    config: dict | None = None
 ) -> tuple[bool, list, str]:
     """
     Handle special chat commands.
@@ -92,6 +93,7 @@ def handle_special_command(
         panel_width: Width of display panels
         console: Rich Console instance for output
         conversation_timeline: Optional conversation timeline for multi-agent mode
+        config: Optional configuration dictionary to save with the conversation
 
     Returns:
         Tuple of (should_continue, updated_message_history, command_type)
@@ -134,8 +136,8 @@ def handle_special_command(
             notes = Prompt.ask("  [cyan]Notes (optional)[/cyan]", default="")
 
             # Save in JSON and HTML formats
-            json_path = save_conversation(timeline_to_save, name, sus_score, sus_responses, notes)
-            html_path = save_conversation_html(timeline_to_save, name, sus_score, sus_responses, notes)
+            json_path = save_conversation(timeline_to_save, name, sus_score, sus_responses, notes, config=config)
+            html_path = save_conversation_html(timeline_to_save, name, sus_score, sus_responses, notes, config=config)
 
             console.print("\n[green]✓ Conversation saved:[/green]")
             console.print(f"[green]  • JSON: {json_path}[/green]")
@@ -201,7 +203,7 @@ def _handle_agent_response(
     return list(response.all_messages())
 
 
-def start_chat_session(agent, deps, console_width: int = 200):
+def start_chat_session(agent, deps, console_width: int = 200, config: dict | None = None):
     """
     Start an interactive chat session with an agent.
 
@@ -213,6 +215,7 @@ def start_chat_session(agent, deps, console_width: int = 200):
         agent: The pydantic-ai agent to chat with
         deps: Agent dependencies (OpenAPIToolDependencies or MultiAgentDependencies)
         console_width: Width of the console display (default: 200)
+        config: Optional configuration dictionary to save with conversations
 
     Example (single agent):
         ```python
@@ -274,7 +277,7 @@ def start_chat_session(agent, deps, console_width: int = 200):
         # Handle special commands
         timeline = deps.conversation_timeline if is_multi_agent else None
         should_continue, message_history, _command = handle_special_command(
-            user_input, message_history, panel_width, console, timeline
+            user_input, message_history, panel_width, console, timeline, config
         )
         if not should_continue:
             break
