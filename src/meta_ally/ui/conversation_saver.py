@@ -355,6 +355,23 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
             color: var(--dim-color);
         }}
 
+        .metadata-config {{
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--divider-color);
+            color: var(--dim-color);
+        }}
+
+        .metadata-config ul {{
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+            list-style-type: none;
+        }}
+
+        .metadata-config li {{
+            margin: 3px 0;
+        }}
+
         .conversation {{
             display: flex;
             flex-direction: column;
@@ -764,6 +781,16 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
         )
 
     notes_html = f'<div class="metadata-notes"><strong>Notes:</strong> {notes}</div>' if notes else ''
+    
+    # Build configuration HTML if config exists
+    config_html = ''
+    if config := metadata.get('config'):
+        config_items = []
+        for key, value in config.items():
+            # Format key as readable (e.g., use_multi_agent -> Use Multi Agent)
+            readable_key = key.replace('_', ' ').title()
+            config_items.append(f'<li><strong>{html.escape(readable_key)}:</strong> {html.escape(str(value))}</li>')
+        config_html = f'<div class="metadata-config"><strong>Configuration:</strong><ul>{"".join(config_items)}</ul></div>'
 
     return f"""
         <div class="metadata">
@@ -771,6 +798,7 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
             {score_html}
             <span class="metadata-item"><strong>Date:</strong> {html.escape(str(timestamp))}</span>
             {notes_html}
+            {config_html}
         </div>
     """
 
