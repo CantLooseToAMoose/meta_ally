@@ -12,6 +12,9 @@ This example demonstrates:
 Configuration:
 - Set USE_MULTI_AGENT to True to use a multi-agent orchestrator with specialists
 - Set REQUIRE_HUMAN_APPROVAL to True to prompt for approval on non-read-only operations
+- Set USE_MOCK_API to True to use mock API data instead of real API calls
+- Set USE_IMPROVED_DESCRIPTIONS to True to use improved tool descriptions
+- Set MODEL_DEPLOYMENT_NAME to specify the Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
 """
 import logfire
 from rich.console import Console
@@ -21,6 +24,7 @@ from meta_ally.agents.agent_presets import (
     create_default_multi_agent_system,
     create_hybrid_assistant,
 )
+from meta_ally.agents.model_config import create_azure_model_config
 from meta_ally.mock.analytics_api_mock_service import (
     create_ally_config_mock_tool_replacements,
 )
@@ -40,6 +44,7 @@ USE_MULTI_AGENT = True  # Set to True to use multi-agent orchestrator
 REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read operations
 USE_MOCK_API = True  # Set to True to use mock API data instead of real API calls
 USE_IMPROVED_DESCRIPTIONS = True  # Set to True to use improved tool descriptions
+MODEL_DEPLOYMENT_NAME = "gpt-4.1-mini"  # Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
 
 
 def main():
@@ -58,11 +63,19 @@ def main():
     mock_api_status = '[green]Enabled[/green]' if USE_MOCK_API else '[dim]Disabled[/dim]'
     console.print(f"  Mock API: {mock_api_status}")
     improved_desc_status = '[green]Enabled[/green]' if USE_IMPROVED_DESCRIPTIONS else '[dim]Disabled[/dim]'
-    console.print(f"  Improved Descriptions: {improved_desc_status}\n")
+    console.print(f"  Improved Descriptions: {improved_desc_status}")
+    console.print(f"  Model Deployment: [cyan]{MODEL_DEPLOYMENT_NAME}[/cyan]\n")
 
     # Create agent factory
     console.print("[dim]Initializing agent...[/dim]")
     factory = AgentFactory()
+
+    # Create model configuration
+    model_config = create_azure_model_config(
+        deployment_name=MODEL_DEPLOYMENT_NAME,
+        endpoint="https://ally-frcentral.openai.azure.com/",
+        logger=factory.logger,
+    )
 
     # Create approval callback if needed
     approval_callback = None
@@ -90,6 +103,8 @@ def main():
         console.print("[cyan]Creating multi-agent orchestrator with specialists...[/cyan]")
         agent = create_default_multi_agent_system(
             factory=factory,
+            orchestrator_model=model_config,
+            specialist_model=model_config,
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
             tool_replacements=tool_replacements,
@@ -105,6 +120,7 @@ def main():
             factory=factory,
             ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
             ally_config_groups=[AllyConfigToolGroup.ALL],
+            model=model_config,
             require_human_approval=REQUIRE_HUMAN_APPROVAL,
             approval_callback=approval_callback,
             tool_replacements=tool_replacements,
