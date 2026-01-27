@@ -259,9 +259,6 @@ uv run pytest tests
 # Run specific test file
 uv run pytest tests/test_evaluators.py
 
-# Run with coverage
-uv run pytest --cov=src/meta_ally tests/
-```
 
 ---
 
@@ -271,8 +268,4 @@ uv run pytest --cov=src/meta_ally tests/
 - [Agent Evaluation Guide](docs/Agent_Evaluation_Guide.md)
 - [Pydantic AI Documentation](pydantic_ai_full_llm_helper.txt)
 
----
 
-## License
-
-See project repository for license information.
