@@ -362,7 +362,137 @@ class OpenAPIToolsLoader:
             print(f"Warning: Could not resolve model {model_name}: {e}")
             return None
 
-    def _create_tool_function(  # noqa: C901, PLR0915
+    def _check_approval(
+        self,
+        operation_id: str,
+        method: str,
+        path: str,
+        kwargs: dict[str, Any]
+    ) -> None:
+        """
+        Check if human approval is required and request it
+
+        Args:
+            operation_id: The operation ID
+            method: HTTP method
+            path: API path
+            kwargs: Request parameters
+
+        Raises:
+            ModelRetry: If approval is required but not granted
+        """
+        if not self.require_human_approval or self._is_read_only_operation(method):
+            return
+
+        if self.approval_callback is None:
+            raise ModelRetry(
+                f"Human approval required for {method.upper()} operation on {path}, "
+                "but no approval callback configured"
+            )
+
+        approval_response = self.approval_callback(operation_id, method.upper(), kwargs)
+        if not approval_response.approved:
+            reason = approval_response.reason or "User denied approval"
+            raise ModelRetry(f"Operation denied: {reason}")
+
+    def _build_url_and_params(
+        self,
+        path: str,
+        kwargs: dict[str, Any],
+        query_param_names: list[str]
+    ) -> tuple[str, dict[str, Any], dict[str, Any]]:
+        """
+        Build URL with path parameters and separate query/body parameters
+
+        Args:
+            path: API path template
+            kwargs: All request parameters
+            query_param_names: List of parameter names that should be query params
+
+        Returns:
+            Tuple of (final_url, query_params, body_params)
+        """
+        # Build the URL - replace path parameters
+        final_path = path
+        remaining_kwargs = kwargs.copy()
+
+        # Extract and substitute path parameters
+        for key, value in list(kwargs.items()):
+            if f"{{{key}}}" in final_path:
+                final_path = final_path.replace(f"{{{key}}}", str(value))
+                remaining_kwargs.pop(key, None)
+
+        # Separate query parameters from body parameters
+        query_params = {k: v for k, v in remaining_kwargs.items() if k in query_param_names}
+        body_params = {k: v for k, v in remaining_kwargs.items() if k not in query_param_names}
+
+        return f"{self.base_url}{final_path}", query_params, body_params
+
+    async def _execute_http_request(
+        self,
+        client: httpx.AsyncClient,
+        method: str,
+        url: str,
+        query_params: dict[str, Any],
+        body_params: dict[str, Any],
+        headers: dict[str, str]
+    ) -> httpx.Response:
+        """
+        Execute the HTTP request based on the method
+
+        Args:
+            client: HTTP client
+            method: HTTP method
+            url: Request URL
+            query_params: Query parameters
+            body_params: Body parameters
+            headers: Request headers
+
+        Returns:
+            HTTP response
+
+        Raises:
+            ValueError: If HTTP method is unsupported
+        """
+        method_lower = method.lower()
+        if method_lower == "get":
+            return await client.get(url, params=query_params, headers=headers)
+        elif method_lower == "post":
+            return await client.post(url, params=query_params, json=body_params, headers=headers)
+        elif method_lower == "put":
+            return await client.put(url, params=query_params, json=body_params, headers=headers)
+        elif method_lower == "delete":
+            return await client.delete(
+                url, params=query_params, json=body_params if body_params else None, headers=headers
+            )
+        else:
+            raise ValueError(f"Unsupported HTTP method: {method}")
+
+    def _handle_response(self, response: httpx.Response) -> dict[str, Any] | str:
+        """
+        Handle and parse the HTTP response
+
+        Args:
+            response: HTTP response
+
+        Returns:
+            Parsed response or success message
+        """
+        # Handle empty response bodies
+        if not response.content or response.content.strip() == b"":
+            return f"API request succeeded with status {response.status_code}"
+
+        try:
+            result = response.json()
+            # Handle empty JSON responses
+            if result is None or result in ("", {}, []):
+                return f"API request succeeded with status {response.status_code} and response is empty"
+            return self._truncate_response(result)
+        except ValueError:
+            # If response is not JSON but has content, return success message
+            return f"API request succeeded with status {response.status_code}"
+
+    def _create_tool_function(
         self,
         operation_id: str,
         path: str,
@@ -384,7 +514,7 @@ class OpenAPIToolsLoader:
             A callable function that can be wrapped as a Tool
         """
         # Create the actual API call function
-        async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> dict[str, Any]:  # noqa: C901, PLR0912, PLR0915
+        async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> dict[str, Any] | str:
             """
             Make an HTTP request to the API endpoint
 
@@ -393,108 +523,40 @@ class OpenAPIToolsLoader:
                 **kwargs: Parameters for the API call
 
             Returns:
-                The JSON response from the API
+                The JSON response from the API or success message
 
             Raises:
                 ModelRetry: If the API request fails, approval is denied, or encounters an error
-                ValueError: If an unsupported HTTP method is used
             """
-            # Check if human approval is required for non-read-only operations
-            if (self.require_human_approval and
-                not self._is_read_only_operation(method)):
-                if self.approval_callback is None:
-                    raise ModelRetry(
-                        f"Human approval required for {method.upper()} operation on {path}, "
-                        "but no approval callback configured"
-                    )
+            # Check if human approval is required
+            self._check_approval(operation_id, method, path, kwargs)
 
-                approval_response = self.approval_callback(operation_id, method.upper(), kwargs)
-                if not approval_response.approved:
-                    reason = approval_response.reason or "User denied approval"
-                    raise ModelRetry(f"Operation denied: {reason}")
-
-            # Build the URL - replace path parameters
-            final_path = path
-            path_params = {}
-
-            # Extract path parameters from kwargs
-            for key, value in list(kwargs.items()):
-                if f"{{{key}}}" in final_path:
-                    final_path = final_path.replace(f"{{{key}}}", str(value))
-                    path_params[key] = value
-
-            # Remove path params from kwargs
-            for key in path_params:
-                kwargs.pop(key, None)
-
-            # Separate query parameters from body parameters
-            query_params = {}
-            body_params = {}
-
-            for key, value in kwargs.items():
-                if key in query_param_names:
-                    query_params[key] = value
-                else:
-                    body_params[key] = value
-
-            url = f"{self.base_url}{final_path}"
+            # Build URL and separate parameters
+            url, query_params, body_params = self._build_url_and_params(path, kwargs, query_param_names)
 
             # Prepare headers with authorization
-            headers = {
-                "Content-Type": "application/json"
-            }
+            headers = {"Content-Type": "application/json"}
+            headers.update(ctx.deps.auth_manager.get_auth_header())
 
-            # Add authorization header from context dependencies
-            auth_header = ctx.deps.auth_manager.get_auth_header()
-            headers.update(auth_header)
-            # Configure timeout: 60 seconds for read operations, 10 seconds for connect
-            # This allows slow API endpoints (like list_collections) to complete
+            # Configure timeout for slow API endpoints
             timeout = httpx.Timeout(60.0, connect=10.0, read=60.0)
 
             async with httpx.AsyncClient(timeout=timeout) as client:
                 try:
-                    if method.lower() == "get":
-                        response = await client.get(url, params=query_params, headers=headers)
-                    elif method.lower() == "post":
-                        # For POST, send query params as URL params and body params as JSON
-                        response = await client.post(url, params=query_params, json=body_params, headers=headers)
-                    elif method.lower() == "put":
-                        response = await client.put(url, params=query_params, json=body_params, headers=headers)
-                    elif method.lower() == "delete":
-                        # DELETE can have a body for some APIs
-                        response = await client.delete(
-                            url, params=query_params, json=body_params if body_params else None, headers=headers
-                        )
-                    else:
-                        raise ValueError(f"Unsupported HTTP method: {method}")
-
+                    response = await self._execute_http_request(
+                        client, method, url, query_params, body_params, headers
+                    )
                     response.raise_for_status()
-
-                    # Handle empty response bodies
-                    if not response.content or response.content.strip() == b"":
-                        return f"API request succeeded with status {response.status_code}"
-
-                    try:
-                        result = response.json()
-                        # Handle empty JSON responses (None, empty dict, empty list, empty string)
-                        if result is None or result in ("", {}, []):
-                            return f"API request succeeded with status {response.status_code} and response is empty"
-                        return self._truncate_response(result)
-                    except ValueError:
-                        # If response is not JSON but has content, return success message
-                        return f"API request succeeded with status {response.status_code}"
+                    return self._handle_response(response)
                 except httpx.HTTPStatusError as e:
-                    # Convert HTTPStatusError to ModelRetry so the LLM can try again
                     msg = f"API request failed with status {e.response.status_code}: {e.response.text}"
                     raise ModelRetry(msg) from e
                 except httpx.RequestError as e:
-                    # Handle network/connection errors with detailed information
                     error_details = f"{type(e).__name__}: {str(e) or repr(e)}"
                     if hasattr(e, 'request'):
                         error_details += f" (URL: {e.request.url})"
                     raise ModelRetry(f"Network error occurred: {error_details}") from e
                 except Exception as e:
-                    # Catch any other exceptions and convert to ModelRetry
                     error_msg = (
                         f"Unexpected error during API call to {method.upper()} {path}: "
                         f"{type(e).__name__}: {e!s}"
@@ -507,7 +569,77 @@ class OpenAPIToolsLoader:
 
         return api_call
 
-    def _resolve_schema_refs(self, schema: dict[str, Any]) -> dict[str, Any]:  # noqa: C901, PLR0912
+    def _resolve_ref(self, schema: dict[str, Any]) -> dict[str, Any] | None:
+        """
+        Resolve a single $ref reference
+
+        Args:
+            schema: Schema with a $ref
+
+        Returns:
+            Resolved schema or None if cannot be resolved
+        """
+        if not self.spec or "components" not in self.spec or "schemas" not in self.spec["components"]:
+            return None
+
+        ref_name = schema["$ref"].split("/")[-1]
+        if ref_name not in self.spec["components"]["schemas"]:
+            return None
+
+        resolved_schema = self.spec["components"]["schemas"][ref_name].copy()
+        # Preserve description if it exists in the original schema
+        if "description" in schema:
+            resolved_schema["description"] = schema["description"]
+        return resolved_schema
+
+    def _resolve_nested_properties(self, schema: dict[str, Any]) -> dict[str, Any]:
+        """
+        Resolve refs in properties and patternProperties
+
+        Returns:
+            Schema with resolved property references
+        """
+        if "properties" in schema:
+            schema["properties"] = {
+                prop_name: self._resolve_schema_refs(prop_schema)
+                for prop_name, prop_schema in schema["properties"].items()
+            }
+
+        if "patternProperties" in schema:
+            schema["patternProperties"] = {
+                pattern: self._resolve_schema_refs(prop_schema)
+                for pattern, prop_schema in schema["patternProperties"].items()
+            }
+
+        return schema
+
+    def _resolve_composition_schemas(self, schema: dict[str, Any]) -> dict[str, Any]:
+        """
+        Resolve refs in anyOf, oneOf, allOf
+
+        Returns:
+            Schema with resolved composition references
+        """
+        for key in ["anyOf", "oneOf", "allOf"]:
+            if key in schema:
+                schema[key] = [self._resolve_schema_refs(item) for item in schema[key]]
+        return schema
+
+    def _resolve_discriminator_mapping(self, schema: dict[str, Any]) -> dict[str, Any]:
+        """
+        Resolve discriminator mapping references
+
+        Returns:
+            Schema with preserved discriminator mapping
+        """
+        if "discriminator" not in schema or "mapping" not in schema["discriminator"]:
+            return schema
+
+        # Keep original references for discriminator mapping
+        # No actual resolution needed, just preserve the structure
+        return schema
+
+    def _resolve_schema_refs(self, schema: dict[str, Any]) -> dict[str, Any]:
         """
         Recursively resolve all $ref references in a schema
 
@@ -522,66 +654,120 @@ class OpenAPIToolsLoader:
 
         # If this schema has a $ref, resolve it
         if "$ref" in schema:
-            if self.spec and "components" in self.spec and "schemas" in self.spec["components"]:
-                ref_name = schema["$ref"].split("/")[-1]
-                if ref_name in self.spec["components"]["schemas"]:
-                    resolved_schema = self.spec["components"]["schemas"][ref_name].copy()
-                    # Preserve description if it exists in the original schema
-                    if "description" in schema:
-                        resolved_schema["description"] = schema["description"]
-                    # Recursively resolve any refs in the resolved schema
-                    return self._resolve_schema_refs(resolved_schema)
-            # If we can't resolve it, return as-is
+            resolved = self._resolve_ref(schema)
+            if resolved:
+                return self._resolve_schema_refs(resolved)
             return schema
 
         # Recursively resolve refs in nested structures
         resolved_schema = schema.copy()
 
-        if "properties" in resolved_schema:
-            resolved_properties = {}
-            for prop_name, prop_schema in resolved_schema["properties"].items():
-                resolved_properties[prop_name] = self._resolve_schema_refs(prop_schema)
-            resolved_schema["properties"] = resolved_properties
+        # Resolve nested properties
+        resolved_schema = self._resolve_nested_properties(resolved_schema)
 
-        if "patternProperties" in resolved_schema:
-            resolved_pattern_properties = {}
-            for pattern, prop_schema in resolved_schema["patternProperties"].items():
-                resolved_pattern_properties[pattern] = self._resolve_schema_refs(prop_schema)
-            resolved_schema["patternProperties"] = resolved_pattern_properties
-
+        # Handle items (for arrays)
         if "items" in resolved_schema:
             resolved_schema["items"] = self._resolve_schema_refs(resolved_schema["items"])
 
-        if "anyOf" in resolved_schema:
-            resolved_schema["anyOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["anyOf"]]
+        # Handle composition schemas (anyOf, oneOf, allOf)
+        resolved_schema = self._resolve_composition_schemas(resolved_schema)
 
-        if "oneOf" in resolved_schema:
-            resolved_schema["oneOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["oneOf"]]
-
-        if "allOf" in resolved_schema:
-            resolved_schema["allOf"] = [self._resolve_schema_refs(item) for item in resolved_schema["allOf"]]
-
-        # Handle discriminator mapping in oneOf/anyOf
-        if "discriminator" in resolved_schema and "mapping" in resolved_schema["discriminator"]:
-            mapping = resolved_schema["discriminator"]["mapping"]
-            resolved_mapping = {}
-            for key, ref_value in mapping.items():
-                if ref_value.startswith("#/components/schemas/"):
-                    ref_name = ref_value.split("/")[-1]
-                    if (self.spec and "components" in self.spec and
-                        "schemas" in self.spec["components"] and
-                        ref_name in self.spec["components"]["schemas"]):
-                        # Keep the original reference for discriminator mapping
-                        resolved_mapping[key] = ref_value
-                    else:
-                        resolved_mapping[key] = ref_value
-                else:
-                    resolved_mapping[key] = ref_value
-            resolved_schema["discriminator"]["mapping"] = resolved_mapping
+        # Handle discriminator mapping
+        resolved_schema = self._resolve_discriminator_mapping(resolved_schema)
 
         return resolved_schema
 
-    def _extract_parameters_schema(self, operation: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:  # noqa: C901, PLR0912, PLR0914
+    def _add_param_schema_constraints(self, param_schema_dict: dict[str, Any], param_schema: dict[str, Any]) -> None:
+        """Add schema constraints like format, enum, default, min/max to parameter schema"""
+        constraints = ["format", "enum", "default", "minimum", "maximum"]
+        for constraint in constraints:
+            if constraint in param_schema:
+                param_schema_dict[constraint] = param_schema[constraint]
+
+        # Handle array types - must include items property
+        if param_schema.get("type") == "array" and "items" in param_schema:
+            param_schema_dict["items"] = param_schema["items"]
+
+    def _process_parameter(self, param: dict[str, Any], schema: dict[str, Any], query_param_names: list[str]) -> None:
+        """Process a single parameter and add it to the schema"""
+        param_name = param["name"]
+        param_schema = param.get("schema", {})
+        param_type = param_schema.get("type", "string")
+        required = param.get("required", False)
+        description = param.get("description", "")
+        param_in = param.get("in", "query")
+
+        # Track query parameters
+        if param_in == "query":
+            query_param_names.append(param_name)
+
+        # Add to schema properties
+        schema["properties"][param_name] = {
+            "type": param_type,
+            "description": description
+        }
+
+        # Add constraints
+        self._add_param_schema_constraints(schema["properties"][param_name], param_schema)
+
+        if required:
+            schema["required"].append(param_name)
+
+    def _extract_ref_schema_properties(self, ref_name: str) -> dict[str, Any] | None:
+        """
+        Extract properties from a referenced schema
+
+        Args:
+            ref_name: The name of the schema reference
+
+        Returns:
+            The referenced schema dictionary or None if not found
+        """
+        if not self.spec or "components" not in self.spec or "schemas" not in self.spec["components"]:
+            return None
+
+        if ref_name not in self.spec["components"]["schemas"]:
+            return None
+
+        return self.spec["components"]["schemas"][ref_name]
+
+    def _process_body_schema_ref(self, body_schema: dict[str, Any], schema: dict[str, Any]) -> None:
+        """Process a $ref in request body schema and add properties to schema"""
+        ref_name = body_schema["$ref"].split("/")[-1]
+        resolved_schema = self._extract_ref_schema_properties(ref_name)
+
+        if resolved_schema and "properties" in resolved_schema:
+            for prop_name, prop_schema in resolved_schema["properties"].items():
+                resolved_prop_schema = self._resolve_schema_refs(prop_schema)
+                schema["properties"][prop_name] = resolved_prop_schema
+
+            if "required" in resolved_schema:
+                schema["required"].extend(resolved_schema["required"])
+
+    def _process_body_schema_properties(self, body_schema: dict[str, Any], schema: dict[str, Any]) -> None:
+        """Process direct properties in request body schema"""
+        for prop_name, prop_schema in body_schema["properties"].items():
+            resolved_prop_schema = self._resolve_schema_refs(prop_schema)
+            schema["properties"][prop_name] = resolved_prop_schema
+
+        if "required" in body_schema:
+            schema["required"].extend(body_schema["required"])
+
+    def _process_request_body(self, request_body: dict[str, Any], schema: dict[str, Any]) -> None:
+        """Process request body and add its properties to schema"""
+        if not (request_body and "content" in request_body):
+            return
+
+        content = request_body.get("content", {})
+        json_content = content.get("application/json", {})
+        body_schema = json_content.get("schema", {})
+
+        if "$ref" in body_schema:
+            self._process_body_schema_ref(body_schema, schema)
+        elif "properties" in body_schema:
+            self._process_body_schema_properties(body_schema, schema)
+
+    def _extract_parameters_schema(self, operation: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
         """
         Extract and create a JSON schema from operation parameters
 
@@ -598,74 +784,16 @@ class OpenAPIToolsLoader:
             "additionalProperties": False
         }
 
-        query_param_names = []
+        query_param_names: list[str] = []
 
         # Handle path and query parameters
         parameters = operation.get("parameters", [])
         for param in parameters:
-            param_name = param["name"]
-            param_schema = param.get("schema", {})
-            param_type = param_schema.get("type", "string")
-            required = param.get("required", False)
-            description = param.get("description", "")
-            param_in = param.get("in", "query")  # "query", "path", "header", etc.
-
-            # Track query parameters
-            if param_in == "query":
-                query_param_names.append(param_name)
-
-            # Add to schema properties
-            schema["properties"][param_name] = {
-                "type": param_type,
-                "description": description
-            }
-
-            # Handle additional schema properties
-            if "format" in param_schema:
-                schema["properties"][param_name]["format"] = param_schema["format"]
-            if "enum" in param_schema:
-                schema["properties"][param_name]["enum"] = param_schema["enum"]
-            if "default" in param_schema:
-                schema["properties"][param_name]["default"] = param_schema["default"]
-            if "minimum" in param_schema:
-                schema["properties"][param_name]["minimum"] = param_schema["minimum"]
-            if "maximum" in param_schema:
-                schema["properties"][param_name]["maximum"] = param_schema["maximum"]
-            # CRITICAL: Handle array types - must include items property
-            if param_type == "array" and "items" in param_schema:
-                schema["properties"][param_name]["items"] = param_schema["items"]
-
-            if required:
-                schema["required"].append(param_name)
+            self._process_parameter(param, schema, query_param_names)
 
         # Handle request body parameters
         request_body = operation.get("requestBody")
-        if request_body and "content" in request_body:  # noqa: PLR1702
-            content = request_body.get("content", {})
-            json_content = content.get("application/json", {})
-            body_schema = json_content.get("schema", {})
-
-            if "$ref" in body_schema:
-                # Try to resolve the reference and extract properties
-                if self.spec and "components" in self.spec and "schemas" in self.spec["components"]:
-                    ref_name = body_schema["$ref"].split("/")[-1]
-                    if ref_name in self.spec["components"]["schemas"]:
-                        resolved_schema = self.spec["components"]["schemas"][ref_name]
-                        if "properties" in resolved_schema:
-                            for prop_name, prop_schema in resolved_schema["properties"].items():
-                                # Recursively resolve any refs in the property schema
-                                resolved_prop_schema = self._resolve_schema_refs(prop_schema)
-                                schema["properties"][prop_name] = resolved_prop_schema
-                            if "required" in resolved_schema:
-                                schema["required"].extend(resolved_schema["required"])
-            elif "properties" in body_schema:
-                # Direct schema properties
-                for prop_name, prop_schema in body_schema["properties"].items():
-                    # Recursively resolve any refs in the property schema
-                    resolved_prop_schema = self._resolve_schema_refs(prop_schema)
-                    schema["properties"][prop_name] = resolved_prop_schema
-                if "required" in body_schema:
-                    schema["required"].extend(body_schema["required"])
+        self._process_request_body(request_body, schema)
 
         return schema, query_param_names
 
