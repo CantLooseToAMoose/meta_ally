@@ -368,7 +368,6 @@ class OpenAPIToolsLoader:
         path: str,
         method: str,
         operation: dict[str, Any],
-        parameters_schema: dict[str, Any],  # noqa: ARG002
         query_param_names: list[str]
     ) -> Callable:
         """
@@ -379,7 +378,6 @@ class OpenAPIToolsLoader:
             path: The API path
             method: HTTP method (get, post, etc.)
             operation: The operation definition from OpenAPI
-            parameters_schema: JSON schema for parameters
             query_param_names: List of parameter names that should be sent as query parameters
 
         Returns:
@@ -463,8 +461,10 @@ class OpenAPIToolsLoader:
                     elif method.lower() == "put":
                         response = await client.put(url, params=query_params, json=body_params, headers=headers)
                     elif method.lower() == "delete":
-                        # DELETE typically doesn't have a body, use params instead
-                        response = await client.delete(url, params=query_params, headers=headers)
+                        # DELETE can have a body for some APIs
+                        response = await client.delete(
+                            url, params=query_params, json=body_params if body_params else None, headers=headers
+                        )
                     else:
                         raise ValueError(f"Unsupported HTTP method: {method}")
 
@@ -714,7 +714,6 @@ class OpenAPIToolsLoader:
                     path=path,
                     method=method,
                     operation=operation,
-                    parameters_schema=parameters_schema,
                     query_param_names=query_param_names
                 )
 
