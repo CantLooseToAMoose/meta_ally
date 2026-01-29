@@ -16,6 +16,8 @@ Configuration:
 - Set USE_IMPROVED_DESCRIPTIONS to True to use improved tool descriptions
 - Set MODEL_DEPLOYMENT_NAME to specify the Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
 """
+import logging
+
 import logfire
 from rich.console import Console
 
@@ -52,6 +54,10 @@ def main():
     # Configure logging with logfire
     logfire.configure(scrubbing=False, console=False)
     logfire.instrument_pydantic_ai()
+
+    logging.getLogger("logfire._internal").setLevel(logging.ERROR)
+    # or if needed:
+    logging.getLogger("logfire").setLevel(logging.ERROR)
     # Initialize console for setup messages
     console = Console()
 
