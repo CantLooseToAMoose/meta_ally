@@ -146,10 +146,6 @@ The evaluation framework includes:
 
 ---
 
-## Installation
-
-See [Installation.md](docs/Installation.md) for detailed setup instructions.
-
 ### Quick Start
 
 ```bash
