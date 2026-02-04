@@ -1,0 +1,713 @@
+{
+  "metadata": {
+    "name": "list collections",
+    "grade": 10,
+    "notes": "hat gut funktioniert",
+    "timestamp": "2026-01-13T15:58:37.700447",
+    "saved_at": "20260113_155837"
+  },
+  "conversation_timeline": [
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "kannst du mir alle collections des gb80 zeigen?",
+            "timestamp": "2026-01-13T14:57:46.566248+00:00",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Portal, supporting users in both AI knowledge management and Copilot configuration.\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating endpoints, collections, or configurations, ALWAYS ask the user for their business department\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department when delegating to specialists\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration:\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:57:46 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:57:46.572323+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "get_geschaeftsbereich",
+            "args": "{}",
+            "tool_call_id": "call_Al3e1Lg0a6yTGdarWlIMYioC",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1434,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 16,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-13T14:57:48+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "tool_calls"
+        },
+        "provider_response_id": "chatcmpl-Cxa84FWyRNss1b90DH66XBSZvhxFX",
+        "finish_reason": "tool_call"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "get_geschaeftsbereich",
+            "content": "The business area (Geschäftsbereich) has not been set yet. Please ask the user: 'What is your business area (Geschäftsbereich)?'",
+            "tool_call_id": "call_Al3e1Lg0a6yTGdarWlIMYioC",
+            "metadata": null,
+            "timestamp": "2026-01-13T14:57:49.155475+00:00",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Portal, supporting users in both AI knowledge management and Copilot configuration.\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating endpoints, collections, or configurations, ALWAYS ask the user for their business department\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department when delegating to specialists\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration:\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:57:49 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:57:49.155708+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "Bevor ich dir alle Collections des GB80 zeigen kann, bestätige bitte, dass dein Geschäftsbereich GB80 ist. Ist das korrekt?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1495,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 30,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-13T14:57:49+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "stop"
+        },
+        "provider_response_id": "chatcmpl-Cxa85bwwolgCbzTNmBckolGP4BUZi",
+        "finish_reason": "stop"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "specialist_run",
+      "data": {
+        "agent_name": "ai_knowledge_specialist",
+        "task": "List all knowledge collections for business area GB80",
+        "response": "There are 8 knowledge collections for business area GB80:\n\n1. Bueroeinrichtung_Copilot_Collection\n   - Description: Collection for copilots about office furnishing in GB80\n   - Project Number: 80000\n\n2. Bueromoebel_Berater\n   - Description: Collection for office furniture consulting in GB80\n   - Project Number: 80000\n\n3. inform_website_de\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n4. inform_website_de_cohere\n   - Description: Using the latest cohere v4 embedding model\n   - Project Number: 89300\n   - Public collection\n\n5. inform_website_en_cohere\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n6. sales_assistant_addone_gb10_80000\n   - Description: Sales Assistant Collection for ADD*ONE (GB10, Project 80000): INFORM website and AddOne InfoPapers\n   - Project Number: 80000\n\n7. sales_copilot_addone_gb10_80000\n   - Description: Sales Assistant Copilot for ADD*ONE with INFORM website and AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\n8. sales_copilot_gb10_80000\n   - Description: Sales Copilot Collection for ADD*ONE: INFORM website & AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\nIf you want details or help with any of these collections, please let me know.",
+        "new_messages": [
+          {
+            "parts": [
+              {
+                "content": "List all knowledge collections for business area GB80",
+                "timestamp": "2026-01-13T14:57:56.640168+00:00",
+                "part_kind": "user-prompt"
+              }
+            ],
+            "instructions": "You are an AI Knowledge specialist assistant. You help users set up and manage knowledge resources for\ntheir Copilot.\n\n    Your expertise includes:\n    - Guiding users to create information sources (websites, SharePoint/OneDrive, S3, GitHub)\n    - Explaining how to grant access and generate sharing links (especially for SharePoint/OneDrive)\n    - Helping users combine sources into collections for efficient search\n    - Advising on configuring the AI Knowledge plugin in Copilot setup\n    - Supporting intelligent queries, indexing, and metadata management\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating collections or sources, ALWAYS ask the user for their business department\n    - This information is critical for proper resource organization and access control\n    - Include the business department in collection configurations\n\n    Typical workflow:\n    1. Create sources (define where information comes from)\n    2. Build collections (group sources for search) - remember to ask for business department\n    3. Configure Copilot to use the AI Knowledge plugin and your collection\n\n    For SharePoint/OneDrive:\n    - Instruct users to grant read access to service user `svc-ai-knowledge-acc` and create a sharing link\n    - Use type \"SharePoint\" and paste the sharing link as \"Sharing URL\" when creating the source\n    - Add the source to a collection and optionally set up automatic indexing\n\n    Always provide clear, actionable steps and best practices for knowledge management.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:57:56 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:57:56.640797+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ai_knowledge_list_collections",
+                "args": "{\"businessDepartment\":\"80\"}",
+                "tool_call_id": "call_3r6cPLBAVjLxnCb0MTDHlo9A",
+                "id": null,
+                "part_kind": "tool-call"
+              }
+            ],
+            "usage": {
+              "input_tokens": 13774,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 20,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-13T14:57:59+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "tool_calls"
+            },
+            "provider_response_id": "chatcmpl-Cxa8FhCL9QeYpgEGB4lY2ORwmJdUt",
+            "finish_reason": "tool_call"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ai_knowledge_list_collections",
+                "content": {
+                  "Count": 8,
+                  "ScannedCount": 32,
+                  "TotalCount": 11,
+                  "Items": [
+                    {
+                      "collectionId": "Bueroeinrichtung_Copilot_Collection",
+                      "description": "Collection für Copiloten zur Büroeinrichtung im Geschäftsbereich GB80",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "bueromoebel_checkliste",
+                        "__upload__Bueroeinrichtung_Copilot_Collection"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "Bueromoebel_Berater",
+                      "description": "Sammlung für Büromöbel-Beratung im Geschäftsbereich GB80",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "bueromoebel-checkliste-webseite",
+                        "__upload__Bueromoebel_Berater"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_de",
+                      "description": "",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_de"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_de_cohere",
+                      "description": "Using the latest cohere v4 embedding model",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_de"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_en_cohere",
+                      "description": "",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_en"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "bedrock.cohere-embed-english-v3",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_assistant_addone_gb10_80000",
+                      "description": "Sales Assistant Collection für ADD*ONE (GB10, Projekt 80000): INFORM Webseite und AddOne InfoPapers",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_website_gb10",
+                        "addone_sharepoint_gb10",
+                        "__upload__sales_assistant_addone_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_copilot_addone_gb10_80000",
+                      "description": "Sales Assistant Copilot für ADD*ONE mit INFORM-Webseite und AddOne InfoPapers (GB10/80000)",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_website_gb10_80000",
+                        "addone_sharepoint_gb10_80000",
+                        "__upload__sales_copilot_addone_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_copilot_gb10_80000",
+                      "description": "Sales Copilot Collection für ADD*ONE: INFORM-Webseite & AddOne-InfoPapers (GB10/80000)",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_webseite_gb10_80000",
+                        "addone_infopapers_sharepoint_gb10_80000",
+                        "__upload__sales_copilot_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    }
+                  ],
+                  "NextToken": null
+                },
+                "tool_call_id": "call_3r6cPLBAVjLxnCb0MTDHlo9A",
+                "metadata": null,
+                "timestamp": "2026-01-13T14:58:06.991868+00:00",
+                "part_kind": "tool-return"
+              }
+            ],
+            "instructions": "You are an AI Knowledge specialist assistant. You help users set up and manage knowledge resources for\ntheir Copilot.\n\n    Your expertise includes:\n    - Guiding users to create information sources (websites, SharePoint/OneDrive, S3, GitHub)\n    - Explaining how to grant access and generate sharing links (especially for SharePoint/OneDrive)\n    - Helping users combine sources into collections for efficient search\n    - Advising on configuring the AI Knowledge plugin in Copilot setup\n    - Supporting intelligent queries, indexing, and metadata management\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating collections or sources, ALWAYS ask the user for their business department\n    - This information is critical for proper resource organization and access control\n    - Include the business department in collection configurations\n\n    Typical workflow:\n    1. Create sources (define where information comes from)\n    2. Build collections (group sources for search) - remember to ask for business department\n    3. Configure Copilot to use the AI Knowledge plugin and your collection\n\n    For SharePoint/OneDrive:\n    - Instruct users to grant read access to service user `svc-ai-knowledge-acc` and create a sharing link\n    - Use type \"SharePoint\" and paste the sharing link as \"Sharing URL\" when creating the source\n    - Add the source to a collection and optionally set up automatic indexing\n\n    Always provide clear, actionable steps and best practices for knowledge management.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:58:06 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:58:06.992556+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "content": "There are 8 knowledge collections for business area GB80:\n\n1. Bueroeinrichtung_Copilot_Collection\n   - Description: Collection for copilots about office furnishing in GB80\n   - Project Number: 80000\n\n2. Bueromoebel_Berater\n   - Description: Collection for office furniture consulting in GB80\n   - Project Number: 80000\n\n3. inform_website_de\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n4. inform_website_de_cohere\n   - Description: Using the latest cohere v4 embedding model\n   - Project Number: 89300\n   - Public collection\n\n5. inform_website_en_cohere\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n6. sales_assistant_addone_gb10_80000\n   - Description: Sales Assistant Collection for ADD*ONE (GB10, Project 80000): INFORM website and AddOne InfoPapers\n   - Project Number: 80000\n\n7. sales_copilot_addone_gb10_80000\n   - Description: Sales Assistant Copilot for ADD*ONE with INFORM website and AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\n8. sales_copilot_gb10_80000\n   - Description: Sales Copilot Collection for ADD*ONE: INFORM website & AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\nIf you want details or help with any of these collections, please let me know.",
+                "id": null,
+                "part_kind": "text"
+              }
+            ],
+            "usage": {
+              "input_tokens": 14642,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 348,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-13T14:58:07+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "stop"
+            },
+            "provider_response_id": "chatcmpl-Cxa8Now2KzLQvgq9h3Bv8TtWswz2F",
+            "finish_reason": "stop"
+          }
+        ],
+        "all_messages": [
+          {
+            "parts": [
+              {
+                "content": "List all knowledge collections for business area GB80",
+                "timestamp": "2026-01-13T14:57:56.640168+00:00",
+                "part_kind": "user-prompt"
+              }
+            ],
+            "instructions": "You are an AI Knowledge specialist assistant. You help users set up and manage knowledge resources for\ntheir Copilot.\n\n    Your expertise includes:\n    - Guiding users to create information sources (websites, SharePoint/OneDrive, S3, GitHub)\n    - Explaining how to grant access and generate sharing links (especially for SharePoint/OneDrive)\n    - Helping users combine sources into collections for efficient search\n    - Advising on configuring the AI Knowledge plugin in Copilot setup\n    - Supporting intelligent queries, indexing, and metadata management\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating collections or sources, ALWAYS ask the user for their business department\n    - This information is critical for proper resource organization and access control\n    - Include the business department in collection configurations\n\n    Typical workflow:\n    1. Create sources (define where information comes from)\n    2. Build collections (group sources for search) - remember to ask for business department\n    3. Configure Copilot to use the AI Knowledge plugin and your collection\n\n    For SharePoint/OneDrive:\n    - Instruct users to grant read access to service user `svc-ai-knowledge-acc` and create a sharing link\n    - Use type \"SharePoint\" and paste the sharing link as \"Sharing URL\" when creating the source\n    - Add the source to a collection and optionally set up automatic indexing\n\n    Always provide clear, actionable steps and best practices for knowledge management.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:57:56 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:57:56.640797+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ai_knowledge_list_collections",
+                "args": "{\"businessDepartment\":\"80\"}",
+                "tool_call_id": "call_3r6cPLBAVjLxnCb0MTDHlo9A",
+                "id": null,
+                "part_kind": "tool-call"
+              }
+            ],
+            "usage": {
+              "input_tokens": 13774,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 20,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-13T14:57:59+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "tool_calls"
+            },
+            "provider_response_id": "chatcmpl-Cxa8FhCL9QeYpgEGB4lY2ORwmJdUt",
+            "finish_reason": "tool_call"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ai_knowledge_list_collections",
+                "content": {
+                  "Count": 8,
+                  "ScannedCount": 32,
+                  "TotalCount": 11,
+                  "Items": [
+                    {
+                      "collectionId": "Bueroeinrichtung_Copilot_Collection",
+                      "description": "Collection für Copiloten zur Büroeinrichtung im Geschäftsbereich GB80",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "bueromoebel_checkliste",
+                        "__upload__Bueroeinrichtung_Copilot_Collection"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "Bueromoebel_Berater",
+                      "description": "Sammlung für Büromöbel-Beratung im Geschäftsbereich GB80",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "bueromoebel-checkliste-webseite",
+                        "__upload__Bueromoebel_Berater"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_de",
+                      "description": "",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_de"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_de_cohere",
+                      "description": "Using the latest cohere v4 embedding model",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_de"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "bedrock.cohere.embed-v4:0",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "inform_website_en_cohere",
+                      "description": "",
+                      "projectNumber": "89300",
+                      "sources": [
+                        "inform_website_en"
+                      ],
+                      "metadata": {},
+                      "public": true,
+                      "embeddingModel": "bedrock.cohere-embed-english-v3",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_assistant_addone_gb10_80000",
+                      "description": "Sales Assistant Collection für ADD*ONE (GB10, Projekt 80000): INFORM Webseite und AddOne InfoPapers",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_website_gb10",
+                        "addone_sharepoint_gb10",
+                        "__upload__sales_assistant_addone_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_copilot_addone_gb10_80000",
+                      "description": "Sales Assistant Copilot für ADD*ONE mit INFORM-Webseite und AddOne InfoPapers (GB10/80000)",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_website_gb10_80000",
+                        "addone_sharepoint_gb10_80000",
+                        "__upload__sales_copilot_addone_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    },
+                    {
+                      "collectionId": "sales_copilot_gb10_80000",
+                      "description": "Sales Copilot Collection für ADD*ONE: INFORM-Webseite & AddOne-InfoPapers (GB10/80000)",
+                      "projectNumber": "80000",
+                      "sources": [
+                        "inform_webseite_gb10_80000",
+                        "addone_infopapers_sharepoint_gb10_80000",
+                        "__upload__sales_copilot_gb10_80000"
+                      ],
+                      "metadata": {},
+                      "public": false,
+                      "embeddingModel": "azure.text-embedding-3-large",
+                      "nextScheduledIndexRun": null,
+                      "lastIndexRun": null,
+                      "accessDenied": false,
+                      "businessDepartment": "80"
+                    }
+                  ],
+                  "NextToken": null
+                },
+                "tool_call_id": "call_3r6cPLBAVjLxnCb0MTDHlo9A",
+                "metadata": null,
+                "timestamp": "2026-01-13T14:58:06.991868+00:00",
+                "part_kind": "tool-return"
+              }
+            ],
+            "instructions": "You are an AI Knowledge specialist assistant. You help users set up and manage knowledge resources for\ntheir Copilot.\n\n    Your expertise includes:\n    - Guiding users to create information sources (websites, SharePoint/OneDrive, S3, GitHub)\n    - Explaining how to grant access and generate sharing links (especially for SharePoint/OneDrive)\n    - Helping users combine sources into collections for efficient search\n    - Advising on configuring the AI Knowledge plugin in Copilot setup\n    - Supporting intelligent queries, indexing, and metadata management\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating collections or sources, ALWAYS ask the user for their business department\n    - This information is critical for proper resource organization and access control\n    - Include the business department in collection configurations\n\n    Typical workflow:\n    1. Create sources (define where information comes from)\n    2. Build collections (group sources for search) - remember to ask for business department\n    3. Configure Copilot to use the AI Knowledge plugin and your collection\n\n    For SharePoint/OneDrive:\n    - Instruct users to grant read access to service user `svc-ai-knowledge-acc` and create a sharing link\n    - Use type \"SharePoint\" and paste the sharing link as \"Sharing URL\" when creating the source\n    - Add the source to a collection and optionally set up automatic indexing\n\n    Always provide clear, actionable steps and best practices for knowledge management.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:58:06 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:58:06.992556+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "content": "There are 8 knowledge collections for business area GB80:\n\n1. Bueroeinrichtung_Copilot_Collection\n   - Description: Collection for copilots about office furnishing in GB80\n   - Project Number: 80000\n\n2. Bueromoebel_Berater\n   - Description: Collection for office furniture consulting in GB80\n   - Project Number: 80000\n\n3. inform_website_de\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n4. inform_website_de_cohere\n   - Description: Using the latest cohere v4 embedding model\n   - Project Number: 89300\n   - Public collection\n\n5. inform_website_en_cohere\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n6. sales_assistant_addone_gb10_80000\n   - Description: Sales Assistant Collection for ADD*ONE (GB10, Project 80000): INFORM website and AddOne InfoPapers\n   - Project Number: 80000\n\n7. sales_copilot_addone_gb10_80000\n   - Description: Sales Assistant Copilot for ADD*ONE with INFORM website and AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\n8. sales_copilot_gb10_80000\n   - Description: Sales Copilot Collection for ADD*ONE: INFORM website & AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\nIf you want details or help with any of these collections, please let me know.",
+                "id": null,
+                "part_kind": "text"
+              }
+            ],
+            "usage": {
+              "input_tokens": 14642,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 348,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-13T14:58:07+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "stop"
+            },
+            "provider_response_id": "chatcmpl-Cxa8Now2KzLQvgq9h3Bv8TtWswz2F",
+            "finish_reason": "stop"
+          }
+        ]
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "ja",
+            "timestamp": "2026-01-13T14:57:55.056895+00:00",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Portal, supporting users in both AI knowledge management and Copilot configuration.\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating endpoints, collections, or configurations, ALWAYS ask the user for their business department\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department when delegating to specialists\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration:\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:57:55 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:57:55.057388+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": "{\"geschaeftsbereich\": \"GB80\"}",
+            "tool_call_id": "call_QYEbL77RaZlPffZate4fwzKE",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "call_ai_knowledge_specialist",
+            "args": "{\"task\": \"List all knowledge collections for business area GB80\"}",
+            "tool_call_id": "call_ttmkVh4yKo4eTVdlHWpo85iH",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1532,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 67,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-13T14:57:55+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "tool_calls"
+        },
+        "provider_response_id": "chatcmpl-Cxa8B8Ko7HOmd5Ps4dsUti8OoPGu6",
+        "finish_reason": "tool_call"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "content": "Business area set to: GB80",
+            "tool_call_id": "call_QYEbL77RaZlPffZate4fwzKE",
+            "metadata": null,
+            "timestamp": "2026-01-13T14:57:56.640990+00:00",
+            "part_kind": "tool-return"
+          },
+          {
+            "tool_name": "call_ai_knowledge_specialist",
+            "content": "There are 8 knowledge collections for business area GB80:\n\n1. Bueroeinrichtung_Copilot_Collection\n   - Description: Collection for copilots about office furnishing in GB80\n   - Project Number: 80000\n\n2. Bueromoebel_Berater\n   - Description: Collection for office furniture consulting in GB80\n   - Project Number: 80000\n\n3. inform_website_de\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n4. inform_website_de_cohere\n   - Description: Using the latest cohere v4 embedding model\n   - Project Number: 89300\n   - Public collection\n\n5. inform_website_en_cohere\n   - Description: (none)\n   - Project Number: 89300\n   - Public collection\n\n6. sales_assistant_addone_gb10_80000\n   - Description: Sales Assistant Collection for ADD*ONE (GB10, Project 80000): INFORM website and AddOne InfoPapers\n   - Project Number: 80000\n\n7. sales_copilot_addone_gb10_80000\n   - Description: Sales Assistant Copilot for ADD*ONE with INFORM website and AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\n8. sales_copilot_gb10_80000\n   - Description: Sales Copilot Collection for ADD*ONE: INFORM website & AddOne InfoPapers (GB10/80000)\n   - Project Number: 80000\n\nIf you want details or help with any of these collections, please let me know.",
+            "tool_call_id": "call_ttmkVh4yKo4eTVdlHWpo85iH",
+            "metadata": null,
+            "timestamp": "2026-01-13T14:58:14.830014+00:00",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Portal, supporting users in both AI knowledge management and Copilot configuration.\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.)\n    - When creating endpoints, collections, or configurations, ALWAYS ask the user for their business department\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department when delegating to specialists\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration:\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, January 13, 2026\n- Time: 15:58:14 (Europe/Berlin timezone)\n- ISO Format: 2026-01-13T15:58:14.830252+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "Für den Geschäftsbereich GB80 gibt es insgesamt 8 Knowledge Collections:\n\n1. Bueroeinrichtung_Copilot_Collection\n   - Beschreibung: Collection für Copilots zur Büroeinrichtung in GB80\n   - Projekt Nummer: 80000\n\n2. Bueromoebel_Berater\n   - Beschreibung: Collection für Büroeinrichtungsberatung in GB80\n   - Projekt Nummer: 80000\n\n3. inform_website_de\n   - Beschreibung: keine\n   - Projekt Nummer: 89300\n   - Öffentliche Collection\n\n4. inform_website_de_cohere\n   - Beschreibung: Verwendet das neueste cohere v4 Embedding-Modell\n   - Projekt Nummer: 89300\n   - Öffentliche Collection\n\n5. inform_website_en_cohere\n   - Beschreibung: keine\n   - Projekt Nummer: 89300\n   - Öffentliche Collection\n\n6. sales_assistant_addone_gb10_80000\n   - Beschreibung: Sales Assistant Collection für ADD*ONE (GB10, Projekt 80000): INFORM Website und AddOne InfoPapers\n   - Projekt Nummer: 80000\n\n7. sales_copilot_addone_gb10_80000\n   - Beschreibung: Sales Assistant Copilot für ADD*ONE mit INFORM Website und AddOne InfoPapers (GB10/80000)\n   - Projekt Nummer: 80000\n\n8. sales_copilot_gb10_80000\n   - Beschreibung: Sales Copilot Collection für ADD*ONE: INFORM Website & AddOne InfoPapers (GB10/80000)\n   - Projekt Nummer: 80000\n\nWenn du Details zu einer bestimmten Collection möchtest oder Hilfe bei der Nutzung brauchst, lass es mich wissen!",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1979,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 363,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-13T14:58:15+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "stop"
+        },
+        "provider_response_id": "chatcmpl-Cxa8Vpgiea49TxxqgWVM3cJUKtobj",
+        "finish_reason": "stop"
+      },
+      "displayed": true
+    }
+  ]
+}

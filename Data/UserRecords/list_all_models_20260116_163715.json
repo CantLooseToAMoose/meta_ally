@@ -1,0 +1,441 @@
+{
+  "metadata": {
+    "name": "list_all_models",
+    "grade": 10,
+    "notes": "hat mir alle modelle gegeben",
+    "timestamp": "2026-01-16T16:37:15.811112",
+    "saved_at": "20260116_163715"
+  },
+  "conversation_timeline": [
+    {
+      "entry_type": "specialist_run",
+      "data": {
+        "agent_name": "ally_config_admin",
+        "task": "List all available AI models for Copilot configuration.",
+        "response": "The available AI models for Copilot configuration are:\n\n1. GPT 5 nano (gpt-5-nano) - Very low cost and latency, supports text and vision.\n2. GPT 5 mini (gpt-5-mini) - Enhanced performance with low cost and latency, supports text and vision.\n3. GPT 4.1 nano (gpt-4.1-nano) - Latest iteration of GPT-4o series, very low cost and latency, supports text and vision.\n4. GPT 4.1 mini (gpt-4.1-mini) - Latest iteration of GPT-4o series, low cost and latency, supports text and vision.\n5. GPT 4.1 (regular) (gpt-4.1) - Best for coding and instruction following, handles complex technical and coding problems.\n6. o3 mini (o3-mini) - Enhanced reasoning and problem solving, faster and cost-efficient for coding tasks.\n7. Claude 4 Sonnet (claude-4-sonnet) - Balanced performance for coding with speed and cost efficiency.\n8. Amazon Nova Pro (nova-pro) - Highly capable multimodal model excelling at reasoning, math, coding, and multimodal understanding.\n9. Amazon Nova Lite (nova-lite) - Very low-cost multimodal model optimized for speed and cost-effectiveness.\n10. Mistral Large (mistral-large) - Advanced large language model for complex multilingual reasoning, text understanding, and code generation.\n\nAll these models are currently enabled and available for use. Let me know if you want to create or configure a Copilot with any of these models.",
+        "new_messages": [
+          {
+            "parts": [
+              {
+                "content": "List all available AI models for Copilot configuration.",
+                "timestamp": "2026-01-16T15:36:20.106946+00:00",
+                "part_kind": "user-prompt"
+              }
+            ],
+            "instructions": "You are an Ally Config administrator assistant. Your primary purpose is to help users set up, configure, and monitor AI Copilots and their infrastructure through the Ally Config page (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    Your role is to EITHER:\n    1. Guide users through the Ally Config page step-by-step, or prefarably\n    2. Directly perform configuration tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Your expertise includes:\n    - Creating and managing AI model endpoints and configurations\n    - Advising on plugin selection (including AI Knowledge for enhanced Copilot capabilities)\n    - Setting up and running evaluation suites for Copilot performance\n    - Monitoring costs, usage, and reliability\n    - Managing permissions, access control, and audit logs\n    - Using API tools to automate configuration tasks whenever possible\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When helping users set up a Copilot, emphasize:\n    - The importance of including relevant plugins (e.g., AI Knowledge)\n    - How to connect Copilots to knowledge collections for better answers\n    - Best practices for security, privacy, and cost optimization\n    - Always confirm the user's business department before proceeding with endpoint creation\n\n    Always focus on actionable guidance to optimize Copilot performance and reliability.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:20 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:20.107186+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ally_config_list_models",
+                "args": "{}",
+                "tool_call_id": "call_1ChNQVk7amZwlvmDF6xdOplu",
+                "id": null,
+                "part_kind": "tool-call"
+              }
+            ],
+            "usage": {
+              "input_tokens": 10739,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 14,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-16T15:36:21+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "tool_calls"
+            },
+            "provider_response_id": "chatcmpl-CygA1VZrh4XA0YvqIS27d4PogNMgu",
+            "finish_reason": "tool_call"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ally_config_list_models",
+                "content": [
+                  {
+                    "label": "gpt-5-nano",
+                    "name": "GPT 5 nano",
+                    "description": "GPT 5 nano (€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-nano supports both text and vision at extremely low cost and latency, making it ideal for high-volume applications.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-5-mini",
+                    "name": "GPT 5 mini",
+                    "description": "GPT 5 mini (€€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-mini provides enhanced performance with low cost and latency, supporting both text and vision capabilities.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1-nano",
+                    "name": "GPT 4.1 nano",
+                    "description": "GPT 4.1 nano (€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. gpt-4.1-nano supports both text and vision provides at even lower cost and latency compared to the gpt-4o and gpt-4o-mini models.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1-mini",
+                    "name": "GPT 4.1 mini",
+                    "description": "GPT 4.1 mini (€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. As with the previous gpt-4o-mini model version gpt 4.1 mini supports both text and vision in the with low cost and latency.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1",
+                    "name": "GPT 4.1 (regular)",
+                    "description": "GPT 4.1 (€€€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. This iteration of models is specifically targeted for better coding and instruction following, making it better at handling complex technical and coding problems.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "o3-mini",
+                    "name": "o3 mini",
+                    "description": "o3 series models (€€€€)\nEnhanced reasoning and problem solving.  The o3 mini is a faster and more cost-efficient option in the o3 series, ideal for coding tasks requiring speed and lower resource consumption.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "claude-4-sonnet",
+                    "name": "Claude 4 Sonnet",
+                    "description": "Claude 4 Sonnet (€€€€€)\nAnthropic's Claude Sonnet 4 balances impressive performance for coding with the right speed and cost for high-volume use cases: Coding: Handle everyday development tasks with enhanced performance-power code reviews, bug fixes, API integrations, and feature development with immediate feedback loops.\nhttps://docs.anthropic.com/en/docs/about-claude/models https://aws.amazon.com/legal/bedrock/third-party-models/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "nova-pro",
+                    "name": "Amazon Nova Pro",
+                    "description": "Amazon Nova Pro (€€€)\nAmazon Nova Pro is a highly capable multimodal model with the best  combination of accuracy, speed, and cost for a wide range of tasks. Excels at reasoning, math, coding, and multimodal understanding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "nova-lite",
+                    "name": "Amazon Nova Lite",
+                    "description": "Amazon Nova Lite (€)\nAmazon Nova Lite is a very low-cost multimodal model that is lightning  fast for processing image, video, and text inputs. Optimized for speed  and cost-effectiveness for high-volume applications.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "mistral-large",
+                    "name": "Mistral Large (24.02)",
+                    "description": "Mistral Large (€€€€€)\nThe most advanced Mistral AI Large Language model capable of handling any language task including complex multilingual reasoning, text understanding, transformation, and code generation. coding, and advanced use cases requiring high performance.\nhttps://docs.mistral.ai/getting-started/models/models_overview https://aws.amazon.com/legal/bedrock/third-party-models/\n",
+                    "enabled": true
+                  }
+                ],
+                "tool_call_id": "call_1ChNQVk7amZwlvmDF6xdOplu",
+                "metadata": null,
+                "timestamp": "2026-01-16T15:36:36.028560+00:00",
+                "part_kind": "tool-return"
+              }
+            ],
+            "instructions": "You are an Ally Config administrator assistant. Your primary purpose is to help users set up, configure, and monitor AI Copilots and their infrastructure through the Ally Config page (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    Your role is to EITHER:\n    1. Guide users through the Ally Config page step-by-step, or prefarably\n    2. Directly perform configuration tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Your expertise includes:\n    - Creating and managing AI model endpoints and configurations\n    - Advising on plugin selection (including AI Knowledge for enhanced Copilot capabilities)\n    - Setting up and running evaluation suites for Copilot performance\n    - Monitoring costs, usage, and reliability\n    - Managing permissions, access control, and audit logs\n    - Using API tools to automate configuration tasks whenever possible\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When helping users set up a Copilot, emphasize:\n    - The importance of including relevant plugins (e.g., AI Knowledge)\n    - How to connect Copilots to knowledge collections for better answers\n    - Best practices for security, privacy, and cost optimization\n    - Always confirm the user's business department before proceeding with endpoint creation\n\n    Always focus on actionable guidance to optimize Copilot performance and reliability.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:36 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:36.029751+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "content": "The available AI models for Copilot configuration are:\n\n1. GPT 5 nano (gpt-5-nano) - Very low cost and latency, supports text and vision.\n2. GPT 5 mini (gpt-5-mini) - Enhanced performance with low cost and latency, supports text and vision.\n3. GPT 4.1 nano (gpt-4.1-nano) - Latest iteration of GPT-4o series, very low cost and latency, supports text and vision.\n4. GPT 4.1 mini (gpt-4.1-mini) - Latest iteration of GPT-4o series, low cost and latency, supports text and vision.\n5. GPT 4.1 (regular) (gpt-4.1) - Best for coding and instruction following, handles complex technical and coding problems.\n6. o3 mini (o3-mini) - Enhanced reasoning and problem solving, faster and cost-efficient for coding tasks.\n7. Claude 4 Sonnet (claude-4-sonnet) - Balanced performance for coding with speed and cost efficiency.\n8. Amazon Nova Pro (nova-pro) - Highly capable multimodal model excelling at reasoning, math, coding, and multimodal understanding.\n9. Amazon Nova Lite (nova-lite) - Very low-cost multimodal model optimized for speed and cost-effectiveness.\n10. Mistral Large (mistral-large) - Advanced large language model for complex multilingual reasoning, text understanding, and code generation.\n\nAll these models are currently enabled and available for use. Let me know if you want to create or configure a Copilot with any of these models.",
+                "id": null,
+                "part_kind": "text"
+              }
+            ],
+            "usage": {
+              "input_tokens": 11680,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 337,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-16T15:36:34+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "stop"
+            },
+            "provider_response_id": "chatcmpl-CygAEs6xvBzBSyRFPCcJMhG49OOsq",
+            "finish_reason": "stop"
+          }
+        ],
+        "all_messages": [
+          {
+            "parts": [
+              {
+                "content": "List all available AI models for Copilot configuration.",
+                "timestamp": "2026-01-16T15:36:20.106946+00:00",
+                "part_kind": "user-prompt"
+              }
+            ],
+            "instructions": "You are an Ally Config administrator assistant. Your primary purpose is to help users set up, configure, and monitor AI Copilots and their infrastructure through the Ally Config page (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    Your role is to EITHER:\n    1. Guide users through the Ally Config page step-by-step, or prefarably\n    2. Directly perform configuration tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Your expertise includes:\n    - Creating and managing AI model endpoints and configurations\n    - Advising on plugin selection (including AI Knowledge for enhanced Copilot capabilities)\n    - Setting up and running evaluation suites for Copilot performance\n    - Monitoring costs, usage, and reliability\n    - Managing permissions, access control, and audit logs\n    - Using API tools to automate configuration tasks whenever possible\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When helping users set up a Copilot, emphasize:\n    - The importance of including relevant plugins (e.g., AI Knowledge)\n    - How to connect Copilots to knowledge collections for better answers\n    - Best practices for security, privacy, and cost optimization\n    - Always confirm the user's business department before proceeding with endpoint creation\n\n    Always focus on actionable guidance to optimize Copilot performance and reliability.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:20 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:20.107186+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ally_config_list_models",
+                "args": "{}",
+                "tool_call_id": "call_1ChNQVk7amZwlvmDF6xdOplu",
+                "id": null,
+                "part_kind": "tool-call"
+              }
+            ],
+            "usage": {
+              "input_tokens": 10739,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 14,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-16T15:36:21+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "tool_calls"
+            },
+            "provider_response_id": "chatcmpl-CygA1VZrh4XA0YvqIS27d4PogNMgu",
+            "finish_reason": "tool_call"
+          },
+          {
+            "parts": [
+              {
+                "tool_name": "ally_config_list_models",
+                "content": [
+                  {
+                    "label": "gpt-5-nano",
+                    "name": "GPT 5 nano",
+                    "description": "GPT 5 nano (€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-nano supports both text and vision at extremely low cost and latency, making it ideal for high-volume applications.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-5-mini",
+                    "name": "GPT 5 mini",
+                    "description": "GPT 5 mini (€€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-mini provides enhanced performance with low cost and latency, supporting both text and vision capabilities.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1-nano",
+                    "name": "GPT 4.1 nano",
+                    "description": "GPT 4.1 nano (€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. gpt-4.1-nano supports both text and vision provides at even lower cost and latency compared to the gpt-4o and gpt-4o-mini models.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1-mini",
+                    "name": "GPT 4.1 mini",
+                    "description": "GPT 4.1 mini (€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. As with the previous gpt-4o-mini model version gpt 4.1 mini supports both text and vision in the with low cost and latency.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "gpt-4.1",
+                    "name": "GPT 4.1 (regular)",
+                    "description": "GPT 4.1 (€€€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. This iteration of models is specifically targeted for better coding and instruction following, making it better at handling complex technical and coding problems.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "o3-mini",
+                    "name": "o3 mini",
+                    "description": "o3 series models (€€€€)\nEnhanced reasoning and problem solving.  The o3 mini is a faster and more cost-efficient option in the o3 series, ideal for coding tasks requiring speed and lower resource consumption.\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "claude-4-sonnet",
+                    "name": "Claude 4 Sonnet",
+                    "description": "Claude 4 Sonnet (€€€€€)\nAnthropic's Claude Sonnet 4 balances impressive performance for coding with the right speed and cost for high-volume use cases: Coding: Handle everyday development tasks with enhanced performance-power code reviews, bug fixes, API integrations, and feature development with immediate feedback loops.\nhttps://docs.anthropic.com/en/docs/about-claude/models https://aws.amazon.com/legal/bedrock/third-party-models/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "nova-pro",
+                    "name": "Amazon Nova Pro",
+                    "description": "Amazon Nova Pro (€€€)\nAmazon Nova Pro is a highly capable multimodal model with the best  combination of accuracy, speed, and cost for a wide range of tasks. Excels at reasoning, math, coding, and multimodal understanding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "nova-lite",
+                    "name": "Amazon Nova Lite",
+                    "description": "Amazon Nova Lite (€)\nAmazon Nova Lite is a very low-cost multimodal model that is lightning  fast for processing image, video, and text inputs. Optimized for speed  and cost-effectiveness for high-volume applications.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                    "enabled": true
+                  },
+                  {
+                    "label": "mistral-large",
+                    "name": "Mistral Large (24.02)",
+                    "description": "Mistral Large (€€€€€)\nThe most advanced Mistral AI Large Language model capable of handling any language task including complex multilingual reasoning, text understanding, transformation, and code generation. coding, and advanced use cases requiring high performance.\nhttps://docs.mistral.ai/getting-started/models/models_overview https://aws.amazon.com/legal/bedrock/third-party-models/\n",
+                    "enabled": true
+                  }
+                ],
+                "tool_call_id": "call_1ChNQVk7amZwlvmDF6xdOplu",
+                "metadata": null,
+                "timestamp": "2026-01-16T15:36:36.028560+00:00",
+                "part_kind": "tool-return"
+              }
+            ],
+            "instructions": "You are an Ally Config administrator assistant. Your primary purpose is to help users set up, configure, and monitor AI Copilots and their infrastructure through the Ally Config page (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    Your role is to EITHER:\n    1. Guide users through the Ally Config page step-by-step, or prefarably\n    2. Directly perform configuration tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Your expertise includes:\n    - Creating and managing AI model endpoints and configurations\n    - Advising on plugin selection (including AI Knowledge for enhanced Copilot capabilities)\n    - Setting up and running evaluation suites for Copilot performance\n    - Monitoring costs, usage, and reliability\n    - Managing permissions, access control, and audit logs\n    - Using API tools to automate configuration tasks whenever possible\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When helping users set up a Copilot, emphasize:\n    - The importance of including relevant plugins (e.g., AI Knowledge)\n    - How to connect Copilots to knowledge collections for better answers\n    - Best practices for security, privacy, and cost optimization\n    - Always confirm the user's business department before proceeding with endpoint creation\n\n    Always focus on actionable guidance to optimize Copilot performance and reliability.\n    \n\nAdditional Instructions:\n\n\n    IMPORTANT Response Guidelines (as a specialist agent):\n    You are being called by an orchestrator agent. Your response will be used by the orchestrator\n    to formulate the final answer to the user.\n\n    When responding:\n    - Provide clear, complete information that the orchestrator can use\n    - If you called any tools, briefly mention what you did and the results\n    - If any tool calls failed, explain what went wrong and any alternatives you tried\n    - If you cannot complete the task, explain why clearly\n    - Be concise but comprehensive - the orchestrator needs enough context to help the user\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:36 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:36.029751+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+            "kind": "request"
+          },
+          {
+            "parts": [
+              {
+                "content": "The available AI models for Copilot configuration are:\n\n1. GPT 5 nano (gpt-5-nano) - Very low cost and latency, supports text and vision.\n2. GPT 5 mini (gpt-5-mini) - Enhanced performance with low cost and latency, supports text and vision.\n3. GPT 4.1 nano (gpt-4.1-nano) - Latest iteration of GPT-4o series, very low cost and latency, supports text and vision.\n4. GPT 4.1 mini (gpt-4.1-mini) - Latest iteration of GPT-4o series, low cost and latency, supports text and vision.\n5. GPT 4.1 (regular) (gpt-4.1) - Best for coding and instruction following, handles complex technical and coding problems.\n6. o3 mini (o3-mini) - Enhanced reasoning and problem solving, faster and cost-efficient for coding tasks.\n7. Claude 4 Sonnet (claude-4-sonnet) - Balanced performance for coding with speed and cost efficiency.\n8. Amazon Nova Pro (nova-pro) - Highly capable multimodal model excelling at reasoning, math, coding, and multimodal understanding.\n9. Amazon Nova Lite (nova-lite) - Very low-cost multimodal model optimized for speed and cost-effectiveness.\n10. Mistral Large (mistral-large) - Advanced large language model for complex multilingual reasoning, text understanding, and code generation.\n\nAll these models are currently enabled and available for use. Let me know if you want to create or configure a Copilot with any of these models.",
+                "id": null,
+                "part_kind": "text"
+              }
+            ],
+            "usage": {
+              "input_tokens": 11680,
+              "cache_write_tokens": 0,
+              "cache_read_tokens": 0,
+              "output_tokens": 337,
+              "input_audio_tokens": 0,
+              "cache_audio_read_tokens": 0,
+              "output_audio_tokens": 0,
+              "details": {
+                "accepted_prediction_tokens": 0,
+                "audio_tokens": 0,
+                "reasoning_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "model_name": "gpt-4.1-mini-2025-04-14",
+            "timestamp": "2026-01-16T15:36:34+00:00",
+            "kind": "response",
+            "provider_name": "openai",
+            "provider_details": {
+              "finish_reason": "stop"
+            },
+            "provider_response_id": "chatcmpl-CygAEs6xvBzBSyRFPCcJMhG49OOsq",
+            "finish_reason": "stop"
+          }
+        ]
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "hey can you list all available models for me?",
+            "timestamp": "2026-01-16T15:36:16.803127+00:00",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io), supporting users in both AI knowledge management and Copilot configuration.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or\n    2. Directly perform tasks for users using specialist agents and tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:16 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:16.816080+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "call_ally_config_admin",
+            "args": "{\"task\":\"List all available AI models for Copilot configuration.\"}",
+            "tool_call_id": "call_zBGesElrUehoRcj6WVUkSxVy",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1734,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 27,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-16T15:36:18+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "tool_calls"
+        },
+        "provider_response_id": "chatcmpl-Cyg9yI1JBKrhiEDiahRx1iLqBdi02",
+        "finish_reason": "tool_call"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "tool_name": "call_ally_config_admin",
+            "content": "The available AI models for Copilot configuration are:\n\n1. GPT 5 nano (gpt-5-nano) - Very low cost and latency, supports text and vision.\n2. GPT 5 mini (gpt-5-mini) - Enhanced performance with low cost and latency, supports text and vision.\n3. GPT 4.1 nano (gpt-4.1-nano) - Latest iteration of GPT-4o series, very low cost and latency, supports text and vision.\n4. GPT 4.1 mini (gpt-4.1-mini) - Latest iteration of GPT-4o series, low cost and latency, supports text and vision.\n5. GPT 4.1 (regular) (gpt-4.1) - Best for coding and instruction following, handles complex technical and coding problems.\n6. o3 mini (o3-mini) - Enhanced reasoning and problem solving, faster and cost-efficient for coding tasks.\n7. Claude 4 Sonnet (claude-4-sonnet) - Balanced performance for coding with speed and cost efficiency.\n8. Amazon Nova Pro (nova-pro) - Highly capable multimodal model excelling at reasoning, math, coding, and multimodal understanding.\n9. Amazon Nova Lite (nova-lite) - Very low-cost multimodal model optimized for speed and cost-effectiveness.\n10. Mistral Large (mistral-large) - Advanced large language model for complex multilingual reasoning, text understanding, and code generation.\n\nAll these models are currently enabled and available for use. Let me know if you want to create or configure a Copilot with any of these models.",
+            "tool_call_id": "call_zBGesElrUehoRcj6WVUkSxVy",
+            "metadata": null,
+            "timestamp": "2026-01-16T15:36:41.593620+00:00",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": "You are a comprehensive AI assistant for the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io), supporting users in both AI knowledge management and Copilot configuration.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or\n    2. Directly perform tasks for users using specialist agents and tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    You coordinate between specialist agents to help users with:\n    - Creating and managing knowledge sources (websites, SharePoint/OneDrive, S3, GitHub) and collections\n    - Setting up and configuring AI Copilots with plugins (especially AI Knowledge)\n    - Endpoint management, evaluation, monitoring, and cost optimization\n    - Permissions, access control, and audit logs\n\n    You have access to specialist agents as tools:\n    - Delegate knowledge-related tasks (sources, collections, indexing) to the AI Knowledge specialist\n    - Delegate Copilot configuration tasks (endpoints, plugins, evaluations) to the Ally Config specialist\n    - You may call multiple specialists if the task spans both domains\n    - Synthesize responses from specialists into a coherent, user-friendly answer\n\n    IMPORTANT: Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - When creating endpoints, collections, or configurations, always ask the user for their business department and Project number if you dont already have it\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the typical workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step guidance for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n\n    When delegating to specialists:\n    - Be specific about what information you need\n    - Include relevant context from the conversation (business department, project number, etc.)\n    - If a specialist's response is insufficient, ask follow-up questions or try another approach\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Include relevant context when delegating to specialists.\n\n\n\nCurrent Date and Time:\n- Date: Friday, January 16, 2026\n- Time: 16:36:41 (Europe/Berlin timezone)\n- ISO Format: 2026-01-16T16:36:41.593951+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+        "kind": "request"
+      },
+      "displayed": true
+    },
+    {
+      "entry_type": "orchestrator_message",
+      "data": {
+        "parts": [
+          {
+            "content": "The available AI models for Copilot configuration are:\n\n1. GPT 5 nano (gpt-5-nano) - Very low cost and latency, supports text and vision.\n2. GPT 5 mini (gpt-5-mini) - Enhanced performance with low cost and latency, supports text and vision.\n3. GPT 4.1 nano (gpt-4.1-nano) - Latest iteration of GPT-4o series, very low cost and latency, supports text and vision.\n4. GPT 4.1 mini (gpt-4.1-mini) - Latest iteration of GPT-4o series, low cost and latency, supports text and vision.\n5. GPT 4.1 (regular) (gpt-4.1) - Best for coding and instruction following, handles complex technical and coding problems.\n6. o3 mini (o3-mini) - Enhanced reasoning and problem solving, faster and cost-efficient for coding tasks.\n7. Claude 4 Sonnet (claude-4-sonnet) - Balanced performance for coding with speed and cost efficiency.\n8. Amazon Nova Pro (nova-pro) - Highly capable multimodal model excelling at reasoning, math, coding, and multimodal understanding.\n9. Amazon Nova Lite (nova-lite) - Very low-cost multimodal model optimized for speed and cost-effectiveness.\n10. Mistral Large (mistral-large) - Advanced large language model for complex multilingual reasoning, text understanding, and code generation.\n\nIf you want, I can help you create or configure a Copilot using any of these models.",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 2106,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 327,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          }
+        },
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "timestamp": "2026-01-16T15:36:41+00:00",
+        "kind": "response",
+        "provider_name": "openai",
+        "provider_details": {
+          "finish_reason": "stop"
+        },
+        "provider_response_id": "chatcmpl-CygALH5o8k5LchZJJQOibZi4Y9JDy",
+        "finish_reason": "stop"
+      },
+      "displayed": true
+    }
+  ]
+}

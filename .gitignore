@@ -8,7 +8,10 @@ setenv.sh
 # Data files
 addone_datasets/
 datasets/
-Data/
+Data/*
+!Data/api_mock_data/
+!Data/improved_tool_descriptions/
+!Data/UserRecords/
 evaluation_results/
 installation.md
 
