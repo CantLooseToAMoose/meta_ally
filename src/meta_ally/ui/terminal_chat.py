@@ -76,6 +76,152 @@ def display_conversation_history(messages: list, panel_width: int, console: Cons
     console.print(f"[dim]{'─' * 80}[/dim]\n")
 
 
+def _handle_exit_command(console: Console, message_history: list) -> tuple[bool, list, str]:
+    """
+    Handle exit command and return signal to end chat.
+
+    Returns:
+        Tuple of (False, message_history, '') to signal chat should end.
+    """
+    console.print("\n[green]Thank you for chatting! Goodbye![/green]\n")
+    return (False, message_history, '')
+
+
+def _handle_clear_command(console: Console) -> tuple[bool, list, str]:
+    """
+    Handle clear command and return empty message history.
+
+    Returns:
+        Tuple of (True, [], '') with empty message history.
+    """
+    console.print("\n[yellow]✓ Conversation history cleared.[/yellow]\n")
+    return (True, [], '')
+
+
+def _handle_history_command(
+    message_history: list,
+    panel_width: int,
+    console: Console
+) -> tuple[bool, list, str]:
+    """
+    Handle history command and display conversation history.
+
+    Returns:
+        Tuple of (True, message_history, '') to continue chat.
+    """
+    if message_history:
+        display_conversation_history(message_history, panel_width, console)
+    else:
+        console.print("\n[yellow]No conversation history yet.[/yellow]\n")
+    return (True, message_history, '')
+
+
+def _prompt_for_notes(console: Console) -> dict | str:
+    """
+    Prompt user for structured notes and return as dict or empty string.
+
+    Returns:
+        Dictionary with note fields if any provided, empty string otherwise.
+    """
+    console.print("\n[cyan]Notes (optional - press Enter to skip any field):[/cyan]")
+    intention = Prompt.ask("  [cyan]What did you intend to do?[/cyan]", default="")
+    achievement = Prompt.ask("  [cyan]What did you achieve?[/cyan]", default="")
+    went_well = Prompt.ask("  [cyan]What went well?[/cyan]", default="")
+    went_poorly = Prompt.ask("  [cyan]What went poorly?[/cyan]", default="")
+
+    notes = {}
+    if intention:
+        notes['intention'] = intention
+    if achievement:
+        notes['achievement'] = achievement
+    if went_well:
+        notes['what_went_well'] = went_well
+    if went_poorly:
+        notes['what_went_poorly'] = went_poorly
+
+    return notes if notes else ""
+
+
+def _prompt_for_feedback(console: Console) -> str:
+    """
+    Prompt user for feedback and return as formatted string.
+
+    Returns:
+        Formatted feedback string or empty string if no feedback provided.
+    """
+    console.print("\n[cyan]Feedback (optional - press Enter to skip any field):[/cyan]")
+    improvement_feedback = Prompt.ask(
+        "  [cyan]Is this an improvement from the classic Ally web portal? "
+        "(yes/no/comments)[/cyan]",
+        default=""
+    )
+    config_preference = Prompt.ask(
+        "  [cyan]If you tried different configurations, which do you prefer?[/cyan]",
+        default=""
+    )
+
+    feedback_parts = []
+    if improvement_feedback:
+        feedback_parts.append(f"Portal comparison: {improvement_feedback}")
+    if config_preference:
+        feedback_parts.append(f"Configuration preference: {config_preference}")
+
+    return " | ".join(feedback_parts) if feedback_parts else ""
+
+
+def _handle_save_command(
+    message_history: list,
+    console: Console,
+    conversation_timeline: list | None,
+    config: dict | None
+) -> tuple[bool, list, str]:
+    """
+    Handle save command and save conversation in JSON and HTML formats.
+
+    Returns:
+        Tuple of (True, message_history, 'save') to continue chat after saving.
+    """
+    timeline_to_save = conversation_timeline if conversation_timeline else message_history
+    if not timeline_to_save:
+        console.print("\n[yellow]No conversation to save yet.[/yellow]\n")
+        return (True, message_history, '')
+
+    try:
+        # Get metadata from user
+        console.print("\n[cyan]💾 Save Conversation[/cyan]")
+        name = Prompt.ask("  [cyan]Name[/cyan]")
+
+        # Prompt for SUS questionnaire
+        completed, sus_responses = prompt_sus_questionnaire()
+        sus_score = None
+        if completed and sus_responses:
+            sus_score = calculate_sus_score(sus_responses)
+            console.print(f"\n[green]✓ SUS Score: {sus_score:.1f}/100[/green]")
+
+        # Get notes and feedback
+        notes = _prompt_for_notes(console)
+        feedback = _prompt_for_feedback(console)
+
+        # Save in JSON and HTML formats
+        json_path = save_conversation(
+            timeline_to_save, name, sus_score, sus_responses, notes, feedback, config=config
+        )
+        html_path = save_conversation_html(
+            timeline_to_save, name, sus_score, sus_responses, notes, feedback, config=config
+        )
+
+        console.print("\n[green]✓ Conversation saved:[/green]")
+        console.print(f"[green]  • JSON: {json_path}[/green]")
+        console.print(f"[green]  • HTML: {html_path}[/green]")
+
+    except ValueError as e:
+        console.print(f"\n[red]❌ Error: {e}[/red]\n")
+    except Exception as e:
+        console.print(f"\n[red]❌ Failed to save: {e}[/red]\n")
+
+    return (True, message_history, 'save')
+
+
 def handle_special_command(
     user_input: str,
     message_history: list,
@@ -100,55 +246,19 @@ def handle_special_command(
         should_continue is True if the chat should continue, False if it should exit
         command_type is 'save' if save command was used, empty string otherwise
     """
-    if user_input.lower() in {'exit', 'quit', 'q'}:
-        console.print("\n[green]Thank you for chatting! Goodbye![/green]\n")
-        return (False, message_history, '')
+    command = user_input.lower()
 
-    if user_input.lower() == 'clear':
-        console.print("\n[yellow]✓ Conversation history cleared.[/yellow]\n")
-        return (True, [], '')
+    if command in {'exit', 'quit', 'q'}:
+        return _handle_exit_command(console, message_history)
 
-    if user_input.lower() == 'history':
-        if message_history:
-            display_conversation_history(message_history, panel_width, console)
-        else:
-            console.print("\n[yellow]No conversation history yet.[/yellow]\n")
-        return (True, message_history, '')
+    if command == 'clear':
+        return _handle_clear_command(console)
 
-    if user_input.lower() == 'save':
-        timeline_to_save = conversation_timeline if conversation_timeline else message_history
-        if not timeline_to_save:
-            console.print("\n[yellow]No conversation to save yet.[/yellow]\n")
-            return (True, message_history, '')
+    if command == 'history':
+        return _handle_history_command(message_history, panel_width, console)
 
-        try:
-            # Get metadata from user
-            console.print("\n[cyan]💾 Save Conversation[/cyan]")
-            name = Prompt.ask("  [cyan]Name[/cyan]")
-
-            # Prompt for SUS questionnaire
-            completed, sus_responses = prompt_sus_questionnaire()
-            sus_score = None
-            if completed and sus_responses:
-                sus_score = calculate_sus_score(sus_responses)
-                console.print(f"\n[green]✓ SUS Score: {sus_score:.1f}/100[/green]")
-
-            notes = Prompt.ask("  [cyan]Notes (optional)[/cyan]", default="")
-
-            # Save in JSON and HTML formats
-            json_path = save_conversation(timeline_to_save, name, sus_score, sus_responses, notes, config=config)
-            html_path = save_conversation_html(timeline_to_save, name, sus_score, sus_responses, notes, config=config)
-
-            console.print("\n[green]✓ Conversation saved:[/green]")
-            console.print(f"[green]  • JSON: {json_path}[/green]")
-            console.print(f"[green]  • HTML: {html_path}[/green]")
-
-        except ValueError as e:
-            console.print(f"\n[red]❌ Error: {e}[/red]\n")
-        except Exception as e:
-            console.print(f"\n[red]❌ Failed to save: {e}[/red]\n")
-
-        return (True, message_history, 'save')
+    if command == 'save':
+        return _handle_save_command(message_history, console, conversation_timeline, config)
 
     return (True, message_history, '')
 

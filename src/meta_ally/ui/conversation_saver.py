@@ -161,7 +161,8 @@ def save_conversation(
     name: str,
     sus_score: float | None = None,
     sus_responses: list[int] | None = None,
-    notes: str = "",
+    notes: str | dict[str, str] = "",
+    feedback: str = "",
     save_dir: str | Path = "Data/UserRecords",
     config: dict[str, Any] | None = None
 ) -> Path:
@@ -173,7 +174,9 @@ def save_conversation(
         name: Name/title for this conversation
         sus_score: Optional SUS score (0-100 scale)
         sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
-        notes: Optional notes about the conversation
+        notes: Optional notes about the conversation (string or structured dict with keys:
+               'intention', 'achievement', 'what_went_well', 'what_went_poorly')
+        feedback: Optional feedback about system comparison and preferences
         save_dir: Directory to save the conversation (default: Data/UserRecords)
         config: Optional configuration dictionary to include in metadata
 
@@ -203,6 +206,7 @@ def save_conversation(
     metadata = {
         "name": name,
         "notes": notes,
+        "feedback": feedback,
         "timestamp": datetime.now().isoformat(),
         "saved_at": timestamp
     }
@@ -212,7 +216,7 @@ def save_conversation(
         metadata["sus_score"] = sus_score
     if sus_responses is not None:
         metadata["sus_responses"] = sus_responses
-    
+
     # Add configuration if provided
     if config is not None:
         metadata["config"] = config
@@ -741,6 +745,73 @@ def _render_conversation_html(timeline: list[dict[str, Any]]) -> str:
     return '\n'.join(html_parts)
 
 
+def _render_sus_score_html(sus_score: float | None) -> str:
+    """
+    Render SUS score as HTML.
+
+    Args:
+        sus_score: The SUS score value or None
+
+    Returns:
+        HTML string for the SUS score or empty string if None
+    """
+    if sus_score is None:
+        return ''
+
+    # SUS score interpretation:
+    # 80+ = Excellent (A), 68-79 = Good (B), 51-67 = OK (C), <51 = Poor (F)
+    if sus_score >= 80:
+        score_class = 'grade-high'
+        interpretation = 'Excellent'
+    elif sus_score >= 68:
+        score_class = 'grade-high'
+        interpretation = 'Good'
+    elif sus_score >= 51:
+        score_class = 'grade-medium'
+        interpretation = 'OK'
+    else:
+        score_class = 'grade-low'
+        interpretation = 'Poor'
+
+    return (
+        f'<span class="metadata-item"><strong>SUS Score:</strong> '
+        f'<span class="grade-badge {score_class}">{sus_score:.1f}/100 '
+        f'({interpretation})</span></span>'
+    )
+
+
+def _render_notes_html(notes: str | dict[str, str] | Any) -> str:
+    """
+    Render notes as HTML.
+
+    Args:
+        notes: Notes as string, structured dict, or other value
+
+    Returns:
+        HTML string for the notes or empty string if no notes
+    """
+    if not notes:
+        return ''
+
+    if isinstance(notes, dict):
+        # Structured notes format
+        notes_items = []
+        if intention := notes.get('intention'):
+            notes_items.append(f'<li><strong>Intention:</strong> {html.escape(intention)}</li>')
+        if achievement := notes.get('achievement'):
+            notes_items.append(f'<li><strong>Achievement:</strong> {html.escape(achievement)}</li>')
+        if went_well := notes.get('what_went_well'):
+            notes_items.append(f'<li><strong>What Went Well:</strong> {html.escape(went_well)}</li>')
+        if went_poorly := notes.get('what_went_poorly'):
+            notes_items.append(f'<li><strong>What Went Poorly:</strong> {html.escape(went_poorly)}</li>')
+        if notes_items:
+            return f'<div class="metadata-notes"><strong>Notes:</strong><ul>{"".join(notes_items)}</ul></div>'
+        return ''
+
+    # Simple string format
+    return f'<div class="metadata-notes"><strong>Notes:</strong> {html.escape(str(notes))}</div>'
+
+
 def _render_metadata_html(metadata: dict[str, Any]) -> str:
     """
     Render conversation metadata as HTML.
@@ -752,36 +823,22 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
         HTML string for the metadata section
     """
     name = html.escape(str(metadata.get('name', 'Conversation')))
-    sus_score = metadata.get('sus_score')
-    notes = html.escape(str(metadata.get('notes', '')))
     timestamp = metadata.get('timestamp', '')
 
     # Build score HTML if SUS score exists
-    score_html = ''
-    if sus_score is not None:
-        # SUS score interpretation:
-        # 80+ = Excellent (A), 68-79 = Good (B), 51-67 = OK (C), <51 = Poor (F)
-        if sus_score >= 80:
-            score_class = 'grade-high'
-            interpretation = 'Excellent'
-        elif sus_score >= 68:
-            score_class = 'grade-high'
-            interpretation = 'Good'
-        elif sus_score >= 51:
-            score_class = 'grade-medium'
-            interpretation = 'OK'
-        else:
-            score_class = 'grade-low'
-            interpretation = 'Poor'
+    score_html = _render_sus_score_html(metadata.get('sus_score'))
 
-        score_html = (
-            f'<span class="metadata-item"><strong>SUS Score:</strong> '
-            f'<span class="grade-badge {score_class}">{sus_score:.1f}/100 '
-            f'({interpretation})</span></span>'
+    # Build notes and feedback HTML
+    notes_html = _render_notes_html(metadata.get('notes', ''))
+
+    # Build feedback HTML
+    feedback_html = ''
+    if feedback := metadata.get('feedback'):
+        feedback_html = (
+            f'<div class="metadata-notes" style="margin-top: 10px;">'
+            f'<strong>Feedback:</strong> {html.escape(str(feedback))}</div>'
         )
 
-    notes_html = f'<div class="metadata-notes"><strong>Notes:</strong> {notes}</div>' if notes else ''
-    
     # Build configuration HTML if config exists
     config_html = ''
     if config := metadata.get('config'):
@@ -790,7 +847,10 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
             # Format key as readable (e.g., use_multi_agent -> Use Multi Agent)
             readable_key = key.replace('_', ' ').title()
             config_items.append(f'<li><strong>{html.escape(readable_key)}:</strong> {html.escape(str(value))}</li>')
-        config_html = f'<div class="metadata-config"><strong>Configuration:</strong><ul>{"".join(config_items)}</ul></div>'
+        config_html = (
+            f'<div class="metadata-config"><strong>Configuration:</strong>'
+            f'<ul>{"".join(config_items)}</ul></div>'
+        )
 
     return f"""
         <div class="metadata">
@@ -798,6 +858,7 @@ def _render_metadata_html(metadata: dict[str, Any]) -> str:
             {score_html}
             <span class="metadata-item"><strong>Date:</strong> {html.escape(str(timestamp))}</span>
             {notes_html}
+            {feedback_html}
             {config_html}
         </div>
     """
@@ -808,7 +869,8 @@ def save_conversation_html(
     name: str,
     sus_score: float | None = None,
     sus_responses: list[int] | None = None,
-    notes: str = "",
+    notes: str | dict[str, str] = "",
+    feedback: str = "",
     save_dir: str | Path = "Data/UserRecords",
     config: dict[str, Any] | None = None
 ) -> Path:
@@ -826,7 +888,9 @@ def save_conversation_html(
         name: Name/title for this conversation
         sus_score: Optional SUS score (0-100 scale)
         sus_responses: Optional list of 10 SUS questionnaire responses (1-5 scale)
-        notes: Optional notes about the conversation
+        notes: Optional notes about the conversation (string or structured dict with keys:
+               'intention', 'achievement', 'what_went_well', 'what_went_poorly')
+        feedback: Optional feedback about system comparison and preferences
         save_dir: Directory to save the HTML file (default: Data/UserRecords)
         config: Optional configuration dictionary to include in metadata
 
@@ -871,6 +935,7 @@ def save_conversation_html(
     metadata = {
         "name": name,
         "notes": notes,
+        "feedback": feedback,
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -879,7 +944,7 @@ def save_conversation_html(
         metadata["sus_score"] = sus_score
     if sus_responses is not None:
         metadata["sus_responses"] = sus_responses
-    
+
     # Add configuration if provided
     if config is not None:
         metadata["config"] = config
