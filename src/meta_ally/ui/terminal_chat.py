@@ -150,6 +150,10 @@ def _prompt_for_feedback(console: Console) -> str:
         Formatted feedback string or empty string if no feedback provided.
     """
     console.print("\n[cyan]Feedback (optional - press Enter to skip any field):[/cyan]")
+    achievement_feedback = Prompt.ask(
+        "  [cyan]Were you successful in achieving your goal? (yes/no)[/cyan]",
+        default=""
+    )
     improvement_feedback = Prompt.ask(
         "  [cyan]Is this an improvement from the classic Ally web portal? "
         "(yes/no/comments)[/cyan]",
@@ -161,6 +165,8 @@ def _prompt_for_feedback(console: Console) -> str:
     )
 
     feedback_parts = []
+    if achievement_feedback:
+        feedback_parts.append(f"Achievement: {achievement_feedback}")
     if improvement_feedback:
         feedback_parts.append(f"Portal comparison: {improvement_feedback}")
     if config_preference:
