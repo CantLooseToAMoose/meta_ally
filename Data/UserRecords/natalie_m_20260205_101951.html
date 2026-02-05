@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>natalie_m</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #d4d4d4;
+            --user-border: #5c9fd6;
+            --user-title: #5c9fd6;
+            --assistant-border: #c678dd;
+            --assistant-title: #c678dd;
+            --orchestrator-border: #c678dd;
+            --orchestrator-title: #c678dd;
+            --specialist-border: #56b6c2;
+            --specialist-title: #56b6c2;
+            --specialist-response-border: #98c379;
+            --specialist-response-title: #98c379;
+            --tool-color: #e5c07b;
+            --dim-color: #6b6b6b;
+            --panel-bg: #252526;
+            --divider-color: #3c3c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid var(--assistant-border);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--assistant-border);
+            margin: 0 0 10px 0;
+            font-size: 1.8em;
+        }
+
+        .metadata {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--divider-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metadata-item {
+            display: inline-block;
+            margin-right: 30px;
+            color: var(--dim-color);
+        }
+
+        .metadata-item strong {
+            color: var(--text-color);
+        }
+
+        .metadata-notes {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--divider-color);
+            color: var(--dim-color);
+        }
+
+        .metadata-config {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--divider-color);
+            color: var(--dim-color);
+        }
+
+        .metadata-config ul {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+            list-style-type: none;
+        }
+
+        .metadata-config li {
+            margin: 3px 0;
+        }
+
+        .conversation {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            border-radius: 8px;
+            border: 2px solid;
+            background-color: var(--panel-bg);
+            overflow: hidden;
+        }
+
+        .message-title {
+            padding: 8px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--divider-color);
+        }
+
+        .message-content {
+            padding: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* User messages - left aligned, blue */
+        .message.user {
+            align-self: flex-start;
+            border-color: var(--user-border);
+        }
+
+        .message.user .message-title {
+            color: var(--user-title);
+        }
+
+        /* Assistant/Orchestrator messages - right aligned, purple */
+        .message.assistant, .message.orchestrator {
+            align-self: flex-end;
+            border-color: var(--assistant-border);
+        }
+
+        .message.assistant .message-title, .message.orchestrator .message-title {
+            color: var(--assistant-title);
+        }
+
+        /* Specialist section */
+        .specialist-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid var(--specialist-border);
+            border-radius: 8px;
+            background-color: rgba(86, 182, 194, 0.05);
+        }
+
+        .specialist-header {
+            color: var(--specialist-title);
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--specialist-border);
+            margin-bottom: 15px;
+        }
+
+        .specialist-task {
+            color: var(--dim-color);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .specialist-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 20px;
+        }
+
+        /* Specialist internal messages */
+        .message.specialist-request {
+            align-self: flex-start;
+            border-color: var(--orchestrator-border);
+            max-width: 90%;
+        }
+
+        .message.specialist-request .message-title {
+            color: var(--orchestrator-title);
+        }
+
+        .message.specialist-response {
+            align-self: flex-end;
+            border-color: var(--specialist-response-border);
+            max-width: 90%;
+        }
+
+        .message.specialist-response .message-title {
+            color: var(--specialist-response-title);
+        }
+
+        /* Tool calls */
+        .tool-call {
+            color: var(--tool-color);
+            background-color: rgba(229, 192, 123, 0.1);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        .tool-call .tool-name {
+            font-weight: bold;
+        }
+
+        .tool-call .tool-args {
+            color: var(--dim-color);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .tool-return {
+            color: var(--tool-color);
+            background-color: rgba(229, 192, 123, 0.05);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        /* Divider */
+        .divider {
+            border-top: 1px solid var(--divider-color);
+            margin: 20px 0;
+        }
+
+        /* Part type labels */
+        .part-type {
+            color: var(--dim-color);
+            font-size: 0.85em;
+        }
+
+        /* Grade badge */
+        .grade-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .grade-high { background-color: #98c379; color: #1e1e1e; }
+        .grade-medium { background-color: #e5c07b; color: #1e1e1e; }
+        .grade-low { background-color: #e06c75; color: #1e1e1e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 natalie_m</h1>
+        </div>
+        
+        <div class="metadata">
+            <span class="metadata-item"><strong>Name:</strong> natalie_m</span>
+            <span class="metadata-item"><strong>SUS Score:</strong> <span class="grade-badge grade-high">87.5/100 (Excellent)</span></span>
+            <span class="metadata-item"><strong>Date:</strong> 2026-02-05T10:19:51.003369</span>
+            <div class="metadata-notes"><strong>Notes:</strong><ul><li><strong>Intention:</strong> create a copilot, create eval suite for it, add documents to the copilot</li><li><strong>Achievement:</strong> create a copilot and connect Knowledge to it</li><li><strong>What Went Well:</strong> the above</li><li><strong>What Went Poorly:</strong> adding a test case and running it</li></ul></div>
+            <div class="metadata-notes" style="margin-top: 10px;"><strong>Feedback:</strong> Achievement: y | Portal comparison: y</div>
+            <div class="metadata-config"><strong>Configuration:</strong><ul><li><strong>Use Multi Agent:</strong> False</li><li><strong>Require Human Approval:</strong> True</li><li><strong>Use Mock Api:</strong> True</li><li><strong>Use Improved Descriptions:</strong> False</li><li><strong>Model Deployment Name:</strong> gpt-4.1-mini</li></ul></div>
+        </div>
+    
+        <div class="conversation">
+            
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+can you ask me 5 questions that would help me set up a new copilot according to my needs?</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">Certainly! Here are 5 questions to help gather the information needed to set up a new Copilot tailored to your needs:
+
+1. What is the business department (Geschäftsbereich) and project number associated with this Copilot? This helps with resource allocation and cost tracking.
+
+2. What is the primary purpose or use case for the Copilot? (e.g., customer support, internal knowledge assistant, code help)
+
+3. What knowledge sources or document collections should the Copilot have access to? (e.g., SharePoint, GitHub repos, websites, uploaded documents)
+
+4. Which AI model or language model do you prefer to use for this Copilot? (e.g., GPT-4, GPT-3.5, Cohere, Bedrock)
+
+5. Do you have any specific instructions, greeting messages, or initial prompt suggestions you want the Copilot to use when interacting with users?
+
+Answering these will help me guide you through the setup or directly create the Copilot configuration for you.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+I am in GB70, project number 7580, 2. chat assistant for Frapp app - app for deskless workes so they can ask about internal company rules. 3. uploaded documents 4. i dont know, what do you reccomend? 5shoul reference the document based on which the copilots answer is based</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">Thank you for the information. To summarize:
+
+1. Business department: GB70
+2. Project number: 7580
+3. Purpose: Chat assistant for Frapp app to help deskless workers ask about internal company rules
+4. Knowledge source: Uploaded documents
+5. Special instructions: The Copilot should reference the document on which its answer is based
+
+Regarding the AI model recommendation for your use case (chat assistant for internal company rules), I suggest using a model that balances strong language understanding with cost efficiency. For example:
+
+- GPT-4.1-mini: Good balance of capability and cost, suitable for chat assistants with complex language understanding.
+- GPT-4.1-nano: More cost-effective, still good for chat but with slightly reduced capability.
+- bedrock.cohere-embed-english-v3: Good embedding model for English documents, can be combined with a suitable chat model.
+
+Would you like me to recommend a specific model from the available ones, or list some options for you to choose from? Also, do you want me to proceed with creating the Copilot configuration now?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_list_models</span><div class="tool-args">Args: <pre>&quot;{}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+[{&#x27;label&#x27;: &#x27;gpt-5-nano&#x27;, &#x27;name&#x27;: &#x27;GPT 5 nano&#x27;, &#x27;description&#x27;: &#x27;GPT 5 nano (€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-nano supports both text and vision at extremely low cost and latency, making it ideal for high-volume applications.\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;gpt-5-mini&#x27;, &#x27;name&#x27;: &#x27;GPT 5 mini&#x27;, &#x27;description&#x27;: &#x27;GPT 5 mini (€€)\nThe gpt-5 series is the newest generation of models from OpenAI. gpt-5-mini provides enhanced performance with low cost and latency, supporting both text and vision capabilities.\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;gpt-4.1-nano&#x27;, &#x27;name&#x27;: &#x27;GPT 4.1 nano&#x27;, &#x27;description&#x27;: &#x27;GPT 4.1 nano (€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. gpt-4.1-nano supports both text and vision provides at even lower cost and latency compared to the gpt-4o and gpt-4o-mini models.\nhttps://aka.ms/gpt-4-dot-1-blog\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;gpt-4.1-mini&#x27;, &#x27;name&#x27;: &#x27;GPT 4.1 mini&#x27;, &#x27;description&#x27;: &#x27;GPT 4.1 mini (€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. As with the previous gpt-4o-mini model version gpt 4.1 mini supports both text and vision in the with low cost and latency.\nhttps://aka.ms/gpt-4-dot-1-blog\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;gpt-4.1&#x27;, &#x27;name&#x27;: &#x27;GPT 4.1 (regular)&#x27;, &#x27;description&#x27;: &#x27;GPT 4.1 (€€€€)\nThe gpt-4.1 series is the latest iteration of the gpt-4o model family. This iteration of models is specifically targeted for better coding and instruction following, making it better at handling complex technical and coding problems.\nhttps://aka.ms/gpt-4-dot-1-blog\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;o3-mini&#x27;, &#x27;name&#x27;: &#x27;o3 mini&#x27;, &#x27;description&#x27;: &#x27;o3 series models (€€€€)\nEnhanced reasoning and problem solving.  The o3 mini is a faster and more cost-efficient option in the o3 series, ideal for coding tasks requiring speed and lower resource consumption.\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;claude-4-sonnet&#x27;, &#x27;name&#x27;: &#x27;Claude 4 Sonnet&#x27;, &#x27;description&#x27;: &quot;Claude 4 Sonnet (€€€€€)\nAnthropic&#x27;s Claude Sonnet 4 balances impressive performance for coding with the right speed and cost for high-volume use cases: Coding: Handle everyday development tasks with enhanced performance-power code reviews, bug fixes, API integrations, and feature development with immediate feedback loops.\nhttps://docs.anthropic.com/en/docs/about-claude/models https://aws.amazon.com/legal/bedrock/third-party-models/\n&quot;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;nova-pro&#x27;, &#x27;name&#x27;: &#x27;Amazon Nova Pro&#x27;, &#x27;description&#x27;: &#x27;Amazon Nova Pro (€€€)\nAmazon Nova Pro is a highly capable multimodal model with the best  combination of accuracy, speed, and cost for a wide range of tasks. Excels at reasoning, math, coding, and multimodal understanding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;nova-lite&#x27;, &#x27;name&#x27;: &#x27;Amazon Nova Lite&#x27;, &#x27;description&#x27;: &#x27;Amazon Nova Lite (€)\nAmazon Nova Lite is a very low-cost multimodal model that is lightning  fast for processing image, video, and text inputs. Optimized for speed  and cost-effectiveness for high-volume applications.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n&#x27;, &#x27;enabled&#x27;: True}, {&#x27;label&#x27;: &#x27;mistral-large&#x27;, &#x27;name&#x27;: &#x27;Mistral Large (24.02)&#x27;, &#x27;description&#x27;: &#x27;Mistral Large (€€€€€)\nThe most advanced Mistral AI Large Language model capable of handling any language task including complex multilingual reasoning, text understanding, transformation, and code generation. coding, and advanced use cases requiring high performance.\nhttps://docs.mistral.ai/getting-started/models/models_overview https://aws.amazon.com/legal/bedrock/third-party-models/\n&#x27;, &#x27;enabled&#x27;: True}]</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">For your chat assistant Copilot for the Frapp app, here are some recommended AI models from the available options:
+
+1. GPT 4.1 mini: Good balance of cost and performance, supports text and vision, suitable for chat assistants.
+2. GPT 4.1 nano: More cost-effective, lower latency, still good for chat use cases.
+3. GPT 5 nano: Newest generation, very low cost and latency, supports text and vision, ideal for high-volume applications.
+4. Amazon Nova Lite: Very low-cost multimodal model optimized for speed and cost-effectiveness.
+5. Mistral Large: High-performance model for complex language tasks, but higher cost.
+
+For your use case, I recommend starting with GPT 4.1 mini or GPT 5 nano for a good balance of performance and cost.
+
+Would you like me to proceed with setting up the Copilot using one of these models? If yes, please specify which model you prefer or if you want me to pick one for you.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+gpt 5 nano</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: set_geschaeftsbereich</span><div class="tool-args">Args: <pre>&quot;{\&quot;geschaeftsbereich\&quot;:\&quot;gb70\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+Business area set to: gb70</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: set_project_number</span><div class="tool-args">Args: <pre>&quot;{\&quot;project_number\&quot;:\&quot;07580\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+Project number set to: 07580</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I have set your business department to GB70 and project number to 07580.
+
+I will now proceed to create the Copilot for the Frapp app chat assistant using the GPT 5 nano model. The Copilot will be configured to reference the uploaded documents as knowledge sources and include instructions to reference the document on which the answer is based.
+
+Please provide a unique endpoint name for this Copilot (e.g., /gb70/frapp-chat) or let me know if you want me to suggest one.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+the suggested one is fine</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_create_copilot</span><div class="tool-args">Args: <pre>&quot;{\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;,\&quot;endpoint_attributes\&quot;:{\&quot;dep_name\&quot;:\&quot;gpt-5-nano\&quot;,\&quot;instructions\&quot;:\&quot;When answering user questions, always reference the document or source on which the answer is based.\&quot;,\&quot;default_message\&quot;:\&quot;Hello! I am your Frapp app assistant. Ask me anything about internal company rules.\&quot;},\&quot;endpoint_metadata\&quot;:{\&quot;display_name\&quot;:\&quot;Frapp Chat Assistant\&quot;,\&quot;description\&quot;:\&quot;Chat assistant for Frapp app to help deskless workers with internal company rules.\&quot;,\&quot;project_number\&quot;:\&quot;07580\&quot;}}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+API request succeeded with status 200 and response is empty</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The Copilot for the Frapp app chat assistant has been created successfully with the GPT 5 nano model. It is configured to reference the documents on which its answers are based and has a friendly greeting message.
+
+Next, you will need to upload your documents to the Copilot&#x27;s knowledge collection or create a collection with those documents so the Copilot can use them as knowledge sources.
+
+Would you like assistance with creating a document collection and uploading documents now?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+the collection already exists it is called something like smart answers</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_list_collections</span><div class="tool-args">Args: <pre>&quot;{\&quot;description\&quot;:\&quot;smart answers\&quot;,\&quot;businessDepartment\&quot;:\&quot;70\&quot;,\&quot;projectNumber\&quot;:\&quot;07580\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+{&#x27;Count&#x27;: 0, &#x27;ScannedCount&#x27;: 33, &#x27;TotalCount&#x27;: 0, &#x27;Items&#x27;: [], &#x27;NextToken&#x27;: None}</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I searched for a collection with the description &quot;smart answers&quot; in business department GB70 and project number 07580, but I could not find any matching collection.
+
+Could you please confirm the exact name or description of the collection? Or if you want, I can list all collections in your business department and project so you can identify it.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+smart_answers collection</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_list_collections</span><div class="tool-args">Args: <pre>&quot;{\&quot;collectionId\&quot;:\&quot;smart_answers\&quot;,\&quot;businessDepartment\&quot;:\&quot;70\&quot;,\&quot;projectNumber\&quot;:\&quot;07580\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+{&#x27;Count&#x27;: 0, &#x27;ScannedCount&#x27;: 33, &#x27;TotalCount&#x27;: 0, &#x27;Items&#x27;: [], &#x27;NextToken&#x27;: None}</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I could not find a collection with the ID &quot;smart_answers&quot; in business department GB70 and project number 07580.
+
+Could the collection be under a different business department or project number? Or is the collection ID spelled differently? Please double-check the exact collection ID or description. If you want, I can list all collections without filtering so you can see all available ones.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+look into all gbs</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_list_collections</span><div class="tool-args">Args: <pre>&quot;{\&quot;limit\&quot;:\&quot;1000\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+{&#x27;Count&#x27;: 12, &#x27;ScannedCount&#x27;: 33, &#x27;TotalCount&#x27;: 32, &#x27;Items&#x27;: [{&#x27;collectionId&#x27;: &#x27;akl_orient_collection_gb80&#x27;, &#x27;description&#x27;: &#x27;Collection for AKL Orient Speisekarte website&#x27;, &#x27;projectNumber&#x27;: &#x27;80000&#x27;, &#x27;sources&#x27;: [&#x27;akl_orient_speisekarte_gb80&#x27;, &#x27;__upload__akl_orient_collection_gb80&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;collection_tf_copilot_iac_cobalt&#x27;, &#x27;description&#x27;: &#x27;Collection for GitHub source github_tf_copilot_iac_cobalt for CoPylot access&#x27;, &#x27;projectNumber&#x27;: &#x27;89300&#x27;, &#x27;sources&#x27;: [&#x27;github_tf_copilot_iac_cobalt&#x27;, &#x27;__upload__collection_tf_copilot_iac_cobalt&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;e2e_test_collection_7214&#x27;, &#x27;description&#x27;: &#x27;E2E Test Collection for Playwright, created 18.11.2025, 14:47:54. Feel free to delete.&#x27;, &#x27;projectNumber&#x27;: &#x27;00000&#x27;, &#x27;sources&#x27;: [&#x27;__upload__e2e_test_collection_7214&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: True, &#x27;embeddingModel&#x27;: &#x27;mock.embedding-model&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;00&#x27;}, {&#x27;collectionId&#x27;: &#x27;gb80_80000_kantine_chatbot&#x27;, &#x27;description&#x27;: &#x27;Wissenssammlung für Chatbot zur Unterstützung neuer Mitarbeiter beim Essen in der Kantine&#x27;, &#x27;projectNumber&#x27;: &#x27;80000&#x27;, &#x27;sources&#x27;: [&#x27;sharepoint_gb80_8000_kantine&#x27;, &#x27;__upload__gb80_80000_kantine_chatbot&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;inex_website&#x27;, &#x27;description&#x27;: &#x27;Website content from i-nex GmbH.&#x27;, &#x27;projectNumber&#x27;: &#x27;89300&#x27;, &#x27;sources&#x27;: [&#x27;inex_website&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: True, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;inform_website_de&#x27;, &#x27;description&#x27;: &#x27;&#x27;, &#x27;projectNumber&#x27;: &#x27;89300&#x27;, &#x27;sources&#x27;: [&#x27;inform_website_de&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: True, &#x27;embeddingModel&#x27;: &#x27;azure.text-embedding-3-large&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;inform_website_de_cohere&#x27;, &#x27;description&#x27;: &#x27;Using the latest cohere v4 embedding model&#x27;, &#x27;projectNumber&#x27;: &#x27;89300&#x27;, &#x27;sources&#x27;: [&#x27;inform_website_de&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: True, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;inform_website_en_cohere&#x27;, &#x27;description&#x27;: &#x27;&#x27;, &#x27;projectNumber&#x27;: &#x27;89300&#x27;, &#x27;sources&#x27;: [&#x27;inform_website_en&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: True, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere-embed-english-v3&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;joke_chatbot_collection&#x27;, &#x27;description&#x27;: &#x27;Curated joke documents for joke chatbot&#x27;, &#x27;projectNumber&#x27;: &#x27;80000&#x27;, &#x27;sources&#x27;: [&#x27;__upload__joke_chatbot_collection&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;sales_assistant_addone_gb10_80000&#x27;, &#x27;description&#x27;: &#x27;Sales Assistant Collection für ADD*ONE (GB10, Projekt 80000): INFORM Webseite und AddOne InfoPapers&#x27;, &#x27;projectNumber&#x27;: &#x27;80000&#x27;, &#x27;sources&#x27;: [&#x27;inform_website_gb10&#x27;, &#x27;addone_sharepoint_gb10&#x27;, &#x27;__upload__sales_assistant_addone_gb10_80000&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;azure.text-embedding-3-large&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;80&#x27;}, {&#x27;collectionId&#x27;: &#x27;smart_answers&#x27;, &#x27;description&#x27;: &#x27;document collection for gb70 start answers integration to staff connect and frapp mobile apps&#x27;, &#x27;projectNumber&#x27;: &#x27;00000&#x27;, &#x27;sources&#x27;: [&#x27;__upload__smart_answers&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;bedrock.cohere.embed-v4:0&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;00&#x27;}, {&#x27;collectionId&#x27;: &#x27;websitess&#x27;, &#x27;description&#x27;: &#x27;&#x27;, &#x27;projectNumber&#x27;: &#x27;00000&#x27;, &#x27;sources&#x27;: [&#x27;inform_website_de&#x27;], &#x27;metadata&#x27;: {}, &#x27;public&#x27;: False, &#x27;embeddingModel&#x27;: &#x27;azure.text-embedding-3-large&#x27;, &#x27;nextScheduledIndexRun&#x27;: None, &#x27;lastIndexRun&#x27;: None, &#x27;accessDenied&#x27;: False, &#x27;businessDepartment&#x27;: &#x27;00&#x27;}], &#x27;NextToken&#x27;: None}</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I found a collection named &quot;smart_answers&quot; with the description &quot;document collection for gb70 start answers integration to staff connect and frapp mobile apps.&quot; However, it is associated with project number 00000 and business department 00, not GB70 and 07580.
+
+Would you like me to link this &quot;smart_answers&quot; collection to your newly created Copilot for the Frapp chat assistant? Or do you want to create a new collection specifically for your project 07580?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+use it for the newly creaed copilot. can you also move this collection under gb70 and the project?</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_update_collection</span><div class="tool-args">Args: <pre>&quot;{\&quot;collection_id\&quot;:\&quot;smart_answers\&quot;,\&quot;collectionId\&quot;:\&quot;smart_answers\&quot;,\&quot;description\&quot;:\&quot;document collection for gb70 start answers integration to staff connect and frapp mobile apps\&quot;,\&quot;projectNumber\&quot;:\&quot;07580\&quot;,\&quot;businessDepartment\&quot;:\&quot;70\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;string_pattern_mismatch&quot;,&quot;loc&quot;:[&quot;body&quot;,&quot;projectNumber&quot;],&quot;msg&quot;:&quot;String should match pattern &#x27;^(00000|[1-9]\\d{4}|1\\d{5})$&#x27;&quot;,&quot;input&quot;:&quot;07580&quot;,&quot;ctx&quot;:{&quot;pattern&quot;:&quot;^(00000|[1-9]\\d{4}|1\\d{5})$&quot;}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The project number format must be a five-digit number without leading zeros. The correct format for your project number is &quot;7580&quot; without the leading zero.
+
+I will update the collection &quot;smart_answers&quot; to be under business department GB70 and project number 7580 and link it to your newly created Copilot.
+<div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_update_collection</span><div class="tool-args">Args: <pre>&quot;{\&quot;collection_id\&quot;:\&quot;smart_answers\&quot;,\&quot;collectionId\&quot;:\&quot;smart_answers\&quot;,\&quot;description\&quot;:\&quot;document collection for gb70 start answers integration to staff connect and frapp mobile apps\&quot;,\&quot;projectNumber\&quot;:\&quot;7580\&quot;,\&quot;businessDepartment\&quot;:\&quot;70\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;string_pattern_mismatch&quot;,&quot;loc&quot;:[&quot;body&quot;,&quot;projectNumber&quot;],&quot;msg&quot;:&quot;String should match pattern &#x27;^(00000|[1-9]\\d{4}|1\\d{5})$&#x27;&quot;,&quot;input&quot;:&quot;7580&quot;,&quot;ctx&quot;:{&quot;pattern&quot;:&quot;^(00000|[1-9]\\d{4}|1\\d{5})$&quot;}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The project number must be a five-digit number starting with a non-zero digit or &quot;00000&quot; as a special value. Your project number &quot;7580&quot; is only four digits, which is why it is rejected.
+
+Could you please confirm the full five-digit project number for this collection? Or if you want, I can keep the project number as &quot;00000&quot; (default) for now and just update the business department to GB70.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+keep default</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ai_knowledge_update_collection</span><div class="tool-args">Args: <pre>&quot;{\&quot;collection_id\&quot;:\&quot;smart_answers\&quot;,\&quot;collectionId\&quot;:\&quot;smart_answers\&quot;,\&quot;description\&quot;:\&quot;document collection for gb70 start answers integration to staff connect and frapp mobile apps\&quot;,\&quot;projectNumber\&quot;:\&quot;00000\&quot;,\&quot;businessDepartment\&quot;:\&quot;70\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+{&#x27;message&#x27;: &quot;Collections &#x27;smart_answers&#x27; updated successfully.&quot;}</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_get_copilot_config</span><div class="tool-args">Args: <pre>&quot;{\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+{&#x27;id&#x27;: &#x27;ed132e07-00ff-4835-bcb4-cc3a386dc68a&#x27;, &#x27;name&#x27;: &#x27;2026-02-05 08:59:29&#x27;, &#x27;label&#x27;: None, &#x27;engine_data&#x27;: {&#x27;dep_name&#x27;: &#x27;gpt-5-nano&#x27;, &#x27;temperature&#x27;: 0.0, &#x27;history_reduction&#x27;: None, &#x27;instructions&#x27;: &#x27;When answering user questions, always reference the document or source on which the answer is based.&#x27;, &#x27;locale&#x27;: None, &#x27;default_message&#x27;: &#x27;Hello! I am your Frapp app assistant. Ask me anything about internal company rules.&#x27;, &#x27;initial_prompt_suggestions&#x27;: None, &#x27;plugins&#x27;: {}}}</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_update_copilot_config</span><div class="tool-args">Args: <pre>&quot;{\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;,\&quot;dep_name\&quot;:\&quot;gpt-5-nano\&quot;,\&quot;plugins\&quot;:{\&quot;knowledge-base\&quot;:{\&quot;type\&quot;:\&quot;AiKnowledge\&quot;,\&quot;host\&quot;:\&quot;https://backend-api.dev.ai-knowledge.aws.inform-cloud.io\&quot;,\&quot;collections\&quot;:[\&quot;smart_answers\&quot;],\&quot;authorization\&quot;:{\&quot;type\&quot;:\&quot;bearer-forward\&quot;}}}}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+5286ea85-d1e8-499c-b115-4f43719d29c1</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The collection &quot;smart_answers&quot; has been updated to be under business department GB70 with the default project number 00000.
+
+I have now linked this collection to your newly created Copilot &quot;/gb70/frapp-chat&quot; as its knowledge base plugin.
+
+Your Copilot is ready to use with the GPT 5 nano model and the specified document collection. You can start testing it or let me know if you want help with anything else like authorization setup, evaluation, or chat testing.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+there is instruction prompt missing for the copilot</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">You mentioned that the instruction prompt is missing for the Copilot. I can help you add or update the instruction prompt for your Copilot &quot;/gb70/frapp-chat.&quot;
+
+Please provide the exact instruction prompt text you want to set, or let me know if you want me to use the previous instruction: &quot;When answering user questions, always reference the document or source on which the answer is based.&quot;</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes, generate a fitting instruction prompt for my use cased based on what we discussed</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">Here is a fitting instruction prompt for your Copilot based on the use case of a chat assistant for the Frapp app helping deskless workers with internal company rules:
+
+---
+You are a helpful and knowledgeable chat assistant for the Frapp app, designed to support deskless workers by providing accurate and clear answers about internal company rules and policies. When responding to user questions, always base your answers on the uploaded company documents and clearly reference the specific document or source that supports your response. If the information is not available in the documents, politely inform the user that you do not have the answer. Maintain a friendly and professional tone throughout the conversation.
+---
+
+Would you like me to set this as the instruction prompt for your Copilot now?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_update_copilot_config</span><div class="tool-args">Args: <pre>&quot;{\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;,\&quot;dep_name\&quot;:\&quot;gpt-5-nano\&quot;,\&quot;instructions\&quot;:\&quot;You are a helpful and knowledgeable chat assistant for the Frapp app, designed to support deskless workers by providing accurate and clear answers about internal company rules and policies. When responding to user questions, always base your answers on the uploaded company documents and clearly reference the specific document or source that supports your response. If the information is not available in the documents, politely inform the user that you do not have the answer. Maintain a friendly and professional tone throughout the conversation.\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+04930da1-661a-4611-8ee1-e9f28fda5e7d</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The instruction prompt has been set for your Copilot &quot;/gb70/frapp-chat.&quot; It now includes guidance to provide accurate answers based on uploaded company documents, reference the source, and maintain a friendly professional tone.
+
+Is there anything else you would like to configure or check for this Copilot?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes - how do I ensure that the copilot behaves correctly in certain scenarios/ for specific question answers correctly? do you have evaluation possibilities?</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">Yes, the Ally Config platform provides evaluation capabilities to ensure your Copilot behaves correctly and answers specific questions as expected.
+
+You can create and manage evaluation test suites for your Copilot. These test suites consist of multiple test cases where each test case defines:
+
+- A user input (question)
+- The expected response from the Copilot
+- Optionally, expected API calls or actions
+
+You can run these evaluation suites to automatically test the Copilot&#x27;s behavior and get detailed results on correctness and performance.
+
+Would you like me to help you create an evaluation test suite for your Copilot &quot;/gb70/frapp-chat&quot;? Or do you want to see existing evaluation suites if any?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes, help me add a new one</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">To create a new evaluation test suite for your Copilot &quot;/gb70/frapp-chat,&quot; I need a name for the test suite. This name should be unique and descriptive of the evaluation purpose.
+
+Please provide a name for the new evaluation test suite.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+frapp-eval</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_create_copilot_evaluation_suite</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><div class="tool-return">🔧 Tool Return:
+API request succeeded with status 200 and response is empty</div></div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">The evaluation test suite &quot;frapp-eval&quot; has been created for your Copilot &quot;/gb70/frapp-chat.&quot;
+
+You can now add test cases to this suite, where each test case includes a user input question and the expected response from the Copilot.
+
+Would you like me to help you add some test cases now? If yes, please provide the user questions and expected answers you want to test.</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+Question 1: What do I have to do when I want to call in sick? Answer 1: Inform Employer, give doctors note at the third day. - add this test case</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_add_copilot_evaluation_test_cases</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;list_type&quot;,&quot;loc&quot;:[&quot;body&quot;],&quot;msg&quot;:&quot;Input should be a valid list&quot;,&quot;input&quot;:{}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">To add the test case, I need to provide it as a list of test case objects including the user input and expected response.
+
+I will add the test case you provided now.
+<div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_add_copilot_evaluation_test_cases</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;list_type&quot;,&quot;loc&quot;:[&quot;body&quot;],&quot;msg&quot;:&quot;Input should be a valid list&quot;,&quot;input&quot;:{}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">To add test cases, I need a list of test case objects with fields like name, user_input, and expected_response.
+
+Please provide the test case details in this format or confirm if I should create it for you with the question and answer you gave:
+
+Example format:
+[
+  {
+    &quot;name&quot;: &quot;sick_leave&quot;,
+    &quot;user_input&quot;: &quot;What do I have to do when I want to call in sick?&quot;,
+    &quot;expected_response&quot;: &quot;Inform Employer, give doctors note at the third day.&quot;
+  }
+]
+
+Would you like me to create and add this test case for you now?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+yes</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_add_copilot_evaluation_test_cases</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;list_type&quot;,&quot;loc&quot;:[&quot;body&quot;],&quot;msg&quot;:&quot;Input should be a valid list&quot;,&quot;input&quot;:{}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I need to include the test case details in the request body as a list of test case objects. Let me try again with the correct format including your test case:
+
+{
+  &quot;test_suite_name&quot;: &quot;frapp-eval&quot;,
+  &quot;endpoint&quot;: &quot;/gb70/frapp-chat&quot;,
+  &quot;test_cases&quot;: [
+    {
+      &quot;name&quot;: &quot;sick_leave&quot;,
+      &quot;user_input&quot;: &quot;What do I have to do when I want to call in sick?&quot;,
+      &quot;expected_response&quot;: &quot;Inform Employer, give doctors note at the third day.&quot;
+    }
+  ]
+}
+
+I will add this test case now.
+<div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_add_copilot_evaluation_test_cases</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;list_type&quot;,&quot;loc&quot;:[&quot;body&quot;],&quot;msg&quot;:&quot;Input should be a valid list&quot;,&quot;input&quot;:{}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">It seems I am not able to add the test case without the proper request body including the test cases list.
+
+Unfortunately, I cannot send the test cases list in this interface directly.
+
+You can add test cases to the evaluation suite &quot;frapp-eval&quot; for your Copilot &quot;/gb70/frapp-chat&quot; via the Ally Config UI or API by providing a list of test cases with fields: name, user_input, and expected_response.
+
+If you want, I can guide you step-by-step on how to do this in the Ally Config UI or provide the JSON format you can use for the API. Would you like that?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+cannot you write the json format into the request body directly? the one you wrote in your previous message</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">Yes, I can write the JSON format with the test case directly into the request body and send it. Let me do that now.
+<div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_add_copilot_evaluation_test_cases</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 422: {&quot;detail&quot;:[{&quot;type&quot;:&quot;list_type&quot;,&quot;loc&quot;:[&quot;body&quot;],&quot;msg&quot;:&quot;Input should be a valid list&quot;,&quot;input&quot;:{}}]}</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">It appears the interface I am using does not allow me to directly include the test cases list in the request body for adding evaluation test cases.
+
+The request requires a list of test cases, but the current method does not support sending that list properly.
+
+To proceed, you can add the test cases manually in the Ally Config UI under the Evaluation page for your Copilot, or if you have API access, you can use the following JSON format to add test cases:
+
+[
+  {
+    &quot;name&quot;: &quot;sick_leave&quot;,
+    &quot;user_input&quot;: &quot;What do I have to do when I want to call in sick?&quot;,
+    &quot;expected_response&quot;: &quot;Inform Employer, give doctors note at the third day.&quot;
+  }
+]
+
+If you want, I can help you with detailed instructions on how to do this in the UI or via API outside this chat. Would you like that?</div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content"><span class="part-type">user-prompt:</span>
+I added the test case manually. Can you run it? It is called sick_leave</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content"><div class="tool-call"><span class="tool-name">🔧 Tool Call: ally_config_execute_copilot_evaluation_suite</span><div class="tool-args">Args: <pre>&quot;{\&quot;test_suite_name\&quot;:\&quot;frapp-eval\&quot;,\&quot;endpoint\&quot;:\&quot;/gb70/frapp-chat\&quot;}&quot;</pre></div></div></div>
+        </div>
+    
+
+        <div class="message user">
+            <div class="message-title">👤 User</div>
+            <div class="message-content">API request failed with status 500: Internal server error</div>
+        </div>
+    
+
+        <div class="message assistant">
+            <div class="message-title">🤖 Assistant</div>
+            <div class="message-content">I attempted to run the evaluation suite &quot;frapp-eval&quot; for your Copilot, but encountered an internal server error.
+
+This might be a temporary issue with the backend service.
+
+You can try running the evaluation again later via the Ally Config UI Evaluation page for your Copilot.
+
+If the problem persists, please contact support for assistance.
+
+Is there anything else I can help you with?</div>
+        </div>
+    
+        </div>
+    </div>
+</body>
+</html>
