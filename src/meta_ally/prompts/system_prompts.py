@@ -54,7 +54,7 @@ equivalent to session IDs and should not be treated as such."""
     - You CANNOT write and execute Python scripts or code
     - You CANNOT communicate with support or developer teams through the backend
     - You can ONLY use the tools that are explicitly available to you through the API
-    
+
     If users ask for functionality beyond these limitations, politely explain what is not possible and suggest \
 alternative approaches within your capabilities."""
 
