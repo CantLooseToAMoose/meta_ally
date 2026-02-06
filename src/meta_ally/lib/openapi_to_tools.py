@@ -399,32 +399,70 @@ class OpenAPIToolsLoader:
         self,
         path: str,
         kwargs: dict[str, Any],
-        query_param_names: list[str]
-    ) -> tuple[str, dict[str, Any], dict[str, Any]]:
+        query_param_names: list[str],
+        array_body_param_name: str | None = None
+    ) -> tuple[str, dict[str, Any], dict[str, Any] | list[Any]]:
         """
-        Build URL with path parameters and separate query/body parameters
+        Build URL with path parameters and separate query/body parameters.
+
+        This method takes the raw parameters from the tool call and separates them
+        into their appropriate locations for the HTTP request:
+
+        1. Path parameters - Substituted directly into the URL path
+           Example: /users/{user_id} + user_id=123 -> /users/123
+
+        2. Query parameters - Added to URL query string
+           Example: ?limit=10&offset=0
+
+        3. Body parameters - Sent as JSON in the request body
+           Can be either a dict (normal case) or a list (array body case)
 
         Args:
-            path: API path template
-            kwargs: All request parameters
-            query_param_names: List of parameter names that should be query params
+            path: API path template with {param} placeholders
+            kwargs: All parameters passed to the tool by the LLM
+            query_param_names: Names of params that should go in query string
+            array_body_param_name: If the request body is an array type, this is
+                                   the parameter name containing the array data.
+                                   When set, body_params will be the array itself,
+                                   not a dict wrapper.
 
         Returns:
-            Tuple of (final_url, query_params, body_params)
+            Tuple of:
+            - final_url: Complete URL with path params substituted
+            - query_params: Dict of query string parameters
+            - body_params: Either a dict or list depending on API requirements
         """
-        # Build the URL - replace path parameters
+        # Start with the path template and make a copy of kwargs to modify
         final_path = path
         remaining_kwargs = kwargs.copy()
 
-        # Extract and substitute path parameters
+        # Step 1: Extract and substitute path parameters into the URL
+        # e.g., /api/users/{user_id}/posts/{post_id} -> /api/users/123/posts/456
         for key, value in list(kwargs.items()):
-            if f"{{{key}}}" in final_path:
-                final_path = final_path.replace(f"{{{key}}}", str(value))
-                remaining_kwargs.pop(key, None)
+            placeholder = f"{{{key}}}"
+            if placeholder in final_path:
+                final_path = final_path.replace(placeholder, str(value))
+                remaining_kwargs.pop(key, None)  # Remove from remaining params
 
-        # Separate query parameters from body parameters
+        # Step 2: Separate query parameters from body parameters
+        # Query params go in the URL, body params go in the request body
         query_params = {k: v for k, v in remaining_kwargs.items() if k in query_param_names}
-        body_params = {k: v for k, v in remaining_kwargs.items() if k not in query_param_names}
+        body_params_dict = {k: v for k, v in remaining_kwargs.items() if k not in query_param_names}
+
+        # Step 3: Handle array body type
+        # If the API expects an array as the body (not an object), extract the array
+        # from the wrapper parameter and return it directly
+        #
+        # Example: API expects body = [{"name": "test1"}, {"name": "test2"}]
+        # Tool receives: items=[{"name": "test1"}, {"name": "test2"}]
+        # We return the array itself, not {"items": [...]}
+        body_params: dict[str, Any] | list[Any]
+        if array_body_param_name and array_body_param_name in body_params_dict:
+            # Return the array directly as the body (unwrap from the parameter)
+            body_params = body_params_dict[array_body_param_name]
+        else:
+            # Normal case: body is a JSON object with the remaining params
+            body_params = body_params_dict
 
         return f"{self.base_url}{final_path}", query_params, body_params
 
@@ -434,25 +472,29 @@ class OpenAPIToolsLoader:
         method: str,
         url: str,
         query_params: dict[str, Any],
-        body_params: dict[str, Any],
+        body_params: dict[str, Any] | list[Any],
         headers: dict[str, str]
     ) -> httpx.Response:
         """
-        Execute the HTTP request based on the method
+        Execute the HTTP request based on the method.
+
+        Handles all common HTTP methods and properly serializes the body.
+        The body_params can be either a dict (normal JSON object) or a list
+        (when the API expects an array as the request body).
 
         Args:
-            client: HTTP client
-            method: HTTP method
-            url: Request URL
-            query_params: Query parameters
-            body_params: Body parameters
-            headers: Request headers
+            client: Async HTTP client for making requests
+            method: HTTP method (get, post, put, delete)
+            url: Fully constructed request URL
+            query_params: Parameters to add to the URL query string
+            body_params: Request body - can be dict or list depending on API spec
+            headers: HTTP headers including auth and content-type
 
         Returns:
-            HTTP response
+            The HTTP response object
 
         Raises:
-            ValueError: If HTTP method is unsupported
+            ValueError: If the HTTP method is not supported
         """
         method_lower = method.lower()
         if method_lower == "get":
@@ -498,41 +540,71 @@ class OpenAPIToolsLoader:
         path: str,
         method: str,
         operation: dict[str, Any],
-        query_param_names: list[str]
+        query_param_names: list[str],
+        array_body_param_name: str | None = None
     ) -> Callable:
         """
-        Create a function that will be wrapped as a Tool
+        Create a function that will be wrapped as a Tool.
+
+        This method generates an async function that:
+        1. Validates and processes the tool parameters
+        2. Builds the HTTP request (URL, query params, body)
+        3. Handles authentication via the auth_manager
+        4. Makes the API call and processes the response
+
+        The generated function is what pydantic-ai calls when the LLM decides
+        to use this tool. It bridges the gap between LLM tool calls and actual
+        HTTP API requests.
 
         Args:
-            operation_id: The operation ID from OpenAPI spec
-            path: The API path
-            method: HTTP method (get, post, etc.)
-            operation: The operation definition from OpenAPI
-            query_param_names: List of parameter names that should be sent as query parameters
+            operation_id: The operation ID from OpenAPI spec (used as function name)
+            path: The API path template (e.g., /users/{user_id})
+            method: HTTP method (get, post, put, delete)
+            operation: The full operation definition from OpenAPI spec
+            query_param_names: Parameter names that go in the URL query string
+            array_body_param_name: If the request body is an array type, this is
+                                   the name of the parameter containing the array.
+                                   Used to correctly serialize array bodies.
 
         Returns:
-            A callable function that can be wrapped as a Tool
+            An async callable function that can be wrapped as a pydantic-ai Tool
         """
         # Create the actual API call function
+        # Note: We capture variables from the outer scope (closure) so they're
+        # available when the function is called later by the agent
         async def api_call(ctx: RunContext[OpenAPIToolDependencies], **kwargs) -> dict[str, Any] | str:
             """
-            Make an HTTP request to the API endpoint
+            Make an HTTP request to the API endpoint.
+
+            This function is called by pydantic-ai when the LLM uses this tool.
+            It handles the complete request lifecycle:
+            1. Optional human approval for write operations
+            2. URL construction with path parameter substitution
+            3. Parameter separation (query vs body)
+            4. Authentication header injection
+            5. HTTP request execution
+            6. Response parsing and error handling
 
             Args:
                 ctx: The run context from pydantic-ai containing dependencies
-                **kwargs: Parameters for the API call
+                     (auth_manager and optional context like geschaeftsbereich)
+                **kwargs: Parameters passed by the LLM for this API call
 
             Returns:
-                The JSON response from the API or success message
+                The JSON response from the API, or a success message for empty responses
 
             Raises:
-                ModelRetry: If the API request fails, approval is denied, or encounters an error
+                ModelRetry: If the API request fails, prompting the LLM to retry
+                            with different parameters or handle the error gracefully
             """
-            # Check if human approval is required
+            # Check if human approval is required for write operations
             self._check_approval(operation_id, method, path, kwargs)
 
-            # Build URL and separate parameters
-            url, query_params, body_params = self._build_url_and_params(path, kwargs, query_param_names)
+            # Build URL and separate parameters into query string vs request body
+            # The array_body_param_name is captured from the outer scope
+            url, query_params, body_params = self._build_url_and_params(
+                path, kwargs, query_param_names, array_body_param_name
+            )
 
             # Prepare headers with authorization
             headers = {"Content-Type": "application/json"}
@@ -569,7 +641,7 @@ class OpenAPIToolsLoader:
 
         return api_call
 
-    def _resolve_ref(self, schema: dict[str, Any]) -> dict[str, Any] | None:
+    def _resolve_single_schema_ref(self, schema: dict[str, Any]) -> dict[str, Any] | None:
         """
         Resolve a single $ref reference
 
@@ -654,7 +726,7 @@ class OpenAPIToolsLoader:
 
         # If this schema has a $ref, resolve it
         if "$ref" in schema:
-            resolved = self._resolve_ref(schema)
+            resolved = self._resolve_single_schema_ref(schema)
             if resolved:
                 return self._resolve_schema_refs(resolved)
             return schema
@@ -732,20 +804,58 @@ class OpenAPIToolsLoader:
         return self.spec["components"]["schemas"][ref_name]
 
     def _process_body_schema_ref(self, body_schema: dict[str, Any], schema: dict[str, Any]) -> None:
-        """Process a $ref in request body schema and add properties to schema"""
+        """
+        Process a $ref in request body schema and add properties to the tool's schema.
+
+        When the request body references another schema (e.g., {"$ref": "#/components/schemas/User"}),
+        this method resolves that reference and extracts the properties from the referenced schema.
+        Each property is then added to the tool's parameter schema.
+
+        Example OpenAPI:
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/UserRequest"
+
+        Args:
+            body_schema: The body schema dict containing a $ref key
+            schema: The tool's parameter schema to add properties to
+        """
         ref_name = body_schema["$ref"].split("/")[-1]
         resolved_schema = self._extract_ref_schema_properties(ref_name)
 
         if resolved_schema and "properties" in resolved_schema:
+            # Add each property from the referenced schema to the tool's parameters
             for prop_name, prop_schema in resolved_schema["properties"].items():
                 resolved_prop_schema = self._resolve_schema_refs(prop_schema)
                 schema["properties"][prop_name] = resolved_prop_schema
 
+            # Preserve required field constraints from the referenced schema
             if "required" in resolved_schema:
                 schema["required"].extend(resolved_schema["required"])
 
     def _process_body_schema_properties(self, body_schema: dict[str, Any], schema: dict[str, Any]) -> None:
-        """Process direct properties in request body schema"""
+        """
+        Process direct properties in request body schema.
+
+        When the request body defines properties inline (without a $ref),
+        this method extracts those properties and adds them to the tool's schema.
+
+        Example OpenAPI:
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      name: {type: string}
+                      age: {type: integer}
+
+        Args:
+            body_schema: The body schema dict containing a "properties" key
+            schema: The tool's parameter schema to add properties to
+        """
         for prop_name, prop_schema in body_schema["properties"].items():
             resolved_prop_schema = self._resolve_schema_refs(prop_schema)
             schema["properties"][prop_name] = resolved_prop_schema
@@ -753,49 +863,234 @@ class OpenAPIToolsLoader:
         if "required" in body_schema:
             schema["required"].extend(body_schema["required"])
 
-    def _process_request_body(self, request_body: dict[str, Any], schema: dict[str, Any]) -> None:
-        """Process request body and add its properties to schema"""
+    def _process_body_schema_composition(
+        self,
+        body_schema: dict[str, Any],
+        schema: dict[str, Any]
+    ) -> None:
+        """
+        Process composition schemas (oneOf, anyOf, allOf) in request body.
+
+        When the request body uses oneOf/anyOf/allOf to define multiple possible
+        schemas, this method extracts properties from the first valid option.
+        For allOf, it merges properties from all schemas.
+
+        Example OpenAPI:
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    oneOf:
+                      - $ref: "#/components/schemas/EngineConfig-Input"
+                      - $ref: "#/components/schemas/BogusEngineConfig"
+
+        Args:
+            body_schema: The body schema dict containing oneOf/anyOf/allOf
+            schema: The tool's parameter schema to add properties to
+        """
+        # For allOf, merge all schemas
+        if "allOf" in body_schema:
+            for item in body_schema["allOf"]:
+                resolved_item = self._resolve_schema_refs(item)
+                if "properties" in resolved_item:
+                    for prop_name, prop_schema in resolved_item["properties"].items():
+                        schema["properties"][prop_name] = self._resolve_schema_refs(prop_schema)
+                    if "required" in resolved_item:
+                        schema["required"].extend(resolved_item["required"])
+
+        # For oneOf/anyOf, use the first option that has properties
+        # (LLM tools can't express "one of" so we pick the most complete option)
+        for key in ["oneOf", "anyOf"]:
+            if key in body_schema:
+                for item in body_schema[key]:
+                    resolved_item = self._resolve_schema_refs(item)
+                    if "properties" in resolved_item:
+                        for prop_name, prop_schema in resolved_item["properties"].items():
+                            schema["properties"][prop_name] = self._resolve_schema_refs(prop_schema)
+                        if "required" in resolved_item:
+                            schema["required"].extend(resolved_item["required"])
+                        # Use first option with properties
+                        return
+
+    def _process_body_schema_array(
+        self,
+        body_schema: dict[str, Any],
+        schema: dict[str, Any],
+        request_body: dict[str, Any]
+    ) -> str | None:
+        """
+        Process array-type request body schemas.
+
+        When the API expects the request body to be a JSON array (not an object),
+        we need special handling. This creates a single parameter that will hold
+        the entire array, rather than trying to extract object properties.
+
+        Example OpenAPI:
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DialogTestCase"
+
+        This would result in a tool parameter like:
+            items: list[DialogTestCase]  # The entire array is passed as this param
+
+        Args:
+            body_schema: The body schema dict with type="array"
+            schema: The tool's parameter schema to add the array parameter to
+            request_body: The full requestBody definition (for extracting description)
+
+        Returns:
+            The name of the array body parameter (e.g., "items") if this is an array
+            body schema, or None if not an array type.
+        """
+        if body_schema.get("type") != "array":
+            return None
+
+        # Determine the parameter name from the schema or use a default
+        # OpenAPI may provide a title for the array, otherwise use "items"
+        array_param_name = body_schema.get("title", "items")
+        # Convert to snake_case for Python convention (e.g., "Test Cases" -> "test_cases")
+        array_param_name = array_param_name.lower().replace(" ", "_")
+
+        # Get description from the body schema or request body description
+        description = body_schema.get(
+            "description",
+            request_body.get("description", "Array of items to send as the request body")
+        )
+
+        # Build the array parameter schema
+        array_schema: dict[str, Any] = {
+            "type": "array",
+            "description": description
+        }
+
+        # Resolve the items schema (handles $ref in items)
+        if "items" in body_schema:
+            array_schema["items"] = self._resolve_schema_refs(body_schema["items"])
+
+        # Add the array as a single parameter to the tool schema
+        schema["properties"][array_param_name] = array_schema
+
+        # Array body is required if the requestBody itself is required
+        if request_body.get("required"):
+            schema["required"].append(array_param_name)
+
+        return array_param_name
+
+    def _process_request_body(
+        self,
+        request_body: dict[str, Any],
+        schema: dict[str, Any]
+    ) -> str | None:
+        """
+        Process the request body and add its parameters to the tool schema.
+
+        This method handles three types of request body schemas:
+        1. $ref - References another schema (e.g., UserRequest model)
+        2. properties - Inline object with properties defined directly
+        3. array - The body itself is an array (e.g., list of test cases)
+
+        For object-type bodies (cases 1 & 2), each property becomes a separate
+        tool parameter. For array-type bodies (case 3), a single parameter is
+        created to hold the entire array.
+
+        Args:
+            request_body: The requestBody definition from OpenAPI spec
+            schema: The tool's parameter schema to populate
+
+        Returns:
+            The name of the array body parameter if the body is an array type,
+            otherwise None. This is used later to correctly serialize the request.
+        """
         if not (request_body and "content" in request_body):
-            return
+            return None
 
         content = request_body.get("content", {})
         json_content = content.get("application/json", {})
         body_schema = json_content.get("schema", {})
 
+        # Case 1: Body schema is a reference to another schema
+        # e.g., $ref pointing to #/components/schemas/CreateUserRequest
         if "$ref" in body_schema:
             self._process_body_schema_ref(body_schema, schema)
+            return None
+
+        # Case 2: Body schema has inline properties
+        # e.g., type=object with properties defining each field
         elif "properties" in body_schema:
             self._process_body_schema_properties(body_schema, schema)
+            return None
 
-    def _extract_parameters_schema(self, operation: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+        # Case 3: Body schema is an array type
+        # e.g., type=array with items referencing a schema
+        # The API expects a JSON array as the body, not an object
+        elif body_schema.get("type") == "array":
+            return self._process_body_schema_array(body_schema, schema, request_body)
+
+        # Case 4: Body schema uses composition (oneOf, anyOf, allOf)
+        # e.g., oneOf with multiple possible schema references
+        elif any(key in body_schema for key in ["oneOf", "anyOf", "allOf"]):
+            self._process_body_schema_composition(body_schema, schema)
+            return None
+
+        return None
+
+    def _extract_parameters_schema(
+        self,
+        operation: dict[str, Any]
+    ) -> tuple[dict[str, Any], list[str], str | None]:
         """
-        Extract and create a JSON schema from operation parameters
+        Extract and create a JSON schema from operation parameters.
+
+        This is a key method that converts OpenAPI operation parameters into a
+        JSON schema that pydantic-ai can use for the tool. It handles:
+
+        1. Path parameters - Variables in the URL path (e.g., /users/{user_id})
+        2. Query parameters - URL query string params (e.g., ?limit=10&offset=0)
+        3. Request body - JSON body for POST/PUT/PATCH requests
+
+        The resulting schema defines what arguments the LLM can pass to the tool.
 
         Args:
-            operation: The operation definition from OpenAPI
+            operation: The operation definition from OpenAPI spec, containing
+                      'parameters' and optionally 'requestBody'
 
         Returns:
-            A tuple of (JSON schema dictionary for the tool parameters, list of query parameter names)
+            A tuple containing:
+            - JSON schema dict for tool parameters (what the LLM sees)
+            - List of query parameter names (to separate from body params at runtime)
+            - Array body parameter name if the request body is an array type,
+              otherwise None (needed to correctly serialize array bodies)
         """
+        # Initialize the schema structure for the tool's parameters
+        # This follows JSON Schema format which pydantic-ai uses
         schema = {
             "type": "object",
-            "properties": {},
-            "required": [],
-            "additionalProperties": False
+            "properties": {},       # Will hold each parameter definition
+            "required": [],         # List of required parameter names
+            "additionalProperties": False  # Strict: no extra params allowed
         }
 
+        # Track which parameters are query params vs body params
+        # This is needed later when building the actual HTTP request
         query_param_names: list[str] = []
 
-        # Handle path and query parameters
+        # Process path and query parameters from the 'parameters' array
+        # These come from the URL path (e.g., {user_id}) and query string
         parameters = operation.get("parameters", [])
         for param in parameters:
             self._process_parameter(param, schema, query_param_names)
 
-        # Handle request body parameters
+        # Process request body parameters
+        # For POST/PUT/PATCH, the body may contain additional data
+        # Returns the array param name if the body is an array type
         request_body = operation.get("requestBody")
-        self._process_request_body(request_body, schema)
+        array_body_param_name = self._process_request_body(request_body, schema)
 
-        return schema, query_param_names
+        return schema, query_param_names, array_body_param_name
 
     def load_tools(self) -> list[Tool[OpenAPIToolDependencies]]:
         """
@@ -833,16 +1128,20 @@ class OpenAPIToolsLoader:
                 # Extract tags from the operation
                 tags = operation.get("tags", [])
 
-                # Extract parameters schema and query parameter names
-                parameters_schema, query_param_names = self._extract_parameters_schema(operation)
+                # Extract parameters schema, query parameter names, and array body info
+                # - parameters_schema: JSON schema defining the tool's parameters
+                # - query_param_names: Which params go in the URL query string
+                # - array_body_param_name: If body is an array, the param name holding it
+                parameters_schema, query_param_names, array_body_param_name = self._extract_parameters_schema(operation)
 
-                # Create the tool function
+                # Create the tool function that will make the actual API calls
                 tool_func = self._create_tool_function(
                     operation_id=operation_id,
                     path=path,
                     method=method,
                     operation=operation,
-                    query_param_names=query_param_names
+                    query_param_names=query_param_names,
+                    array_body_param_name=array_body_param_name
                 )
 
                 # Create the Tool - cast to proper type since Tool.from_schema doesn't infer it
