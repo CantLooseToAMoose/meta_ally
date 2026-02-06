@@ -1,6 +1,12 @@
 """
 Terminal Chat Example with Multi-Agent and Human Approval Support
 
+This example demonstrates the programmatic API for creating and configuring agents
+with various options. Edit the configuration variables below to customize behavior.
+
+⚡ Alternative: Use the command-line interface for easier configuration:
+    python -m meta_ally.ui.terminal_chat --help
+
 This example demonstrates:
 1. Creating a hybrid assistant agent or multi-agent orchestrator
 2. Interactive terminal chat interface using the terminal_chat utility
@@ -42,21 +48,21 @@ from meta_ally.ui.terminal_chat import start_chat_session
 # ============================================================================
 # CONFIGURATION - Change these to toggle features
 # ============================================================================
-USE_MULTI_AGENT = True  # Set to True to use multi-agent orchestrator
+USE_MULTI_AGENT = False  # Set to True to use multi-agent orchestrator
 REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read operations
 USE_MOCK_API = True  # Set to True to use mock API data instead of real API calls
 USE_IMPROVED_DESCRIPTIONS = True  # Set to True to use improved tool descriptions
-MODEL_DEPLOYMENT_NAME = "gpt-4.1-mini"  # Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
+MODEL_DEPLOYMENT_NAME = "gpt-5-mini"  # Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
+LOAD_CONVERSATION_FROM = "Data/UserRecords/Philipp_Langen__2nd_run__20260206_142400.json"
+# Path to conversation JSON file to load (e.g., "Data/UserRecords/chat_20260206.json")
 
 
 def main():
     """Main function to set up and run the chat interface."""
-    # Configure logging with logfire
+    # Suppress logfire logging
     logfire.configure(scrubbing=False, console=False)
     logfire.instrument_pydantic_ai()
-
     logging.getLogger("logfire._internal").setLevel(logging.ERROR)
-    # or if needed:
     logging.getLogger("logfire").setLevel(logging.ERROR)
     # Initialize console for setup messages
     console = Console()
@@ -148,7 +154,13 @@ def main():
     }
 
     # Start the chat session using the utility function
-    start_chat_session(agent, deps, console_width=200, config=config)
+    start_chat_session(
+        agent,
+        deps,
+        console_width=200,
+        config=config,
+        load_conversation_from=LOAD_CONVERSATION_FROM
+    )
 
 
 if __name__ == "__main__":

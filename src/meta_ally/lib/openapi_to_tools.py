@@ -863,7 +863,7 @@ class OpenAPIToolsLoader:
         if "required" in body_schema:
             schema["required"].extend(body_schema["required"])
 
-    def _process_body_schema_composition(
+    def _process_body_schema_composition(  # noqa: C901
         self,
         body_schema: dict[str, Any],
         schema: dict[str, Any]

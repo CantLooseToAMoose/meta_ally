@@ -9,6 +9,11 @@ This module provides a clean terminal-based chat interface with:
 - Multi-agent visualization with unified conversation timeline
 """
 
+import argparse
+import logging
+from typing import NamedTuple
+
+import logfire
 from pydantic_ai.messages import (
     ModelRequest,
     ModelResponse,
@@ -18,17 +23,41 @@ from pydantic_ai.messages import (
 from rich.console import Console
 from rich.prompt import Prompt
 
+from ..agents import AgentFactory
+from ..agents.agent_presets import (
+    create_default_multi_agent_system,
+    create_hybrid_assistant,
+)
 from ..agents.dependencies import MultiAgentDependencies
+from ..agents.model_config import create_azure_model_config
+from ..mock.analytics_api_mock_service import (
+    create_ally_config_mock_tool_replacements,
+)
+from ..tools.tool_group_manager import (
+    AIKnowledgeToolGroup,
+    AllyConfigToolGroup,
+)
+from .conversation_loader import load_conversation_for_single_agent
 from .conversation_saver import (
     calculate_sus_score,
     prompt_sus_questionnaire,
     save_conversation,
     save_conversation_html,
 )
+from .human_approval_callback import create_human_approval_callback
 from .visualization import (
     display_chat_message,
     display_conversation_timeline,
 )
+
+
+class AgentConfig(NamedTuple):
+    """Configuration for agent creation."""
+    use_multi_agent: bool
+    require_approval: bool
+    tool_replacements: dict | None
+    ai_knowledge_descriptions_path: str | None
+    ally_config_descriptions_path: str | None
 
 
 def print_welcome_banner(console: Console):
@@ -319,7 +348,181 @@ def _handle_agent_response(
     return list(response.all_messages())
 
 
-def start_chat_session(agent, deps, console_width: int = 200, config: dict | None = None):
+def _load_existing_conversation(
+    console: Console,
+    load_conversation_from: str,
+    is_multi_agent: bool,
+    panel_width: int
+) -> tuple[list, dict | None]:
+    """
+    Load a conversation from file if path provided.
+
+    Args:
+        console: Rich Console instance
+        load_conversation_from: Path to conversation JSON file
+        is_multi_agent: Whether in multi-agent mode
+        panel_width: Width of display panels
+
+    Returns:
+        Tuple of (message_history, loaded_metadata)
+    """
+    message_history = []
+    loaded_metadata = None
+
+    if is_multi_agent:
+        console.print(
+            "[yellow]⚠️  Warning: Conversation loading for multi-agent mode is not yet supported.[/yellow]"
+        )
+        console.print("[yellow]Starting with empty conversation.[/yellow]\n")
+        return message_history, loaded_metadata
+
+    console.print(f"[cyan]📂 Loading conversation from: {load_conversation_from}[/cyan]")
+    message_history, loaded_metadata = load_conversation_for_single_agent(load_conversation_from)
+    console.print(f"[green]✓ Loaded {len(message_history)} messages[/green]")
+
+    if loaded_metadata:
+        name = loaded_metadata.get('name', 'Unnamed')
+        timestamp = loaded_metadata.get('timestamp', 'Unknown')
+        console.print(f"[dim]  Name: {name}[/dim]")
+        console.print(f"[dim]  Date: {timestamp}[/dim]")
+
+        if notes := loaded_metadata.get('notes'):
+            console.print(f"[dim]  Notes: {notes}[/dim]")
+
+    console.print("\n[green]✓ Conversation loaded! You can continue from where you left off.[/green]\n")
+    console.print("[cyan]Loaded conversation history:[/cyan]")
+    display_conversation_history(message_history, panel_width, console)
+
+    return message_history, loaded_metadata
+
+
+def _initialize_chat(
+    console: Console,
+    is_multi_agent: bool,
+    load_conversation_from: str | None,
+    panel_width: int
+) -> tuple[list, dict | None]:
+    """
+    Initialize chat session and optionally load conversation.
+
+    Args:
+        console: Rich Console instance
+        is_multi_agent: Whether in multi-agent mode
+        load_conversation_from: Optional path to conversation file
+        panel_width: Width of display panels
+
+    Returns:
+        Tuple of (message_history, loaded_metadata)
+    """
+    print_welcome_banner(console)
+
+    if is_multi_agent:
+        console.print(
+            "[dim cyan]Multi-agent mode: Conversation timeline will show specialist interactions.[/dim cyan]\n"
+        )
+
+    message_history = []
+    loaded_metadata = None
+
+    if load_conversation_from:
+        try:
+            message_history, loaded_metadata = _load_existing_conversation(
+                console, load_conversation_from, is_multi_agent, panel_width
+            )
+        except FileNotFoundError:
+            console.print(f"[red]❌ Conversation file not found: {load_conversation_from}[/red]")
+            console.print("[yellow]Starting with empty conversation.[/yellow]\n")
+        except Exception as e:
+            console.print(f"[red]❌ Error loading conversation: {e}[/red]")
+            console.print("[yellow]Starting with empty conversation.[/yellow]\n")
+
+    return message_history, loaded_metadata
+
+
+def _handle_error_in_response(
+    console: Console,
+    user_input: str,
+    message_history: list,
+    error: Exception
+) -> list:
+    """
+    Handle an error that occurred during agent response.
+
+    Args:
+        console: Rich Console instance
+        user_input: User's input that caused the error
+        message_history: Current message history
+        error: The exception that occurred
+
+    Returns:
+        Updated message history with error
+    """
+    error_message = f"Error occurred: {error!s}"
+    user_request = ModelRequest(parts=[UserPromptPart(content=user_input)])
+    error_response = ModelResponse(parts=[TextPart(content=error_message)])
+
+    # Add to message history
+    message_history.append(user_request)
+    message_history.append(error_response)
+
+    # Display the error to user
+    console.print(f"\n[red]❌ Error: {error}[/red]\n")
+    console.print("[dim]You can continue chatting or type 'exit' to quit.[/dim]\n")
+
+    return message_history
+
+
+def _process_user_input(
+    user_input: str,
+    message_history: list,
+    agent,
+    deps,
+    is_multi_agent: bool,
+    panel_width: int,
+    console: Console
+) -> list:
+    """
+    Process user input and get agent response.
+
+    Args:
+        user_input: User's input message
+        message_history: Current message history
+        agent: The pydantic-ai agent
+        deps: Agent dependencies
+        is_multi_agent: Whether in multi-agent mode
+        panel_width: Width of display panels
+        console: Rich Console instance
+
+    Returns:
+        Updated message history
+    """
+    # Handle clear command for multi-agent
+    if is_multi_agent and user_input.lower() == 'clear':
+        deps.conversations.clear()
+        deps.conversation_timeline.clear()
+        return message_history
+
+    # Get agent response
+    try:
+        message_history = _handle_agent_response(
+            agent, user_input, message_history, deps, is_multi_agent, panel_width, console
+        )
+        print_chat_divider(console)
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Response interrupted. Type 'exit' to quit.[/yellow]\n")
+    except Exception as e:
+        message_history = _handle_error_in_response(console, user_input, message_history, e)
+
+    return message_history
+
+
+def start_chat_session(
+    agent,
+    deps,
+    console_width: int = 200,
+    config: dict | None = None,
+    load_conversation_from: str | None = None
+):
     """
     Start an interactive chat session with an agent.
 
@@ -332,6 +535,7 @@ def start_chat_session(agent, deps, console_width: int = 200, config: dict | Non
         deps: Agent dependencies (OpenAPIToolDependencies or MultiAgentDependencies)
         console_width: Width of the console display (default: 200)
         config: Optional configuration dictionary to save with conversations
+        load_conversation_from: Optional path to a saved conversation JSON file to resume
 
     Example (single agent):
         ```python
@@ -358,6 +562,15 @@ def start_chat_session(agent, deps, console_width: int = 200, config: dict | Non
 
         start_chat_session(orchestrator, deps)
         ```
+
+    Example (resume conversation):
+        ```python
+        # Resume a previous conversation
+        start_chat_session(
+            agent, deps,
+            load_conversation_from="Data/UserRecords/my_chat_20260206_120000.json"
+        )
+        ```
     """
     # Initialize console with specified width
     console = Console(width=console_width)
@@ -365,18 +578,13 @@ def start_chat_session(agent, deps, console_width: int = 200, config: dict | Non
     # Check if this is a multi-agent setup
     is_multi_agent = isinstance(deps, MultiAgentDependencies)
 
-    print_welcome_banner(console)
-
-    if is_multi_agent:
-        console.print(
-            "[dim cyan]Multi-agent mode: Conversation timeline will show specialist interactions.[/dim cyan]\n"
-        )
-
     # Calculate panel width (70% of console width)
     panel_width = int(console.width * 0.7)
 
-    # Store message history
-    message_history = []
+    # Initialize chat and load conversation if requested
+    message_history, _loaded_metadata = _initialize_chat(
+        console, is_multi_agent, load_conversation_from, panel_width
+    )
 
     while True:
         # Get user input without echoing it back (we'll show it formatted)
@@ -400,32 +608,322 @@ def start_chat_session(agent, deps, console_width: int = 200, config: dict | Non
 
         # Check if command was handled
         if user_input.lower() in {'clear', 'history', 'save'}:
-            # Also clear conversations and timeline if multi-agent
-            if is_multi_agent and user_input.lower() == 'clear':
-                deps.conversations.clear()
-                deps.conversation_timeline.clear()
-            continue
-
-        try:
-            message_history = _handle_agent_response(
-                agent, user_input, message_history, deps, is_multi_agent, panel_width, console
+            message_history = _process_user_input(
+                user_input, message_history, agent, deps, is_multi_agent, panel_width, console
             )
-            print_chat_divider(console)
-
-        except KeyboardInterrupt:
-            console.print("\n[yellow]Response interrupted. Type 'exit' to quit.[/yellow]\n")
             continue
-        except Exception as e:
-            # Add user input and error response to message history so the agent has context
-            error_message = f"Error occurred: {e!s}"
-            user_request = ModelRequest(parts=[UserPromptPart(content=user_input)])
-            error_response = ModelResponse(parts=[TextPart(content=error_message)])
 
-            # Add to message history
-            message_history.append(user_request)
-            message_history.append(error_response)
+        # Process normal user input
+        message_history = _process_user_input(
+            user_input, message_history, agent, deps, is_multi_agent, panel_width, console
+        )
 
-            # Display the error to user
-            console.print(f"\n[red]❌ Error: {e}[/red]\n")
-            console.print("[dim]You can continue chatting or type 'exit' to quit.[/dim]\n")
-            continue
+
+def _create_argument_parser() -> argparse.ArgumentParser:
+    """
+    Create and configure the argument parser for the CLI.
+
+    Returns:
+        Configured ArgumentParser instance with all CLI options.
+    """
+    parser = argparse.ArgumentParser(
+        description="Interactive terminal chat interface for Meta Ally agents",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Start with multi-agent orchestrator
+  python -m meta_ally.ui.terminal_chat --multi-agent
+
+  # Start with human approval and mock API
+  python -m meta_ally.ui.terminal_chat --approval --mock-api
+
+  # Use a specific model deployment
+  python -m meta_ally.ui.terminal_chat --model gpt-4o
+
+  # Load a previous conversation
+  python -m meta_ally.ui.terminal_chat --load Data/UserRecords/chat_20260206.json
+
+  # Single agent with improved descriptions
+  python -m meta_ally.ui.terminal_chat --single-agent --improved-descriptions
+        """
+    )
+
+    # Agent type
+    agent_group = parser.add_mutually_exclusive_group()
+    agent_group.add_argument(
+        "--multi-agent",
+        action="store_true",
+        default=True,
+        help="Use multi-agent orchestrator with specialists (default)"
+    )
+    agent_group.add_argument(
+        "--single-agent",
+        action="store_true",
+        help="Use single hybrid assistant agent"
+    )
+
+    # Approval settings
+    approval_group = parser.add_mutually_exclusive_group()
+    approval_group.add_argument(
+        "--approval",
+        action="store_true",
+        default=True,
+        help="Require human approval for non-read operations (default)"
+    )
+    approval_group.add_argument(
+        "--no-approval",
+        action="store_true",
+        help="Disable human approval requirement"
+    )
+
+    # API settings
+    api_group = parser.add_mutually_exclusive_group()
+    api_group.add_argument(
+        "--mock-api",
+        action="store_true",
+        default=True,
+        help="Use mock API data instead of real API calls (default)"
+    )
+    api_group.add_argument(
+        "--real-api",
+        action="store_true",
+        help="Use real API calls instead of mock data"
+    )
+
+    # Model configuration
+    parser.add_argument(
+        "--model",
+        type=str,
+        default="gpt-4.1-mini",
+        help="Azure OpenAI deployment name (default: gpt-4.1-mini)"
+    )
+    parser.add_argument(
+        "--endpoint",
+        type=str,
+        default="https://ally-frcentral.openai.azure.com/",
+        help="Azure OpenAI endpoint URL"
+    )
+
+    # Tool descriptions
+    descriptions_group = parser.add_mutually_exclusive_group()
+    descriptions_group.add_argument(
+        "--improved-descriptions",
+        action="store_true",
+        default=True,
+        help="Use improved tool descriptions (default)"
+    )
+    descriptions_group.add_argument(
+        "--no-improved-descriptions",
+        action="store_true",
+        help="Disable improved tool descriptions"
+    )
+
+    # Conversation management
+    parser.add_argument(
+        "--load",
+        type=str,
+        metavar="FILE",
+        help="Load a previous conversation from JSON file"
+    )
+
+    # Display settings
+    parser.add_argument(
+        "--console-width",
+        type=int,
+        default=200,
+        help="Console width for display (default: 200)"
+    )
+
+    return parser
+
+
+def _configure_logging():
+    """Configure logging to suppress logfire output."""
+    logging.basicConfig(level=logging.WARNING)
+    logfire.configure(scrubbing=False, console=False)
+    logfire.instrument_pydantic_ai()
+    logging.getLogger("logfire._internal").setLevel(logging.ERROR)
+    logging.getLogger("logfire").setLevel(logging.ERROR)
+
+
+def _display_configuration(
+    console: Console,
+    use_multi_agent: bool,
+    require_approval: bool,
+    use_mock_api: bool,
+    use_improved: bool,
+    model: str,
+    load_path: str | None
+):
+    """Display the current configuration to the console."""
+    console.print("\n[bold cyan]═" * 40 + "[/bold cyan]")
+    console.print("[bold cyan]Meta Ally Terminal Chat[/bold cyan]")
+    console.print("[bold cyan]═" * 40 + "[/bold cyan]\n")
+    console.print("[bold]Configuration:[/bold]")
+    console.print(f"  Agent Mode: {'[green]Multi-Agent[/green]' if use_multi_agent else '[cyan]Single Agent[/cyan]'}")
+    console.print(f"  Human Approval: {'[green]Enabled[/green]' if require_approval else '[dim]Disabled[/dim]'}")
+    console.print(f"  API Mode: {'[yellow]Mock[/yellow]' if use_mock_api else '[green]Real[/green]'}")
+    console.print(f"  Improved Descriptions: {'[green]Enabled[/green]' if use_improved else '[dim]Disabled[/dim]'}")
+    console.print(f"  Model: [cyan]{model}[/cyan]")
+    if load_path:
+        console.print(f"  Load Conversation: [cyan]{load_path}[/cyan]")
+    console.print()
+
+
+def _create_agent_and_deps(
+    factory: AgentFactory,
+    console: Console,
+    model_config,
+    agent_config: AgentConfig,
+    approval_callback,
+):
+    """
+    Create the agent and dependencies based on configuration.
+
+    Args:
+        factory: Agent factory instance
+        console: Rich Console instance
+        model_config: Model configuration
+        agent_config: Agent configuration settings
+        approval_callback: Callback function for human approval
+
+    Returns:
+        Tuple of (agent, dependencies) instances.
+    """
+    if agent_config.use_multi_agent:
+        console.print("[cyan]Creating multi-agent orchestrator with specialists...[/cyan]")
+        agent = create_default_multi_agent_system(
+            factory=factory,
+            orchestrator_model=model_config,
+            specialist_model=model_config,
+            require_human_approval=agent_config.require_approval,
+            approval_callback=approval_callback,
+            tool_replacements=agent_config.tool_replacements,
+            ai_knowledge_descriptions_path=agent_config.ai_knowledge_descriptions_path,
+            ally_config_descriptions_path=agent_config.ally_config_descriptions_path,
+        )
+        deps = factory.create_multi_agent_dependencies()
+        console.print("[green]✓ Multi-agent orchestrator initialized[/green]")
+        console.print("[dim]  Specialists: AI Knowledge, Ally Config[/dim]")
+    else:
+        console.print("[cyan]Creating hybrid assistant agent...[/cyan]")
+        agent = create_hybrid_assistant(
+            factory=factory,
+            ai_knowledge_groups=[AIKnowledgeToolGroup.ALL],
+            ally_config_groups=[AllyConfigToolGroup.ALL],
+            model=model_config,
+            require_human_approval=agent_config.require_approval,
+            approval_callback=approval_callback,
+            tool_replacements=agent_config.tool_replacements,
+            ai_knowledge_descriptions_path=agent_config.ai_knowledge_descriptions_path,
+            ally_config_descriptions_path=agent_config.ally_config_descriptions_path,
+        )
+        deps = factory.create_dependencies()
+        console.print("[green]✓ Hybrid assistant initialized[/green]")
+
+    console.print(f"[dim]Model: {agent.model}[/dim]\n")
+    return agent, deps
+
+
+def _setup_agent_configuration(
+    console: Console,
+    use_mock_api: bool,
+    use_improved: bool
+) -> tuple[dict | None, tuple[str | None, str | None]]:
+    """
+    Set up tool replacements and description paths.
+
+    Args:
+        console: Rich Console instance
+        use_mock_api: Whether to use mock API
+        use_improved: Whether to use improved descriptions
+
+    Returns:
+        Tuple of (tool_replacements, descriptions_paths)
+    """
+    tool_replacements = None
+    if use_mock_api:
+        console.print("[yellow]Creating mock API tool replacements...[/yellow]")
+        tool_replacements = create_ally_config_mock_tool_replacements()
+        console.print(f"[green]✓ Created {len(tool_replacements)} mock tool replacements[/green]")
+
+    descriptions_paths = (
+        (
+            "Data/improved_tool_descriptions/ai_knowledge_improved_descriptions.json",
+            "Data/improved_tool_descriptions/ally_config_improved_descriptions.json"
+        )
+        if use_improved else (None, None)
+    )
+
+    return tool_replacements, descriptions_paths
+
+
+def main():
+    """
+    Command-line interface for Meta Ally terminal chat.
+
+    Run with: python -m meta_ally.ui.terminal_chat [OPTIONS]
+    """
+    args = _create_argument_parser().parse_args()
+
+    _configure_logging()
+
+    # Resolve configuration
+    use_multi_agent = not args.single_agent
+    require_approval = not args.no_approval if args.no_approval else args.approval
+    use_mock_api = not args.real_api if args.real_api else args.mock_api
+    use_improved = not args.no_improved_descriptions if args.no_improved_descriptions else args.improved_descriptions
+
+    # Initialize console
+    console = Console(width=args.console_width)
+
+    _display_configuration(
+        console, use_multi_agent, require_approval, use_mock_api,
+        use_improved, args.model, args.load
+    )
+
+    # Create agent factory
+    console.print("[dim]Initializing agent...[/dim]")
+    factory = AgentFactory()
+
+    model_config = create_azure_model_config(
+        deployment_name=args.model,
+        endpoint=args.endpoint,
+        logger=factory.logger,
+    )
+
+    # Create approval callback if needed
+    approval_callback = create_human_approval_callback(args.console_width) if require_approval else None
+
+    # Set up tool replacements and description paths
+    tool_replacements, descriptions_paths = _setup_agent_configuration(
+        console, use_mock_api, use_improved
+    )
+
+    agent_config = AgentConfig(
+        use_multi_agent=use_multi_agent,
+        require_approval=require_approval,
+        tool_replacements=tool_replacements,
+        ai_knowledge_descriptions_path=descriptions_paths[0],
+        ally_config_descriptions_path=descriptions_paths[1]
+    )
+
+    agent, deps = _create_agent_and_deps(
+        factory, console, model_config, agent_config, approval_callback
+    )
+
+    start_chat_session(
+        agent, deps, args.console_width,
+        config={
+            "use_multi_agent": use_multi_agent,
+            "require_human_approval": require_approval,
+            "use_mock_api": use_mock_api,
+            "use_improved_descriptions": use_improved,
+            "model_deployment_name": args.model,
+        },
+        load_conversation_from=args.load
+    )
+
+
+if __name__ == "__main__":
+    main()
