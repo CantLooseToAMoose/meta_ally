@@ -1,0 +1,1360 @@
+{
+  "metadata": {
+    "name": "Florian_W_2",
+    "notes": {
+      "intention": "Create a copilot that can answer questions based on an internal knowledge base",
+      "achievement": "yes",
+      "what_went_well": "The creation of all resources went well. So Everything",
+      "what_went_poorly": "Nothing"
+    },
+    "feedback": "Achievement: yes | Portal comparison: For unexperienced users definitely. it could help experienced users as well by giving more details and explanations of certain configuration settings | Configuration preference: 2",
+    "timestamp": "2026-02-11T11:26:32.518355",
+    "saved_at": "20260211_112632",
+    "sus_score": 82.5,
+    "sus_responses": [
+      4,
+      2,
+      5,
+      1,
+      4,
+      2,
+      4,
+      2,
+      5,
+      2
+    ],
+    "config": {
+      "use_multi_agent": false,
+      "require_human_approval": true,
+      "use_mock_api": false,
+      "use_improved_descriptions": true,
+      "model_deployment_name": "gpt-5-mini"
+    }
+  },
+  "conversation_timeline": [
+    {
+      "parts": [
+        {
+          "content": "First we need to create a source in the AI-Knowledge.",
+          "timestamp": "2026-02-11T10:05:14.715221+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:05:14 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:05:14.725998+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_geschaeftsbereich",
+          "args": "{}",
+          "tool_call_id": "call_dqhOM0D1PN2frCqfd4eKX2FK",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 23319,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 217,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 192,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:05:19+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81NvKZqwoO3MHjHTvX6K0MkFJuZh",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_geschaeftsbereich",
+          "content": "The business area (Geschäftsbereich) has not been set yet. Please ask the user: 'What is your business area (Geschäftsbereich)?'",
+          "tool_call_id": "call_dqhOM0D1PN2frCqfd4eKX2FK",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:05:23.696735+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:05:23 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:05:23.697018+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Got it — before I create the source I need to record your business area. What is your business area (Geschäftsbereich)?\n\nAlso tell me which type of source you want to create (pick one): website, sharepoint, s3, or github. For the type you choose please provide the required details:\n\n- sourceId: unique ID for the source (8–255 chars; letters, digits, hyphen or underscore). I can suggest one if you prefer.\n- description (optional)\n- public? (true/false)\n\nType-specific required parameters:\n- website:\n  - urls: list of one or more URLs\n  - includeSitemap? (true/false)\n  - optional auth: Basic (username + password) or Bearer (token)\n\n- sharepoint (OneDrive):\n  - sharingUrl: the SharePoint/OneDrive sharing link\n  - Note: make sure the service user svc-ai-knowledge-acc has read access to the documents before syncing\n\n- s3:\n  - bucketName\n  - optional: prefix/suffix filters\n  - access: either accessKeyId + secretAccessKey, or roleArn (recommended)\n\n- github:\n  - organization\n  - repository\n  - branch (default \"main\")\n  - personalAccessToken (required for private repos; not required for public)\n\nIf you want, tell me the sourceId plus the details and I will create the source for you. If you’re unsure about any field I can recommend sensible defaults.",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 23386,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 445,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 128,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:05:25+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81O1IY80NqayNTGePctZyYlEa0pm",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "I give you some details and you can show me the config. description: \"Documentation of the INFORM Cloud Platform (ICP)\". it is a website source using sitemap and basic authentication. use a good source name",
+          "timestamp": "2026-02-11T10:06:50.120675+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:06:50 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:06:50.121544+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Thanks — I can build the config and show it before creating the source. First: what is your business area (Geschäftsbereich)? I need that recorded before we proceed.\n\nAlso I need these missing items:\n- The website URL(s) to index (one or more). Example guesses: https://docs.inform-cloud.io or https://icp.inform-cloud.io — please confirm.\n- A sourceId (unique name). Suggested values (pick one or give your own):\n  - icp_documentation\n  - icp-docs-site\n  - informcloud_icp_docs\n  Note: must be 8–255 chars, letters/digits/hyphen/underscore.\n- Basic auth credentials to access the site: username and password (you can paste them here; they are needed to create the source).\n- public? (true/false). Default I recommend false.\n\nBelow is the proposed config (placeholders where I need your input). Review and tell me any changes; when you confirm and provide the missing items I will create the source.\n\nProposed create_source payload:\n- sourceId: \"<pick one of the suggestions or provide your own>\"\n- description: \"Documentation of the INFORM Cloud Platform (ICP)\"\n- public: false\n- properties:\n  - sourceType: \"website\"\n  - urls: [\"<your-website-url>\"]\n  - includeSitemap: true\n  - authentication:\n    - authenticationScheme: \"Basic\"\n    - username: \"<username>\"\n    - password: \"<password>\"\n\nTell me:\n1) Your business area (Geschäftsbereich)\n2) Which suggested sourceId (or supply another)\n3) The website URL(s)\n4) Basic auth username and password\n5) public? yes/no\n\nAfter that I’ll create the source and show the system response.",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 23745,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 1022,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 640,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:06:52+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81PQtBs9hMcWMoHXiJG4HIgOjRYB",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "GB80",
+          "timestamp": "2026-02-11T10:07:19.714812+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:07:19 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:07:19.716145+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "set_geschaeftsbereich",
+          "args": "{\"geschaeftsbereich\":\"GB80\"}",
+          "tool_call_id": "call_h8mK0rHp8iGluKGOU4bUoiik",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 24129,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 98,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 64,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:07:21+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81Pt8NqFVC1rjjaWvzepxio1UvR5",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "set_geschaeftsbereich",
+          "content": "Business area set to: GB80",
+          "tool_call_id": "call_h8mK0rHp8iGluKGOU4bUoiik",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:07:24.535095+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:07:24 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:07:24.535359+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Thanks — I recorded your business area as GB80.\n\nI still need these items to create the website source (you already confirmed sitemap + Basic auth):\n\n- sourceId (pick one or give another):\n  - icp_documentation (recommended)\n  - icp-docs-site\n  - informcloud_icp_docs\n\n- Website URL(s) to index (suggestions — please confirm or provide):\n  - https://docs.inform-cloud.io\n  - https://icp.inform-cloud.io\n  (You can provide one or both.)\n\n- Basic auth credentials (required to create the source):\n  - username\n  - password\n  Note: you will need to paste these here so I can configure the source. If you prefer not to send credentials in chat, I can prepare the config and you can create the source manually in the UI.\n\n- public? — should the source be public? (true/false) — I recommend false.\n\nOptional:\n- Project number (5 digits, e.g., 80300) — I can store this if you want cost attribution.\n\nProposed final create_source payload (ready to run once you supply the missing values):\n\n{\n  sourceId: \"<your_choice_here>\",\n  description: \"Documentation of the INFORM Cloud Platform (ICP)\",\n  public: false,\n  properties: {\n    sourceType: \"website\",\n    urls: [\"<your-website-url-1>\", \"<optional-url-2>\"],\n    includeSitemap: true,\n    authentication: {\n      authenticationScheme: \"Basic\",\n      username: \"<username>\",\n      password: \"<password>\"\n    }\n  }\n}\n\nPlease provide:\n1) which sourceId to use (or give a custom one),\n2) the exact website URL(s),\n3) Basic auth username and password (or say “I’ll create manually”),\n4) public? true/false,\n5) (optional) project number.\n\nOnce you confirm/provide these, I will create the source and show you the system response.",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 24179,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 801,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 384,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:07:52+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81QOC8XMMRvZ9Yv541P34I8N4pv2",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "Suggest a source ID please. Here is the URL: https://docs.inform-cloud.io/. Username: ally. Password: jQkL4mckmMND2va4mYUdbZWJQXHL22z8",
+          "timestamp": "2026-02-11T10:08:55.477794+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:08:55 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:08:55.478907+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_create_source",
+          "args": "{\"sourceId\":\"gb80_icp_docs\",\"description\":\"Documentation of the INFORM Cloud Platform (ICP)\",\"public\":false,\"properties\":{\"sourceType\":\"website\",\"urls\":[\"https://docs.inform-cloud.io/\"],\"includeSitemap\":true,\"authentication\":{\"authenticationScheme\":\"Basic\",\"username\":\"ally\",\"password\":\"jQkL4mckmMND2va4mYUdbZWJQXHL22z8\"}}}",
+          "tool_call_id": "call_dqTWw3ZQWkCFwdy7A2FywrB0",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 24645,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 560,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 448,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:08:59+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81RTq28rrvH4PuIDtRrMkMUEEoSh",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_create_source",
+          "content": {
+            "message": "Source 'gb80_icp_docs' created successfully."
+          },
+          "tool_call_id": "call_dqTWw3ZQWkCFwdy7A2FywrB0",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:09:33.681162+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:09:33 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:09:33.682396+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Done — I created the website source with ID gb80_icp_docs and sitemap + Basic auth enabled.\n\nNext steps you may want:\n- Add this source to a collection so it can be indexed (I can create a collection for GB80 and assign the source).\n- Start an indexing run (takes a few minutes).\n- Configure a Copilot to use the collection via the AiKnowledge plugin.\n\nDo you want me to:\n1) Create a collection for GB80 and add this source to it now?\n2) Or just create the collection and not index yet?\n3) Or stop here and let you do the collection/indexing in the UI?\n\nAlso, do you want me to store a project number for cost allocation? If yes, please provide the 5-digit project number.",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 24779,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 161,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:09:35+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81S38nU4YFS6dMJDqEfztZk8tR6G",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "Create the collection. Keep it simple. Only fill required fields at first.",
+          "timestamp": "2026-02-11T10:10:10.660613+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:10:10 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:10:10.661788+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_create_collection",
+          "args": "{\"collectionId\":\"gb80_icp_docs_collection\",\"sources\":[\"gb80_icp_docs\"]}",
+          "tool_call_id": "call_WkRJf9oGfDRnCHyH8q3OT0Hn",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 24961,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 426,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 384,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:10:12+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81SeKRnjQzXFga5AHYtXPSukrHJx",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "content": "Operation denied: Use a description. Use the same as for the subscribed source. Configure the chunker with a chunksize 0f 4000 and an overlap of 400",
+          "tool_name": "ai_knowledge_create_collection",
+          "tool_call_id": "call_WkRJf9oGfDRnCHyH8q3OT0Hn",
+          "timestamp": "2026-02-11T10:11:02.502596+00:00",
+          "part_kind": "retry-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:11:02 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:11:02.502993+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_create_collection",
+          "args": "{\"collectionId\":\"gb80_icp_docs_collection\",\"description\":\"Documentation of the INFORM Cloud Platform (ICP)\",\"sources\":[\"gb80_icp_docs\"],\"chunking\":{\"chunkType\":\"CharacterChunker\",\"chunkSize\":4000,\"overlap\":400}}",
+          "tool_call_id": "call_cLKYTmAqTmmTVLHxQ256M3xD",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25054,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 331,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 256,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:11:04+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81TUFV0tTEuQAePXMyyG5kZCfVEA",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_create_collection",
+          "content": {
+            "message": "Collection 'gb80_icp_docs_collection' created successfully."
+          },
+          "tool_call_id": "call_cLKYTmAqTmmTVLHxQ256M3xD",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:11:37.934506+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:11:37 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:11:37.934899+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "I will trigger the indexing run now. By default I will do a standard incremental run unless you tell me to force a full reindex. Do you want to proceed?",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25152,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 218,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:11:39+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81U33Mk0DETBMAK8O90X2gOa4Z3R",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "yes",
+          "timestamp": "2026-02-11T10:11:54.578379+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:11:54 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:11:54.579302+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_index_collection",
+          "args": "{\"collection_id\":\"gb80_icp_docs_collection\",\"forceRun\":false}",
+          "tool_call_id": "call_0SdKzwYr4BDaMnCCx3TEidDO",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25197,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 102,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 64,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:12:04+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81USjsuFfUSD2pRWBstyvAYKOlei",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ai_knowledge_index_collection",
+          "content": {
+            "message": "Triggered Lambda functions for collection gb80_icp_docs_collection",
+            "indexRunId": "5f99b58e-2057-446c-8611-20fb21f57c2e",
+            "triggeredSources": [
+              "gb80_icp_docs",
+              "__upload__gb80_icp_docs_collection"
+            ],
+            "traceId": "1-698c5605-2401914852da61961ae48f97"
+          },
+          "tool_call_id": "call_0SdKzwYr4BDaMnCCx3TEidDO",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:12:24.367887+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:12:24 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:12:24.368386+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Indexing is running. If you'd like, I can monitor the index run progress, list documents once indexing completes, or start configuring a Copilot to use this collection. What would you like next?",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25329,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 153,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:12:40+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81V2zO8NAg5DVMTQ7y2fTzCHq3Ub",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "Lets start configuring the copilot. Use meaningful defaults for your first suggestion. In particular for the name, description, etc",
+          "timestamp": "2026-02-11T10:13:22.270075+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:13:22 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:13:22.271492+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_geschaeftsbereich",
+          "args": "{}",
+          "tool_call_id": "call_IijbKWbGC7zlWvGzjUyH3ZlQ",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25403,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 89,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 64,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:13:24+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81VkU5gvnE0UGPWajnOdIxnIJ7da",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_geschaeftsbereich",
+          "content": "Current business area: GB80",
+          "tool_call_id": "call_IijbKWbGC7zlWvGzjUyH3ZlQ",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:13:26.543138+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:13:26 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:13:26.543680+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_list_scopes",
+          "args": "{}",
+          "tool_call_id": "call_yEvpJvN8dMJpelXVHfOUTgst",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25443,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 152,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 128,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:13:42+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81W2QV0SMfSGK1C3UT4S7HgVbvO4",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_list_scopes",
+          "content": [
+            "gb10",
+            "gb20",
+            "gb30",
+            "gb40",
+            "gb50",
+            "gb60",
+            "gb70",
+            "gb80",
+            "gb100",
+            "gb120",
+            "test"
+          ],
+          "tool_call_id": "call_yEvpJvN8dMJpelXVHfOUTgst",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:13:46.662390+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:13:46 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:13:46.662695+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_list_models",
+          "args": "{}",
+          "tool_call_id": "call_eHqINz0jGIjYTstUwda2VkJ6",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 25507,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 535,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 512,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:14:26+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81WkIpoQSjvpLeVSdw4Hed8qFOA6",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_list_models",
+          "content": [
+            {
+              "label": "gpt-5-nano",
+              "name": "GPT 5 nano",
+              "description": "cost: €; context window: 400000 tokens; price per M tokens (USD): input: 0.06 (cached: 0.01), output: 0.44; provider: azure; Lowest-cost GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+              "enabled": true
+            },
+            {
+              "label": "gpt-5-mini",
+              "name": "GPT 5 mini",
+              "description": "cost: €€; context window: 400000 tokens; price per M tokens (USD): input: 0.28 (cached: 0.03), output: 2.2; provider: azure; Mid-tier GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+              "enabled": true
+            },
+            {
+              "label": "gpt-4.1-nano",
+              "name": "GPT 4.1 nano",
+              "description": "cost: €; context window: 1047576 tokens; price per M tokens (USD): input: 0.11 (cached: 0.03), output: 0.44; provider: azure; Lowest-cost GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+              "enabled": true
+            },
+            {
+              "label": "gpt-4.1-mini",
+              "name": "GPT 4.1 mini",
+              "description": "cost: €€; context window: 1047576 tokens; price per M tokens (USD): input: 0.44 (cached: 0.11), output: 1.76; provider: azure; Mid-tier GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+              "enabled": true
+            },
+            {
+              "label": "gpt-4.1",
+              "name": "GPT 4.1 (regular)",
+              "description": "cost: €€€; context window: 1047576 tokens; price per M tokens (USD): input: 2.2 (cached: 0.55), output: 8.8; provider: azure; Full GPT-4.1 model. Optimized for coding and instruction following.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+              "enabled": true
+            },
+            {
+              "label": "o3-mini",
+              "name": "o3 mini",
+              "description": "cost: €€; context window: 200000 tokens; price per M tokens (USD): input: 1.21 (cached: 0.605), output: 4.84; provider: azure; Reasoning model optimized for coding and problem solving.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+              "enabled": true
+            },
+            {
+              "label": "claude-4-sonnet",
+              "name": "Claude 4 Sonnet",
+              "description": "cost: €€€€; context window: 200000 tokens; price per M tokens (USD): input: 3.0 (cached: 3.0), output: 15.0; provider: bedrock; Balanced performance for coding and general tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+              "enabled": true
+            },
+            {
+              "label": "claude-4.5-haiku",
+              "name": "Claude Haiku 4.5",
+              "description": "cost: €€€; context window: 200000 tokens; price per M tokens (USD): input: 1.1 (cached: 1.1), output: 5.5; provider: bedrock; Fast, cost-effective model. Supports vision.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+              "enabled": true
+            },
+            {
+              "label": "claude-4.5-sonnet",
+              "name": "Claude Sonnet 4.5",
+              "description": "cost: €€€€; context window: 200000 tokens; price per M tokens (USD): input: 3.3 (cached: 3.3), output: 16.5; provider: bedrock; High-capability model for coding and agentic tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+              "enabled": true
+            },
+            {
+              "label": "claude-4.5-opus",
+              "name": "Claude Opus 4.5",
+              "description": "cost: €€€€€; context window: 200000 tokens; price per M tokens (USD): input: 5.5 (cached: 5.5), output: 27.5; provider: bedrock; Most capable Claude model for complex reasoning and coding.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+              "enabled": true
+            },
+            {
+              "label": "nova-pro",
+              "name": "Amazon Nova Pro",
+              "description": "cost: €€; context window: 300000 tokens; price per M tokens (USD): input: 0.92 (cached: 0.23), output: 3.68; provider: bedrock; Multimodal model (text, image, video). Good for reasoning and coding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+              "enabled": true
+            },
+            {
+              "label": "nova-lite",
+              "name": "Amazon Nova Lite",
+              "description": "cost: €; context window: 300000 tokens; price per M tokens (USD): input: 0.069 (cached: 0.01725), output: 0.276; provider: bedrock; Low-cost multimodal model (text, image, video). Fast inference.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+              "enabled": true
+            },
+            {
+              "label": "nova-2-lite",
+              "name": "Amazon Nova 2 Lite",
+              "description": "cost: €€; context window: 1000000 tokens; price per M tokens (USD): input: 0.374 (cached: 0.094), output: 3.157; provider: bedrock; Multimodal model (text, image, video) with 1M context window. Supports extended thinking and built-in tools (code interpreter, web grounding).\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+              "enabled": true
+            },
+            {
+              "label": "gpt-oss-120b",
+              "name": "GPT OSS 120B",
+              "description": "cost: €; context window: 128000 tokens; price per M tokens (USD): input: 0.18 (cached: 0.18), output: 0.7; provider: bedrock; OpenAI open-weight 120B MoE model. Good for reasoning and coding.\nhttps://aws.amazon.com/bedrock/openai/\n",
+              "enabled": true
+            },
+            {
+              "label": "mistral-large",
+              "name": "Mistral Large (24.02)",
+              "description": "cost: €€€€; context window: 32000 tokens; price per M tokens (USD): input: 4.3 (cached: 4.3), output: 13.0; provider: bedrock; Mistral's flagship model. Multilingual, reasoning, and code generation.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+              "enabled": true
+            },
+            {
+              "label": "pixtral-large",
+              "name": "Pixtral Large (25.02)",
+              "description": "cost: €€€; context window: 128000 tokens; price per M tokens (USD): input: 2.0 (cached: 2.0), output: 6.0; provider: bedrock; 124B multimodal model with vision. Supports 80+ programming languages.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+              "enabled": true
+            },
+            {
+              "label": "llama-3.2-3b",
+              "name": "Llama 3.2 3B Instruct",
+              "description": "cost: €; context window: 128000 tokens; price per M tokens (USD): input: 0.17 (cached: 0.17), output: 0.17; provider: bedrock; Lightweight text-only model for edge and mobile deployments.\nhttps://llama.meta.com/\n",
+              "enabled": true
+            }
+          ],
+          "tool_call_id": "call_eHqINz0jGIjYTstUwda2VkJ6",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:14:35.222898+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:14:35 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:14:35.223464+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_get_portal_config",
+          "args": "{}",
+          "tool_call_id": "call_2j16gXBheDWxkiQ6nCCGMhdT",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 27256,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 473,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 448,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:14:41+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81WzIuHMLiOvBhRYUbpxak3Mv8oY",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_get_portal_config",
+          "content": {
+            "version": "1.7.0",
+            "keycloak_url": "https://keycloak.acc.iam-services.aws.inform-cloud.io",
+            "keycloak_realm": "inform-ai",
+            "keycloak_client_id": "ally-portal-frontend-dev",
+            "ally_server_domain": "ally.dev.copilot.aws.inform-cloud.io/",
+            "ally_server_domain_local": "gb80-ml-ally-reborn.k8s-prod.inform-software.com",
+            "ai_knowledge_host": "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io"
+          },
+          "tool_call_id": "call_2j16gXBheDWxkiQ6nCCGMhdT",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:14:49.561064+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:14:49 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:14:49.561362+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_project_number",
+          "args": "{}",
+          "tool_call_id": "call_roigp39qZ57BqIFNqePSBCqB",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 27394,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 85,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 64,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:15:25+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81XhuV3UASyIngD0D8xrFmrnEY1D",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "get_project_number",
+          "content": "The project number has not been set yet. Please ask the user: 'What is your project number?'",
+          "tool_call_id": "call_roigp39qZ57BqIFNqePSBCqB",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:15:27.453040+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:15:27 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:15:27.453164+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Great — I have GB80 set. Before I create the Copilot I need your project number (5 digits, e.g. 80300) so I can add it to the Copilot metadata for cost allocation. Please provide that now.\n\nWhile you answer, here’s a suggested Copilot configuration with meaningful defaults. Review and tell me if you want any changes — if it looks good I’ll create it.\n\nSuggested values (defaults I recommend)\n- Endpoint identifier: /gb80/icp-docs\n  - (Format must be /SCOPE/NAME; scope = gb80)\n- Display name: ICP Documentation Assistant\n- Description: Assistant that answers questions from the INFORM Cloud Platform (ICP) documentation\n- Project number: (please provide 5 digits)\n- Model (dep_name): gpt-4.1-nano (good balance: low cost, large context)\n- Temperature: 0 (deterministic answers for documentation)\n- Instructions (brief): You are an assistant specialized in the INFORM Cloud Platform (ICP). Use the ICP documentation collection to answer user questions precisely. If the answer is not in the docs, say you don’t know and suggest where to look. Prefer concise, actionable responses and include source links when available.\n- Default greeting message: Hi — I can help with questions about the INFORM Cloud Platform (ICP) documentation. What would you like to know?\n- Initial prompt suggestions (examples):\n  - \"How do I deploy a service on ICP?\"\n  - \"Where are the API reference docs for ICP?\"\n  - \"Show me the ICP authentication flow\"\n- Plugins: AiKnowledge configured to use collection: [\"gb80_icp_docs_collection\"] and host: https://backend-api.dev.ai-knowledge.aws.inform-cloud.io\n  - This connects the Copilot to the collection we created (so it can retrieve documentation).\n- Authorization: use Ally/OpenID default (type \"ally\") so the Copilot uses the portal’s Keycloak for auth. Tell me if you want a public/static token instead.\n\nQuestions for you (short)\n1) Project number (5 digits)?\n2) Do you accept the suggested endpoint /gb80/icp-docs, display name and description, and model gpt-4.1-nano?\n   - If you want a different endpoint name or model, say which.\n3) Confirm authorization: use Ally (recommended) or do you want \"allow\" (no auth) or a static bearer token?\n4) Any other changes to instructions, greeting, temperature?\n\nWhen you confirm and give the project number I will:\n- store the project number,\n- create the Copilot with the settings above,\n- then show you the system response and the new Copilot metadata.",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 27441,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 1205,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 640,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:15:43+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81Xz0F5tVAC3aFMi9VrNz8xqf6sU",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "1) 89300 2) yes",
+          "timestamp": "2026-02-11T10:17:07.077628+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:17:07 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:17:07.078496+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "set_project_number",
+          "args": "{\"project_number\":\"89300\"}",
+          "tool_call_id": "call_OnypA8eGLxT84FFODZUl7dwU",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28015,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 539,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 512,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:17:09+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81ZN5vhxJU6XQHoQZpbi2nsiHnRq",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "set_project_number",
+          "content": "Project number set to: 89300",
+          "tool_call_id": "call_OnypA8eGLxT84FFODZUl7dwU",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:17:19.727462+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:17:19 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:17:19.727612+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_create_copilot",
+          "args": "{\"endpoint\":\"/gb80/icp-docs\",\"endpoint_attributes\":{\"dep_name\":\"gpt-4.1-nano\",\"instructions\":\"You are an assistant specialized in the INFORM Cloud Platform (ICP). Use the ICP documentation collection to answer user questions precisely. If the answer is not in the docs, say you don’t know and suggest where to look. Prefer concise, actionable responses and include source links when available.\",\"default_message\":\"Hi — I can help with questions about the INFORM Cloud Platform (ICP) documentation. What would you like to know?\"},\"endpoint_metadata\":{\"display_name\":\"ICP Documentation Assistant\",\"description\":\"Assistant that answers questions from the INFORM Cloud Platform (ICP) documentation\",\"project_number\":\"89300\"}}",
+          "tool_call_id": "call_gzwdj9LObaY4Rsznv8eKCwSz",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28055,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 162,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:17:21+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81ZZYjXVxpiVjwpgHCu4cIlhp4p3",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_create_copilot",
+          "content": "API request succeeded with status 200 and response is empty",
+          "tool_call_id": "call_gzwdj9LObaY4Rsznv8eKCwSz",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:17:31.658415+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:17:31 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:17:31.659042+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Done — I created the Copilot endpoint /gb80/icp-docs with display name \"ICP Documentation Assistant\" and linked project number 89300.\n\nNext steps I recommend:\n- Update the Copilot configuration to add the AiKnowledge plugin so it can use the collection (I created the collection earlier but didn't attach it to the Copilot config).\n- Configure authorization (I can set it to use Ally/OpenID by default).\n- Validate the Copilot config.\n- Optionally run an evaluation suite or test the Copilot on the Chat page.\n\nDo you want me to update the Copilot config now to add the AiKnowledge plugin, and set authorization to Ally/OpenID? (Yes/No)",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28242,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 145,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:18:09+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81aLYuliB2lNwWmPSLLDnziVaji4",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "add the ai knowledge plugin",
+          "timestamp": "2026-02-11T10:18:42.750814+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:18:42 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:18:42.751953+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_get_copilot_config",
+          "args": "{\"endpoint\":\"/gb80/icp-docs\"}",
+          "tool_call_id": "call_NOEZmkmuBGCVgFNepkKHvpuU",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28398,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 484,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 448,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:18:44+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81auyanNmMmnh5P9qxeBWZA25xh2",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_get_copilot_config",
+          "content": {
+            "id": "926d9a89-9e69-49b2-b443-0d97b41b3e20",
+            "name": "2026-02-11 10:17:31",
+            "label": null,
+            "engine_data": {
+              "type": "originally",
+              "dep_name": "gpt-4.1-nano",
+              "temperature": 0.0,
+              "history_reduction": null,
+              "instructions": "You are an assistant specialized in the INFORM Cloud Platform (ICP). Use the ICP documentation collection to answer user questions precisely. If the answer is not in the docs, say you don’t know and suggest where to look. Prefer concise, actionable responses and include source links when available.",
+              "locale": null,
+              "default_message": "Hi — I can help with questions about the INFORM Cloud Platform (ICP) documentation. What would you like to know?",
+              "initial_prompt_suggestions": null,
+              "plugins": {}
+            }
+          },
+          "tool_call_id": "call_NOEZmkmuBGCVgFNepkKHvpuU",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:18:52.475199+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:18:52 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:18:52.475328+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_update_copilot_config",
+          "args": "{\"endpoint\":\"/gb80/icp-docs\",\"dep_name\":\"gpt-4.1-nano\",\"temperature\":0,\"instructions\":\"You are an assistant specialized in the INFORM Cloud Platform (ICP). Use the ICP documentation collection to answer user questions precisely. If the answer is not in the docs, say you don’t know and suggest where to look. Prefer concise, actionable responses and include source links when available.\",\"default_message\":\"Hi — I can help with questions about the INFORM Cloud Platform (ICP) documentation. What would you like to know?\",\"initial_prompt_suggestions\":[\"How do I deploy a service on ICP?\",\"Where are the API reference docs for ICP?\",\"Show me the ICP authentication flow\"],\"plugins\":{\"knowledge-base\":{\"authorization\":{\"type\":\"bearer-forward\"},\"collections\":[\"gb80_icp_docs_collection\"],\"host\":\"https://backend-api.dev.ai-knowledge.aws.inform-cloud.io\",\"type\":\"AiKnowledge\"}}}",
+          "tool_call_id": "call_y3jVEIu4FdY5zYDdrp0kxHVX",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28625,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 665,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 448,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:19:10+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-D81bKym8o5pUESdPyuizKkCi5s26s",
+      "finish_reason": "tool_call"
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "ally_config_update_copilot_config",
+          "content": "0be73c37-4b3a-40df-a3b1-4a2eac1b6451",
+          "tool_call_id": "call_y3jVEIu4FdY5zYDdrp0kxHVX",
+          "metadata": null,
+          "timestamp": "2026-02-11T10:19:30.156447+00:00",
+          "part_kind": "tool-return"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:19:30 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:19:30.156742+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Would you like me to: \nA) Set Copilot authorization to Ally/OpenID now? \nB) Validate the Copilot configuration now? \nC) Do both A and B? \nD) Neither (I'll do later)",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28878,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 356,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:19:45+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81btxgTD85Bw3TbsUNPiI2hzOCW4",
+      "finish_reason": "stop"
+    },
+    {
+      "parts": [
+        {
+          "content": "Neither",
+          "timestamp": "2026-02-11T10:22:00.432281+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Geschäftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources → build collections → configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Geschäftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Wednesday, February 11, 2026\n- Time: 11:22:00 (Europe/Berlin timezone)\n- ISO Format: 2026-02-11T11:22:00.433811+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+      "kind": "request"
+    },
+    {
+      "parts": [
+        {
+          "content": "Done — I added the AiKnowledge plugin to /gb80/icp-docs and left authorization & validation as-is.\n\nNotes:\n- Plugin uses collection gb80_icp_docs_collection and bearer-forward authorization to AiKnowledge host https://backend-api.dev.ai-knowledge.aws.inform-cloud.io.\n- Indexing for that collection is still running (indexRunId: 5f99b58e-2057-446c-8611-20fb21f57c2e). It can take a few minutes — the Copilot may not return documentation results until indexing finishes.\n\nNext actions I can take (pick any):\n- Monitor index run progress and report back.\n- Validate the Copilot configuration now.\n- Set Copilot authorization to Ally/OpenID.\n- Run a quick test query in the Copilot chat.\n- Create an evaluation suite and run tests.\n- Anything else you need.\n\nWhat would you like next?",
+          "id": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 28936,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 452,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 256,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-5-mini-2025-08-07",
+      "timestamp": "2026-02-11T10:22:03+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_details": {
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-D81e7vwhTaonPCqX4kSMQLlgwIL7W",
+      "finish_reason": "stop"
+    }
+  ]
+}
