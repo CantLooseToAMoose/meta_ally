@@ -265,7 +265,7 @@
     {
       "parts": [
         {
-          "content": "Suggest a source ID please. Here is the URL: https://docs.inform-cloud.io/. Username: ally. Password: jQkL4mckmMND2va4mYUdbZWJQXHL22z8",
+          "content": "Suggest a source ID please. Here is the URL: https://docs.inform-cloud.io/. Username: ally. Password: THERE_WAS_A_PASSWORD_HERE",
           "timestamp": "2026-02-11T10:08:55.477794+00:00",
           "part_kind": "user-prompt"
         }
@@ -277,7 +277,7 @@
       "parts": [
         {
           "tool_name": "ai_knowledge_create_source",
-          "args": "{\"sourceId\":\"gb80_icp_docs\",\"description\":\"Documentation of the INFORM Cloud Platform (ICP)\",\"public\":false,\"properties\":{\"sourceType\":\"website\",\"urls\":[\"https://docs.inform-cloud.io/\"],\"includeSitemap\":true,\"authentication\":{\"authenticationScheme\":\"Basic\",\"username\":\"ally\",\"password\":\"jQkL4mckmMND2va4mYUdbZWJQXHL22z8\"}}}",
+          "args": "{\"sourceId\":\"gb80_icp_docs\",\"description\":\"Documentation of the INFORM Cloud Platform (ICP)\",\"public\":false,\"properties\":{\"sourceType\":\"website\",\"urls\":[\"https://docs.inform-cloud.io/\"],\"includeSitemap\":true,\"authentication\":{\"authenticationScheme\":\"Basic\",\"username\":\"ally\",\"password\":\"THERE_WAS_A_PASSWORD_HERE\"}}}",
           "tool_call_id": "call_dqTWw3ZQWkCFwdy7A2FywrB0",
           "id": null,
           "part_kind": "tool-call"
