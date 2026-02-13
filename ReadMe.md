@@ -133,8 +133,8 @@ The evaluation framework includes:
 ### User Interfaces
 
 - **Terminal Chat**: Interactive command-line interface for agent interaction
-- **AG-UI Support**: Convert agents to web applications using the AG-UI protocol
-- **CopilotKit Integration**: Frontend interface for browser-based interaction
+- **AG-UI Support**: Convert agents to web app using the AG-UI protocol(not recommended)
+- **CopilotKit Integration**: Frontend interface for browser-based interaction(not in this project)
 - **Conversation Saving**: Record and replay agent interactions
 - **Human Approval**: Callback system for critical actions requiring user confirmation
 - **Visualization**: Tools for visualizing case variants and evaluation results
