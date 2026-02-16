@@ -400,6 +400,7 @@ class OpenAPIToolsLoader:
         path: str,
         kwargs: dict[str, Any],
         query_param_names: list[str],
+        path_param_names: list[str],
         array_body_param_name: str | None = None
     ) -> tuple[str, dict[str, Any], dict[str, Any] | list[Any]]:
         """
@@ -421,6 +422,7 @@ class OpenAPIToolsLoader:
             path: API path template with {param} placeholders
             kwargs: All parameters passed to the tool by the LLM
             query_param_names: Names of params that should go in query string
+            path_param_names: Names of params that should be substituted in the path
             array_body_param_name: If the request body is an array type, this is
                                    the parameter name containing the array data.
                                    When set, body_params will be the array itself,
@@ -446,8 +448,12 @@ class OpenAPIToolsLoader:
 
         # Step 2: Separate query parameters from body parameters
         # Query params go in the URL, body params go in the request body
+        # Exclude both query params AND path params from body_params_dict
         query_params = {k: v for k, v in remaining_kwargs.items() if k in query_param_names}
-        body_params_dict = {k: v for k, v in remaining_kwargs.items() if k not in query_param_names}
+        body_params_dict = {
+            k: v for k, v in remaining_kwargs.items()
+            if k not in query_param_names and k not in path_param_names
+        }
 
         # Step 3: Handle array body type
         # If the API expects an array as the body (not an object), extract the array
@@ -504,9 +510,19 @@ class OpenAPIToolsLoader:
         elif method_lower == "put":
             return await client.put(url, params=query_params, json=body_params, headers=headers)
         elif method_lower == "delete":
-            return await client.delete(
-                url, params=query_params, json=body_params if body_params else None, headers=headers
-            )
+            # httpx's delete() method doesn't accept content/json parameters
+            # Use request() directly when body is present to support DELETE with body
+            if body_params:
+                return await client.request(
+                    "DELETE",
+                    url,
+                    params=query_params,
+                    json=body_params,
+                    headers=headers
+                )
+            else:
+                # No body for DELETE request - use the convenience method
+                return await client.delete(url, params=query_params, headers=headers)
         else:
             raise ValueError(f"Unsupported HTTP method: {method}")
 
@@ -541,6 +557,7 @@ class OpenAPIToolsLoader:
         method: str,
         operation: dict[str, Any],
         query_param_names: list[str],
+        path_param_names: list[str],
         array_body_param_name: str | None = None
     ) -> Callable:
         """
@@ -562,6 +579,7 @@ class OpenAPIToolsLoader:
             method: HTTP method (get, post, put, delete)
             operation: The full operation definition from OpenAPI spec
             query_param_names: Parameter names that go in the URL query string
+            path_param_names: Parameter names that get substituted into the URL path
             array_body_param_name: If the request body is an array type, this is
                                    the name of the parameter containing the array.
                                    Used to correctly serialize array bodies.
@@ -601,9 +619,9 @@ class OpenAPIToolsLoader:
             self._check_approval(operation_id, method, path, kwargs)
 
             # Build URL and separate parameters into query string vs request body
-            # The array_body_param_name is captured from the outer scope
+            # The array_body_param_name, query_param_names, and path_param_names are captured from the outer scope
             url, query_params, body_params = self._build_url_and_params(
-                path, kwargs, query_param_names, array_body_param_name
+                path, kwargs, query_param_names, path_param_names, array_body_param_name
             )
 
             # Prepare headers with authorization
@@ -760,7 +778,13 @@ class OpenAPIToolsLoader:
         if param_schema.get("type") == "array" and "items" in param_schema:
             param_schema_dict["items"] = param_schema["items"]
 
-    def _process_parameter(self, param: dict[str, Any], schema: dict[str, Any], query_param_names: list[str]) -> None:
+    def _process_parameter(
+        self,
+        param: dict[str, Any],
+        schema: dict[str, Any],
+        query_param_names: list[str],
+        path_param_names: list[str]
+    ) -> None:
         """Process a single parameter and add it to the schema"""
         param_name = param["name"]
         param_schema = param.get("schema", {})
@@ -769,9 +793,11 @@ class OpenAPIToolsLoader:
         description = param.get("description", "")
         param_in = param.get("in", "query")
 
-        # Track query parameters
+        # Track query and path parameters
         if param_in == "query":
             query_param_names.append(param_name)
+        elif param_in == "path":
+            path_param_names.append(param_name)
 
         # Add to schema properties
         schema["properties"][param_name] = {
@@ -1041,7 +1067,7 @@ class OpenAPIToolsLoader:
     def _extract_parameters_schema(
         self,
         operation: dict[str, Any]
-    ) -> tuple[dict[str, Any], list[str], str | None]:
+    ) -> tuple[dict[str, Any], list[str], list[str], str | None]:
         """
         Extract and create a JSON schema from operation parameters.
 
@@ -1062,6 +1088,7 @@ class OpenAPIToolsLoader:
             A tuple containing:
             - JSON schema dict for tool parameters (what the LLM sees)
             - List of query parameter names (to separate from body params at runtime)
+            - List of path parameter names (to exclude from body params at runtime)
             - Array body parameter name if the request body is an array type,
               otherwise None (needed to correctly serialize array bodies)
         """
@@ -1074,15 +1101,16 @@ class OpenAPIToolsLoader:
             "additionalProperties": False  # Strict: no extra params allowed
         }
 
-        # Track which parameters are query params vs body params
+        # Track which parameters are query params, path params, vs body params
         # This is needed later when building the actual HTTP request
         query_param_names: list[str] = []
+        path_param_names: list[str] = []
 
         # Process path and query parameters from the 'parameters' array
         # These come from the URL path (e.g., {user_id}) and query string
         parameters = operation.get("parameters", [])
         for param in parameters:
-            self._process_parameter(param, schema, query_param_names)
+            self._process_parameter(param, schema, query_param_names, path_param_names)
 
         # Process request body parameters
         # For POST/PUT/PATCH, the body may contain additional data
@@ -1090,7 +1118,7 @@ class OpenAPIToolsLoader:
         request_body = operation.get("requestBody")
         array_body_param_name = self._process_request_body(request_body, schema)
 
-        return schema, query_param_names, array_body_param_name
+        return schema, query_param_names, path_param_names, array_body_param_name
 
     def load_tools(self) -> list[Tool[OpenAPIToolDependencies]]:
         """
@@ -1128,11 +1156,17 @@ class OpenAPIToolsLoader:
                 # Extract tags from the operation
                 tags = operation.get("tags", [])
 
-                # Extract parameters schema, query parameter names, and array body info
+                # Extract parameters schema, query parameter names, path parameter names, and array body info
                 # - parameters_schema: JSON schema defining the tool's parameters
                 # - query_param_names: Which params go in the URL query string
+                # - path_param_names: Which params are substituted into the URL path
                 # - array_body_param_name: If body is an array, the param name holding it
-                parameters_schema, query_param_names, array_body_param_name = self._extract_parameters_schema(operation)
+                (
+                    parameters_schema,
+                    query_param_names,
+                    path_param_names,
+                    array_body_param_name
+                ) = self._extract_parameters_schema(operation)
 
                 # Create the tool function that will make the actual API calls
                 tool_func = self._create_tool_function(
@@ -1141,6 +1175,7 @@ class OpenAPIToolsLoader:
                     method=method,
                     operation=operation,
                     query_param_names=query_param_names,
+                    path_param_names=path_param_names,
                     array_body_param_name=array_body_param_name
                 )
 
