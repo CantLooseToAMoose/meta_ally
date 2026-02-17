@@ -64,6 +64,7 @@ def main():  # noqa: PLR0915
         # Set appropriate hooks based on the case
         # Case 4: Tests creating sources and collections - need to delete them first
         # Case 5: Tests creating copilot - need sources/collections to exist, copilot to not exist
+        # Case 6: Tests configuring AI Knowledge plugin - need copilot to exist
         if i == 4:  # Case 4: Creating sources and collections
             manager.set_dataset_hooks(
                 dataset_id=dataset_id,
@@ -76,6 +77,12 @@ def main():  # noqa: PLR0915
                 pre_task_hook_id="cleanup_and_setup_addone_resources"
             )
             print("        ✓ Created with 3 variants + setup hook (ensures sources exist, copilot doesn't)")
+        elif i == 6:  # Case 6: Configuring AI Knowledge plugin
+            manager.set_dataset_hooks(
+                dataset_id=dataset_id,
+                pre_task_hook_id="setup_addone_copilot_for_plugin_config"
+            )
+            print("        ✓ Created with 3 variants + setup hook (ensures copilot exists for plugin config)")
         else:
             print("        ✓ Created with 3 variants (no hooks needed)")
 

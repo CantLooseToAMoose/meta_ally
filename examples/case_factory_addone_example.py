@@ -231,10 +231,11 @@ def example_addone_sales_copilot_creation():
     convo.add_model_message(case4_expected)
 
     # Case 5: Nutzer bestätigt Endpoint Erstellung -> Modellabfrage + Endpoint (mit endpoint_name speichern)
-    convo.add_user_message("Ja, bitte erstellen Sie jetzt den Sales-Copilot Endpoint.")
+    convo.add_user_message("Ja, bitte erstelle jetzt den Sales-Copilot Endpoint. "
+        "Suche bitte parameter wie Modell, Anweisungen und Metadaten selbstständig aus.")
     case5_expected = (
-        "Der Endpoint 'addone_sales_copilot' ist bereit. Möchten Sie, dass ich die konfigurierten "
-        "Quellen zur Verifikation aufliste?"
+        "Der Endpoint 'addone_sales_copilot' ist nun bereit. Als nächstes sollten die konfigurierten Quellen"
+        " durch ein AI-Knowledge Plugin angebunden werden."
     )
     factory.create_conversation_case(
         name="ADD*ONE Sales Copilot - Endpoint erstellt & gespeichert",
@@ -251,7 +252,7 @@ def example_addone_sales_copilot_creation():
                 args={
                     "endpoint": "/gb10/addone_sales_copilot",
                     "endpoint_attributes": {
-                        "dep_name": "gpt-4o-mini",
+                        "dep_name": "gpt-4.1-mini",
                         "instructions": (
                             "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
                             "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
@@ -284,16 +285,16 @@ def example_addone_sales_copilot_creation():
     convo.add_tool_response(
         tool_call_id="check_models_1",
         tool_name="ally_config_list_models",
-        content="Verfügbare Modelle: gpt-4o, gpt-4-turbo, claude-3-opus, gpt-4o-mini"
+        content="Verfügbare Modelle: gpt-4.1, gpt-4.1-mini"
     )
-    convo.add_model_message("Ich verwende gpt-4o und erstelle den Endpoint.")
+    convo.add_model_message("Ich verwende gpt-4.1-mini und erstelle den Endpoint.")
     convo.add_tool_call(
         tool_call_id="create_copilot_1",
         tool_name="ally_config_create_copilot",
         args={
             "endpoint": "/gb10/addone_sales_copilot",
             "endpoint_attributes": {
-                "dep_name": "gpt-4o-mini",
+                "dep_name": "gpt-4.1-mini",
                 "instructions": (
                     "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
                     "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
@@ -325,6 +326,100 @@ def example_addone_sales_copilot_creation():
         content="Endpoint name set to: /gb10/addone_sales_copilot"
     )
     convo.add_model_message(case5_expected)
+
+    # Case 6: Nutzer bittet darum, AI Knowledge Plugin zu konfigurieren
+    convo.add_user_message(
+        "Ja, bitte konfiguriere jetzt das AI Knowledge Plugin für den Copilot."
+    )
+    case6_expected = (
+        "Perfekt! Das AI Knowledge Plugin wurde konfiguriert. Der Copilot kann nun auf die "
+        "Collection 'addone_sales_resources' zugreifen. Möchten Sie weitere Anpassungen vornehmen "
+        "oder soll ich Ihnen erklären wie Sie den Copiloten auf der Webseite testen können?"
+    )
+    factory.create_conversation_case(
+        name="ADD*ONE Sales Copilot - AI Knowledge Plugin konfiguriert",
+        conversation_turns=convo,
+        expected_final_response=case6_expected,
+        expected_final_tool_calls=[
+            create_tool_call_part(
+                tool_name="ally_config_get_copilot_config",
+                args={"endpoint": "/gb10/addone_sales_copilot"},
+                tool_call_id="get_copilot_config_1"
+            ),
+            create_tool_call_part(
+                tool_name="ally_config_update_copilot_config",
+                args={
+                    "endpoint": "/gb10/addone_sales_copilot",
+                    "dep_name": "gpt-4.1-mini",
+                    "temperature": 0,
+                    "instructions": (
+                        "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+                        "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
+                    ),
+                    "default_message": (
+                        "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                    ),
+                    "plugins": {
+                        "knowledge-base": {
+                            "type": "AiKnowledge",
+                            "host": "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io",
+                            "collections": ["addone_sales_resources"],
+                            "authorization": {"type": "bearer-forward"}
+                        }
+                    }
+                },
+                tool_call_id="update_copilot_config_1"
+            )
+        ],
+        description="AI Knowledge Plugin wird mit der Collection konfiguriert"
+    )
+    convo.add_tool_call(
+        tool_call_id="get_copilot_config_1",
+        tool_name="ally_config_get_copilot_config",
+        args={"endpoint": "/gb10/addone_sales_copilot"}
+    )
+    convo.add_tool_response(
+        tool_call_id="get_copilot_config_1",
+        tool_name="ally_config_get_copilot_config",
+        content=(
+            "{'id': 'endpoint-id', 'engine_data': {'dep_name': 'gpt-4.1-mini', 'temperature': 0.0, "
+            "'instructions': 'Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+            "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten.', "
+            "'default_message': 'Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?', "
+            "'plugins': {}}}"
+        )
+    )
+    convo.add_model_message("Ich konfiguriere jetzt das AI Knowledge Plugin.")
+    convo.add_tool_call(
+        tool_call_id="update_copilot_config_1",
+        tool_name="ally_config_update_copilot_config",
+        args={
+            "endpoint": "/gb10/addone_sales_copilot",
+            "dep_name": "gpt-4.1-mini",
+            "temperature": 0,
+            "instructions": (
+                "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+                "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
+            ),
+            "default_message": (
+                "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+            ),
+            "plugins": {
+                "knowledge-base": {
+                    "type": "AiKnowledge",
+                    "host": "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io",
+                    "collections": ["addone_sales_resources"],
+                    "authorization": {"type": "bearer-forward"}
+                }
+            }
+        }
+    )
+    convo.add_tool_response(
+        tool_call_id="update_copilot_config_1",
+        tool_name="ally_config_update_copilot_config",
+        content="Config-Version ID: new-config-id-123"
+    )
+    convo.add_model_message(case6_expected)
 
     # Dataset erstellen
     dataset = factory.build_dataset("ADD*ONE Sales Copilot Test Suite")
