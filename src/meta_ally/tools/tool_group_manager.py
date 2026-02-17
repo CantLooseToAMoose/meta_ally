@@ -63,7 +63,7 @@ class ToolGroupManager:
 
     def load_ai_knowledge_tools(
         self,
-        openapi_url: str = "https://backend-api.dev.ai-knowledge.aws.inform-cloud.io/openapi.json",
+        openapi_url: str = "https://backend-api.test.ai-knowledge.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ai_knowledge_api_models.py",
         regenerate_models: bool = True,
         require_human_approval: bool = False,
@@ -85,7 +85,7 @@ class ToolGroupManager:
 
     def load_ally_config_tools(
         self,
-        openapi_url: str = "https://ally-config-ui.dev.copilot.aws.inform-cloud.io/openapi.json",
+        openapi_url: str = "https://ally-config-ui.test.copilot.aws.inform-cloud.io/openapi.json",
         models_filename: str = "ally_config_api_models.py",
         regenerate_models: bool = True,
         require_human_approval: bool = False,
