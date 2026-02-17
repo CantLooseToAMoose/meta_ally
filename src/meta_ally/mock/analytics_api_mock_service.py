@@ -9,7 +9,7 @@ captured API data. It automatically adjusts timestamps so that data appears
 import json
 import logging
 from collections.abc import Callable
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -469,3 +469,92 @@ def create_ally_config_mock_tool_replacements(
         "ally_config_get_copilot_session": mock_get_copilot_session,
         "ally_config_get_copilot_sessions_summaries": mock_get_copilot_sessions_summaries,
     }
+
+
+def main():
+    """
+    Main method to call all methods (except get_copilot_session) for the last 30 days
+    and save results to a JSON file.
+    """
+    # Create mock service instance
+    mock_service = create_mock_service()
+
+    # Define time range for last 30 days using UTC timezone to match agent behavior
+    end_time = datetime.now(UTC)
+    start_time = end_time - timedelta(days=14)
+
+    # Format times as ISO strings with timezone info
+    start_time_str = start_time.isoformat()
+    end_time_str = end_time.isoformat()
+
+    # Default endpoint
+    endpoint = "website"
+
+    # Collect results from all methods
+    results = {
+        "metadata": {
+            "generated_at": datetime.now().isoformat(),
+            "start_time": start_time_str,
+            "end_time": end_time_str,
+            "endpoint": endpoint
+        },
+        "copilot_ratings": None,
+        "copilot_cost_daily_tokens": None,
+        "copilot_cost_daily_euro": None,
+        "copilot_sessions": None,
+        "copilot_sessions_summaries": None,
+    }
+
+    # Call each method and store results
+    try:
+        logger.info("Fetching copilot ratings...")
+        results["copilot_ratings"] = mock_service.get_copilot_ratings(
+            endpoint, start_time_str, end_time_str
+        )
+
+        logger.info("Fetching copilot cost daily (tokens)...")
+        results["copilot_cost_daily_tokens"] = mock_service.get_copilot_cost_daily(
+            endpoint, "tokens"
+        )
+
+        logger.info("Fetching copilot cost daily (euro)...")
+        results["copilot_cost_daily_euro"] = mock_service.get_copilot_cost_daily(
+            endpoint, "euro"
+        )
+
+        logger.info("Fetching copilot sessions...")
+        results["copilot_sessions"] = mock_service.get_copilot_sessions(
+            endpoint, start_time_str, end_time_str
+        )
+
+        logger.info("Fetching copilot sessions summaries...")
+        results["copilot_sessions_summaries"] = mock_service.get_copilot_sessions_summaries(
+            endpoint, start_time_str, end_time_str
+        )
+
+    except Exception as e:
+        logger.exception("Error during data collection: %s", e)
+        results["error"] = str(e)
+
+    # Save results to JSON file
+    output_dir = Path(__file__).parent.parent.parent.parent / "Data" / "api_mock_data"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = output_dir / f"mock_service_results_{timestamp}.json"
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2, default=str)
+
+    logger.info("Results saved to %s", output_file)
+    print(f"Results saved to {output_file}")
+
+
+if __name__ == "__main__":
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+
+    main()

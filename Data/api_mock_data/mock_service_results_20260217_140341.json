@@ -1,0 +1,604 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-17T14:03:41.154015",
+    "start_time": "2026-02-03T13:03:41.153997+00:00",
+    "end_time": "2026-02-17T13:03:41.153997+00:00",
+    "endpoint": "website"
+  },
+  "copilot_ratings": [],
+  "copilot_cost_daily_tokens": {
+    "2026-02-16": [
+      205703.0
+    ],
+    "2026-02-15": [
+      49586.0
+    ],
+    "2026-02-14": [
+      19673.0
+    ],
+    "2026-02-13": [
+      24822.0
+    ],
+    "2026-02-12": [
+      22861.0
+    ],
+    "2026-02-11": [
+      6395.0
+    ],
+    "2026-02-10": [
+      90173.0
+    ],
+    "2026-02-09": [
+      16642.0
+    ],
+    "2026-02-08": [
+      37074.0
+    ],
+    "2026-02-06": [
+      18006.0
+    ],
+    "2026-02-05": [
+      12041.0
+    ],
+    "2026-02-04": [
+      16506.0
+    ],
+    "2026-02-03": [
+      3762.0
+    ],
+    "2026-02-02": [
+      44158.0
+    ],
+    "2026-02-01": [
+      41111.0
+    ],
+    "2026-01-31": [
+      13237.0
+    ],
+    "2026-01-30": [
+      47939.0
+    ],
+    "2026-01-29": [
+      179749.0
+    ],
+    "2026-01-28": [
+      102694.0
+    ],
+    "2026-01-27": [
+      484890.0
+    ],
+    "2026-01-26": [
+      143353.0
+    ],
+    "2026-01-25": [
+      113917.0
+    ],
+    "2026-01-24": [
+      1800.0
+    ],
+    "2026-01-23": [
+      221380.0
+    ],
+    "2026-01-22": [
+      130827.0
+    ],
+    "2026-01-21": [
+      75296.0
+    ],
+    "2026-01-20": [
+      404589.0
+    ],
+    "2026-01-19": [
+      372367.0
+    ],
+    "2026-01-18": [
+      63609.0
+    ]
+  },
+  "copilot_cost_daily_euro": {
+    "2026-02-16": [
+      0.08606092000000001
+    ],
+    "2026-02-15": [
+      0.02133076
+    ],
+    "2026-02-14": [
+      0.00993916
+    ],
+    "2026-02-13": [
+      0.01106556
+    ],
+    "2026-02-12": [
+      0.011555720000000002
+    ],
+    "2026-02-11": [
+      0.0031121200000000003
+    ],
+    "2026-02-10": [
+      0.036306160000000004
+    ],
+    "2026-02-09": [
+      0.00848276
+    ],
+    "2026-02-08": [
+      0.017818679999999996
+    ],
+    "2026-02-06": [
+      0.009210959999999999
+    ],
+    "2026-02-05": [
+      0.0062986
+    ],
+    "2026-02-04": [
+      0.00853512
+    ],
+    "2026-02-03": [
+      0.0020842799999999996
+    ],
+    "2026-02-02": [
+      0.018538520000000003
+    ],
+    "2026-02-01": [
+      0.01617616
+    ],
+    "2026-01-31": [
+      0.00688292
+    ],
+    "2026-01-30": [
+      0.0238018
+    ],
+    "2026-01-29": [
+      0.07115635999999999
+    ],
+    "2026-01-28": [
+      0.04478143999999999
+    ],
+    "2026-01-27": [
+      0.18639588
+    ],
+    "2026-01-26": [
+      0.05374952
+    ],
+    "2026-01-25": [
+      0.048127640000000006
+    ],
+    "2026-01-24": [
+      0.00092004
+    ],
+    "2026-01-23": [
+      0.08355512
+    ],
+    "2026-01-22": [
+      0.059052839999999995
+    ],
+    "2026-01-21": [
+      0.029493639999999998
+    ],
+    "2026-01-20": [
+      0.14865839999999997
+    ],
+    "2026-01-19": [
+      0.13387376
+    ],
+    "2026-01-18": [
+      0.02619747
+    ]
+  },
+  "copilot_sessions": {
+    "_truncated": true,
+    "_original_size": 150663,
+    "_truncated_at": 20000,
+    "_message": "Response truncated from 150663 to 20000 characters",
+    "_partial_data": "[{\"session_id\": \"session_201\", \"timestamp\": \"2026-02-09T22:11:28.009772+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber **COMPANY** wissen?\", \"timestamp\": \"2026-02-09T22:10:54.986662+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht **COMPANY**?\", \"timestamp\": \"2026-02-09T22:10:55.114582+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-09T22:10:56.102630+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-09T22:11:26.262576+00:00\"}, {\"role\": \"assistant\", \"content\": \"**COMPANY** ist spezialisiert auf die L\\u00f6sung komplexer operativer Herausforderungen durch den Einsatz von fortschrittlicher Analytik, K\\u00fcnstlicher Intelligenz und Operations Research. Das Unternehmen unterst\\u00fctzt seine Kunden dabei, datenbasierte Entscheidungen zu treffen, die Produktivit\\u00e4t zu steigern und die Profitabilit\\u00e4t zu verbessern.\\n\\n**COMPANY** entwickelt Softwarel\\u00f6sungen in verschiedenen Bereichen wie Aviation Ground Operations, Data Analytics, Finished Vehicle Logistics, Logistics, Production, Risk & Fraud, Stocktaking, Supply Chain und Workforce Management.\\n\\nWenn Sie m\\u00f6chten, kann ich Ihnen auch Beispiele f\\u00fcr spezifische Produkte und L\\u00f6sungen von **COMPANY** nennen. M\\u00f6chten Sie das?\", \"timestamp\": \"2026-02-09T22:11:27.996255+00:00\"}]}, {\"session_id\": \"session_202\", \"timestamp\": \"2026-02-16T11:01:18.602142+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-16T11:01:00.526501+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht INFORM?\", \"timestamp\": \"2026-02-16T11:01:00.652849+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-16T11:01:01.668273+00:00\"}, {\"role\": \"tool\", \"content\": \"Requesting information on WebsiteKnowledgeDE with query \\\"Was macht INFORM\\\".\", \"timestamp\": \"2026-02-16T11:01:13.382742+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM ist ein f\\u00fchrendes Softwareunternehmen, das seit 1969 branchen\\u00fcbergreifend Softwarel\\u00f6sungen zur Optimierung komplexer Gesch\\u00e4ftsprozesse entwickelt. Die Kernkompetenz liegt in der Nutzung von k\\u00fcnstlicher Intelligenz, Operations Research und digitaler Entscheidungsintelligenz, um Unternehmen bei der datenbasierten Entscheidungsfindung zu unterst\\u00fctzen.\\n\\nINFORM-Systeme analysieren gro\\u00dfe Datenmengen in Sekundenschnelle, kalkulieren zahlreiche Entscheidungsvarianten durch und schlagen die bestm\\u00f6glichen L\\u00f6sungen vor. Die Software wird in vielen Branchen eingesetzt, darunter Industrie, Handel, Luftfahrt, Logistik, Banken und Versicherungen.\\n\\nBeispiele f\\u00fcr Anwendungsbereiche sind:\\n- Flughafenlogistik: Optimierung von Ressourcen wie Gates und Personal f\\u00fcr p\\u00fcnktliche Flugabfertigung.\\n- Automobilindustrie: Koordination von Transporten und Produktionslogistik.\\n- Finanzwirtschaft: Betrugspr\\u00e4vention durch Analyse von Finanztransaktionen in Echtzeit.\\n\\nINFORM arbeitet weltweit mit \\u00fcber 1.000 Kunden zusammen und bietet L\\u00f6sungen, die operative Abl\\u00e4ufe effizienter und profitabler machen.\\n\\nMehr dazu finden Sie hier:  \\n[Operations Research: Optimierung komplexer Prozesse - INFORM](https://www.inform-software.com/de/blog/kuenstliche-intelligenz/was-ist-operations-research)  \\n[VinFast geht strategische globale Partnerschaft mit INFORM ein](https://www.inform-software.com/de/news/syncrotess/vinfast-geht-strategische-globale-partnerschaft-mit-inform-fuer-softwareloesungen-in-der-fahrzeuglogistik-ein)\", \"timestamp\": \"2026-02-16T11:01:18.590250+00:00\"}]}, {\"session_id\": \"session_203\", \"timestamp\": \"2026-02-16T18:30:53.383904+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-16T18:30:52.284749+00:00\"}, {\"role\": \"user\", \"content\": \"Hallo\", \"timestamp\": \"2026-02-16T18:30:52.411641+00:00\"}, {\"role\": \"assistant\", \"content\": \"Hallo! Wie kann ich Ihnen heute mit Informationen zu INFORM und unseren L\\u00f6sungen weiterhelfen?\", \"timestamp\": \"2026-02-16T18:30:53.371390+00:00\"}]}, {\"session_id\": \"session_204\", \"timestamp\": \"2026-02-13T11:20:29.305673+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-13T11:20:01.641678+00:00\"}, {\"role\": \"user\", \"content\": \"Kosten\", \"timestamp\": \"2026-02-13T11:20:01.770203+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-13T11:20:02.474013+00:00\"}, {\"role\": \"tool\", \"content\": \"Requesting information on knowledge with query \\\"Kosten\\\".\", \"timestamp\": \"2026-02-13T11:20:08.339287+00:00\"}, {\"role\": \"assistant\", \"content\": \"Zu den Kosten f\\u00fcr INFORM-Softwarel\\u00f6sungen gibt es in den verf\\u00fcgbaren Dokumenten keine direkten Angaben. Die Kosten h\\u00e4ngen typischerweise von der jeweiligen L\\u00f6sung, dem Umfang der Implementierung und den individuellen Anforderungen ab.\\n\\nINFORM bietet verschiedene spezialisierte Softwareprodukte an, z.B. f\\u00fcr Personaleinsatzplanung, Logistik, Supply Chain, Risiko & Betrug, und mehr. F\\u00fcr konkrete Informationen zu Preisen und Kosten empfehle ich, direkt mit einem INFORM-Spezialisten Kontakt aufzunehmen, der auf Ihre spezifischen Bed\\u00fcrfnisse eingehen kann.\\n\\nWenn Sie m\\u00f6chten, kann ich Ihnen helfen, den Kontakt zu einem Experten bei INFORM herzustellen. M\\u00f6chten Sie das?\", \"timestamp\": \"2026-02-13T11:20:29.294018+00:00\"}]}, {\"session_id\": \"session_205\", \"timestamp\": \"2026-02-17T03:39:09.069526+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber **INFORM** wissen?\", \"timestamp\": \"2026-02-17T03:39:09.069526+00:00\"}, {\"role\": \"user\", \"content\": \"Was ist Process AI?\", \"timestamp\": \"2026-02-17T03:39:09.196833+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-17T03:39:09.947691+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-17T03:39:40.072596+00:00\"}, {\"role\": \"assistant\", \"content\": \"Leider konnte ich gerade keine Informationen zu \\\"Process AI\\\" aus der INFORM-Datenbank abrufen. Wenn Sie m\\u00f6chten, kann ich Ihnen anbieten, Sie mit einem INFORM-Spezialisten zu verbinden, der Ihnen detailliert weiterhelfen kann. M\\u00f6chten Sie das?\", \"timestamp\": \"2026-02-17T03:39:41.298972+00:00\"}]}, {\"session_id\": \"session_207\", \"timestamp\": \"2026-02-16T16:34:07.490084+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-16T16:33:54.145190+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht INFORM?\", \"timestamp\": \"2026-02-16T16:33:54.285929+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-16T16:33:55.030920+00:00\"}, {\"role\": \"tool\", \"content\": \"Requesting information on WebsiteKnowledgeDE with query \\\"Was macht INFORM?\\\".\", \"timestamp\": \"2026-02-16T16:34:02.712364+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM ist ein Softwareunternehmen, das sich auf die Optimierung komplexer Gesch\\u00e4ftsprozesse spezialisiert hat. Mit Hilfe von k\\u00fcnstlicher Intelligenz, Operations Research und digitaler Entscheidungsintelligenz entwickelt INFORM Softwarel\\u00f6sungen, die Unternehmen in verschiedenen Branchen dabei unterst\\u00fctzen, bessere und effizientere Entscheidungen zu treffen.\\n\\nDie Software von INFORM wird in vielen Bereichen eingesetzt, zum Beispiel:\\n\\n- Flughafenlogistik: Optimierung von Ressourcen wie Gates, Gep\\u00e4ckb\\u00e4ndern und Personal, um p\\u00fcnktliche Starts trotz Versp\\u00e4tungen zu gew\\u00e4hrleisten.\\n- Automobilindustrie: Koordination von Transporten und Produktionslogistik, um Fahrzeuge und Bauteile zur richtigen Zeit am richtigen Ort zu haben.\\n- Finanzwirtschaft: Betrugspr\\u00e4vention durch Analyse von Millionen von Finanztransaktionen in Echtzeit.\\n\\nINFORM arbeitet mit \\u00fcber 1.000 Kunden weltweit in Industrie, Handel, Luftfahrt, Logistik, Banken und Versicherungen zusammen und optimiert t\\u00e4glich Milliarden von Entscheidungen.\\n\\nMehr zu den Einsatzbereichen und L\\u00f6sungen finden Sie auf der [INFORM Website](https://www.inform-software.com/de/ueber-uns/Unsere-Geschichte).\\n\\nWenn Sie detailliertere Informationen w\\u00fcnschen, kann ich Sie auch mit einem INFORM-Spezialisten verbinden.\", \"timestamp\": \"2026-02-16T16:34:07.473447+00:00\"}]}, {\"session_id\": \"session_208\", \"timestamp\": \"2026-02-13T05:25:24.680522+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-13T05:24:52.452111+00:00\"}, {\"role\": \"user\", \"content\": \"Welche Branchen bedienen Sie?\", \"timestamp\": \"2026-02-13T05:24:52.583252+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-13T05:24:53.290762+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-13T05:25:23.509253+00:00\"}, {\"role\": \"assistant\", \"content\": \"Derzeit habe ich keine direkte Antwort aus der Datenbank zu den Branchen, die INFORM bedient. Allgemein bietet INFORM L\\u00f6sungen in verschiedenen Bereichen wie Aviation Ground Operations, Data Analytics, Finished Vehicle Logistics, Logistics, Production, Risk & Fraud, Stocktaking, Supply Chain und Workforce Management an. Diese Kategorien sprechen unterschiedliche Branchen an, darunter Luftfahrt, Logistik, Produktion und Finanzdienstleistungen.\\n\\nWenn Sie eine spezifischere Auskunft w\\u00fcnschen, kann ich Sie gerne mit einem INFORM-Spezialisten verbinden. M\\u00f6chten Sie das?\", \"timestamp\": \"2026-02-13T05:25:24.666507+00:00\"}]}, {\"session_id\": \"session_209\", \"timestamp\": \"2026-02-10T14:54:04.089107+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-10T14:53:31.400547+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht INFORM?\", \"timestamp\": \"2026-02-10T14:53:31.530046+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-10T14:53:32.275484+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-10T14:54:02.462929+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM ist spezialisiert auf die L\\u00f6sung komplexer operativer Herausforderungen durch den Einsatz von fortschrittlicher Analytik, K\\u00fcnstlicher Intelligenz und Operations Research. Das Unternehmen unterst\\u00fctzt seine Kunden dabei, datenbasierte Entscheidungen zu treffen, die Produktivit\\u00e4t zu steigern und die Profitabilit\\u00e4t zu verbessern.\\n\\nINFORM entwickelt Softwarel\\u00f6sungen in verschiedenen Bereichen wie Aviation Ground Operations, Data Analytics, Finished Vehicle Logistics, Logistics, Production, Risk & Fraud, Stocktaking, Supply Chain und Workforce Management.\\n\\nWenn Sie m\\u00f6chten, kann ich Ihnen mehr zu speziellen L\\u00f6sungen oder Produkten von INFORM erz\\u00e4hlen.\", \"timestamp\": \"2026-02-10T14:54:04.076243+00:00\"}]}, {\"session_id\": \"session_210\", \"timestamp\": \"2026-02-15T21:35:13.435636+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-15T21:35:13.435636+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht INFORM?\", \"timestamp\": \"2026-02-15T21:35:13.559674+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-15T21:35:14.325506+00:00\"}, {\"role\": \"tool\", \"content\": \"Requesting information on WebsiteKnowledgeDE with query \\\"Was macht INFORM\\\".\", \"timestamp\": \"2026-02-15T21:35:22.032322+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM ist ein f\\u00fchrendes Softwareunternehmen, das seit 1969 branchen\\u00fcbergreifend Softwarel\\u00f6sungen zur Optimierung komplexer Gesch\\u00e4ftsprozesse entwickelt. Die Systeme von INFORM nutzen fortschrittliche Methoden wie K\\u00fcnstliche Intelligenz, Operations Research und maschinelles Lernen, um gro\\u00dfe Datenmengen in Sekundenschnelle zu analysieren und die bestm\\u00f6glichen Entscheidungen vorzuschlagen.\\n\\nINFORM unterst\\u00fctzt mehr als 1.000 Kunden weltweit in verschiedenen Branchen wie Industrie, Handel, Luftfahrt, Logistik, Finanzwesen und Telekommunikation. Die Software hilft beispielsweise bei der Planung und Steuerung von Produktionsprozessen, der Logistik, der Personaleinsatzplanung, dem Risikomanagement und der Betrugspr\\u00e4vention.\\n\\nDas Ziel von INFORM ist es, Unternehmen durch datengetriebene Entscheidungen produktiver und profitabler zu machen, indem komplexe Herausforderungen effizient gel\\u00f6st werden.\\n\\nMehr dazu finden Sie hier:  \\n[Operations Research: Optimierung komplexer Prozesse - INFORM](https://www.inform-software.com/de/blog/kuenstliche-intelligenz/was-ist-operations-research)  \\n[VinFast geht strategische globale Partnerschaft mit INFORM ein](https://www.inform-software.com/de/news/syncrotess/vinfast-geht-strategische-globale-partnerschaft-mit-inform-fuer-softwareloesungen-in-der-fahrzeuglogistik-ein)  \\n[Unsere Geschichte - INFORM](https://www.inform-software.com/de/ueber-uns/Unsere-Geschichte)\", \"timestamp\": \"2026-02-15T21:35:25.409814+00:00\"}]}, {\"session_id\": \"session_211\", \"timestamp\": \"2026-02-16T19:38:36.308255+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-16T19:36:35.298470+00:00\"}, {\"role\": \"user\", \"content\": \"Was macht INFORM?\", \"timestamp\": \"2026-02-16T19:36:35.422863+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-16T19:36:36.407732+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-16T19:37:06.574558+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM ist spezialisiert auf die L\\u00f6sung komplexer operativer Herausforderungen durch den Einsatz von fortschrittlicher Analytik, K\\u00fcnstlicher Intelligenz und Operations Research. Das Unternehmen unterst\\u00fctzt seine Kunden dabei, datenbasierte Entscheidungen zu treffen, die Produktivit\\u00e4t zu steigern und die Profitabilit\\u00e4t zu verbessern.\\n\\nINFORM entwickelt Softwarel\\u00f6sungen in verschiedenen Bereichen wie Aviation Ground Operations, Data Analytics, Finished Vehicle Logistics, Logistics, Production, Risk & Fraud, Stocktaking, Supply Chain und Workforce Management.\\n\\nWenn Sie m\\u00f6chten, kann ich Ihnen auch Beispiele f\\u00fcr spezifische Produkte und L\\u00f6sungen von INFORM nennen. M\\u00f6chten Sie das?\", \"timestamp\": \"2026-02-16T19:37:08.765884+00:00\"}, {\"role\": \"user\", \"content\": \"Ja nennen Sie mal beispiele.\", \"timestamp\": \"2026-02-16T19:38:28.292576+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-16T19:38:29.168222+00:00\"}, {\"role\": \"tool\", \"content\": \"Anfrage von Informationen zu WebsiteKnowledgeDE mit der Abfrage \\\"Beispiele f\\u00fcr Produkte und L\\u00f6sungen von INFORM\\\".\", \"timestamp\": \"2026-02-16T19:38:31.126891+00:00\"}, {\"role\": \"assistant\", \"content\": \"INFORM bietet eine Vielzahl von Softwarel\\u00f6sungen, die verschiedene Branchen und Gesch\\u00e4ftsprozesse optimieren. Hier einige Beispiele:\\n\\n- **add*ONE**: L\\u00f6sungen f\\u00fcr Bestandsoptimierung, Simultanplanung und Absatzplanung, die KI-basierte Prognosen und Planung erm\\u00f6glichen.\\n- **FELIOS**: Software f\\u00fcr Produktionsplanung und -steuerung, die Arbeitsabl\\u00e4ufe in Einzel- und Kleinserienfertigung optimiert.\\n- **GROUNDSTAR**: L\\u00f6sungen f\\u00fcr die Bodenabfertigung in der Luftfahrt zur Kostenreduktion und Sicherstellung der Servicequalit\\u00e4t.\\n- **INVENT XPERT**: Software f\\u00fcr eine stressfreie und vereinfachte Inventur ohne Qualit\\u00e4tsverlust.\\n- **RISKSHIELD**: Hybride KI-Technologie zur Verbesserung der Widerstandsf\\u00e4higkeit gegen Finanzkriminalit\\u00e4t in Echtzeit.\\n- **SYNCROSUPPLY** und **SYNCROTESS**: L\\u00f6sungen f\\u00fcr Supply Chain Management und Logistikoptimierung.\\n- **WORKFORCEPLUS**: KI-gest\\u00fctzte Workforce Management Software zur Produktivit\\u00e4tssteigerung und Kosteneinsparung.\\n\\nDiese L\\u00f6sungen decken Bereiche wie Logistik, Produktion, Supply Chain, Risiko & Betrug, Inventur und Workforce Management ab.\\n\\nMehr Details zu den L\\u00f6sungen finden Sie hier:  \\n[INFORM L\\u00f6sungen \\u00dcbersicht](https://www.inform-software.com/de/loesungen)  \\n[add*ONE Absatzplanung](https://www.inform-software.com/de/loesungen/supply-chain-management-software/absatzplanung-software)  \\n[FELIOS Produktionsplanung](https://www.inform-software.com/de/loesungen/produktion/produktionsplanung)  \\n[RISKSHIELD Risiko & Betrug](https://www.inform-software.com/de/loesungen/risiko-betrug)  \\n[WORKFORCEPLUS Workforce Management](https://www.inform-software.com/de/loesungen/workforce-management-software)\", \"timestamp\": \"2026-02-16T19:38:36.296291+00:00\"}]}, {\"session_id\": \"session_213\", \"timestamp\": \"2026-02-10T15:36:44.067409+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber INFORM wissen?\", \"timestamp\": \"2026-02-10T15:36:30.561037+00:00\"}, {\"role\": \"user\", \"content\": \"man aero engine\", \"timestamp\": \"2026-02-10T15:36:30.691997+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-10T15:36:31.724526+00:00\"}, {\"role\": \"tool\", \"content\": \"Anfrage von Informationen zu WebsiteKnowledgeDE mit der Abfrage \\\"aero engine\\\".\", \"timestamp\": \"2026-02-10T15:36:39.168034+00:00\"}, {\"role\": \"assistant\", \"content\": \"Die MTU Aero Engines AG, Deutschlands f\\u00fchrender Triebwerkshersteller, nutzt seit 1993 das Transportleitsystem SYNCROTESS von INFORM zur Optimierung ihrer mehrstufigen Transportketten in der Werkslogistik. Dieses KI-basierte System steuert j\\u00e4hrlich rund 560.000 Transportauftr\\u00e4ge und erm\\u00f6glicht eine dynamische Echtzeitplanung f\\u00fcr Stapler, Elektrow\\u00e4gen und andere F\\u00f6rdermittel. Durch den Einsatz von SYNCROTESS konnte MTU die interne Liefertreue von 89 Prozent im Jahr 2020 auf 93 Prozent in 2022 steigern.\\n\\nZus\\u00e4tzlich verwendet MTU die Cloud-basierte L\\u00f6sung SYNCROSUPPLY von INFORM f\\u00fcr das Zeitfenstermanagement und die Steuerung des Lkw-Zulaufs. Damit wurden die Lkw-Durchlaufzeiten im Anlieferverkehr von durchschnittlich 56 auf 46 Minuten reduziert, was die Transparenz und Effizienz im Inbound-Verkehr deutlich verbessert.\\n\\nDiese L\\u00f6sungen helfen MTU, die steigende Komplexit\\u00e4t und das wachsende Produktionsvolumen in der Logistik effizient zu bew\\u00e4ltigen.\\n\\nMehr dazu finden Sie hier:  \\n- [MTU Aero Engines AG zentralisiert Werkstransport in Leitsystem von INFORM](https://www.inform-software.com/de/news/syncrotess/mtu-aero-engines-ag-zentralisiert-werkstransport-in-leitsystem-von-inform-1)  \\n- [MTU reduziert signifikant Lkw-Durchlaufzeiten - INFORM](https://www.inform-software.com/de/success-stories/mtu-yard-management)  \\n\\nWenn Sie weitere Details w\\u00fcnschen, kann ich Sie auch mit einem INFORM-Spezialisten verbinden.\", \"timestamp\": \"2026-02-10T15:36:44.055008+00:00\"}]}, {\"session_id\": \"session_214\", \"timestamp\": \"2026-02-15T20:58:48.558804+00:00\", \"messages\": [{\"role\": \"assistant\", \"content\": \"Was m\\u00f6chten Sie \\u00fcber **COMPANY** wissen?\", \"timestamp\": \"2026-02-15T20:58:16.752349+00:00\"}, {\"role\": \"user\", \"content\": \"Hackathon\", \"timestamp\": \"2026-02-15T20:58:16.877059+00:00\"}, {\"role\": \"assistant\", \"content\": \"[Message content unavailable]\", \"timestamp\": \"2026-02-15T20:58:17.481110+00:00\"}, {\"role\": \"tool\", \"content\": \"Fehler beim Aufrufen des Backends. Versuche, die Verbindung wiederherzustellen...\", \"timestamp\": \"2026-02-15T20:58:47.646244+00:00\"}, {\"role\": \"assistant\""
+  },
+  "copilot_sessions_summaries": {
+    "sessions": [
+      {
+        "session_id": "session_201",
+        "timestamp": "2026-02-09T22:11:28.011388+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_202",
+        "timestamp": "2026-02-16T11:01:18.603758+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_203",
+        "timestamp": "2026-02-16T18:30:53.385520+00:00",
+        "message_count": 3
+      },
+      {
+        "session_id": "session_204",
+        "timestamp": "2026-02-13T11:20:29.307289+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_205",
+        "timestamp": "2026-02-17T03:39:09.071142+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_207",
+        "timestamp": "2026-02-16T16:34:07.491700+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_208",
+        "timestamp": "2026-02-13T05:25:24.682138+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_209",
+        "timestamp": "2026-02-10T14:54:04.090723+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_210",
+        "timestamp": "2026-02-15T21:35:13.437252+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_211",
+        "timestamp": "2026-02-16T19:38:36.309871+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_213",
+        "timestamp": "2026-02-10T15:36:44.069025+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_214",
+        "timestamp": "2026-02-15T20:58:48.560420+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_215",
+        "timestamp": "2026-02-16T15:47:52.126320+00:00",
+        "message_count": 3
+      },
+      {
+        "session_id": "session_216",
+        "timestamp": "2026-02-08T18:35:58.812491+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_217",
+        "timestamp": "2026-02-12T23:52:27.895691+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_218",
+        "timestamp": "2026-02-10T15:37:13.201407+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_219",
+        "timestamp": "2026-02-10T13:20:54.629347+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_220",
+        "timestamp": "2026-02-17T01:33:01.284357+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_221",
+        "timestamp": "2026-02-16T20:40:20.230275+00:00",
+        "message_count": 21
+      },
+      {
+        "session_id": "session_222",
+        "timestamp": "2026-02-06T00:11:04.209717+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_223",
+        "timestamp": "2026-02-10T11:03:01.004074+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_224",
+        "timestamp": "2026-02-16T11:13:13.766726+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_225",
+        "timestamp": "2026-02-16T14:39:39.578328+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_226",
+        "timestamp": "2026-02-16T11:09:36.389554+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_229",
+        "timestamp": "2026-02-04T20:05:56.000575+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_230",
+        "timestamp": "2026-02-10T16:33:10.368774+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_231",
+        "timestamp": "2026-02-04T20:05:34.785919+00:00",
+        "message_count": 1
+      },
+      {
+        "session_id": "session_232",
+        "timestamp": "2026-02-13T13:29:10.562982+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_233",
+        "timestamp": "2026-02-06T20:27:17.668469+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_234",
+        "timestamp": "2026-02-15T16:27:08.880037+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_235",
+        "timestamp": "2026-02-10T15:37:52.429047+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_236",
+        "timestamp": "2026-02-07T11:54:17.582945+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_237",
+        "timestamp": "2026-02-06T00:11:44.870759+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_238",
+        "timestamp": "2026-02-14T16:48:58.149223+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_239",
+        "timestamp": "2026-02-16T13:36:48.213363+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_240",
+        "timestamp": "2026-02-09T01:50:08.158987+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_241",
+        "timestamp": "2026-02-17T10:58:59.313293+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_242",
+        "timestamp": "2026-02-16T20:09:17.003259+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_244",
+        "timestamp": "2026-02-13T11:22:17.919644+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_245",
+        "timestamp": "2026-02-10T11:16:02.352587+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_246",
+        "timestamp": "2026-02-12T21:08:29.576052+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_247",
+        "timestamp": "2026-02-16T17:10:49.234038+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_248",
+        "timestamp": "2026-02-08T18:16:26.620289+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_249",
+        "timestamp": "2026-02-13T12:10:44.122751+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_250",
+        "timestamp": "2026-02-17T12:53:49.738665+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_252",
+        "timestamp": "2026-02-11T15:44:19.358280+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_253",
+        "timestamp": "2026-02-13T23:29:37.720300+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_254",
+        "timestamp": "2026-02-16T12:04:47.739754+00:00",
+        "message_count": 3
+      },
+      {
+        "session_id": "session_255",
+        "timestamp": "2026-02-11T12:36:21.295688+00:00",
+        "message_count": 17
+      },
+      {
+        "session_id": "session_256",
+        "timestamp": "2026-02-17T11:40:08.196687+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_257",
+        "timestamp": "2026-02-15T13:20:58.465790+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_258",
+        "timestamp": "2026-02-13T18:19:22.330864+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_259",
+        "timestamp": "2026-02-13T20:06:12.239125+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_260",
+        "timestamp": "2026-02-17T09:09:50.863588+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_261",
+        "timestamp": "2026-02-13T01:40:42.866945+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_262",
+        "timestamp": "2026-02-04T10:12:48.392233+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_263",
+        "timestamp": "2026-02-12T23:51:46.793089+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_264",
+        "timestamp": "2026-02-13T15:44:23.737014+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_265",
+        "timestamp": "2026-02-04T21:35:44.607823+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_266",
+        "timestamp": "2026-02-08T15:39:17.313520+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_267",
+        "timestamp": "2026-02-16T17:03:35.116105+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_268",
+        "timestamp": "2026-02-04T20:05:37.429995+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_269",
+        "timestamp": "2026-02-17T12:08:42.297973+00:00",
+        "message_count": 11
+      },
+      {
+        "session_id": "session_270",
+        "timestamp": "2026-02-05T18:00:07.113890+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_271",
+        "timestamp": "2026-02-17T02:06:38.353840+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_272",
+        "timestamp": "2026-02-16T14:20:22.120898+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_275",
+        "timestamp": "2026-02-13T13:24:05.078577+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_276",
+        "timestamp": "2026-02-16T16:48:15.920110+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_277",
+        "timestamp": "2026-02-16T15:50:55.861374+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_278",
+        "timestamp": "2026-02-07T00:58:17.494007+00:00",
+        "message_count": 7
+      },
+      {
+        "session_id": "session_279",
+        "timestamp": "2026-02-03T16:58:00.397487+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_280",
+        "timestamp": "2026-02-13T13:21:59.388670+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_281",
+        "timestamp": "2026-02-09T11:21:22.305468+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_282",
+        "timestamp": "2026-02-14T20:42:29.607582+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_284",
+        "timestamp": "2026-02-16T14:48:42.052384+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_286",
+        "timestamp": "2026-02-15T01:48:39.975633+00:00",
+        "message_count": 9
+      },
+      {
+        "session_id": "session_287",
+        "timestamp": "2026-02-13T23:49:46.074458+00:00",
+        "message_count": 3
+      },
+      {
+        "session_id": "session_288",
+        "timestamp": "2026-02-13T22:26:19.484043+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_289",
+        "timestamp": "2026-02-09T11:47:30.976275+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_290",
+        "timestamp": "2026-02-05T22:18:28.437534+00:00",
+        "message_count": 5
+      },
+      {
+        "session_id": "session_291",
+        "timestamp": "2026-02-15T19:23:55.772372+00:00",
+        "message_count": 5
+      }
+    ],
+    "total_count": 81
+  }
+}
