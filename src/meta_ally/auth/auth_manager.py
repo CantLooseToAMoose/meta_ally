@@ -18,7 +18,7 @@ class AuthManager:
 
     def __init__(
         self,
-        keycloak_url: str = "https://keycloak.acc.iam-services.aws.inform-cloud.io/",
+        keycloak_url: str = "https://keycloak.test.iam-services.aws.inform-cloud.io/",
         realm_name: str = "inform-ai",
         client_id: str = "ai-cli-device",
         should_open_browser: bool = True
