@@ -6,6 +6,7 @@ from typing import Any
 from pydantic_ai import Agent
 from pydantic_ai.messages import ModelRequest, UserPromptPart
 
+from ..agents.dependencies import TimelineEntry
 from .conversation_turns import ModelMessage
 
 
@@ -51,3 +52,64 @@ def create_agent_conversation_task(agent: Agent[Any, Any], deps: Any) -> Callabl
         return new_messages
 
     return run_agent_conversation
+
+
+def create_multi_agent_conversation_task(agent: Agent[Any, Any], deps: Any) -> Callable:
+    """
+    Create an evaluation task where the multi-agent orchestrator must handle a conversation.
+
+    Args:
+        agent: The orchestrator agent
+        deps: MultiAgentDependencies instance
+
+    Returns:
+        A callable that runs the multi-agent orchestrator through a conversation
+        and returns the new conversation timeline entries.
+    """
+
+    def run_multi_agent_conversation(
+        input_messages: list[ModelMessage],
+    ) -> list[TimelineEntry]:
+        """
+        Run the multi-agent orchestrator through a conversation.
+
+        Args:
+            input_messages: Previous conversation messages (orchestrator's history)
+
+        Returns:
+            List of new TimelineEntry objects generated during this conversation turn,
+            including both orchestrator messages and specialist runs.
+        """
+        # Create a copy to avoid mutating the original input_messages
+        messages_copy = input_messages.copy()
+
+        # Pop last message from input messages to kick off agent
+        last_message = messages_copy.pop()
+
+        # Extract user prompt text from the last message
+        user_prompt = None
+        if isinstance(last_message, ModelRequest):
+            for part in last_message.parts:
+                if isinstance(part, UserPromptPart):
+                    user_prompt = part.content
+                    break
+
+        # Run the orchestrator
+        response = agent.run_sync(user_prompt, deps=deps, message_history=messages_copy)
+
+        # Add orchestrator's new messages to the timeline
+        # Skip the first message (the user prompt we just sent) since it's already in input_messages
+        new_messages = list(response.new_messages())
+        if new_messages:
+            new_messages = new_messages[1:]  # Skip the first message
+        deps.add_orchestrator_messages(new_messages)
+
+        # Get the undisplayed entries from the timeline (these are the new entries)
+        undisplayed_entries = deps.get_undisplayed_entries()
+
+        # Mark all entries as displayed to reset for next run
+        deps.mark_entries_as_displayed()
+
+        return undisplayed_entries
+
+    return run_multi_agent_conversation

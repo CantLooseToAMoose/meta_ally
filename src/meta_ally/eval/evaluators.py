@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pydantic_ai.messages import ToolCallPart
 from pydantic_evals.evaluators import Evaluator, EvaluatorContext
 
+from ..agents.dependencies import TimelineEntry, TimelineEntryType
 from .case_factory import ExpectedOutput
 from .conversation_turns import ModelMessage
 
@@ -27,6 +28,8 @@ class ToolCallEvaluator(Evaluator):
         """
         Evaluate the model's tool calls against expected tool calls.
 
+        Supports both single-agent (list[ModelMessage]) and multi-agent (list[TimelineEntry]) outputs.
+
         Args:
             ctx: EvaluatorContext containing expected output and actual output
 
@@ -34,14 +37,19 @@ class ToolCallEvaluator(Evaluator):
             Float between 0.0 and 1.0 representing tool call accuracy
         """
         expected: ExpectedOutput | None = ctx.expected_output
-        actual_messages: list[ModelMessage] = ctx.output
+        actual_output = ctx.output
 
         # Handle case where expected_output is None
         if expected is None:
             return 0.0
 
-        # Extract actual tool calls from model messages
-        actual_tool_calls = self._extract_tool_calls_from_messages(actual_messages)
+        # Extract actual tool calls - handle both single-agent and multi-agent cases
+        if actual_output and len(actual_output) > 0 and isinstance(actual_output[0], TimelineEntry):
+            # Multi-agent case: output is list[TimelineEntry]
+            actual_tool_calls = self._extract_tool_calls_from_timeline(actual_output)
+        else:
+            # Single-agent case: output is list[ModelMessage]
+            actual_tool_calls = self._extract_tool_calls_from_messages(actual_output)
 
         # Get expected tool calls from either direct tool_calls or model_messages
         expected_tool_calls = self._get_expected_tool_calls(expected)
@@ -82,6 +90,32 @@ class ToolCallEvaluator(Evaluator):
                 for part in message.parts:
                     if isinstance(part, ToolCallPart):
                         tool_calls.append(part)
+        return tool_calls
+
+    def _extract_tool_calls_from_timeline(self, timeline: list[TimelineEntry]) -> list[ToolCallPart]:
+        """
+        Extract all ToolCallPart objects from timeline entries (multi-agent case).
+
+        Args:
+            timeline: List of TimelineEntry objects from multi-agent orchestrator
+
+        Returns:
+            List of ToolCallPart objects extracted from timeline entries.
+        """
+        tool_calls = []
+        for entry in timeline:
+            if entry.entry_type == TimelineEntryType.ORCHESTRATOR_MESSAGE:
+                # Extract from orchestrator message
+                message = entry.data
+                if hasattr(message, 'parts'):
+                    for part in message.parts:
+                        if isinstance(part, ToolCallPart):
+                            tool_calls.append(part)
+            elif entry.entry_type == TimelineEntryType.SPECIALIST_RUN:
+                # Extract from specialist run's new_messages
+                specialist_run = entry.data
+                if hasattr(specialist_run, 'new_messages'):
+                    tool_calls.extend(self._extract_tool_calls_from_messages(specialist_run.new_messages))
         return tool_calls
 
     def _get_expected_tool_calls(self, expected: ExpectedOutput) -> list[ToolCallPart] | None:
