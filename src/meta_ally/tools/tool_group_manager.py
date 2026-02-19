@@ -369,15 +369,14 @@ class ToolGroupManager:
         Note:
             Searches AI Knowledge tools first, then Ally Config tools
         """
-        # Try AI Knowledge tools first
-        if self._ai_knowledge_loader is not None:
-            tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
-            if tool is not None:
-                return tool
-
-        # Try Ally Config tools
+        # Try Ally Config tools first
         if self._ally_config_loader is not None:
             tool = self._ally_config_loader.get_tool_by_operation_id(operation_id)
+            if tool is not None:
+                return tool
+        # Try AI Knowledge tools
+        if self._ai_knowledge_loader is not None:
+            tool = self._ai_knowledge_loader.get_tool_by_operation_id(operation_id)
             if tool is not None:
                 return tool
 

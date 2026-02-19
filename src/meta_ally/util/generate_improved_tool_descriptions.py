@@ -39,7 +39,6 @@ API_CONFIGS = [
 
 def create_agent() -> Agent:
     """Create an agent configured for generating tool descriptions."""
-
     model_config = ModelConfiguration(deployment_name="gpt-4.1-mini")
     model = model_config.create_model()
 

@@ -53,7 +53,7 @@ REQUIRE_HUMAN_APPROVAL = True  # Set to True to require approval for non-read op
 USE_MOCK_API = True  # Set to True to use mock API data instead of real API calls
 USE_IMPROVED_DESCRIPTIONS = True  # Set to True to use improved tool descriptions
 MODEL_DEPLOYMENT_NAME = "gpt-5-mini"  # Azure OpenAI deployment name (e.g., "gpt-4o", "gpt-4.1-mini")
-LOAD_CONVERSATION_FROM = "Data/UserRecords/Philipp_Langen__2nd_run__20260206_142400.json"
+LOAD_CONVERSATION_FROM = None
 # Path to conversation JSON file to load (e.g., "Data/UserRecords/chat_20260206.json")
 
 
