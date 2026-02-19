@@ -110,6 +110,31 @@ class APITestHookLibrary(HookLibrary):
             hook_type="pre"
         )
 
+        self.register_hook(
+            "setup_addone_copilot_for_plugin_config",
+            self._setup_addone_copilot_for_plugin_config,
+            "Setup ADD*ONE Copilot for Plugin Configuration",
+            description="Creates full copilot setup (sources, collection, copilot) for plugin configuration tests",
+            hook_type="pre"
+        )
+
+        # Testing & Access Management hooks
+        self.register_hook(
+            "empty_evaluation_suite",
+            self._empty_evaluation_suite,
+            "Empty Evaluation Suite",
+            description="Empties the website_test_suite evaluation suite for /gb80/inform_webseite_dummy",
+            hook_type="pre"
+        )
+
+        self.register_hook(
+            "cleanup_role_and_user",
+            self._cleanup_role_and_user,
+            "Cleanup Role and User",
+            description="Removes user from 'Copilot Viewer & User' role and then deletes the role",
+            hook_type="pre"
+        )
+
     # ============================================================================
     # Generic API Helper Functions
     # ============================================================================
@@ -176,6 +201,23 @@ class APITestHookLibrary(HookLibrary):
             endpoint=endpoint
         )
         print(f"✓ Executed delete_copilot for '{endpoint}'")
+        print(f"  API returned: {result}")
+
+    async def _create_copilot(
+        self,
+        endpoint: str,
+        endpoint_attributes: dict,
+        endpoint_metadata: dict
+    ) -> None:
+        """Generic function to create a copilot."""
+        tool_manager = self._ensure_tool_manager()
+        result = await tool_manager.execute_tool_safely(
+            "create_copilot",
+            endpoint=endpoint,
+            endpoint_attributes=endpoint_attributes,
+            endpoint_metadata=endpoint_metadata
+        )
+        print(f"✓ Executed create_copilot for '{endpoint}'")
         print(f"  API returned: {result}")
 
     # ============================================================================
@@ -281,3 +323,113 @@ class APITestHookLibrary(HookLibrary):
         await self._setup_addone_sources_and_collection(inputs)
 
         print("✓ Full cleanup and setup complete\n")
+
+    async def _setup_addone_copilot_for_plugin_config(self, inputs: Any) -> None:
+        """
+        Setup complete ADD*ONE copilot for plugin configuration tests.
+
+        Pre-hook that:
+        1. Deletes the copilot (if it exists)
+        2. Deletes and recreates sources and collection
+        3. Creates the copilot
+
+        Useful for plugin configuration tests that need the copilot to already exist.
+        """
+        print("\n🔧 Setting up ADD*ONE copilot for plugin configuration...")
+
+        # Step 1: Clean up existing copilot
+        await self._delete_copilot("/gb10/addone_sales_copilot")
+
+        # Step 2: Clean up and recreate sources/collection
+        await self._delete_collection("addone_sales_resources")
+        await self._delete_source("inform_website")
+        await self._delete_source("addone_infopapers")
+        await self._setup_addone_sources_and_collection(inputs)
+
+        # Step 3: Create the copilot
+        await self._create_copilot(
+            endpoint="/gb10/addone_sales_copilot",
+            endpoint_attributes={
+                "dep_name": "gpt-4.1-mini",
+                "instructions": (
+                    "Du bist der Sales Assistant für ADD*ONE. Nutze die Quellen "
+                    "(INFORM Webseite, AddOne InfoPapers) für überzeugende Antworten."
+                ),
+                "default_message": (
+                    "Hallo! Ich bin Ihr ADD*ONE Sales Assistant. Womit kann ich helfen?"
+                )
+            },
+            endpoint_metadata={
+                "display_name": "ADD*ONE Sales Copilot",
+                "description": "Sales Assistant für die ADD*ONE Webseite",
+                "project_number": "10000"
+            }
+        )
+
+        print("✓ Copilot setup complete for plugin configuration\n")
+
+    # ============================================================================
+    # Testing & Access Management Hooks
+    # ============================================================================
+
+    async def _empty_evaluation_suite(self, _inputs: Any) -> None:
+        """
+        Empty the evaluation suite by updating it with an empty test case list.
+
+        Pre-hook for test cases that create new evaluation suites.
+        Uses update_copilot_evaluation_suite with empty test_cases list since
+        there is no delete_evaluation_suite API.
+        """
+        print("\n🧹 Emptying evaluation suite...")
+
+        tool_manager = self._ensure_tool_manager()
+        result = await tool_manager.execute_tool_safely(
+            "update_copilot_evaluation_suite",
+            test_suite_name="website_test_suite",
+            endpoint="/gb80/inform_webseite_dummy",
+            test_cases=[]
+        )
+        print(f"✓ Executed update_copilot_evaluation_suite with empty test_cases")
+        print(f"  API returned: {result}")
+        print("✓ Evaluation suite emptied\n")
+
+    async def _cleanup_role_and_user(self, _inputs: Any) -> None:
+        """
+        Remove user from role and delete the role.
+
+        Pre-hook for test cases that create new roles with users.
+        Steps:
+        1. Remove user from 'Copilot Viewer & User' role
+        2. Wait a few seconds
+        3. Remove the 'Copilot Viewer & User' role
+        """
+        print("\n🧹 Cleaning up role and user...")
+        import asyncio
+
+        tool_manager = self._ensure_tool_manager()
+
+        # Step 1: Remove user from role
+        result = await tool_manager.execute_tool_safely(
+            "remove_user",
+            resource_type="endpoint",
+            resource_name="/gb80/inform_webseite_dummy",
+            role="Copilot Viewer & User",
+            user="colleague@inform-software.com"
+        )
+        print(f"✓ Executed remove_user for 'colleague@inform-software.com'")
+        print(f"  API returned: {result}")
+
+        # Step 2: Wait a few seconds
+        print("⏳ Waiting 3 seconds...")
+        await asyncio.sleep(3)
+
+        # Step 3: Remove role
+        result = await tool_manager.execute_tool_safely(
+            "remove_role",
+            resource_type="endpoint",
+            resource_name="/gb80/inform_webseite_dummy",
+            role="Copilot Viewer & User"
+        )
+        print(f"✓ Executed remove_role for 'Copilot Viewer & User'")
+        print(f"  API returned: {result}")
+        print("✓ Role and user cleanup complete\n")

@@ -93,6 +93,26 @@ async def execute_individual_hooks():
     except Exception as e:
         print(f"❌ Hook execution failed: {e}")
 
+    print("\n" + "=" * 80)
+    print("5️⃣  EXECUTING: empty_evaluation_suite")
+    print("=" * 80)
+    try:
+        hook = hooks.get_hook("empty_evaluation_suite")
+        await hook(dummy_inputs)
+        print("✅ Hook executed successfully")
+    except Exception as e:
+        print(f"⚠️  Hook execution completed with note: {e}")
+
+    print("\n" + "=" * 80)
+    print("6️⃣  EXECUTING: cleanup_role_and_user")
+    print("=" * 80)
+    try:
+        hook = hooks.get_hook("cleanup_role_and_user")
+        await hook(dummy_inputs)
+        print("✅ Hook executed successfully")
+    except Exception as e:
+        print(f"⚠️  Hook execution completed with note: {e}")
+
 
 async def main():
     """Run all examples."""
