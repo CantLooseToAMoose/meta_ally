@@ -14,6 +14,144 @@ from typing import Any
 
 import pandas as pd
 
+# Note: input and output token metrics in evaluation reports are originally counted twice,
+# so we multiply by 0.5 to get the correct values
+
+
+def load_all_reports_from_directory(base_dir: str) -> dict[str, dict[str, Any]]:
+    """
+    Load all evaluation reports from a directory containing multiple run folders.
+    
+    Useful for loading reports from a directory structure like:
+        evaluation_results/
+            run_1/
+                reports/
+                    case_1.json
+                    case_2.json
+            run_2/
+                reports/
+                    case_1.json
+    
+    Args:
+        base_dir: Base directory containing run folders with reports subdirectories
+        
+    Returns:
+        Dictionary mapping run_folder_name -> {dataset_id -> report_data}
+        
+    Example:
+        >>> all_reports = load_all_reports_from_directory("evaluation_results")
+        >>> for run_name, reports in all_reports.items():
+        ...     print(f"{run_name}: {len(reports)} datasets")
+    """
+    base_path = Path(base_dir)
+    all_reports = {}
+    
+    for run_dir in sorted([d for d in base_path.iterdir() if d.is_dir()]):
+        reports_dir = run_dir / 'reports'
+        if not reports_dir.exists():
+            continue
+            
+        reports = {}
+        for report_file in sorted(reports_dir.glob('*.json')):
+            dataset_id = report_file.stem
+            with open(report_file, 'r', encoding='utf-8') as f:
+                reports[dataset_id] = json.load(f)
+        
+        if reports:
+            all_reports[run_dir.name] = reports
+    
+    return all_reports
+
+
+def load_all_reports_as_dataframe(
+    base_dir: str,
+    flatten_scores: bool = True,
+    include_io: bool = False
+) -> pd.DataFrame:
+    """
+    Load all evaluation reports from a directory into a single DataFrame.
+    
+    Args:
+        base_dir: Base directory containing run folders with reports subdirectories
+        flatten_scores: If True, create separate columns for each score
+        include_io: If True, include input/output/expected_output columns
+        
+    Returns:
+        DataFrame with all cases from all runs, with additional 'run_folder' column
+        
+    Example:
+        >>> df = load_all_reports_as_dataframe("evaluation_results")
+        >>> df.groupby('run_folder')['case_name'].count()
+    """
+    base_path = Path(base_dir)
+    all_dfs = []
+    
+    for run_dir in sorted([d for d in base_path.iterdir() if d.is_dir()]):
+        reports_dir = run_dir / 'reports'
+        if not reports_dir.exists():
+            continue
+            
+        reports = {}
+        for report_file in sorted(reports_dir.glob('*.json')):
+            dataset_id = report_file.stem
+            with open(report_file, 'r', encoding='utf-8') as f:
+                reports[dataset_id] = json.load(f)
+        
+        if not reports:
+            continue
+            
+        # Convert each report to a dataframe
+        for dataset_id, report in reports.items():
+            cases = report.get('cases', [])
+            if not cases:
+                continue
+                
+            rows = []
+            for case in cases:
+                row = {
+                    'run_folder': run_dir.name,
+                    'dataset_id': dataset_id,
+                    'case_name': case['name'],
+                }
+                
+                if include_io:
+                    row['inputs'] = case.get('inputs', None)
+                    row['output'] = case.get('output', None)
+                    row['expected_output'] = case.get('expected_output', None)
+                
+                # Add metrics (with 0.5 multiplier)
+                metrics = case.get('metrics', {})
+                row['input_tokens'] = metrics.get('input_tokens', 0) * 0.5
+                row['output_tokens'] = metrics.get('output_tokens', 0) * 0.5
+                row['requests'] = metrics.get('requests', 0)
+                row['cost'] = metrics.get('cost', 0.0)
+                
+                # Add scores
+                scores = case.get('scores', {})
+                if flatten_scores:
+                    for score_name, score_data in scores.items():
+                        col_name = score_name.replace(' ', '_').replace('-', '_')
+                        row[f'score_{col_name}'] = score_data.get('value', 0.0)
+                        row[f'score_{col_name}_reason'] = score_data.get('reason', None)
+                else:
+                    row['scores'] = scores
+                
+                # Add assertions
+                assertions = case.get('assertions', {})
+                for assertion_name, assertion_data in assertions.items():
+                    col_name = assertion_name.replace(' ', '_').replace('-', '_')
+                    row[f'assertion_{col_name}'] = assertion_data.get('value', None)
+                
+                rows.append(row)
+            
+            if rows:
+                all_dfs.append(pd.DataFrame(rows))
+    
+    if not all_dfs:
+        return pd.DataFrame()
+    
+    return pd.concat(all_dfs, ignore_index=True)
+
 
 def load_evaluation_run(base_dir: str, run_id: str) -> dict[str, Any]:
     """
@@ -383,9 +521,10 @@ def reports_to_dataframe(
             row['expected_output'] = case.get('expected_output', None)
 
         # Add metrics
+        # Note: Token counts are originally doubled in the reports, so we multiply by 0.5
         metrics = case.get('metrics', {})
-        row['input_tokens'] = metrics.get('input_tokens', 0)
-        row['output_tokens'] = metrics.get('output_tokens', 0)
+        row['input_tokens'] = metrics.get('input_tokens', 0) * 0.5
+        row['output_tokens'] = metrics.get('output_tokens', 0) * 0.5
         row['requests'] = metrics.get('requests', 0)
         row['cost'] = metrics.get('cost', 0.0)
 
@@ -430,8 +569,9 @@ def _aggregate_dataset_stats(
     }
 
     # Calculate averages
-    total_input_tokens = sum(c.get('metrics', {}).get('input_tokens', 0) for c in cases)
-    total_output_tokens = sum(c.get('metrics', {}).get('output_tokens', 0) for c in cases)
+    # Note: Token counts are originally doubled in the reports, so we multiply by 0.5
+    total_input_tokens = sum(c.get('metrics', {}).get('input_tokens', 0) * 0.5 for c in cases)
+    total_output_tokens = sum(c.get('metrics', {}).get('output_tokens', 0) * 0.5 for c in cases)
     total_cost = sum(c.get('metrics', {}).get('cost', 0.0) for c in cases)
     total_requests = sum(c.get('metrics', {}).get('requests', 0) for c in cases)
 

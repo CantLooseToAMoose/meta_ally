@@ -269,6 +269,7 @@ def analyze_user_records(records_dir: Path = USER_RECORDS_DIR) -> dict:
             "timestamp": metadata.get("timestamp"),
             "model": config.get("model_deployment_name", "Unknown"),
             "sus_score": metadata.get("sus_score"),
+            "use_improved_descriptions": config.get("use_improved_descriptions", False),
         }
 
         if is_multi_agent:
