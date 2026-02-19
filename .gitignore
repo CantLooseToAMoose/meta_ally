@@ -12,7 +12,7 @@ Data/*
 !Data/api_mock_data/
 !Data/improved_tool_descriptions/
 !Data/UserRecords/
-evaluation_results/
+# evaluation_results/
 installation.md
 
 # Build artifacts

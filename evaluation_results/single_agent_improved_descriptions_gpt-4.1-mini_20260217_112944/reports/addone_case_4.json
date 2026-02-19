@@ -1,0 +1,2081 @@
+{
+  "name": "single_agent_improved_descriptions_gpt-4.1-mini",
+  "cases": [
+    {
+      "name": "ADD*ONE Sales Copilot - Collection mit beiden Quellen erstellt",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich m\u00f6chte einen Copilot f\u00fcr die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt! Ich erstelle einen Sales-Copiloten f\u00fcr die ADD*ONE Webseite. Daf\u00fcr richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Gesch\u00e4ftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich arbeite im Gesch\u00e4ftsbereich GB10 und die Projektnummer ist 10000. Wir haben eine INFORM Webseite \u00fcber KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super! Ich habe notiert, dass Sie im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und f\u00fcge die Quellen hinzu.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "INFORM Webseite Link: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714595Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
+              "timestamp": "2026-02-16T13:38:14.714596Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint f\u00fcr den Sales-Copiloten erstellen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "inform_website",
+              "description": "INFORM Webseite \u00fcber KI-Systeme & Optimierung von Gesch\u00e4ftsprozessen",
+              "properties": {
+                "sourceType": "website",
+                "urls": [
+                  "https://www.inform-software.com/de"
+                ]
+              }
+            },
+            "tool_call_id": "create_source_website_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "addone_infopapers",
+              "description": "SharePoint Ordner mit AddOne-InfoPapers Brosch\u00fcren",
+              "properties": {
+                "sourceType": "sharepoint",
+                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+              }
+            },
+            "tool_call_id": "create_source_sharepoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_collection",
+            "args": {
+              "collectionId": "addone_sales_resources",
+              "description": "Sales-relevante Ressourcen & Produktinfos f\u00fcr ADD*ONE",
+              "sources": [
+                "inform_website",
+                "addone_infopapers"
+              ]
+            },
+            "tool_call_id": "create_collection_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"inform_website_gb10_10000\", \"description\": \"INFORM Webseite \u00fcber KI-Systeme\", \"public\": true, \"properties\": {\"sourceType\": \"website\", \"urls\": [\"https://www.inform-software.com/de\"], \"includeSitemap\": true}}",
+              "tool_call_id": "call_80eOvz4BnDlFMd5LdozbAcOX",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"addone_infopapers_sharepoint_gb10_10000\", \"description\": \"AddOne InfoPapers SharePoint\", \"public\": false, \"properties\": {\"sourceType\": \"sharepoint\", \"sharingUrl\": \"https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM\"}}",
+              "tool_call_id": "call_GnzuvxmMtq61bj36zW4aZhWF",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23847,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 210,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:30:02Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACd8JsTfFCVRp3IO6znmR5saxR0B",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. inform_website_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_80eOvz4BnDlFMd5LdozbAcOX",
+              "timestamp": "2026-02-17T10:30:12.442244Z",
+              "part_kind": "retry-prompt"
+            },
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. addone_infopapers_sharepoint_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_GnzuvxmMtq61bj36zW4aZhWF",
+              "timestamp": "2026-02-17T10:30:12.385435Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:30:12 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:30:12.448444+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Quellen f\u00fcr die INFORM Webseite und den SharePoint-Ordner mit AddOne-InfoPapers existieren bereits im System. M\u00f6chten Sie, dass ich diese Quellen in einer neuen Collection f\u00fcr den Sales Assistant Copilot zusammenf\u00fchre? Wenn ja, bitte geben Sie mir einen Namen f\u00fcr die neue Collection.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24151,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 64,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:30:13Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DACdJM3Dq9lQyBBwuiO6qGh5V30kq",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 95996,
+        "output_tokens": 548,
+        "requests": 2,
+        "cost": 0.019637599999999998
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.5,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.8,
+          "reason": "The model correctly identified that the sources already exist and asked the user if they want to create a new collection to combine these sources, which is a helpful and accurate next step. However, it did not proceed to create the collection or offer to create the endpoint as the expected output suggests. The response is helpful and accurate but incomplete compared to the expected output.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.8,
+          "reason": "The model correctly identified that the sources for the INFORM website and the SharePoint folder already exist, which matches the 409 conflict errors received. Instead of attempting to recreate them, it appropriately asked the user if they want to create a new collection combining these existing sources, which is a relevant and correct next step. However, the model did not proceed to create the collection or suggest creating the endpoint yet, which would be expected next steps according to the expected output. Overall, the tool calls made were correct in context, but the process is incomplete compared to the expected output which includes creating a collection and proposing endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources already exist and asked the user if they want to create a new collection to combine these sources, which is a helpful and accurate next step. However, it did not proceed to create the collection or offer to create the endpoint as the expected output suggests. The response is helpful and accurate but incomplete compared to the expected output.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources for the INFORM website and the SharePoint folder already exist, which matches the 409 conflict errors received. Instead of attempting to recreate them, it appropriately asked the user if they want to create a new collection combining these existing sources, which is a relevant and correct next step. However, the model did not proceed to create the collection or suggest creating the endpoint yet, which would be expected next steps according to the expected output. Overall, the tool calls made were correct in context, but the process is incomplete compared to the expected output which includes creating a collection and proposing endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 31.063995928,
+      "total_duration": 35.153733153,
+      "trace_id": "019c6b2615fc32e3c115a3de9e425728",
+      "span_id": "abe380dee2b2c64d",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Collection mit beiden Quellen erstellt - Variant 1",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich plane, einen Copilot f\u00fcr die ADD*ONE Webseite zu entwickeln, der als optimaler Sales Assistant agiert und potenzielle Kunden von der Software \u00fcberzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut! Ich richte einen Sales-Copiloten f\u00fcr die ADD*ONE Webseite ein. Daf\u00fcr werde ich relevante AI Knowledge Ressourcen hinzuf\u00fcgen und den Copiloten konfigurieren. Damit ich starten kann: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10 t\u00e4tig und meine Projektnummer ist 10000. Wir verf\u00fcgen \u00fcber eine INFORM Webseite zum Thema KI-Systeme sowie einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima, Sie sind also im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000. Bitte schicken Sie mir die beiden Links (INFORM Webseite und SharePoint). Sobald ich beide erhalten habe, kann ich die Collection erstellen und die Quellen hinzuf\u00fcgen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Hier ist der Link zur INFORM Webseite: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke, der Link zur INFORM Webseite ist gespeichert. Bitte senden Sie mir nun noch den SharePoint-Link zu den AddOne-InfoPapers.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714595Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
+              "timestamp": "2026-02-16T13:38:14.714596Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint f\u00fcr den Sales-Copiloten erstellen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "inform_website",
+              "description": "INFORM Webseite \u00fcber KI-Systeme & Optimierung von Gesch\u00e4ftsprozessen",
+              "properties": {
+                "sourceType": "website",
+                "urls": [
+                  "https://www.inform-software.com/de"
+                ]
+              }
+            },
+            "tool_call_id": "create_source_website_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "addone_infopapers",
+              "description": "SharePoint Ordner mit AddOne-InfoPapers Brosch\u00fcren",
+              "properties": {
+                "sourceType": "sharepoint",
+                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+              }
+            },
+            "tool_call_id": "create_source_sharepoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_collection",
+            "args": {
+              "collectionId": "addone_sales_resources",
+              "description": "Sales-relevante Ressourcen & Produktinfos f\u00fcr ADD*ONE",
+              "sources": [
+                "inform_website",
+                "addone_infopapers"
+              ]
+            },
+            "tool_call_id": "create_collection_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr den SharePoint-Link. Ich werde nun zwei Quellen anlegen: eine Website-Quelle f\u00fcr die INFORM Webseite und eine SharePoint-Quelle f\u00fcr den SharePoint-Ordner. Danach erstelle ich eine Collection, die beide Quellen enth\u00e4lt, und ordne sie Ihrem Gesch\u00e4ftsbereich GB10 und der Projektnummer 10000 zu. Ich beginne mit der Einrichtung.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"inform_website_gb10_10000\", \"description\": \"INFORM Webseite zum Thema KI-Systeme\", \"public\": false, \"properties\": {\"sourceType\": \"website\", \"urls\": [\"https://www.inform-software.com/de\"]}}",
+              "tool_call_id": "call_czBfencfFy29s8t7pE4jzbaJ",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"addone_sharepoint_gb10_10000\", \"description\": \"SharePoint Ordner mit AddOne InfoPapers\", \"public\": false, \"properties\": {\"sourceType\": \"sharepoint\", \"sharingUrl\": \"https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM\"}}",
+              "tool_call_id": "call_raykWucwO8VYt4RR8XD57vJl",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23842,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 282,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:30:22Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACdS27cgMUIkmx2WVMeC2gEYd7Ab",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. inform_website_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_czBfencfFy29s8t7pE4jzbaJ",
+              "timestamp": "2026-02-17T10:30:27.721616Z",
+              "part_kind": "retry-prompt"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "content": {
+                "message": "Source 'addone_sharepoint_gb10_10000' created successfully."
+              },
+              "tool_call_id": "call_raykWucwO8VYt4RR8XD57vJl",
+              "metadata": null,
+              "timestamp": "2026-02-17T10:30:27.765057Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:30:27 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:30:27.765560+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die SharePoint-Quelle f\u00fcr den AddOne InfoPapers Ordner wurde erfolgreich erstellt. Die Website-Quelle f\u00fcr die INFORM Webseite existiert bereits im System. Ich werde nun eine Collection anlegen, die beide Quellen enth\u00e4lt, und diese Ihrem Gesch\u00e4ftsbereich GB10 und der Projektnummer 10000 zuordnen. Ich mache mich daran.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_create_collection",
+              "args": "{\"collectionId\":\"addone_sales_assistant_gb10_10000\",\"description\":\"Collection f\u00fcr ADD*ONE Sales Assistant mit INFORM Webseite und SharePoint InfoPapers\",\"projectNumber\":\"10000\",\"sources\":[\"inform_website_gb10_10000\",\"addone_sharepoint_gb10_10000\"],\"public\":false}",
+              "tool_call_id": "call_7phwtp85IzyE5zNnXY3hHwdr",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24196,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 153,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:31:03Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACe70jEruIDdMgXrzqYIKeQ7dIdb",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_create_collection",
+              "content": {
+                "message": "Collection 'addone_sales_assistant_gb10_10000' created successfully."
+              },
+              "tool_call_id": "call_7phwtp85IzyE5zNnXY3hHwdr",
+              "metadata": null,
+              "timestamp": "2026-02-17T10:31:32.334256Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:31:32 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:31:32.335699+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Collection \"addone_sales_assistant_gb10_10000\" wurde erfolgreich erstellt und enth\u00e4lt die Quellen f\u00fcr die INFORM Webseite und den SharePoint-Ordner. M\u00f6chten Sie, dass ich jetzt mit der Indexierung der Collection beginne, damit die Daten f\u00fcr den Copiloten verf\u00fcgbar sind?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24382,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 63,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:31:33Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DACebtI4IotpMTjR230S2kT3ctBMU",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 144840,
+        "output_tokens": 996,
+        "requests": 3,
+        "cost": 0.0297648
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly created the sources and collection as requested, associating them with the specified business area and project number. It also handled the case where a source already existed and proceeded to create the collection successfully. The final message is helpful and accurate, asking the user if they want to start indexing, which is a logical next step. Although the expected output suggests asking about creating the endpoint, the model's response is still appropriate and helpful in context, focusing on the knowledge setup before endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly created the SharePoint source and recognized that the INFORM website source already exists, avoiding duplicate creation. It then proceeded to create a collection including both sources and associated it with the correct business area and project number. The tool calls are relevant, correctly structured, and aligned with the user's input and task requirements.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly created the sources and collection as requested, associating them with the specified business area and project number. It also handled the case where a source already existed and proceeded to create the collection successfully. The final message is helpful and accurate, asking the user if they want to start indexing, which is a logical next step. Although the expected output suggests asking about creating the endpoint, the model's response is still appropriate and helpful in context, focusing on the knowledge setup before endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly created the SharePoint source and recognized that the INFORM website source already exists, avoiding duplicate creation. It then proceeded to create a collection including both sources and associated it with the correct business area and project number. The tool calls are relevant, correctly structured, and aligned with the user's input and task requirements.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 75.574605536,
+      "total_duration": 77.286462271,
+      "trace_id": "019c6b2615fc32e3c115a3de9e425728",
+      "span_id": "30c03d27cb071736",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Collection mit beiden Quellen erstellt - Variant 2",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich m\u00f6chte einen Copilot f\u00fcr die ADD*ONE Webseite aufsetzen, der als exzellenter Sales Assistant fungiert und Interessenten von der Software begeistert.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Alles klar! Ich richte einen Sales-Copiloten f\u00fcr die ADD*ONE Webseite ein. Daf\u00fcr werde ich relevante AI Knowledge Ressourcen einbinden und den Copiloten konfigurieren. Damit ich loslegen kann: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10 und meine Projektnummer ist 10000. Wir haben eine INFORM Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut, Sie sind also im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000. Bitte senden Sie mir die beiden Links (INFORM Webseite und SharePoint). Sobald ich beide erhalten habe, kann ich die Collection erstellen und die Quellen hinzuf\u00fcgen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "INFORM Webseite Link: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke, der Link zur INFORM Webseite ist gespeichert. Bitte senden Sie mir nun noch den SharePoint-Link zu den AddOne-InfoPapers.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714595Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
+              "timestamp": "2026-02-16T13:38:14.714596Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint f\u00fcr den Sales-Copiloten erstellen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "inform_website",
+              "description": "INFORM Webseite \u00fcber KI-Systeme & Optimierung von Gesch\u00e4ftsprozessen",
+              "properties": {
+                "sourceType": "website",
+                "urls": [
+                  "https://www.inform-software.com/de"
+                ]
+              }
+            },
+            "tool_call_id": "create_source_website_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "addone_infopapers",
+              "description": "SharePoint Ordner mit AddOne-InfoPapers Brosch\u00fcren",
+              "properties": {
+                "sourceType": "sharepoint",
+                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+              }
+            },
+            "tool_call_id": "create_source_sharepoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_collection",
+            "args": {
+              "collectionId": "addone_sales_resources",
+              "description": "Sales-relevante Ressourcen & Produktinfos f\u00fcr ADD*ONE",
+              "sources": [
+                "inform_website",
+                "addone_infopapers"
+              ]
+            },
+            "tool_call_id": "create_collection_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Links. Ich werde nun zwei Quellen anlegen: eine Website-Quelle f\u00fcr die INFORM Webseite und eine SharePoint-Quelle f\u00fcr den SharePoint-Ordner mit den AddOne-InfoPapers. Danach erstelle ich eine Collection, die diese Quellen nutzt, und ordne sie Ihrem Gesch\u00e4ftsbereich GB10 und der Projektnummer 10000 zu. Ich mache das jetzt.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"inform_website_gb10_10000\", \"description\": \"INFORM Webseite zum Thema KI-Systeme\", \"public\": true, \"properties\": {\"sourceType\": \"website\", \"urls\": [\"https://www.inform-software.com/de\"], \"includeSitemap\": true}}",
+              "tool_call_id": "call_QcKlbO9G3gQkWuJ9m9NYHM8q",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"addone_sharepoint_gb10_10000\", \"description\": \"SharePoint Ordner mit AddOne InfoPapers\", \"public\": false, \"properties\": {\"sourceType\": \"sharepoint\", \"sharingUrl\": \"https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM\"}}",
+              "tool_call_id": "call_mE5iOsFzHUAbbrl35H92so8n",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23839,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 292,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:31:39Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACeh1pzBr9YKBrt4qcZoeYOufIuB",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. inform_website_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_QcKlbO9G3gQkWuJ9m9NYHM8q",
+              "timestamp": "2026-02-17T10:31:44.081200Z",
+              "part_kind": "retry-prompt"
+            },
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. addone_sharepoint_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_mE5iOsFzHUAbbrl35H92so8n",
+              "timestamp": "2026-02-17T10:31:43.967305Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:31:44 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:31:44.083081+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Quellen f\u00fcr die INFORM Webseite und den SharePoint-Ordner existieren bereits im System. Ich werde nun pr\u00fcfen, ob es bereits eine passende Collection gibt, die diese Quellen nutzt, oder ob ich eine neue Collection f\u00fcr Sie anlegen soll. Ich schaue das jetzt nach.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_list_collections",
+              "args": "{\"businessDepartment\":\"10\",\"projectNumber\":\"10000\"}",
+              "tool_call_id": "call_cM5bsiS1g1HrWC5F90IxR4eu",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24224,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 84,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:32:03Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACf5R9QeyAxwYfKwXxK7UU9TspsC",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_collections",
+              "content": {
+                "Count": 2,
+                "ScannedCount": 18,
+                "TotalCount": 2,
+                "Items": [
+                  {
+                    "collectionId": "addone_sales_assistant_gb10_10000",
+                    "description": "Collection f\u00fcr ADD*ONE Sales Assistant mit INFORM Webseite und SharePoint InfoPapers",
+                    "projectNumber": "10000",
+                    "sources": [
+                      "inform_website_gb10_10000",
+                      "addone_sharepoint_gb10_10000",
+                      "__upload__addone_sales_assistant_gb10_10000"
+                    ],
+                    "metadata": {},
+                    "public": false,
+                    "embeddingModel": "bedrock.cohere.embed-v4:0",
+                    "nextScheduledIndexRun": null,
+                    "lastIndexRun": null,
+                    "accessDenied": false,
+                    "businessDepartment": "10"
+                  },
+                  {
+                    "collectionId": "addone_sales_gb10_10000",
+                    "description": "Collection f\u00fcr ADD*ONE Sales Assistant mit INFORM Webseite und AddOne InfoPapers",
+                    "projectNumber": "10000",
+                    "sources": [
+                      "inform_website_gb10_10000",
+                      "addone_infopapers_sharepoint_gb10_10000",
+                      "__upload__addone_sales_gb10_10000"
+                    ],
+                    "metadata": {},
+                    "public": false,
+                    "embeddingModel": "bedrock.cohere.embed-v4:0",
+                    "nextScheduledIndexRun": null,
+                    "lastIndexRun": null,
+                    "accessDenied": false,
+                    "businessDepartment": "10"
+                  }
+                ],
+                "NextToken": null
+              },
+              "tool_call_id": "call_cM5bsiS1g1HrWC5F90IxR4eu",
+              "metadata": null,
+              "timestamp": "2026-02-17T10:32:06.861411Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:32:06 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:32:06.862216+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Es gibt bereits zwei Collections, die Ihre Quellen nutzen und f\u00fcr den ADD*ONE Sales Assistant vorgesehen sind:\n\n1. addone_sales_assistant_gb10_10000\n2. addone_sales_gb10_10000\n\nM\u00f6chten Sie eine dieser bestehenden Collections verwenden oder soll ich eine neue Collection f\u00fcr Sie anlegen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24593,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 69,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:32:34Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DACfa0gJKtDaO8YFynEB8ilmsWdMY",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 145312,
+        "output_tokens": 890,
+        "requests": 3,
+        "cost": 0.0297744
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.5,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.9,
+          "reason": "The model correctly identified that the sources already exist and did not redundantly recreate them, which is accurate and helpful. It then proceeded to check for existing collections using the provided sources and presented the user with two existing collections relevant to the ADD*ONE Sales Assistant, asking whether to use one of them or create a new one. This is a helpful and accurate next step in the workflow, showing good understanding of the process and user context. However, the model did not explicitly offer to create the endpoint next, which was part of the expected output's final step. Overall, the response is accurate, context-aware, and helpful, but slightly less proactive than the expected output in offering the next step.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly identified that the sources for the INFORM website and SharePoint folder already exist and did not attempt to recreate them, avoiding duplication errors. It then proceeded to list existing collections that use these sources and asked the user whether to use an existing collection or create a new one. This is a relevant and correct approach given the context. However, the model did not proceed to create a new collection or confirm endpoint creation as the expected output suggests, but this is reasonable since it awaited user input. The tool calls made (listing collections) are appropriate and correct for the situation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources already exist and did not redundantly recreate them, which is accurate and helpful. It then proceeded to check for existing collections using the provided sources and presented the user with two existing collections relevant to the ADD*ONE Sales Assistant, asking whether to use one of them or create a new one. This is a helpful and accurate next step in the workflow, showing good understanding of the process and user context. However, the model did not explicitly offer to create the endpoint next, which was part of the expected output's final step. Overall, the response is accurate, context-aware, and helpful, but slightly less proactive than the expected output in offering the next step.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources for the INFORM website and SharePoint folder already exist and did not attempt to recreate them, avoiding duplication errors. It then proceeded to list existing collections that use these sources and asked the user whether to use an existing collection or create a new one. This is a relevant and correct approach given the context. However, the model did not proceed to create a new collection or confirm endpoint creation as the expected output suggests, but this is reasonable since it awaited user input. The tool calls made (listing collections) are appropriate and correct for the situation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 59.102499442,
+      "total_duration": 61.262552436,
+      "trace_id": "019c6b2615fc32e3c115a3de9e425728",
+      "span_id": "eea7b5811dec8994",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Collection mit beiden Quellen erstellt - Variant 3",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich m\u00f6chte einen Copilot f\u00fcr die ADD*ONE Webseite einrichten, der als idealer Sales Assistant fungiert und potenzielle Kunden von der Software \u00fcberzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Ausgezeichnet! Ich werde einen Sales-Copiloten f\u00fcr die ADD*ONE Webseite konfigurieren. Dazu richte ich AI Knowledge mit passenden Ressourcen ein. Damit ich starten kann: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10 und die Projektnummer lautet 10000. Wir haben eine INFORM Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut, Sie sind im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000. Bitte senden Sie mir die beiden Links (INFORM Webseite und SharePoint). Sobald ich beide erhalten habe, kann ich die Collection erstellen und die Quellen hinzuf\u00fcgen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Hier ist der Link zur INFORM Webseite: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke, der Link zur INFORM Webseite ist gespeichert. Bitte senden Sie mir nun noch den SharePoint-Link zu den AddOne-InfoPapers.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714595Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "SharePoint Link: https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM",
+              "timestamp": "2026-02-16T13:38:14.714596Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Alle Quellen sind jetzt konfiguriert. Soll ich den Endpoint f\u00fcr den Sales-Copiloten erstellen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "inform_website",
+              "description": "INFORM Webseite \u00fcber KI-Systeme & Optimierung von Gesch\u00e4ftsprozessen",
+              "properties": {
+                "sourceType": "website",
+                "urls": [
+                  "https://www.inform-software.com/de"
+                ]
+              }
+            },
+            "tool_call_id": "create_source_website_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_source",
+            "args": {
+              "sourceId": "addone_infopapers",
+              "description": "SharePoint Ordner mit AddOne-InfoPapers Brosch\u00fcren",
+              "properties": {
+                "sourceType": "sharepoint",
+                "sharingUrl": "https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM"
+              }
+            },
+            "tool_call_id": "create_source_sharepoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ai_knowledge_create_collection",
+            "args": {
+              "collectionId": "addone_sales_resources",
+              "description": "Sales-relevante Ressourcen & Produktinfos f\u00fcr ADD*ONE",
+              "sources": [
+                "inform_website",
+                "addone_infopapers"
+              ]
+            },
+            "tool_call_id": "create_collection_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr den SharePoint-Link. Ich werde nun die Quellen f\u00fcr die INFORM Webseite und den SharePoint-Ordner anlegen und anschlie\u00dfend eine Collection f\u00fcr den Copiloten erstellen. Einen Moment bitte.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"inform_website_gb10_10000\", \"description\": \"INFORM Webseite zum Thema KI-Systeme\", \"public\": true, \"properties\": {\"sourceType\": \"website\", \"urls\": [\"https://www.inform-software.com/de\"], \"includeSitemap\": true}}",
+              "tool_call_id": "call_RnvbBQxdtK7FA9MpFD5k6v5B",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ai_knowledge_create_source",
+              "args": "{\"sourceId\": \"addone_infopapers_sharepoint_gb10_10000\", \"description\": \"SharePoint Ordner mit AddOne InfoPapers\", \"public\": false, \"properties\": {\"sourceType\": \"sharepoint\", \"sharingUrl\": \"https://informsoftwaregmbh-my.sharepoint.com/:f:/g/personal/johannes_schillberg_inform-software_com/Erci0wuz2RVEinJQ7drbjT0BwpIOSmGNuDqyiQ9FJax5xA?e=WGtgpM\"}}",
+              "tool_call_id": "call_vdI7net8I1wDTCgJMH3QU8QI",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23835,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 256,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:32:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACfhP7nioIOkVqMXnaGqJF1rnfWY",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. inform_website_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_RnvbBQxdtK7FA9MpFD5k6v5B",
+              "timestamp": "2026-02-17T10:32:47.001621Z",
+              "part_kind": "retry-prompt"
+            },
+            {
+              "content": "API request failed with status 409: {\"detail\":\"source cannot be created. addone_infopapers_sharepoint_gb10_10000 already exists.\"}",
+              "tool_name": "ai_knowledge_create_source",
+              "tool_call_id": "call_vdI7net8I1wDTCgJMH3QU8QI",
+              "timestamp": "2026-02-17T10:32:46.861296Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:32:47 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:32:47.006764+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Quellen f\u00fcr die INFORM Webseite und den SharePoint-Ordner existieren bereits im System. Ich werde nun pr\u00fcfen, ob eine passende Collection f\u00fcr diese Quellen bereits existiert oder ob ich eine neue Collection f\u00fcr den Copiloten anlegen soll. Einen Moment bitte.",
+              "id": null,
+              "part_kind": "text"
+            },
+            {
+              "tool_name": "ai_knowledge_list_collections",
+              "args": "{\"description\":\"addone\",\"businessDepartment\":\"10\",\"projectNumber\":\"10000\"}",
+              "tool_call_id": "call_PztIwuCb1iNDaom3N68NQVUQ",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24187,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 86,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:33:04Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DACg4vIHkJLRG8HpxuwSRzFuGuZwu",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_collections",
+              "content": {
+                "Count": 0,
+                "ScannedCount": 18,
+                "TotalCount": 0,
+                "Items": [],
+                "NextToken": null
+              },
+              "tool_call_id": "call_PztIwuCb1iNDaom3N68NQVUQ",
+              "metadata": null,
+              "timestamp": "2026-02-17T10:33:06.786827Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 11:33:06 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T11:33:06.787097+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Es gibt derzeit keine Collection mit dem Namen \"addone\" oder \u00e4hnlichem f\u00fcr den Gesch\u00e4ftsbereich GB10 und die Projektnummer 10000. Ich werde nun eine neue Collection f\u00fcr den Copiloten anlegen, die die beiden vorhandenen Quellen nutzt. Wie soll die Collection hei\u00dfen? M\u00f6chten Sie eine Beschreibung hinzuf\u00fcgen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24310,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 67,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T10:33:35Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DACgZfoUkU5m1KnPKIGYE3C35lpmU",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 144664,
+        "output_tokens": 818,
+        "requests": 3,
+        "cost": 0.0295872
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.5,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.8,
+          "reason": "The model correctly identified that the sources already exist and proceeded to check for existing collections, finding none. It then asked the user for the collection name and description to create a new collection, which is a helpful and accurate next step in the workflow. However, it did not proceed to create the collection or offer to create the endpoint yet, which would have been more complete. Overall, the response is helpful and accurate but slightly incomplete compared to the expected output that shows source creation and collection creation tool calls and a prompt about endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly identified that the sources already exist and did not attempt to recreate them, avoiding errors. It then proceeded to check for existing collections and found none, prompting the user to name a new collection. This is a correct and relevant sequence of tool calls and user interaction for the task of setting up knowledge sources and collections for the Copilot. However, the model did not proceed to create the collection yet, awaiting user input, which is appropriate. Overall, the tool calls and flow are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources already exist and proceeded to check for existing collections, finding none. It then asked the user for the collection name and description to create a new collection, which is a helpful and accurate next step in the workflow. However, it did not proceed to create the collection or offer to create the endpoint yet, which would have been more complete. Overall, the response is helpful and accurate but slightly incomplete compared to the expected output that shows source creation and collection creation tool calls and a prompt about endpoint creation.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly identified that the sources already exist and did not attempt to recreate them, avoiding errors. It then proceeded to check for existing collections and found none, prompting the user to name a new collection. This is a correct and relevant sequence of tool calls and user interaction for the task of setting up knowledge sources and collections for the Copilot. However, the model did not proceed to create the collection yet, awaiting user input, which is appropriate. Overall, the tool calls and flow are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 58.772791194,
+      "total_duration": 60.81801292,
+      "trace_id": "019c6b2615fc32e3c115a3de9e425728",
+      "span_id": "e41648ea272cec56",
+      "evaluator_failures": []
+    }
+  ],
+  "failures": [],
+  "trace_id": "019c6b2615fc32e3c115a3de9e425728",
+  "span_id": "8e4c7e235b79aca3"
+}

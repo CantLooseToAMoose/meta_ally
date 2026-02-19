@@ -1,0 +1,31 @@
+{
+  "run_id": "multi_agent_orchestrator_improved_descriptions_gpt-4.1-mini_20260218_165341",
+  "timestamp": "2026-02-18T16:53:41.614905",
+  "task_name": "multi_agent_orchestrator_improved_descriptions_gpt-4.1-mini",
+  "dataset_manager_names": [
+    "add_one",
+    "analytics",
+    "testing_and_access"
+  ],
+  "dataset_ids": [
+    "testing_access_case_5",
+    "testing_access_case_3",
+    "testing_access_case_4",
+    "testing_access_case_2",
+    "testing_access_case_1"
+  ],
+  "evaluator_names": [
+    "ToolCallEvaluator",
+    "LLMJudge",
+    "LLMJudge"
+  ],
+  "metadata": {
+    "description": "Evaluation of multi_agent_orchestrator on TESTING_AND_ACCESS datasets with improved descriptions.",
+    "agent_type": "multi_agent_orchestrator",
+    "model": "gpt-4.1-mini",
+    "use_mock_api": true,
+    "use_improved_descriptions": true
+  },
+  "success": true,
+  "error_message": null
+}

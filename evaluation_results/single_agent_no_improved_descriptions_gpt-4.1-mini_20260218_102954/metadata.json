@@ -1,0 +1,29 @@
+{
+  "run_id": "single_agent_no_improved_descriptions_gpt-4.1-mini_20260218_102954",
+  "timestamp": "2026-02-18T10:29:54.408465",
+  "task_name": "single_agent_no_improved_descriptions_gpt-4.1-mini",
+  "dataset_manager_names": [
+    "add_one",
+    "analytics",
+    "testing_and_access"
+  ],
+  "dataset_ids": [
+    "analytics_case_4",
+    "analytics_case_5",
+    "analytics_case_1",
+    "analytics_case_3",
+    "analytics_case_2"
+  ],
+  "evaluator_names": [
+    "ToolCallEvaluator",
+    "LLMJudge",
+    "LLMJudge"
+  ],
+  "metadata": {
+    "description": "Evaluation of single agent on ANALYTICS datasets without improved descriptions.",
+    "agent_type": "hybrid_assistant",
+    "model": "gpt-4.1-mini"
+  },
+  "success": true,
+  "error_message": null
+}

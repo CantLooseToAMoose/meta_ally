@@ -1,0 +1,1461 @@
+{
+  "name": "single_agent_improved_descriptions_gpt-5-mini",
+  "cases": [
+    {
+      "name": "ADD*ONE Sales Copilot - Gesch\u00e4ftsbereich & Projektnummer gespeichert & Link-Anfrage",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich m\u00f6chte einen Copilot f\u00fcr die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt! Ich erstelle einen Sales-Copiloten f\u00fcr die ADD*ONE Webseite. Daf\u00fcr richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Gesch\u00e4ftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich arbeite im Gesch\u00e4ftsbereich GB10 und die Projektnummer ist 10000. Wir haben eine INFORM Webseite \u00fcber KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Super! Ich habe notiert, dass Sie im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und f\u00fcge die Quellen hinzu.",
+        "tool_calls": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": {
+              "geschaeftsbereich": "GB10"
+            },
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "set_project_number",
+            "args": {
+              "project_number": "10000"
+            },
+            "tool_call_id": "set_project_number_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB10\"}",
+              "tool_call_id": "call_GWZSmFNXtNrIJgHOhYfGg19C",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23665,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 610,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 576,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:51:36Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGiGzqD6HBqCn6VKOL11lR2Efqrx",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "call_GWZSmFNXtNrIJgHOhYfGg19C",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:51:43.648084Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:51:43 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:51:43.648612+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"10000\"}",
+              "tool_call_id": "call_HRncxFXgGDISpfofjPHontH2",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23715,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 21,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:52:11Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGipvoFIU36zZ26JI07UykOuTcwC",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "call_HRncxFXgGDISpfofjPHontH2",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:52:12.665058Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:52:12 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:52:12.665257+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_scopes",
+              "args": "{}",
+              "tool_call_id": "call_BfRT7yFLkC3gYa9nPu3j2ToD",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23755,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 472,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 448,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:52:37Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGjFzEQupF9IspT07yXSmfJC2OwZ",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_scopes",
+              "content": [
+                "gb10",
+                "gb20",
+                "gb30",
+                "gb40",
+                "gb50",
+                "gb60",
+                "gb70",
+                "gb80",
+                "gb100",
+                "gb120",
+                "test"
+              ],
+              "tool_call_id": "call_BfRT7yFLkC3gYa9nPu3j2ToD",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:52:45.238564Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:52:45 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:52:45.238865+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "args": "{}",
+              "tool_call_id": "call_iylNoho9Rc3mOYNoe0ANTmBK",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23819,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 279,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 256,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:53:12Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGjoWEwF8hntD95MZwG67pcrKoOt",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "content": [
+                {
+                  "label": "gpt-5-nano",
+                  "name": "GPT 5 nano",
+                  "description": "cost: \u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.06 (cached: 0.01), output: 0.44; provider: azure; Lowest-cost GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-5-mini",
+                  "name": "GPT 5 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.28 (cached: 0.03), output: 2.2; provider: azure; Mid-tier GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-nano",
+                  "name": "GPT 4.1 nano",
+                  "description": "cost: \u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.11 (cached: 0.03), output: 0.44; provider: azure; Lowest-cost GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-mini",
+                  "name": "GPT 4.1 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.44 (cached: 0.11), output: 1.76; provider: azure; Mid-tier GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1",
+                  "name": "GPT 4.1 (regular)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 2.2 (cached: 0.55), output: 8.8; provider: azure; Full GPT-4.1 model. Optimized for coding and instruction following.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "o3-mini",
+                  "name": "o3 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.21 (cached: 0.605), output: 4.84; provider: azure; Reasoning model optimized for coding and problem solving.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4-sonnet",
+                  "name": "Claude 4 Sonnet",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.0 (cached: 3.0), output: 15.0; provider: bedrock; Balanced performance for coding and general tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-haiku",
+                  "name": "Claude Haiku 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.1 (cached: 1.1), output: 5.5; provider: bedrock; Fast, cost-effective model. Supports vision.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-sonnet",
+                  "name": "Claude Sonnet 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.3 (cached: 3.3), output: 16.5; provider: bedrock; High-capability model for coding and agentic tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-opus",
+                  "name": "Claude Opus 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 5.5 (cached: 5.5), output: 27.5; provider: bedrock; Most capable Claude model for complex reasoning and coding.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-pro",
+                  "name": "Amazon Nova Pro",
+                  "description": "cost: \u20ac\u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.92 (cached: 0.23), output: 3.68; provider: bedrock; Multimodal model (text, image, video). Good for reasoning and coding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-lite",
+                  "name": "Amazon Nova Lite",
+                  "description": "cost: \u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.069 (cached: 0.01725), output: 0.276; provider: bedrock; Low-cost multimodal model (text, image, video). Fast inference.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-2-lite",
+                  "name": "Amazon Nova 2 Lite",
+                  "description": "cost: \u20ac\u20ac; context window: 1000000 tokens; price per M tokens (USD): input: 0.374 (cached: 0.094), output: 3.157; provider: bedrock; Multimodal model (text, image, video) with 1M context window. Supports extended thinking and built-in tools (code interpreter, web grounding).\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-oss-120b",
+                  "name": "GPT OSS 120B",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.18 (cached: 0.18), output: 0.7; provider: bedrock; OpenAI open-weight 120B MoE model. Good for reasoning and coding.\nhttps://aws.amazon.com/bedrock/openai/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "mistral-large",
+                  "name": "Mistral Large (24.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 32000 tokens; price per M tokens (USD): input: 4.3 (cached: 4.3), output: 13.0; provider: bedrock; Mistral's flagship model. Multilingual, reasoning, and code generation.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "pixtral-large",
+                  "name": "Pixtral Large (25.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 128000 tokens; price per M tokens (USD): input: 2.0 (cached: 2.0), output: 6.0; provider: bedrock; 124B multimodal model with vision. Supports 80+ programming languages.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "llama-3.2-3b",
+                  "name": "Llama 3.2 3B Instruct",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.17 (cached: 0.17), output: 0.17; provider: bedrock; Lightweight text-only model for edge and mobile deployments.\nhttps://llama.meta.com/\n",
+                  "enabled": true
+                }
+              ],
+              "tool_call_id": "call_iylNoho9Rc3mOYNoe0ANTmBK",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:53:17.885533Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:53:17 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:53:17.885990+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt \u2014 danke f\u00fcr die Info. Ich habe GB10 und Projekt 10000 gespeichert. N\u00e4chste Schritte und Vorschlag, damit ich den Sales\u2011Copiloten f\u00fcr die ADD*ONE\u2011Webseite produktiv einrichten kann.\n\nWas ich jetzt von Ihnen brauche\n- Die URL der INFORM-Webseite \u00fcber KI\u2011Systeme (Website-URL(s)).  \n- Die SharePoint/OneDrive\u2011Sharing\u2011URL des Ordners mit den AddOne\u2011InfoPapers. Wichtig: bitte geben Sie einen Freigabe\u2011Link (Share) und stellen Sie sicher, dass der Service\u2011User svc-ai-knowledge-acc Leserechte f\u00fcr die Dateien hat.\n\nHinweise zur SharePoint\u2011Freigabe\n- Gew\u00e4hren Sie der Benutzerkennung svc-ai-knowledge-acc Leserechte auf den gew\u00fcnschten Ordner/Dateien.\n- Erstellen Sie einen Sharing\u2011Link (z. B. Link f\u00fcr Personen mit Zugriff) und f\u00fcgen Sie diesen beim Erstellen der SharePoint\u2011Quelle als \"Sharing URL\" ein.\n- Das erste Indexing/Syncing kann ein paar Minuten dauern.\n\nVorgeschlagene Ressourcen\u2011 und Collection\u2011Namen (k\u00f6nnen Sie best\u00e4tigen oder \u00e4ndern)\n- Website\u2011Quelle: sourceId = addone_website  \n- SharePoint\u2011Quelle: sourceId = addone_sharepoint  \n- Collection: collectionId = addone_sales (muss 8\u201362 Zeichen sein; beginnt mit Buchstabe/_)  \nDiese Namen entsprechen den Namensregeln des Systems. Sagen Sie mir Bescheid, wenn Sie andere IDs bevorzugen.\n\nEmpfehlung f\u00fcr Embeddings / Chunking / Plugins\n- Embedding\u2011Modell: bedrock.cohere-embed-multilingual-v3 (gut f\u00fcr deutsch/mehrsprachige Inhalte).  \n- Chunking: CharacterChunker, chunkSize 2000, overlap 500 (Standard, funktioniert gut f\u00fcr Dokumente und Webseiten).  \n- Plugin: Dokumentzusammenfassungen (document_summary) \u2014 erstellt kurze Zusammenfassungen der Dokumente, n\u00fctzlich f\u00fcr den Sales\u2011Assistant, damit Antworten schneller mit Signposts geliefert werden.\n\nCopilot\u2011Modell\u2011Empfehlung\n- Empfehlung: gpt-4.1-mini \u2014 guter Mix aus Antwortqualit\u00e4t und Kosten f\u00fcr einen Sales\u2011Assistant.  \n  Alternative (g\u00fcnstiger): gpt-5-nano (niedrigere Kosten, sehr gro\u00dfe Kontextfenster) \u2014 wenn Budget sehr wichtig ist.  \nBitte best\u00e4tigen Sie Modellwahl oder nennen Sie eine Alternative aus der verf\u00fcgbaren Liste.\n\nCopilot\u2011Endpoint Vorschlag\n- Endpoint (Beispiel): /gb10/addone-sales  \n- Anzeige\u2011Name: ADD*ONE Sales Assistant  \n- Default\u2011Message / Instructions (Beispiel, kann angepasst werden):\n  - Default greeting: \"Hallo \u2014 ich bin Ihr ADD*ONE Sales Assistant. Wie kann ich Ihnen heute helfen?\"  \n  - Instructions: \"Sei ein freundlicher, \u00fcberzeugender Sales\u2011Assistant. Konzentriere dich auf Nutzen & Kundenvorteile von ADD*ONE, gehe auf Einw\u00e4nde ein, liefere konkrete Beispiele, verlinke auf relevante InfoPapers und die Produktseite, und frage aktiv nach Recherchebedarf oder einer Demo\u2011Anfrage. Antworte auf Deutsch, nutze Inhalte aus der verkn\u00fcpften Knowledge\u2011Collection und zitiere Quellen, wenn m\u00f6glich.\"\n\nWas ich f\u00fcr Sie direkt erledigen kann (sobald Sie mir Links/Best\u00e4tigung geben)\n1. Erstellen der beiden Quellen (Website + SharePoint) mit den vorgeschlagenen sourceIds.  \n2. Erstellen der Collection addone_sales mit projectNumber = 10000 und GB10 Zuordnung; Embedding\u2011Model, Chunking, document_summary Plugin aktivieren.  \n3. Triggern eines Index\u2011Laufs (oder optional: geplante Indexierung).  \n4. Erstellen des Copilots /gb10/addone-sales mit AiKnowledge Plugin, das die neue Collection verwendet; Konfiguration des Modells (z. B. gpt-4.1-mini) und der Standardinstructions.  \n5. Testen (Chat\u2011Seite) und kurze Evaluation / Smoke\u2011Test, damit Sie sofort Messbares haben.\n\nBitte best\u00e4tigen / liefern:\n- Best\u00e4tigen Sie die vorgeschlagenen sourceIds und collectionId oder nennen Sie andere IDs.  \n- F\u00fcgen Sie hier die Website\u2011URL(s) und die SharePoint\u2011Sharing\u2011URL ein (oder sagen Sie mir, wenn Sie m\u00f6chten, dass ich vorerst nur die Collection anlege).  \n- Best\u00e4tigen Sie das Modell (gpt\u20114.1\u2011mini vorgeschlagen).  \n- W\u00fcnschen Sie automatische regelm\u00e4\u00dfige Reindexierung (z. B. t\u00e4glich) oder manuelles Triggern?\n\nWenn Sie m\u00f6chten, erstelle ich sofort die Quellen und die Collection \u2014 f\u00fcgen Sie einfach die Links ein und best\u00e4tigen Sie die Namen/Modell.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 25568,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 1844,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 832,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:53:38Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAGkEeNflf0wQEkLBQzArh60jT0l2",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 241044,
+        "output_tokens": 6452,
+        "reasoning_tokens": 4224,
+        "requests": 5,
+        "cost": 0.036582500000000004
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to ask for the necessary URLs (INFORM website and SharePoint sharing link) to continue setting up the Sales Copilot. It also provided detailed next steps, suggestions for source and collection IDs, embedding models, chunking, plugins, and Copilot model recommendations, which is very helpful and accurate for the user's request. The response is comprehensive, clear, and aligned with the user's input and expected workflow.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's input. These tool calls are relevant and necessary for the configuration process. The model also provided a detailed and relevant next-step message guiding the user on what information is needed next, which aligns well with the expected workflow. Therefore, the tool calls are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to ask for the necessary URLs (INFORM website and SharePoint sharing link) to continue setting up the Sales Copilot. It also provided detailed next steps, suggestions for source and collection IDs, embedding models, chunking, plugins, and Copilot model recommendations, which is very helpful and accurate for the user's request. The response is comprehensive, clear, and aligned with the user's input and expected workflow.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's input. These tool calls are relevant and necessary for the configuration process. The model also provided a detailed and relevant next-step message guiding the user on what information is needed next, which aligns well with the expected workflow. Therefore, the tool calls are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 170.348909027,
+      "total_duration": 172.934192224,
+      "trace_id": "019c6c15889cc2fe024d5ba32421d42d",
+      "span_id": "d162939520db5854",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Gesch\u00e4ftsbereich & Projektnummer gespeichert & Link-Anfrage - Variant 1",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich plane, einen Copilot f\u00fcr die ADD*ONE Website zu entwickeln. Ziel ist es, einen optimalen Sales Assistant zu schaffen, der potenzielle Kunden von der Software \u00fcberzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Ausgezeichnet! Ich richte einen Sales-Copiloten f\u00fcr die ADD*ONE Website ein. Dazu werde ich relevante Ressourcen in AI Knowledge integrieren und den Copiloten entsprechend konfigurieren. Damit wir starten k\u00f6nnen: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (Beispiel: GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10 t\u00e4tig, die Projektnummer lautet 10000. Wir verf\u00fcgen \u00fcber eine INFORM-Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Super! Ich habe notiert, dass Sie im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und f\u00fcge die Quellen hinzu.",
+        "tool_calls": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": {
+              "geschaeftsbereich": "GB10"
+            },
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "set_project_number",
+            "args": {
+              "project_number": "10000"
+            },
+            "tool_call_id": "set_project_number_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB10\"}",
+              "tool_call_id": "call_7gKEIc1SKbEdhKD3pG1d6lKE",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23674,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 354,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 320,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:54:12Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGkmyVa8Pt8F0T4tNkPnkxAE8IBO",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "call_7gKEIc1SKbEdhKD3pG1d6lKE",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:54:19.836222Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:54:19 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:54:19.836503+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"10000\"}",
+              "tool_call_id": "call_fBVlPoXKPusmnU0Bb6HqW5p4",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23724,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 21,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:54:39Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGlDMoZNOPR7cOPDjtrVAxozqFDU",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "call_fBVlPoXKPusmnU0Bb6HqW5p4",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:54:41.619532Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:54:41 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:54:41.619870+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt \u2014 danke f\u00fcr die Infos (GB10 / Projekt 10000). Ich kann jetzt alles vorbereiten, sobald Sie mir die Links zur INFORM-Webseite und die SharePoint\u2011Sharing\u2011URL(s) f\u00fcr den AddOne\u2011InfoPapers\u2011Ordner geben.\n\nKurz zusammengefasst mein vorgeschlagener Ablauf und was ich von Ihnen brauche:\n\n1) Was ich brauche von Ihnen\n- URL der INFORM-Webseite (oder mehrere URLs). Optional: sitemap aktivieren? (ja/nein)\n- SharePoint\u2011Sharing\u2011URL des Ordners mit den AddOne\u2011InfoPapers.\n- Wunschname f\u00fcr die Collection (z. B. addone_sales_kb) \u2014 muss 8\u201362 Zeichen sein, darf Buchstaben, Zahlen und Unterstriche enthalten und mit Buchstabe oder Unterstrich beginnen.\n- Optional: Wunschname f\u00fcr den Copilot\u2011Endpoint (Format wird /gb10/<NAME>; z. B. /gb10/addone-sales). Wenn Sie nichts vorgeben, schlage ich /gb10/addone-sales vor.\n- W\u00fcnschen Sie manuelle Dateiuploads in der Collection? (Standard: erlaubt = true). Falls nein, setze ich allowFileUpload=false.\n\nWichtig zu SharePoint:\n- Bitte gew\u00e4hren Sie dem Service\u2011User svc-ai-knowledge-acc Lesezugriff auf den Ordner oder Dateien und erstellen Sie einen Sharing\u2011Link. Diesen Sharing\u2011Link f\u00fcgen wir beim Erstellen des SharePoint\u2011Source als sharingUrl ein. Sync kann ein paar Minuten dauern.\n\n2) Meine empfohlenen Standard\u2011Konfigurationen (kann ich so anlegen, wenn Sie nichts \u00e4ndern)\n- Collection ID: addone_sales_kb (oder Ihren Namen)\n- Projekt\u2011Nummer: 10000 (setzt Gesch\u00e4ftsbereich GB10 automatisch)\n- Quellen: INFORM Website + SharePoint\n- Embedding Modell: bedrock.cohere.embed-v4:0 (robustes multilingual embed)\n- Chunking: CharacterChunker, chunkSize 2000, overlap 500\n- Vector DB: postgresql-pgvector (Standard)\n- Document summary plugin: aktiviert (Kurzsummary f\u00fcr Dokumente)\n- allowFileUpload: true (kann ausgeschaltet werden)\n- Trigger: keine automatische Cron\u2011Indexierung initial; ich kann sp\u00e4ter einen Cron hinzuf\u00fcgen\n\n3) Copilot (Sales Assistant) \u2014 Vorschlag f\u00fcr erste Konfiguration\n- Endpoint: /gb10/addone-sales (vorschlag)\n- Modell: Standard verf\u00fcgbarer Copilot\u2011Modellname (ich kann verf\u00fcgbare Modelle pr\u00fcfen)\n- Default Message (Begr\u00fc\u00dfung): Kurzer, verkaufsorientierter Satz + Hinweis auf Support/Mehr Infos\n- Instructions: Sales\u2011persona, produktfokussiert, hervorheben USP, Use\u2011Cases, ROI, rechtliche/konforme Zusicherung (falls relevant)\n- Initial Prompt Suggestions: z. B. \u201eWas kann ADD*ONE f\u00fcr mein Unternehmen tun?\u201c, \u201eKosten und ROI\u201c, \u201eIntegration und Support\u201c\n\n4) Was ich automatisch f\u00fcr Sie erledigen kann, sobald Sie die Links best\u00e4tigen\n- Website\u2011Source anlegen und auf Erreichbarkeit pr\u00fcfen\n- SharePoint\u2011Source anlegen (mit Ihrer Sharing\u2011URL)\n- Collection anlegen und Sources zuweisen (projectNumber=10000)\n- Indexierung ansto\u00dfen (option: forceRun)\n- Optional: Copilot Endpoint anlegen und Grundkonfiguration setzen (inkl. AiKnowledge\u2011Plugin, das die Collection verwendet)\n\n5) Monitoring & Qualit\u00e4tssicherung\n- Nach Indexierung pr\u00fcfe ich Fragment\u2011Counts und Index\u2011Run\u2011Status.\n- Ich kann eine Evaluation\u2011Suite mit typischen Sales\u2011Szenarien vorbereiten und ausf\u00fchren (z. B. Einwandbehandlung, ROI\u2011Fragen, Integrationsfragen).\n- Logs, Session\u2011Analyse und Kosten\u00fcbersicht lasse ich Ihnen zukommen.\n\nN\u00e4chste Schritte \u2014 bitte best\u00e4tigen / liefern:\n- Website\u2011URL(s)\n- SharePoint\u2011Sharing\u2011URL(s) (und best\u00e4tigen, dass svc-ai-knowledge-acc Lesezugriff hat)\n- Gew\u00fcnschte Collection\u2011ID (oder ich verwende addone_sales_kb)\n- Gew\u00fcnschter Endpoint\u2011Name (oder ich verwende /gb10/addone-sales)\n- Soll ich sofort die Quellen + Collection + Indexierung anlegen? (ja/nein)\n\nWenn Sie m\u00f6chten, kann ich nach Ihren Freigaben direkt loslegen und die Quellen + Collection erstellen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23764,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 1434,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 512,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:55:14Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAGlmUiCOMAk1YTR9gRnOBbHIHSCc",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 142324,
+        "output_tokens": 3618,
+        "reasoning_tokens": 1664,
+        "requests": 3,
+        "cost": 0.0214085
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly set the business area to GB10 and the project number to 10000 using tool calls, which matches the user's input. The final message is very detailed and helpful, providing a clear summary of the next steps, what information is needed from the user, and the proposed workflow for setting up the Sales Copilot. This goes beyond the expected output's brief confirmation and request for links, offering a comprehensive and accurate response that is highly useful for the user. Therefore, the response is accurate, helpful, and well-aligned with the user's needs.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's provided information. The tool calls are relevant and correctly formatted for the context. The model also provided a detailed and relevant follow-up message outlining the next steps and what information it needs from the user, which aligns well with the expected interaction flow.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly set the business area to GB10 and the project number to 10000 using tool calls, which matches the user's input. The final message is very detailed and helpful, providing a clear summary of the next steps, what information is needed from the user, and the proposed workflow for setting up the Sales Copilot. This goes beyond the expected output's brief confirmation and request for links, offering a comprehensive and accurate response that is highly useful for the user. Therefore, the response is accurate, helpful, and well-aligned with the user's needs.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's provided information. The tool calls are relevant and correctly formatted for the context. The model also provided a detailed and relevant follow-up message outlining the next steps and what information it needs from the user, which aligns well with the expected interaction flow.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 86.866745695,
+      "total_duration": 89.227467343,
+      "trace_id": "019c6c15889cc2fe024d5ba32421d42d",
+      "span_id": "723bceeeb863a99f",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Gesch\u00e4ftsbereich & Projektnummer gespeichert & Link-Anfrage - Variant 2",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich m\u00f6chte einen Copilot f\u00fcr die ADD*ONE-Webseite aufsetzen. Der Copilot soll als idealer Sales Assistant fungieren und potenzielle Kunden von der Software begeistern.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut! Ich beginne mit der Einrichtung eines Sales-Copiloten f\u00fcr die ADD*ONE-Webseite. Daf\u00fcr werde ich relevante Ressourcen in das AI Knowledge aufnehmen und den Copiloten konfigurieren. Damit ich fortfahren kann: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10 und meine Projektnummer ist 10000. Wir haben eine INFORM-Webseite zum Thema KI-Systeme sowie einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links zusammen.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Super! Ich habe notiert, dass Sie im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und f\u00fcge die Quellen hinzu.",
+        "tool_calls": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": {
+              "geschaeftsbereich": "GB10"
+            },
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "set_project_number",
+            "args": {
+              "project_number": "10000"
+            },
+            "tool_call_id": "set_project_number_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB10\"}",
+              "tool_call_id": "call_L4iD10A6uVbvMDeEiE2Ia6st",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23673,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 610,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 576,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:55:40Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGmCIdZdfbbfmWfxJsprm7eR0pVW",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "call_L4iD10A6uVbvMDeEiE2Ia6st",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:55:47.697829Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:55:47 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:55:47.698020+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"10000\"}",
+              "tool_call_id": "call_DxzM3FOEkHPKETEcvkt2Z31G",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23723,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 21,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:56:15Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGmlji0iHwJ4LzOoNPKnqL6YZoUw",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "call_DxzM3FOEkHPKETEcvkt2Z31G",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:56:16.337878Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:56:16 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:56:16.338586+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt \u2014 danke f\u00fcr die Infos (GB10 / Projekt 10000). Ich kann das f\u00fcr Sie einrichten. Bevor ich loslege, brauche ich noch ein paar Details und Ihre Freigaben, damit ich Quellen, Collection und den Copilot korrekt anlege.\n\nBen\u00f6tigte Angaben von Ihnen\n- INFORM-Webseite: bitte die(n) URL(s) zur Seite(n), die der Copilot f\u00fcr Sales nutzen soll (z. B. https://inform-cloud.de/\u2026).\n- SharePoint/OneDrive: teilen Sie mir den Sharing-Link zum Ordner mit den ADD*ONE-InfoPapers mit. Wichtig: geben Sie dem Service-User svc-ai-knowledge-acc Leserechte auf diesen Ordner (Anleitung unten).\n- Best\u00e4tigung, dass ich die oben genannten Quellen anlege und zur Collection hinzuf\u00fcge.\n\nVorschlag f\u00fcr Namen / Defaults (\u00e4ndern Sie gern)\n- Collection-ID: addone_knowledge (muss 8+ Zeichen sein; ich kann anders benennen wenn Sie es w\u00fcnschen)\n- Quellen: \n  - Website source: INFORM-Webseite (Typ: website)\n  - SharePoint source: ADD*ONE InfoPapers (Typ: sharepoint; sharingUrl = Ihre Link)\n- Copilot Endpoint: /gb10/addone-sales\n- Copilot Display-Name: ADD*ONE Sales Assistant\n- Projekt-Nummer (wird gesetzt): 10000 (bereits gesetzt)\n- Modell f\u00fcr Copilot: gpt-4.1-mini (Empfehlung; Sie k\u00f6nnen anderes Modell w\u00fcnschen)\n- Knowledge-Plugin: AiKnowledge, bindet die Collection addone_knowledge\n- File uploads: deaktiviert (weil SharePoint verwendet) \u2014 soll ich Upload erlauben?\n\nSharePoint-Anleitung (wichtig)\n1. Geben Sie dem Benutzer svc-ai-knowledge-acc Leserechte im Ordner (oder f\u00fcr einzelne Dateien).\n2. Erstellen Sie einen Share-Link (Zugriff: mindestens Ansichtsrechte).\n3. Kopieren Sie mir den Share-Link. Beim Anlegen der SharePoint-Source trage ich den Sharing-URL in das Feld sharingUrl ein.\nHinweis: Der Sync/Indexing nach Hinzuf\u00fcgen des SharePoint-Source kann ein paar Minuten dauern.\n\nOptionale Entscheidungen (kurz best\u00e4tigen)\n- Soll ich die Collection so einrichten, dass sie t\u00e4glich automatisch indexiert wird (z. B. cron: 0 2 * * * in CET)? (Ja/Nein \u2014 Standard: nein)\n- Soll ich manuelles File-Upload zulassen? (Ja/Nein \u2014 Standard: Nein)\n- Soll ich eine Dokument-Summarization-Plugininstanz hinzuf\u00fcgen, um kurze Inhaltszusammenfassungen zu erzeugen? (Empfehlung: Ja \u2014 n\u00fctzlich f\u00fcr Sales-Snippets)\n\nWas ich automatisch erledige, sobald Sie best\u00e4tigen + Links liefern\n- Erstelle Website-Source (INFORM-URL)\n- Erstelle SharePoint-Source (mit Ihrem sharingUrl)\n- Erstelle Collection addone_knowledge (Projekt 10000, GB10), verkn\u00fcpfe die Quellen und aktiviere AiKnowledge-Plugin\n- Optional: Starte Initial-Indexing der Collection\n- Erstelle Copilot /gb10/addone-sales mit vorgeschlagenen Einstellungen und verkn\u00fcpfe AiKnowledge-Plugin\n\nN\u00e4chster Schritt\n- Schicken Sie mir die Webseiten-URL(s) und den SharePoint-Sharing-Link. Antworten Sie kurz auf die drei optionalen Entscheidungen (t\u00e4gliche Indexierung / File-Upload / Zusammenfassungs-Plugin) und ob Sie die vorgeschlagenen Namen (Collection und Endpoint) akzeptieren oder \u00e4ndern m\u00f6chten. Dann setze ich alles auf.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23763,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 1404,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 640,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:56:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAGnBQhfru6ecECFK8mZwXhmIwWio",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 142318,
+        "output_tokens": 4070,
+        "reasoning_tokens": 2432,
+        "requests": 3,
+        "cost": 0.021859749999999997
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to ask for the necessary URLs and confirmations to set up the Copilot. The response is detailed, accurate, and helpful, providing clear instructions and next steps, which aligns well with the user's request and the expected output. Although the expected output is shorter, the model's more detailed response is still appropriate and helpful, thus passing the rubric for overall helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000 as provided by the user. These tool calls are relevant and necessary for the subsequent configuration steps. The output message also appropriately acknowledges the received information and requests the required links, aligning well with the expected behavior.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to ask for the necessary URLs and confirmations to set up the Copilot. The response is detailed, accurate, and helpful, providing clear instructions and next steps, which aligns well with the user's request and the expected output. Although the expected output is shorter, the model's more detailed response is still appropriate and helpful, thus passing the rubric for overall helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000 as provided by the user. These tool calls are relevant and necessary for the subsequent configuration steps. The output message also appropriately acknowledges the received information and requests the required links, aligning well with the expected behavior.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 80.471990147,
+      "total_duration": 82.146619687,
+      "trace_id": "019c6c15889cc2fe024d5ba32421d42d",
+      "span_id": "818ddfb4ee569946",
+      "evaluator_failures": []
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Gesch\u00e4ftsbereich & Projektnummer gespeichert & Link-Anfrage - Variant 3",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Ich w\u00fcrde gerne einen Copilot f\u00fcr die ADD*ONE-Webseite implementieren. Ziel ist es, einen erstklassigen Sales Assistant zu schaffen, der potenzielle Kunden von der Software \u00fcberzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima! Ich setze einen Sales-Copiloten f\u00fcr die ADD*ONE-Webseite auf. Dazu werde ich relevante Ressourcen ins AI Knowledge einbinden und den Copiloten entsprechend konfigurieren. Damit wir loslegen k\u00f6nnen: In welchem Gesch\u00e4ftsbereich sind Sie t\u00e4tig und wie lautet Ihre Projektnummer? (Beispiel: GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Gesch\u00e4ftsbereich GB10, die Projektnummer ist 10000. Wir verf\u00fcgen \u00fcber eine INFORM-Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich stelle gerade die Links zusammen.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Super! Ich habe notiert, dass Sie im Gesch\u00e4ftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und f\u00fcge die Quellen hinzu.",
+        "tool_calls": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": {
+              "geschaeftsbereich": "GB10"
+            },
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "set_project_number",
+            "args": {
+              "project_number": "10000"
+            },
+            "tool_call_id": "set_project_number_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB10\"}",
+              "tool_call_id": "call_HJpJ2rvtBvd5V2VuBsePqrWy",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23676,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 418,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 384,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:57:16Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGnk7zT6aRmu1G5LwzYNLc0uAqKv",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "call_HJpJ2rvtBvd5V2VuBsePqrWy",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:57:22.090545Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:57:22 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:57:22.090773+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"10000\"}",
+              "tool_call_id": "call_REHRhrkG3STl6jvvPaoho48v",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23726,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 21,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:57:42Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAGoADZQiaIBShkOmfH0wJOT14dVN",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "call_REHRhrkG3STl6jvvPaoho48v",
+              "metadata": null,
+              "timestamp": "2026-02-17T14:57:43.483809Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 15:57:43 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T15:57:43.484066+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt \u2014 danke f\u00fcr die Angaben (Gesch\u00e4ftsbereich GB10, Projekt 10000). Ich kann jetzt alles f\u00fcr einen Sales-Copiloten f\u00fcr die ADD*ONE-Webseite vorbereiten. Bevor ich loslege, kurz der Ablauf, meine Empfehlungen und die Informationen, die ich noch von Ihnen ben\u00f6tige.\n\nVorgehen (was ich f\u00fcr Sie tun kann)\n- Quellen anlegen:\n  - Website-Quelle (INFORM-Webseite zum Thema KI-Systeme) \u2014 ich brauche die URL(s) und ob Sitemap genutzt werden soll bzw. ob Authentifizierung n\u00f6tig ist.\n  - SharePoint/OneDrive-Quelle (AddOne-InfoPapers) \u2014 ich brauche die Sharing-URL(s). Wichtig: Bitte geben Sie dem Service-User svc-ai-knowledge-acc Leserechte f\u00fcr den Ordner/Dateien (Anleitung weiter unten).\n- Collection erstellen:\n  - Ich lege eine Collection an, verkn\u00fcpfe die oben erstellten Quellen und setze die Projektnummer auf 10000 (Kostenallokation).\n  - Empfohlene Einstellungen (kann ich anpassen): Chunking CharacterChunker (chunkSize 2000, overlap 500), Embedding model: bedrock.cohere.embed-v4:0 (Standard), allowFileUpload: false (wir verwenden Quellen).\n  - Optional: document_summary Plugin aktivieren, um f\u00fcr lange Dokumente kompakte Zusammenfassungen zu speichern.\n- Indexing starten:\n  - Erste Indexierung ausf\u00fchren (kann ich erzwingen). SharePoint-Sync dauert meist ein paar Minuten bis vollst\u00e4ndige Indexierung.\n- Copilot anlegen / konfigurieren:\n  - Vorschlag Endpoint (Scope + Name): /gb10/addone-sales-assistant \u2014 bitte best\u00e4tigen oder eigenen Namen nennen.\n  - Modell: Standardauswahl m\u00f6glich; ich empfehle ein leistungsf\u00e4higes, h\u00f6chstens-mittlere Temperatur (z. B. 0\u20130.2) f\u00fcr Sales Assistant.\n  - Plugins: AiKnowledge (mit o.g. Collection), evtl. ClientCalling / OpenAPI falls integrierte Demo/Preisrechner auf der Website verf\u00fcgbar.\n  - Initiale Prompts / Greeting / Vorschl\u00e4ge: ich kann fertige Sales-Prompts vorschlagen (z. B. Lead-Qualifizierung, Nutzenargumentation, Demo-Anfrage).\n- Test & Evaluation:\n  - Chat-Seite zum Testen \u00f6ffnen, Evaluation Suite mit typischen Sales-Szenarien anlegen und ausf\u00fchren.\n\nEmpfohlene Konfiguration (Kurzform)\n- CollectionId Vorschlag: addone_sales_collection (oder addone_sales_gb10)\n- Projektnummer: 10000 (bereits gesetzt)\n- Embedding: bedrock.cohere.embed-v4:0 (oder anderes, wenn gew\u00fcnscht)\n- Chunking: CharacterChunker, chunkSize 2000, overlap 500\n- Plugins: document_summary (empfohlen)\n- Indexing: manueller Start + optional t\u00e4glicher Cron (z. B. 0 2 * * * CET) wenn Dokumente h\u00e4ufig aktualisiert werden\n\nWas ich jetzt von Ihnen brauche\n1. Website-URL(s) der INFORM-Seite(n) zum Thema KI-Systeme (vollst\u00e4ndige Links). Bitte angeben, ob Sitemap gew\u00fcnscht und ob Auth (Basic/Bearer) erforderlich; wenn Auth n\u00f6tig, liefern Sie Anmeldeinfos oder sagen, dass die Seite \u00f6ffentlich ist.\n2. SharePoint/OneDrive Sharing-URL(s) f\u00fcr den AddOne-InfoPapers-Ordner (oder einzelne Dateien).\n   - Wichtig: Gew\u00e4hren Sie Leseberechtigung f\u00fcr svc-ai-knowledge-acc (Service-User). Vorgehen:\n     - Geben Sie dem Nutzer svc-ai-knowledge-acc Leserrechte auf den Ordner/die Dateien.\n     - Erstellen Sie eine \u201eShared link\u201c oder geben Sie die Ordner-Freigabe-URL; diese f\u00fcge ich als sharingUrl beim Source-Setup ein.\n3. Best\u00e4tigung, ob ich die Quellen + Collection + Copilot automatisch anlegen soll (ja/nein).\n4. Gew\u00fcnschter Copilot-Endpoint-Name (Vorschlag: /gb10/addone-sales-assistant). Falls kein Wunsch, nutze ich den Vorschlag.\n5. M\u00f6chten Sie automatische, regelm\u00e4\u00dfige Indexierungen (z. B. t\u00e4glich) oder nur manuelle?\n\nWenn Sie m\u00f6chten, kann ich nach Ihren Links direkt:\n- die Website-Source anlegen und pr\u00fcfen,\n- die SharePoint-Source anlegen (mit Ihrer Sharing-URL),\n- die Collection erstellen (Projekt 10000, GB10),\n- das erste Index-Run ausl\u00f6sen,\n- und einen Copilot Endpoint (/gb10/addone-sales-assistant) erstellen und mit AiKnowledge verbinden.\n\nN\u00e4chster Schritt\n- Bitte senden Sie die Website-URL(s) und die SharePoint-Sharing-URL(s) sowie die Best\u00e4tigung, ob ich automatisch alles anlegen darf. Wenn Auth f\u00fcr die Website n\u00f6tig ist: bitte die Auth-Art (Basic/Bearer) und die Zugangsdaten (oder sagen Sie, dass Sie diesen Teil selbst einrichten wollen).\n\nSoll ich mit dem vorgeschlagenen Endpoint-Namen und den empfohlenen Voreinstellungen direkt starten, sobald Sie die Links posten?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 23766,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 1666,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 576,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T14:58:16Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAGoicYTiyxc5WhyKt5Pj8MCnDUpy",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 142336,
+        "output_tokens": 4210,
+        "reasoning_tokens": 1920,
+        "requests": 3,
+        "cost": 0.022002
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to outline a detailed, helpful plan for setting up the Sales Copilot, including next steps and information needed from the user. The response is accurate, comprehensive, and helpful, exceeding the minimal expected output by providing clear instructions and recommendations for the setup process. Therefore, it meets and surpasses the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's provided information. The tool calls are relevant and correctly reflect the user's input. The model also provided a detailed and relevant next step message, aligning well with the expected output's intent to confirm the information and request the necessary URLs. Therefore, the tool calls are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly acknowledged the user's business area (GB10) and project number (10000) and proceeded to outline a detailed, helpful plan for setting up the Sales Copilot, including next steps and information needed from the user. The response is accurate, comprehensive, and helpful, exceeding the minimal expected output by providing clear instructions and recommendations for the setup process. Therefore, it meets and surpasses the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tools to set the business area to GB10 and the project number to 10000, which matches the user's provided information. The tool calls are relevant and correctly reflect the user's input. The model also provided a detailed and relevant next step message, aligning well with the expected output's intent to confirm the information and request the necessary URLs. Therefore, the tool calls are correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 112.10519851,
+      "total_duration": 114.288956569,
+      "trace_id": "019c6c15889cc2fe024d5ba32421d42d",
+      "span_id": "ebcf0247c05ecae6",
+      "evaluator_failures": []
+    }
+  ],
+  "failures": [],
+  "trace_id": "019c6c15889cc2fe024d5ba32421d42d",
+  "span_id": "3cc78e75c73b1ba2"
+}

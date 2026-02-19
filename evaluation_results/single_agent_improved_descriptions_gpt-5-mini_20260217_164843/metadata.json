@@ -1,0 +1,29 @@
+{
+  "run_id": "single_agent_improved_descriptions_gpt-5-mini_20260217_164843",
+  "timestamp": "2026-02-17T16:48:43.044582",
+  "task_name": "single_agent_improved_descriptions_gpt-5-mini",
+  "dataset_manager_names": [
+    "add_one",
+    "analytics",
+    "testing_and_access"
+  ],
+  "dataset_ids": [
+    "testing_access_case_5",
+    "testing_access_case_3",
+    "testing_access_case_4",
+    "testing_access_case_2",
+    "testing_access_case_1"
+  ],
+  "evaluator_names": [
+    "ToolCallEvaluator",
+    "LLMJudge",
+    "LLMJudge"
+  ],
+  "metadata": {
+    "description": "Evaluation of single agent on ADDONE datasets with improved descriptions.",
+    "agent_type": "hybrid_assistant",
+    "model": "gpt-5-mini"
+  },
+  "success": true,
+  "error_message": null
+}

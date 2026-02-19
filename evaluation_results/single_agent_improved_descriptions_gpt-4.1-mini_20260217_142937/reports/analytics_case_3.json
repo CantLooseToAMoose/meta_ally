@@ -1,0 +1,1680 @@
+{
+  "name": "single_agent_improved_descriptions_gpt-4.1-mini",
+  "cases": [
+    {
+      "name": "INFORM Webseite Analytics - Kostenoptimierung anfragen",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin aus dem Corporate AI Team und maintaine den Copilot auf der INFORM Webseite. Ich w\u00fcrde gerne wissen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie zufrieden die Nutzer sind und wie hoch die Kosten sind.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Gerne unterst\u00fctze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, ben\u00f6tige ich den Endpunktnamen, ihren Gesch\u00e4ftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten f\u00fcr Sie abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, ich bin im GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollst\u00e4ndige Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n\u2b50 **Nutzerzufriedenheit:**\n - Es scheint als g\u00e4be es keine Bewertungen f\u00fcr diesen Endpunkt.\n   Sie sollten erw\u00e4gen, dieses Feature f\u00fcr Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nM\u00f6chten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Analyse! Wir erwarten demn\u00e4chst eine erh\u00f6hte Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu optimieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ja, auf jeden Fall! Lassen Sie mich die verf\u00fcgbaren Modelle pr\u00fcfen, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udcca **Optimierungsans\u00e4tze:**\n\nBasierend auf den verf\u00fcgbaren Modellen und Ihrer aktuellen Nutzung k\u00f6nnte ein Wechsel zu einem kosteng\u00fcnstigeren Modell erhebliche Einsparungen bringen, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie Details zu den verf\u00fcgbaren g\u00fcnstigeren Modelloptionen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "args": {},
+            "tool_call_id": "list_models_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ja, es gibt mehrere M\u00f6glichkeiten, die Kosten f\u00fcr Ihren Copilot zu optimieren, insbesondere bei erwarteter erh\u00f6hter Nutzung:\n\n1. Modellwahl: Pr\u00fcfen Sie, ob ein kosteng\u00fcnstigeres Modell mit ausreichender Qualit\u00e4t f\u00fcr Ihre Anforderungen verf\u00fcgbar ist. Kleinere Modelle sind g\u00fcnstiger, aber eventuell weniger leistungsf\u00e4hig.\n\n2. Temperatureinstellung: Eine niedrigere Temperatureinstellung kann die Token-Nutzung reduzieren, da die Antworten fokussierter sind.\n\n3. Maximale Antwortl\u00e4nge: Begrenzen Sie die maximale L\u00e4nge der Antworten, um Tokenverbrauch zu senken.\n\n4. Kontextmanagement: Reduzieren Sie die Historie oder den Umfang der Konversation, die an das Modell gesendet wird, um Token zu sparen.\n\n5. Caching: Antworten auf h\u00e4ufig gestellte Fragen k\u00f6nnen zwischengespeichert werden, um wiederholte Modellaufrufe zu vermeiden.\n\n6. Monitoring: \u00dcberwachen Sie regelm\u00e4\u00dfig die Nutzung und Kosten, um fr\u00fchzeitig auf Ausrei\u00dfer reagieren zu k\u00f6nnen.\n\n7. Plugins und Funktionen: Deaktivieren Sie nicht ben\u00f6tigte Plugins oder Funktionen, die zus\u00e4tzlichen Tokenverbrauch verursachen.\n\nWenn Sie m\u00f6chten, kann ich Ihnen helfen, die aktuelle Konfiguration Ihres Copilots zu pr\u00fcfen und konkrete Optimierungsvorschl\u00e4ge zu machen. M\u00f6chten Sie das?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24052,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 262,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:38:03Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFZ5zEASTXkLXlG955tZ55t8n2B3",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48104,
+        "output_tokens": 524,
+        "requests": 1,
+        "cost": 0.01004
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The output provides a comprehensive and accurate set of cost optimization strategies for the Copilot, addressing the user's question thoroughly and helpfully. It suggests practical steps such as model choice, temperature settings, response length limits, context management, caching, monitoring, and disabling unnecessary plugins. It also offers further assistance to review the current configuration, which is helpful and relevant. Although it does not explicitly mention checking available models as the expected output does, it covers the core topic of cost optimization effectively and helpfully, thus meeting the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.0,
+          "reason": "The output does not contain any tool calls, whereas the expected output includes a tool call to 'ai_knowledge_list_models' to check for cheaper model options. The user asked about cost optimization possibilities, which typically requires checking available models or configurations via tool calls. The output only provides textual suggestions without making any tool calls, thus it does not meet the rubric requirement to assess the correctness and relevance of tool calls in the last turn.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a comprehensive and accurate set of cost optimization strategies for the Copilot, addressing the user's question thoroughly and helpfully. It suggests practical steps such as model choice, temperature settings, response length limits, context management, caching, monitoring, and disabling unnecessary plugins. It also offers further assistance to review the current configuration, which is helpful and relevant. Although it does not explicitly mention checking available models as the expected output does, it covers the core topic of cost optimization effectively and helpfully, thus meeting the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": false,
+          "reason": "The output does not contain any tool calls, whereas the expected output includes a tool call to 'ai_knowledge_list_models' to check for cheaper model options. The user asked about cost optimization possibilities, which typically requires checking available models or configurations via tool calls. The output only provides textual suggestions without making any tool calls, thus it does not meet the rubric requirement to assess the correctness and relevance of tool calls in the last turn.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 5.566451648,
+      "total_duration": 7.415655841,
+      "trace_id": "019c6bd279d92144cadffcb743483ead",
+      "span_id": "3d8de433112ca87d",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Kostenoptimierung anfragen - Variant 1",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich bin im Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Ich m\u00f6chte gerne wissen, wie oft der Chatbot in letzter Zeit verwendet wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich unterst\u00fctze Sie gerne bei der Analyse Ihres Copilots. Damit ich die Nutzungsdaten, Bewertungen und Kosten abrufen kann, ben\u00f6tige ich den Endpunktnamen, Ihren Gesch\u00e4ftsbereich und die Projektnummer. Sobald Sie mir diese Angaben geben, kann ich die gew\u00fcnschten Informationen bereitstellen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, mein Bereich ist GB80 und die Projektnummer lautet 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Alles klar, ich habe die Daten f\u00fcr Sie zusammengestellt. Hier die Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n\u2b50 **Nutzerzufriedenheit:**\n - Es liegen keine Bewertungen f\u00fcr diesen Endpunkt vor.\n   Sie k\u00f6nnten die Bewertungsfunktion aktivieren, um Feedback zu erhalten!\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nM\u00f6chten Sie weitere Details zu einzelnen Sessions oder Empfehlungen zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Auswertung! Wir rechnen bald mit mehr Nutzern. Gibt es M\u00f6glichkeiten, die Kosten zu senken?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ja, auf jeden Fall! Lassen Sie mich die verf\u00fcgbaren Modelle pr\u00fcfen, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udcca **Optimierungsans\u00e4tze:**\n\nBasierend auf den verf\u00fcgbaren Modellen und Ihrer aktuellen Nutzung k\u00f6nnte ein Wechsel zu einem kosteng\u00fcnstigeren Modell erhebliche Einsparungen bringen, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie Details zu den verf\u00fcgbaren g\u00fcnstigeren Modelloptionen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "args": {},
+            "tool_call_id": "list_models_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ja, es gibt mehrere Ans\u00e4tze, um die Kosten f\u00fcr Ihren Copilot zu senken, insbesondere wenn die Nutzerzahl steigt:\n\n1. Modellwahl optimieren: Verwenden Sie ein kosteng\u00fcnstigeres Modell mit ausreichender Qualit\u00e4t, z.B. ein kleineres GPT-Modell oder ein alternatives Embedding-Modell.\n\n2. Temperatur und Antwortl\u00e4nge anpassen: Reduzieren Sie die maximale Antwortl\u00e4nge und passen Sie die Temperatur an, um weniger Token zu verbrauchen.\n\n3. Kontextmanagement verbessern: Nutzen Sie History-Reduktion, um den Kontext effizienter zu verwalten und Tokenverbrauch zu senken.\n\n4. Plugins und Funktionen pr\u00fcfen: Deaktivieren Sie nicht ben\u00f6tigte Plugins oder Funktionen, die zus\u00e4tzlichen Tokenverbrauch verursachen.\n\n5. Indexierung und Wissensbasis optimieren: Stellen Sie sicher, dass die Wissensbasis gut strukturiert ist, um pr\u00e4zise Antworten zu erm\u00f6glichen und unn\u00f6tige Abfragen zu vermeiden.\n\n6. Monitoring und Alerts: Richten Sie Monitoring ein, um ungew\u00f6hnlich hohen Verbrauch fr\u00fchzeitig zu erkennen und gegenzusteuern.\n\nWenn Sie m\u00f6chten, kann ich Ihnen helfen, die aktuelle Konfiguration Ihres Copilots zu pr\u00fcfen und konkrete Optimierungsvorschl\u00e4ge zu machen. M\u00f6chten Sie das?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24037,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 258,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:38:10Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFZCA7JdmJNgSy874HgPkNdDuR6Q",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48074,
+        "output_tokens": 516,
+        "requests": 1,
+        "cost": 0.0100276
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The output provides a comprehensive and accurate set of cost-saving recommendations tailored to the user's context, including model optimization, response length adjustment, context management, plugin review, knowledge base optimization, and monitoring. It is helpful and relevant, addressing the user's question about reducing costs as usage increases. Although it does not explicitly offer to check available models as in the expected output, it offers to help review the current configuration and provide concrete suggestions, which is similarly helpful. Overall, the response is accurate, detailed, and actionable, meeting the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.0,
+          "reason": "The output provides detailed cost-saving suggestions but does not include any tool calls to check or list available models, which is necessary to identify cheaper alternatives as per the expected output. Therefore, the tool calls are not correct or relevant to the user's request for cost reduction options involving model choices.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a comprehensive and accurate set of cost-saving recommendations tailored to the user's context, including model optimization, response length adjustment, context management, plugin review, knowledge base optimization, and monitoring. It is helpful and relevant, addressing the user's question about reducing costs as usage increases. Although it does not explicitly offer to check available models as in the expected output, it offers to help review the current configuration and provide concrete suggestions, which is similarly helpful. Overall, the response is accurate, detailed, and actionable, meeting the rubric criteria for helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": false,
+          "reason": "The output provides detailed cost-saving suggestions but does not include any tool calls to check or list available models, which is necessary to identify cheaper alternatives as per the expected output. Therefore, the tool calls are not correct or relevant to the user's request for cost reduction options involving model choices.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 5.210734172,
+      "total_duration": 7.181770669,
+      "trace_id": "019c6bd279d92144cadffcb743483ead",
+      "span_id": "f06b45e2fbc5dee6",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Kostenoptimierung anfragen - Variant 2",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin Teil des Corporate AI Teams und betreue den Copilot auf der INFORM Webseite. Mich interessiert, wie h\u00e4ufig der Chatbot in letzter Zeit genutzt wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo und danke f\u00fcr Ihre Anfrage! Um Ihnen die gew\u00fcnschten Analysedaten zu Nutzung, Zufriedenheit und Kosten liefern zu k\u00f6nnen, ben\u00f6tige ich bitte den Endpunktnamen, Ihren Gesch\u00e4ftsbereich sowie die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die Daten f\u00fcr Sie abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt lautet /gb80/inform_webseite_dummy, mein Gesch\u00e4ftsbereich ist GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super, die Daten sind jetzt vollst\u00e4ndig. Hier die Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n\u2b50 **Nutzerzufriedenheit:**\n - Es wurden bisher keine Bewertungen abgegeben.\n   Sie k\u00f6nnten die Bewertungsfunktion aktivieren, um Feedback zu erhalten!\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nBen\u00f6tigen Sie weitere Details zu einzelnen Sessions oder w\u00fcnschen Sie Empfehlungen zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Vielen Dank f\u00fcr die Analyse! Wir rechnen in naher Zukunft mit einer h\u00f6heren Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu reduzieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ja, auf jeden Fall! Lassen Sie mich die verf\u00fcgbaren Modelle pr\u00fcfen, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udcca **Optimierungsans\u00e4tze:**\n\nBasierend auf den verf\u00fcgbaren Modellen und Ihrer aktuellen Nutzung k\u00f6nnte ein Wechsel zu einem kosteng\u00fcnstigeren Modell erhebliche Einsparungen bringen, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie Details zu den verf\u00fcgbaren g\u00fcnstigeren Modelloptionen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "args": {},
+            "tool_call_id": "list_models_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ja, es gibt mehrere M\u00f6glichkeiten, die Kosten f\u00fcr Ihren Copilot zu reduzieren, insbesondere bei erwarteter h\u00f6herer Nutzung:\n\n1. Modellwahl optimieren:\n   - Verwenden Sie ein kosteneffizienteres Modell mit geringerer Komplexit\u00e4t, wenn die Anforderungen es zulassen.\n   - Pr\u00fcfen Sie, ob ein kleineres Modell f\u00fcr Ihre Anwendungsf\u00e4lle ausreichend ist.\n\n2. Temperature und Antwortl\u00e4nge anpassen:\n   - Reduzieren Sie die maximale Antwortl\u00e4nge (max_tool_result_size), um Tokenverbrauch zu senken.\n   - Passen Sie die Temperature-Einstellung an, um pr\u00e4zisere und k\u00fcrzere Antworten zu f\u00f6rdern.\n\n3. Kontextmanagement:\n   - Nutzen Sie History-Reduktion, um den Kontext effizient zu verwalten und Tokenverbrauch zu minimieren.\n   - Entfernen Sie irrelevante oder alte Konversationsteile aus dem Kontext.\n\n4. Plugins und Funktionen:\n   - Deaktivieren Sie nicht ben\u00f6tigte Plugins, die zus\u00e4tzlichen Tokenverbrauch verursachen.\n   - Nutzen Sie gezielt Plugins, die Kosten durch bessere Antwortqualit\u00e4t senken k\u00f6nnen.\n\n5. Monitoring und Alerts:\n   - Richten Sie Monitoring ein, um Kostenentwicklung fr\u00fchzeitig zu erkennen.\n   - Setzen Sie Alerts bei \u00dcberschreitung von Budgetgrenzen.\n\nWenn Sie m\u00f6chten, kann ich Ihnen helfen, die aktuelle Konfiguration Ihres Copilots zu pr\u00fcfen und konkrete Optimierungsvorschl\u00e4ge zu machen. M\u00f6chten Sie das?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24033,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 296,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:38:57Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFZxdmIckeWUum8LUftYgDi7mrah",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48066,
+        "output_tokens": 592,
+        "requests": 1,
+        "cost": 0.0100868
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The output provides a detailed and helpful list of cost reduction strategies tailored to the user's context, including model optimization, parameter adjustments, context management, plugin usage, and monitoring. It is accurate, relevant, and offers to assist further, which aligns well with the user's request for cost reduction options. Although it does not explicitly mention checking available models as in the expected output, it covers a broader range of practical advice, making it overall more comprehensive and helpful.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.0,
+          "reason": "The output provides a detailed textual explanation of cost reduction strategies but does not make any tool calls to check available models or configurations, which would be relevant and expected for providing concrete optimization suggestions. Therefore, the tool calls made in the last turn are missing and not aligned with the expected output that includes a tool call to list models.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a detailed and helpful list of cost reduction strategies tailored to the user's context, including model optimization, parameter adjustments, context management, plugin usage, and monitoring. It is accurate, relevant, and offers to assist further, which aligns well with the user's request for cost reduction options. Although it does not explicitly mention checking available models as in the expected output, it covers a broader range of practical advice, making it overall more comprehensive and helpful.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": false,
+          "reason": "The output provides a detailed textual explanation of cost reduction strategies but does not make any tool calls to check available models or configurations, which would be relevant and expected for providing concrete optimization suggestions. Therefore, the tool calls made in the last turn are missing and not aligned with the expected output that includes a tool call to list models.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 44.441806539,
+      "total_duration": 46.28967709,
+      "trace_id": "019c6bd279d92144cadffcb743483ead",
+      "span_id": "6df114bd1fdb82ae",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Kostenoptimierung anfragen - Variant 3",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hi! Ich bin im Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Ich w\u00fcrde gerne erfahren, wie h\u00e4ufig der Chatbot in letzter Zeit genutzt wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich helfe Ihnen gerne bei der Analyse Ihres Copilots. Damit ich die Nutzungsstatistiken, Bewertungen und Kosten abrufen kann, ben\u00f6tige ich bitte den Endpunktnamen, Ihren Gesch\u00e4ftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die gew\u00fcnschten Daten bereitstellen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, mein Bereich ist GB80 und die Projektnummer lautet 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut, ich habe alle relevanten Daten gesammelt. Hier die Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n\u2b50 **Nutzerzufriedenheit:**\n - Es wurden keine Bewertungen abgegeben.\n   Sie k\u00f6nnten die Bewertungsfunktion aktivieren, um Feedback zu erhalten!\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nBen\u00f6tigen Sie weitere Details zu einzelnen Sessions oder w\u00fcnschen Sie Empfehlungen zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Auswertung! Wir erwarten bald eine h\u00f6here Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu optimieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ja, auf jeden Fall! Lassen Sie mich die verf\u00fcgbaren Modelle pr\u00fcfen, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udcca **Optimierungsans\u00e4tze:**\n\nBasierend auf den verf\u00fcgbaren Modellen und Ihrer aktuellen Nutzung k\u00f6nnte ein Wechsel zu einem kosteng\u00fcnstigeren Modell erhebliche Einsparungen bringen, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie Details zu den verf\u00fcgbaren g\u00fcnstigeren Modelloptionen?",
+        "tool_calls": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "args": {},
+            "tool_call_id": "list_models_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ja, es gibt mehrere M\u00f6glichkeiten, die Kosten f\u00fcr Ihren Copilot zu optimieren, insbesondere bei erwarteter h\u00f6herer Nutzung:\n\n1. Modellwahl: Pr\u00fcfen Sie, ob ein g\u00fcnstigeres Modell mit ausreichender Qualit\u00e4t f\u00fcr Ihre Anforderungen verf\u00fcgbar ist. Kleinere Modelle sind oft kosteneffizienter.\n\n2. Temperatureinstellung: Eine niedrigere Temperatureinstellung kann die Token-Ausgabe reduzieren und somit Kosten senken.\n\n3. Antwortl\u00e4nge begrenzen: Setzen Sie eine maximale Antwortl\u00e4nge, um unn\u00f6tig lange Antworten zu vermeiden.\n\n4. Kontextmanagement: Reduzieren Sie die Historie im Kontext, um weniger Token pro Anfrage zu verbrauchen.\n\n5. Plugins und Funktionen: Deaktivieren Sie nicht ben\u00f6tigte Plugins oder Funktionen, die zus\u00e4tzliche Token verbrauchen.\n\n6. Monitoring: \u00dcberwachen Sie regelm\u00e4\u00dfig die Nutzung und Kosten, um fr\u00fchzeitig Anpassungen vorzunehmen.\n\nWenn Sie m\u00f6chten, kann ich Ihnen helfen, die aktuelle Konfiguration Ihres Copilots zu pr\u00fcfen und Optimierungsvorschl\u00e4ge zu machen. M\u00f6chten Sie das?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24036,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 216,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:39:04Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFa4GK3G3ILL1qrEW1g5uEB5IKvI",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48072,
+        "output_tokens": 432,
+        "requests": 1,
+        "cost": 0.00996
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The output provides a comprehensive and accurate set of cost optimization suggestions for the Copilot, addressing the user's question effectively. It covers multiple practical strategies such as model choice, temperature settings, response length, context management, plugin usage, and monitoring. Although it does not explicitly offer to check available models as in the expected output, it offers to help review the current configuration and provide recommendations, which is similarly helpful and relevant. Overall, the response is helpful, accurate, and aligned with the user's needs.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.0,
+          "reason": "The model's last turn did not include any tool calls, whereas the expected output explicitly includes a tool call to 'ai_knowledge_list_models' to check for cheaper model options. The model's response was relevant and correct in content but failed to make the necessary tool call to explore cost optimization options as per the expected output. Therefore, the tool call aspect is incorrect and incomplete.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a comprehensive and accurate set of cost optimization suggestions for the Copilot, addressing the user's question effectively. It covers multiple practical strategies such as model choice, temperature settings, response length, context management, plugin usage, and monitoring. Although it does not explicitly offer to check available models as in the expected output, it offers to help review the current configuration and provide recommendations, which is similarly helpful and relevant. Overall, the response is helpful, accurate, and aligned with the user's needs.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": false,
+          "reason": "The model's last turn did not include any tool calls, whereas the expected output explicitly includes a tool call to 'ai_knowledge_list_models' to check for cheaper model options. The model's response was relevant and correct in content but failed to make the necessary tool call to explore cost optimization options as per the expected output. Therefore, the tool call aspect is incorrect and incomplete.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 5.377344667,
+      "total_duration": 6.987934239,
+      "trace_id": "019c6bd279d92144cadffcb743483ead",
+      "span_id": "842f7dfbfed94839",
+      "evaluator_failures": []
+    }
+  ],
+  "failures": [],
+  "trace_id": "019c6bd279d92144cadffcb743483ead",
+  "span_id": "7c97ace550e6311c"
+}

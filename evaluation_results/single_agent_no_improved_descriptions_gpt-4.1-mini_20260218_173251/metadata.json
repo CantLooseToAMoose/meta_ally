@@ -1,0 +1,31 @@
+{
+  "run_id": "single_agent_no_improved_descriptions_gpt-4.1-mini_20260218_173251",
+  "timestamp": "2026-02-18T17:32:51.358811",
+  "task_name": "single_agent_no_improved_descriptions_gpt-4.1-mini",
+  "dataset_manager_names": [
+    "add_one",
+    "analytics",
+    "testing_and_access"
+  ],
+  "dataset_ids": [
+    "testing_access_case_5",
+    "testing_access_case_3",
+    "testing_access_case_4",
+    "testing_access_case_2",
+    "testing_access_case_1"
+  ],
+  "evaluator_names": [
+    "ToolCallEvaluator",
+    "LLMJudge",
+    "LLMJudge"
+  ],
+  "metadata": {
+    "description": "Evaluation of single_agent on TESTING_AND_ACCESS datasets without improved descriptions.",
+    "agent_type": "single_agent",
+    "model": "gpt-4.1-mini",
+    "use_mock_api": true,
+    "use_improved_descriptions": false
+  },
+  "success": true,
+  "error_message": null
+}

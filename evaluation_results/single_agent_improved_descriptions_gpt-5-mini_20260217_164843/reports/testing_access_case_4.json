@@ -1,0 +1,2359 @@
+{
+  "name": "single_agent_improved_descriptions_gpt-5-mini",
+  "cases": [
+    {
+      "name": "Testing & Access - Execute Suite (Error)",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin in GB80 und meine Projektnummer ist 80000. Ich maintaine den Copilot auf unserer Webseite und m\u00f6chte testen, ob er wie gew\u00fcnscht funktioniert. Der Endpunkt ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-17T15:41:07.735218Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735280Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735285Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Das ist eine gute Idee, den Copilot regelm\u00e4\u00dfig zu testen. Sie haben zwei M\u00f6glichkeiten:\n\n1. **Webportal**: Sie k\u00f6nnen den Copilot direkt im Webportal in der Chat-UI testen.\n2. **Evaluation Suite**: Ich kann Ihnen helfen, eine Evaluation Suite zu erstellen, mit der Sie systematisch mehrere Testf\u00e4lle definieren und automatisiert ausf\u00fchren k\u00f6nnen.\n\nWelche Option bevorzugen Sie?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735293Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "K\u00f6nnen Sie mir helfen, eine Evaluation Suite einzurichten?",
+              "timestamp": "2026-02-17T15:41:07.735294Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Nat\u00fcrlich! Um eine Evaluation Suite zu erstellen, ben\u00f6tige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekr\u00e4ftiger Name f\u00fcr Ihre Evaluation Suite\n2. **Testf\u00e4lle**: Eine Liste von Testf\u00e4llen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen m\u00f6chten Sie f\u00fcr die Suite verwenden und welche Testf\u00e4lle sollen enthalten sein?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735323Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Name soll 'website_test_suite' sein. Hier sind einige Testf\u00e4lle:\n\n1. Input: 'Was macht INFORM?', Expected: 'INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr...'\n2. Input: 'Welche Produkte bietet INFORM an?',Expected: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Expected: 'Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen...'",
+              "timestamp": "2026-02-17T15:41:07.735324Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735343Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735345Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735356Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735358Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt! Ich habe die Evaluation Suite 'website_test_suite' erfolgreich erstellt und alle drei Testf\u00e4lle hinzugef\u00fcgt:\n\n\u2705 Testfall 1: 'Was macht INFORM?'\n\u2705 Testfall 2: 'Welche Produkte bietet INFORM an?'\n\u2705 Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist jetzt bereit. Soll ich sie jetzt ausf\u00fchren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735362Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte f\u00fchren Sie die Suite aus.",
+              "timestamp": "2026-02-17T15:41:07.735363Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuf\u00fchren, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgef\u00fchrt werden.\n\n\u26a0\ufe0f **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder m\u00f6chten Sie den Fehler zun\u00e4chst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "args": "{\"test_suite_name\":\"website_test_suite\",\"endpoint\":\"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_XIqI5R5oXvscn0T8v3aVuIWZ",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24259,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 111,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 64,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:11:38Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAHxi0jKlFImeQqGeIaBqqdgbKie4",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 500: Internal server error",
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "tool_call_id": "call_XIqI5R5oXvscn0T8v3aVuIWZ",
+              "timestamp": "2026-02-17T16:11:40.474011Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:11:40 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:11:40.478753+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB80\"}",
+              "tool_call_id": "call_HF5jTDKzL08d9R08ZwHxrInM",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24336,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 226,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 192,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:12:12Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAHyG2aCYSPS3UL7ArLmdZQYJZF3G",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB80",
+              "tool_call_id": "call_HF5jTDKzL08d9R08ZwHxrInM",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:12:16.492271Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:12:16 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:12:16.492952+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Beim Ausf\u00fchren der Suite ist ein Serverfehler (HTTP 500) aufgetreten \u2014 das ist in der Regel ein tempor\u00e4res Problem auf Serverseite oder ein Problem in der Copilot-Konfiguration. Ich habe Ihren Gesch\u00e4ftsbereich (GB80) und den Endpunkt /gb80/inform_webseite_dummy gespeichert.\n\nIch schlage diese Schritte zur Fehleranalyse und Behebung vor (kurz und handlungsorientiert):\n\n1. Kurz neu versuchen\n   - Oft sind 500-Fehler transient. Ich kann die Suite sofort noch einmal ausf\u00fchren.\n\n2. Konfiguration pr\u00fcfen\n   - Validieren der aktiven Copilot-Konfiguration (pr\u00fcft Struktur und ob das gew\u00e4hlte Modell aktiv ist).\n\n3. Metadaten und Logs ansehen\n   - Metadaten des Copilots abrufen (Display-Name, Projektnummer, \u2026).\n   - Logs f\u00fcr den Endpunkt abfragen (Zeitraum w\u00e4hlen), um die genaue Fehlermeldung zu sehen.\n\n4. Evaluation erneut ausf\u00fchren\n   - Nach Validierung/Logs kann ich die Suite erneut starten.\n\nWas m\u00f6chten Sie jetzt tun? Bitte w\u00e4hlen Sie eine Option oder mehrere (ankreuzen durch Antwort):\nA) Suite sofort nochmal ausf\u00fchren\nB) Konfiguration validieren + Metadaten abrufen\nC) Logs pr\u00fcfen (geben Sie ggf. Zeitraum an, z. B. \"letzte 30 Minuten\" oder Start/Endzeit)\nD) Alles in Reihenfolge (B \u2192 C \u2192 A)\n\nWenn Sie C oder D w\u00e4hlen: nennen Sie bitte den gew\u00fcnschten Zeitraum f\u00fcr die Log-Abfrage (z. B. \"2026-02-17T16:30:00Z bis 2026-02-17T17:10:00Z\" oder \"letzte 1 Stunde\").",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24386,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 886,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 512,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:12:39Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAHyh6i3dKel8xVBmOyM34erkcaOA",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 145962,
+        "output_tokens": 2446,
+        "reasoning_tokens": 1536,
+        "requests": 3,
+        "cost": 0.02069125
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the business area and endpoint context as expected. Furthermore, it provided a helpful, step-by-step troubleshooting guide with options for the user to proceed, including retrying the suite, validating configuration, checking logs, or doing all steps in sequence. This is more comprehensive and user-friendly than the expected output, which only reports the error and asks whether to retry or investigate. The response is accurate, informative, and helpful, thus meeting and exceeding the rubric criteria.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly attempted to execute the evaluation suite using the appropriate tool call with the correct test suite name and endpoint. After receiving a server error (HTTP 500), it provided a relevant and detailed explanation of the error and suggested practical next steps for troubleshooting, including retrying the execution, validating configuration, and checking logs. This response is appropriate and relevant to the user's request and the encountered error, demonstrating correct and context-aware tool usage.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the business area and endpoint context as expected. Furthermore, it provided a helpful, step-by-step troubleshooting guide with options for the user to proceed, including retrying the suite, validating configuration, checking logs, or doing all steps in sequence. This is more comprehensive and user-friendly than the expected output, which only reports the error and asks whether to retry or investigate. The response is accurate, informative, and helpful, thus meeting and exceeding the rubric criteria.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly attempted to execute the evaluation suite using the appropriate tool call with the correct test suite name and endpoint. After receiving a server error (HTTP 500), it provided a relevant and detailed explanation of the error and suggested practical next steps for troubleshooting, including retrying the execution, validating configuration, and checking logs. This response is appropriate and relevant to the user's request and the encountered error, demonstrating correct and context-aware tool usage.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 91.322270818,
+      "total_duration": 94.144270684,
+      "trace_id": "019c6c5ec4690a0a436635438d5b41cc",
+      "span_id": "f592574f68ade674",
+      "evaluator_failures": []
+    },
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 1",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich arbeite in GB80, Projektnummer 80000. Ich betreue den Copilot auf unserer Webseite und m\u00f6chte \u00fcberpr\u00fcfen, ob er wie gew\u00fcnscht funktioniert. Der Endpunkt ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-17T15:41:07.735218Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735280Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735285Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Es ist sinnvoll, den Copilot regelm\u00e4\u00dfig zu \u00fcberpr\u00fcfen. Sie haben zwei M\u00f6glichkeiten:\n\n1. **Webportal**: Testen Sie den Copilot direkt \u00fcber die Chat-Oberfl\u00e4che im Webportal.\n2. **Evaluation Suite**: Ich kann Sie dabei unterst\u00fctzen, eine Evaluation Suite zu erstellen, mit der Sie mehrere Testf\u00e4lle systematisch und automatisiert pr\u00fcfen k\u00f6nnen.\n\nWelche Variante m\u00f6chten Sie nutzen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735293Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "K\u00f6nnten Sie mir beim Einrichten einer Evaluation Suite behilflich sein?",
+              "timestamp": "2026-02-17T15:41:07.735294Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gerne! F\u00fcr die Erstellung einer Evaluation Suite ben\u00f6tige ich folgende Angaben:\n\n1. **Name der Suite**: Wie soll die Test-Suite hei\u00dfen?\n2. **Testf\u00e4lle**: Bitte geben Sie eine Liste von Testf\u00e4llen an. Jeder Testfall besteht aus:\n   - Input: Die zu testende Frage oder Anfrage\n   - Erwartete Antwort: Was der Copilot idealerweise zur\u00fcckgeben soll\n\nWie soll die Suite benannt werden und welche Testf\u00e4lle m\u00f6chten Sie aufnehmen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735323Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Suite soll 'website_test_suite' hei\u00dfen. Hier sind die Testf\u00e4lle:\n\n1. Input: 'Was macht INFORM?', Erwartete Antwort: 'INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr...'\n2. Input: 'Welche Produkte bietet INFORM an?', Erwartete Antwort: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Erwartete Antwort: 'Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen...'",
+              "timestamp": "2026-02-17T15:41:07.735324Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735343Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735345Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735356Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735358Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super! Die Evaluation Suite 'website_test_suite' wurde erstellt und die drei Testf\u00e4lle sind hinzugef\u00fcgt:\n\n\u2714\ufe0f Testfall 1: 'Was macht INFORM?'\n\u2714\ufe0f Testfall 2: 'Welche Produkte bietet INFORM an?'\n\u2714\ufe0f Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist einsatzbereit. Soll ich sie jetzt starten?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735362Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte starten Sie die Suite.",
+              "timestamp": "2026-02-17T15:41:07.735363Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuf\u00fchren, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgef\u00fchrt werden.\n\n\u26a0\ufe0f **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder m\u00f6chten Sie den Fehler zun\u00e4chst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB80\"}",
+              "tool_call_id": "call_DxJ3utsZl8jwvGkT4RrQk2LL",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24252,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 418,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 384,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:13:12Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAHzEMqVA2hQxFliKb2SOGAMgyl7h",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB80",
+              "tool_call_id": "call_DxJ3utsZl8jwvGkT4RrQk2LL",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:13:20.961477Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:13:20 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:13:20.962143+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"80000\"}",
+              "tool_call_id": "call_xsbBrp44GgEuYh2Ar6l1OkHK",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24302,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 21,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:13:39Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAHzfqGIf0haOMBsD1Da7Ppb1zkPK",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 80000",
+              "tool_call_id": "call_xsbBrp44GgEuYh2Ar6l1OkHK",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:13:40.599381Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:13:40 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:13:40.599695+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "args": "{\"test_suite_name\":\"website_test_suite\",\"endpoint\":\"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_LuifgwQbpfMLfYHKijn70qn1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24342,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 41,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:14:13Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI0DZfXZWXYoX3Nq0Qa7t08rm1ar",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 500: Internal server error",
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "tool_call_id": "call_LuifgwQbpfMLfYHKijn70qn1",
+              "timestamp": "2026-02-17T16:14:15.291413Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:14:15 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:14:15.296671+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "args": "{\"test_suite_name\": \"website_test_suite\", \"endpoint\": \"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_u02zj23xjg1hLcWqzpDrOWnb",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ally_config_get_copilot_metadata",
+              "args": "{\"endpoint\": \"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_l4PieuIOxRG6peHjDgmIXnzw",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ally_config_get_copilot_logs",
+              "args": "{\"endpoint\": \"/gb80/inform_webseite_dummy\", \"start_time\": \"2026-02-17T16:59:00+01:00\", \"end_time\": \"2026-02-17T17:14:15+01:00\"}",
+              "tool_call_id": "call_T84EkCEAH0c1BUAuaXmiai8H",
+              "id": null,
+              "part_kind": "tool-call"
+            },
+            {
+              "tool_name": "ally_config_health_check",
+              "args": "{}",
+              "tool_call_id": "call_CoJEoslqmbA49hrbqA0kGXcT",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24419,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 940,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 768,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:14:39Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI0d7C9lyc82aSgLAaqv67TNG331",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 500: Internal server error",
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "tool_call_id": "call_u02zj23xjg1hLcWqzpDrOWnb",
+              "timestamp": "2026-02-17T16:14:52.081215Z",
+              "part_kind": "retry-prompt"
+            },
+            {
+              "tool_name": "ally_config_get_copilot_metadata",
+              "content": {
+                "display_name": "Inform Webseite Dummy",
+                "description": "This is a dummy copilot that mocks the Copilot deployed on the Inform Website",
+                "project_number": "80300"
+              },
+              "tool_call_id": "call_l4PieuIOxRG6peHjDgmIXnzw",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:14:51.883189Z",
+              "part_kind": "tool-return"
+            },
+            {
+              "tool_name": "ally_config_get_copilot_logs",
+              "content": {
+                "log_data": [],
+                "session_ids": {}
+              },
+              "tool_call_id": "call_T84EkCEAH0c1BUAuaXmiai8H",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:14:52.082734Z",
+              "part_kind": "tool-return"
+            },
+            {
+              "tool_name": "ally_config_health_check",
+              "content": "API request succeeded with status 200",
+              "tool_call_id": "call_CoJEoslqmbA49hrbqA0kGXcT",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:14:51.789854Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:14:52 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:14:52.082985+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke \u2014 ich habe die Suite gestartet, aber die Ausf\u00fchrung schlug fehl (HTTP 500). Kurzstatus der Untersuchung:\n\n- Evaluation-Ausf\u00fchrung: Fehler 500 (Internal Server Error).\n- Copilot-Metadaten: Display-Name = \"Inform Webseite Dummy\", Projektnummer in den Metadaten = 80300 (Hinweis: Sie haben mir GB80 / Projektnummer 80000 genannt \u2014 das weicht ab).\n- Logs f\u00fcr den \u00fcberpr\u00fcften Zeitraum: keine Eintr\u00e4ge gefunden.\n- System-Health-Check: API ist erreichbar (200 OK).\n\nWahrscheinliche Ursachen und das Vorgehen\n- Tempor\u00e4rer Serverfehler beim Starten der Evaluation (am h\u00e4ufigsten).\n- Konfigurationsproblem beim Copilot (z. B. fehlende/ung\u00fcltige Plugin-Einstellungen).\n- Autorisierungs- oder Deploy-Problem (w\u00fcrde in Logs erscheinen, sind aktuell aber leer).\n\nVorschl\u00e4ge \u2014 w\u00e4hlen Sie, wie ich vorgehen soll (ich kann das sofort f\u00fcr Sie ausf\u00fchren):\n1. Erneuter Versuch: Ich starte die Evaluation nochmals und pr\u00fcfe anschlie\u00dfend sofort die Logs sowie die Evaluation-Ergebnisse. (Sofortiger n\u00e4chster Schritt; oft l\u00f6st ein Retry tempor\u00e4re 500er.)\n2. Vorab-Validierung: Ich lasse die Copilot-Konfiguration validieren (ally_config_validate_copilot_config) und rufe die aktuelle Konfiguration ab (ally_config_get_copilot_config). Das f\u00e4ngt strukturelle Fehler bevor wir die Suite erneut starten.\n3. Logs erweitern / pr\u00fcfen: Wenn Sie m\u00f6chten, kann ich nach einem erneuten Start Logs f\u00fcr einen etwas gr\u00f6\u00dferen Zeitraum abfragen, um Fehlermeldungen zu erfassen.\n4. Projektnummer-Abgleich: Soll ich die Copilot-Metadaten auf Ihr Projekt 80000 anpassen? Aktuell steht in den Metadaten 80300 \u2014 das beeinflusst Kosten- und Zugriffszuordnung.\n\nEmpfehlung\n- Ich empfehle zuerst Option 2 (Validierung + Config abrufen). Falls die Validierung OK ist, mache ich sofort Option 1 (erneut ausf\u00fchren) und hole danach Logs & Evaluation-Resultate.\n\nWas m\u00f6chten Sie, dass ich jetzt tue?\n- A) Sofort erneut ausf\u00fchren\n- B) Zuerst konfigurieren/validieren (empfohlen)\n- C) Metadaten-Projektnummer anpassen auf 80000\n- Oder eine Kombination (z. B. B \u2192 A)\n\nGeben Sie bitte kurz Bescheid \u2014 ich f\u00fchre die gew\u00e4hlte Aktion sofort aus.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24676,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 1111,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 576,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:15:13Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAI1BK9WOLT6zGcMA8PgfDvhe8Po5",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 243982,
+        "output_tokens": 5062,
+        "reasoning_tokens": 3456,
+        "requests": 5,
+        "cost": 0.03555975
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model's last response accurately identified the internal server error (HTTP 500) when attempting to run the evaluation suite and provided a detailed diagnostic summary including metadata mismatch and empty logs. It offered clear next steps with options for retrying, validating configuration, checking logs, or adjusting project metadata, which is more comprehensive and helpful than the expected output. The response is factually correct, context-aware, and user-friendly, thus highly helpful and accurate.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly set the business area and project number as context before attempting to execute the evaluation suite. It then tried to run the evaluation suite twice, both times receiving a 500 Internal Server Error, which matches the expected output's indication of an internal error during test execution. Additionally, the model retrieved copilot metadata, logs, and performed a health check to diagnose the issue, providing a detailed explanation and options for next steps. This is relevant and appropriate behavior for the situation. Therefore, the tool calls are correct and relevant, though more extensive than the minimal expected output, they align well with the user's request and the rubric.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model's last response accurately identified the internal server error (HTTP 500) when attempting to run the evaluation suite and provided a detailed diagnostic summary including metadata mismatch and empty logs. It offered clear next steps with options for retrying, validating configuration, checking logs, or adjusting project metadata, which is more comprehensive and helpful than the expected output. The response is factually correct, context-aware, and user-friendly, thus highly helpful and accurate.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly set the business area and project number as context before attempting to execute the evaluation suite. It then tried to run the evaluation suite twice, both times receiving a 500 Internal Server Error, which matches the expected output's indication of an internal error during test execution. Additionally, the model retrieved copilot metadata, logs, and performed a health check to diagnose the issue, providing a detailed explanation and options for next steps. This is relevant and appropriate behavior for the situation. Therefore, the tool calls are correct and relevant, though more extensive than the minimal expected output, they align well with the user's request and the rubric.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 154.846625445,
+      "total_duration": 157.058554904,
+      "trace_id": "019c6c5ec4690a0a436635438d5b41cc",
+      "span_id": "37dacf5fdabd8282",
+      "evaluator_failures": []
+    },
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 2",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hi! Ich bin in GB80, Projektnummer 80000, und betreue den Copilot auf unserer Webseite. Ich m\u00f6chte \u00fcberpr\u00fcfen, ob er korrekt funktioniert. Der Endpunkt lautet /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-17T15:41:07.735218Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735280Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735285Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Es ist sinnvoll, den Copilot regelm\u00e4\u00dfig zu testen. Sie haben zwei Optionen:\n\n1. **Webportal**: Sie k\u00f6nnen den Copilot direkt im Webportal \u00fcber die Chat-UI ausprobieren.\n2. **Evaluation Suite**: Ich kann Ihnen helfen, eine Evaluation Suite zu erstellen, mit der Sie mehrere Testf\u00e4lle systematisch und automatisiert pr\u00fcfen k\u00f6nnen.\n\nWelche Variante m\u00f6chten Sie nutzen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735293Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "K\u00f6nnten Sie mir beim Erstellen einer Evaluation Suite helfen?",
+              "timestamp": "2026-02-17T15:41:07.735294Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Gerne! F\u00fcr die Einrichtung einer Evaluation Suite ben\u00f6tige ich folgende Angaben:\n\n1. **Name der Suite**: Wie soll die Test-Suite hei\u00dfen?\n2. **Testf\u00e4lle**: Bitte geben Sie eine Liste von Testf\u00e4llen an. Jeder Testfall besteht aus:\n   - Input: Die zu testende Frage oder Anfrage\n   - Erwartete Antwort: Was der Copilot idealerweise zur\u00fcckgeben soll\n\nWie m\u00f6chten Sie die Suite nennen und welche Testf\u00e4lle sollen enthalten sein?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735323Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Name der Suite soll 'website_test_suite' sein. Hier sind die Testf\u00e4lle:\n\n1. Input: 'Was macht INFORM?', Erwartete Antwort: 'INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr...'\n2. Input: 'Welche Produkte bietet INFORM an?', Erwartete Antwort: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Erwartete Antwort: 'Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen...'",
+              "timestamp": "2026-02-17T15:41:07.735324Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735343Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735345Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735356Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735358Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut! Die Evaluation Suite 'website_test_suite' wurde erstellt und die drei Testf\u00e4lle sind hinzugef\u00fcgt:\n\n\u2714\ufe0f Testfall 1: 'Was macht INFORM?'\n\u2714\ufe0f Testfall 2: 'Welche Produkte bietet INFORM an?'\n\u2714\ufe0f Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist jetzt einsatzbereit. Soll ich sie ausf\u00fchren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735362Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte f\u00fchren Sie die Suite aus.",
+              "timestamp": "2026-02-17T15:41:07.735363Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuf\u00fchren, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgef\u00fchrt werden.\n\n\u26a0\ufe0f **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder m\u00f6chten Sie den Fehler zun\u00e4chst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "args": "{\"test_suite_name\":\"website_test_suite\",\"endpoint\":\"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_5iyTMEIKk7VmM9E3uXNqMbil",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24246,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 47,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:15:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI1dA12UXPEIVeOsyTb0zk9wR1L5",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 500: Internal server error",
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "tool_call_id": "call_5iyTMEIKk7VmM9E3uXNqMbil",
+              "timestamp": "2026-02-17T16:15:43.127190Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:15:43 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:15:43.128696+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "get_geschaeftsbereich",
+              "args": "{}",
+              "tool_call_id": "call_awMLNoNn22kQj7Zjgt53mFEG",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24323,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 153,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 128,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:16:14Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI2AbzrRBpuYqifYeEcKhmnfKwlb",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "get_geschaeftsbereich",
+              "content": "Current business area: GB80",
+              "tool_call_id": "call_awMLNoNn22kQj7Zjgt53mFEG",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:16:17.559992Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:16:17 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:16:17.560175+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "get_project_number",
+              "args": "{}",
+              "tool_call_id": "call_tjvThAl9Zoajrfsi5mlN4ZxH",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24363,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 341,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 320,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:16:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI2bLq7Vb5BzoCC2hLcbjKggiwYn",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "get_project_number",
+              "content": "Current project number: 80000",
+              "tool_call_id": "call_tjvThAl9Zoajrfsi5mlN4ZxH",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:16:46.412130Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:16:46 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:16:46.412643+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Beim Ausf\u00fchren der Suite ist ein Fehler aufgetreten: die API hat mit HTTP 500 (Internal server error) geantwortet. Das deutet meist auf ein tempor\u00e4res Problem auf der Serverseite hin (z. B. kurzzeitige St\u00f6rung), nicht auf einen Fehler in Ihren Testf\u00e4llen.\n\nIch habe Ihre Kontextdaten gespeichert:\n- Gesch\u00e4ftsbereich: GB80\n- Projektnummer: 80000\n- Endpoint: /gb80/inform_webseite_dummy\n\nVorschl\u00e4ge zum weiteren Vorgehen (kurz und pragmatisch) \u2014 w\u00e4hlen Sie eine oder mehrere Aktionen, die ich f\u00fcr Sie durchf\u00fchren soll:\n\n1) Erneuter Versuch: Ich starte die Ausf\u00fchrung der Suite sofort nochmal. Oft reicht ein Retry bei einem 500er-Fehler.  \n2) Health-Check: Ich pr\u00fcfe zuerst den API-/Systemstatus (ally_config_health_check). Wenn die Health-Check-Antwort OK ist, ist ein Retry sinnvoll.  \n3) Logs anschauen: Falls der erneute Versuch wieder fehlschl\u00e4gt, kann ich die Copilot-Logs f\u00fcr einen kurzen Zeitraum abrufen (ben\u00f6tige Start- und Endzeit; ich kann z. B. die letzten 30 Minuten verwenden) und nach Fehlermeldungen filtern.  \n4) Konfiguration pr\u00fcfen: Ich kann die Copilot-Konfiguration abrufen und validieren (z. B. Modellverf\u00fcgbarkeit), falls Sie vermuten, dass die Konfiguration das Problem verursacht.  \n5) Warten & sp\u00e4ter erneut ausf\u00fchren: Wenn es ein bekannter Ausfall ist, lohnt sich ein Retry in ein paar Minuten.\n\nWas soll ich tun? Soll ich direkt einen erneuten Lauf starten, zuerst einen Health-Check machen, oder gleich die Logs abrufen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24396,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 816,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 448,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:17:16Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAI3ANzXXgXqG4GoSIpQhQzuw96uP",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 194656,
+        "output_tokens": 2714,
+        "reasoning_tokens": 1792,
+        "requests": 4,
+        "cost": 0.027046
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the relevant context (business area, project number, endpoint) and provided a concise, helpful set of next steps for the user to choose from, including retrying, health check, logs, configuration check, or waiting. This is a thorough, accurate, and helpful response that aligns well with the expected output's intent to inform about the error and offer next actions. The model's response is more detailed and user-friendly than the expected output, which is positive.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly made a tool call to execute the evaluation suite 'website_test_suite' on the endpoint '/gb80/inform_webseite_dummy'. After receiving a 500 Internal Server Error, it did not stop but provided a detailed explanation of the error and suggested sensible next steps for the user, including retrying, health check, logs, or waiting. This is relevant and appropriate behavior given the situation. The tool call matches the expected tool call, and the response is contextually appropriate and helpful.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the relevant context (business area, project number, endpoint) and provided a concise, helpful set of next steps for the user to choose from, including retrying, health check, logs, configuration check, or waiting. This is a thorough, accurate, and helpful response that aligns well with the expected output's intent to inform about the error and offer next actions. The model's response is more detailed and user-friendly than the expected output, which is positive.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly made a tool call to execute the evaluation suite 'website_test_suite' on the endpoint '/gb80/inform_webseite_dummy'. After receiving a 500 Internal Server Error, it did not stop but provided a detailed explanation of the error and suggested sensible next steps for the user, including retrying, health check, logs, or waiting. This is relevant and appropriate behavior given the situation. The tool call matches the expected tool call, and the response is contextually appropriate and helpful.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 120.209048289,
+      "total_duration": 122.139419309,
+      "trace_id": "019c6c5ec4690a0a436635438d5b41cc",
+      "span_id": "4ffdc68b503276d7",
+      "evaluator_failures": []
+    },
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 3",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Servus! Ich bin im Bereich GB80, Projektnummer 80000, und betreue den Copilot auf unserer Webseite. Ich m\u00f6chte \u00fcberpr\u00fcfen, ob er wie vorgesehen funktioniert. Der Endpunkt ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-17T15:41:07.735218Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735280Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735285Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Es ist sinnvoll, den Copilot regelm\u00e4\u00dfig zu testen. Sie haben zwei M\u00f6glichkeiten:\n\n1. **Webportal**: Sie k\u00f6nnen den Copilot direkt im Webportal in der Chat-Oberfl\u00e4che testen.\n2. **Evaluation Suite**: Ich kann Sie unterst\u00fctzen, eine Evaluation Suite zu erstellen, mit der Sie mehrere Testf\u00e4lle systematisch und automatisiert pr\u00fcfen k\u00f6nnen.\n\nWelche Option m\u00f6chten Sie nutzen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735293Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "K\u00f6nnten Sie mir beim Einrichten einer Evaluation Suite helfen?",
+              "timestamp": "2026-02-17T15:41:07.735294Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Selbstverst\u00e4ndlich! F\u00fcr die Erstellung einer Evaluation Suite ben\u00f6tige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Wie soll die Suite hei\u00dfen?\n2. **Testf\u00e4lle**: Eine Liste von Testf\u00e4llen, jeweils bestehend aus:\n   - Input: Die zu testende Frage oder Anfrage\n   - Erwartete Antwort: Was der Copilot idealerweise zur\u00fcckgeben soll\n\nWie m\u00f6chten Sie die Suite benennen und welche Testf\u00e4lle sollen enthalten sein?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735323Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Name der Suite soll 'website_test_suite' sein. Hier sind die Testf\u00e4lle:\n\n1. Input: 'Was macht INFORM?', Erwartete Antwort: 'INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr...'\n2. Input: 'Welche Produkte bietet INFORM an?', Erwartete Antwort: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Erwartete Antwort: 'Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen...'",
+              "timestamp": "2026-02-17T15:41:07.735324Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735343Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735345Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein f\u00fchrender Anbieter von Software f\u00fcr..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie k\u00f6nnen INFORM \u00fcber folgende Kan\u00e4le erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735356Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T15:41:07.735358Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima! Die Evaluation Suite 'website_test_suite' wurde erstellt und die drei Testf\u00e4lle sind hinzugef\u00fcgt:\n\n\u2714\ufe0f Testfall 1: 'Was macht INFORM?'\n\u2714\ufe0f Testfall 2: 'Welche Produkte bietet INFORM an?'\n\u2714\ufe0f Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist jetzt bereit. Soll ich sie ausf\u00fchren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T15:41:07.735362Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte starten Sie die Suite.",
+              "timestamp": "2026-02-17T15:41:07.735363Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuf\u00fchren, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgef\u00fchrt werden.\n\n\u26a0\ufe0f **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder m\u00f6chten Sie den Fehler zun\u00e4chst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "args": "{\"test_suite_name\":\"website_test_suite\",\"endpoint\":\"/gb80/inform_webseite_dummy\"}",
+              "tool_call_id": "call_OXh1FmYYhlxldLzGVNr0nl3y",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24243,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 47,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:17:42Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI3aVN09jYkfr4fCrZ0uH4izM8xT",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "content": "API request failed with status 500: Internal server error",
+              "tool_name": "ally_config_execute_copilot_evaluation_suite",
+              "tool_call_id": "call_OXh1FmYYhlxldLzGVNr0nl3y",
+              "timestamp": "2026-02-17T16:17:44.158363Z",
+              "part_kind": "retry-prompt"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:17:44 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:17:44.163828+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": "{\"geschaeftsbereich\":\"GB80\"}",
+              "tool_call_id": "call_fU2zmn7Xim7VOrsmymIT1IqH",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24320,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 482,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 448,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:18:17Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI49XPov7vBGw8eNkhXRhHnq8tS8",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB80",
+              "tool_call_id": "call_fU2zmn7Xim7VOrsmymIT1IqH",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:18:23.733675Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:18:23 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:18:23.734200+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": "{\"project_number\":\"80000\"}",
+              "tool_call_id": "call_UUfHyxUG3l3i4RWffelzoDQD",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24370,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 347,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 320,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:18:42Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAI4YlOdaUf55Gz7cOHNgKSptbbJ0",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 80000",
+              "tool_call_id": "call_UUfHyxUG3l3i4RWffelzoDQD",
+              "metadata": null,
+              "timestamp": "2026-02-17T16:18:46.228957Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 17:18:46 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T17:18:46.229776+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Beim Starten der Suite ist ein Fehler aufgetreten (HTTP 500). Ich habe Ihre Kontextdaten (Gesch\u00e4ftsbereich GB80, Projektnummer 80000, Endpoint /gb80/inform_webseite_dummy) gespeichert.\n\nKurze Erkl\u00e4rung und n\u00e4chste Schritte:\n- Ein 500-Fehler ist ein Serverfehler. Correlation IDs (falls Sie eine sehen) haben hier keine tiefere Bedeutung.\n- H\u00e4ufige Ursachen: tempor\u00e4re Backend-Probleme, ung\u00fcltige Copilot-Konfiguration oder ein Problem beim Evaluationsservice.\n\nIch kann jetzt zwei Dinge f\u00fcr Sie tun \u2014 w\u00e4hlen Sie bitte, welche Aktion Sie m\u00f6chten (oder erlauben Sie mir, beides nacheinander auszuf\u00fchren):\n\nOption A \u2014 Erneut ausf\u00fchren:\n- Ich versuche die Evaluation Suite 'website_test_suite' sofort noch einmal zu starten.\n\nOption B \u2014 Erst pr\u00fcfen und dann ausf\u00fchren (empfohlen bei wiederholten Fehlern):\n1. Metadaten & Konfiguration des Copilots abrufen (zeige, ob Endpoint existiert und konfigurierte Modell/Plugins).\n2. Konfigurationsvalidierung ansto\u00dfen (pr\u00fcft, ob die aktuelle Konfiguration formal g\u00fcltig ist).\n3. Suite erneut ausf\u00fchren.\n4. Falls der Fehler weiterhin auftritt: Logs f\u00fcr den relevanten Zeitraum abrufen, damit wir die Ursache pr\u00fcfen k\u00f6nnen.\n\nWas soll ich jetzt tun? (A = erneut ausf\u00fchren, B = pr\u00fcfen + ausf\u00fchren).",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24410,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 752,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 448,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-5-mini-2025-08-07",
+          "timestamp": "2026-02-17T16:19:18Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAI585mJMDWBTQPMfnAXW7lHFnUir",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 194686,
+        "output_tokens": 3256,
+        "reasoning_tokens": 2432,
+        "requests": 4,
+        "cost": 0.027591749999999998
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the user's context (business area, project number, endpoint) and provided a clear explanation of the error and suggested next steps, offering two options for retry or investigation. This is a helpful and accurate response that aligns well with the expected output, though it is more detailed and interactive, which is beneficial for the user.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly made a tool call to execute the evaluation suite 'website_test_suite' on the endpoint '/gb80/inform_webseite_dummy'. After receiving a 500 internal server error, it did not retry immediately but instead informed the user about the error and offered two sensible options for next steps: retrying the execution or performing a detailed check before retrying. This approach is relevant and appropriate for the situation, showing good error handling and user guidance. The tool calls and the response are consistent with the expected output's intent to execute the suite and handle the error gracefully.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly attempted to execute the evaluation suite and reported the internal server error (HTTP 500) clearly to the user. It also saved the user's context (business area, project number, endpoint) and provided a clear explanation of the error and suggested next steps, offering two options for retry or investigation. This is a helpful and accurate response that aligns well with the expected output, though it is more detailed and interactive, which is beneficial for the user.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly made a tool call to execute the evaluation suite 'website_test_suite' on the endpoint '/gb80/inform_webseite_dummy'. After receiving a 500 internal server error, it did not retry immediately but instead informed the user about the error and offered two sensible options for next steps: retrying the execution or performing a detailed check before retrying. This approach is relevant and appropriate for the situation, showing good error handling and user guidance. The tool calls and the response are consistent with the expected output's intent to execute the suite and handle the error gracefully.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 116.408171105,
+      "total_duration": 119.529980728,
+      "trace_id": "019c6c5ec4690a0a436635438d5b41cc",
+      "span_id": "f2f1197676625dff",
+      "evaluator_failures": []
+    }
+  ],
+  "failures": [],
+  "trace_id": "019c6c5ec4690a0a436635438d5b41cc",
+  "span_id": "8d11310d79ba3066"
+}

@@ -1,0 +1,2268 @@
+{
+  "name": "single_agent_improved_descriptions_gpt-4.1-mini",
+  "cases": [
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin aus dem Corporate AI Team und maintaine den Copilot auf der INFORM Webseite. Ich w\u00fcrde gerne wissen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie zufrieden die Nutzer sind und wie hoch die Kosten sind.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Gerne unterst\u00fctze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, ben\u00f6tige ich den Endpunktnamen, ihren Gesch\u00e4ftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten f\u00fcr Sie abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, ich bin im GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollst\u00e4ndige Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n\u2b50 **Nutzerzufriedenheit:**\n - Es scheint als g\u00e4be es keine Bewertungen f\u00fcr diesen Endpunkt.\n   Sie sollten erw\u00e4gen, dieses Feature f\u00fcr Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nM\u00f6chten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Analyse! Wir erwarten demn\u00e4chst eine erh\u00f6hte Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu optimieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verf\u00fcgbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, auf jeden Fall! Lassen Sie mich die verf\u00fcgbaren Modelle pr\u00fcfen, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udcca **Optimierungsans\u00e4tze:**\n\nBasierend auf den verf\u00fcgbaren Modellen und Ihrer aktuellen Nutzung k\u00f6nnte ein Wechsel zu einem kosteng\u00fcnstigeren Modell erhebliche Einsparungen bringen, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie Details zu den verf\u00fcgbaren g\u00fcnstigeren Modelloptionen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, welche g\u00fcnstigeren Modelle stehen zur Verf\u00fcgung?",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Basierend auf den verf\u00fcgbaren Modellen empfehle ich folgende Alternativen:\n\n\ud83d\udccb **Verf\u00fcgbare g\u00fcnstigere Modelle:**\n\n1. **<g\u00fcnstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Gesch\u00e4tzte Ersparnis: <X>%\n\n2. **<g\u00fcnstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Gesch\u00e4tzte Ersparnis: <Y>%\n\n\ud83d\udcb0 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> \u20ac (letzte 14 Tage)\n- Mit <g\u00fcnstigeres_modell_1>: ca. <estimated_new_costs> \u20ac\n- **Potenzielle Ersparnis: ~<monthly_savings> \u20ac/Monat**\n\n\u26a0\ufe0f **Empfehlung:**\nIch w\u00fcrde einen A/B-Test \u00fcber <test_duration> empfehlen, um die Qualit\u00e4t bei reduzierten Kosten zu validieren.\n\nM\u00f6chten Sie, dass ich einen Test-Endpoint mit einem der g\u00fcnstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "args": "{}",
+              "tool_call_id": "call_TQDrWNbajzG77g1CDjOx363I",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24197,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 14,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:29:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAFQzxhGCiPopNQ9dgCX7VHeS4PUn",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "content": [
+                {
+                  "label": "gpt-5-nano",
+                  "name": "GPT 5 nano",
+                  "description": "cost: \u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.06 (cached: 0.01), output: 0.44; provider: azure; Lowest-cost GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-5-mini",
+                  "name": "GPT 5 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.28 (cached: 0.03), output: 2.2; provider: azure; Mid-tier GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-nano",
+                  "name": "GPT 4.1 nano",
+                  "description": "cost: \u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.11 (cached: 0.03), output: 0.44; provider: azure; Lowest-cost GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-mini",
+                  "name": "GPT 4.1 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.44 (cached: 0.11), output: 1.76; provider: azure; Mid-tier GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1",
+                  "name": "GPT 4.1 (regular)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 2.2 (cached: 0.55), output: 8.8; provider: azure; Full GPT-4.1 model. Optimized for coding and instruction following.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "o3-mini",
+                  "name": "o3 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.21 (cached: 0.605), output: 4.84; provider: azure; Reasoning model optimized for coding and problem solving.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4-sonnet",
+                  "name": "Claude 4 Sonnet",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.0 (cached: 3.0), output: 15.0; provider: bedrock; Balanced performance for coding and general tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-haiku",
+                  "name": "Claude Haiku 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.1 (cached: 1.1), output: 5.5; provider: bedrock; Fast, cost-effective model. Supports vision.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-sonnet",
+                  "name": "Claude Sonnet 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.3 (cached: 3.3), output: 16.5; provider: bedrock; High-capability model for coding and agentic tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-opus",
+                  "name": "Claude Opus 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 5.5 (cached: 5.5), output: 27.5; provider: bedrock; Most capable Claude model for complex reasoning and coding.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-pro",
+                  "name": "Amazon Nova Pro",
+                  "description": "cost: \u20ac\u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.92 (cached: 0.23), output: 3.68; provider: bedrock; Multimodal model (text, image, video). Good for reasoning and coding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-lite",
+                  "name": "Amazon Nova Lite",
+                  "description": "cost: \u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.069 (cached: 0.01725), output: 0.276; provider: bedrock; Low-cost multimodal model (text, image, video). Fast inference.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-2-lite",
+                  "name": "Amazon Nova 2 Lite",
+                  "description": "cost: \u20ac\u20ac; context window: 1000000 tokens; price per M tokens (USD): input: 0.374 (cached: 0.094), output: 3.157; provider: bedrock; Multimodal model (text, image, video) with 1M context window. Supports extended thinking and built-in tools (code interpreter, web grounding).\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-oss-120b",
+                  "name": "GPT OSS 120B",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.18 (cached: 0.18), output: 0.7; provider: bedrock; OpenAI open-weight 120B MoE model. Good for reasoning and coding.\nhttps://aws.amazon.com/bedrock/openai/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "mistral-large",
+                  "name": "Mistral Large (24.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 32000 tokens; price per M tokens (USD): input: 4.3 (cached: 4.3), output: 13.0; provider: bedrock; Mistral's flagship model. Multilingual, reasoning, and code generation.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "pixtral-large",
+                  "name": "Pixtral Large (25.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 128000 tokens; price per M tokens (USD): input: 2.0 (cached: 2.0), output: 6.0; provider: bedrock; 124B multimodal model with vision. Supports 80+ programming languages.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "llama-3.2-3b",
+                  "name": "Llama 3.2 3B Instruct",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.17 (cached: 0.17), output: 0.17; provider: bedrock; Lightweight text-only model for edge and mobile deployments.\nhttps://llama.meta.com/\n",
+                  "enabled": true
+                }
+              ],
+              "tool_call_id": "call_TQDrWNbajzG77g1CDjOx363I",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:29:49.290254Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 14:29:49 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T14:29:49.291451+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Folgende g\u00fcnstigere Modelle stehen zur Verf\u00fcgung, die Sie f\u00fcr Ihren Copilot in Betracht ziehen k\u00f6nnen:\n\n1. GPT 5 nano (niedrigste Kosten, unterst\u00fctzt Text und Vision)\n2. GPT 4.1 nano (niedrigste Kosten GPT-4.1, unterst\u00fctzt Text und Vision)\n3. Amazon Nova Lite (niedrige Kosten, multimodal: Text, Bild, Video)\n4. GPT OSS 120B (niedrige Kosten, gut f\u00fcr Reasoning und Coding)\n5. Llama 3.2 3B Instruct (niedrige Kosten, leichtgewichtig, text-only)\n\nDiese Modelle bieten eine gute Balance zwischen Kosten und Leistung. Ein Wechsel zu einem dieser Modelle kann Ihre Betriebskosten reduzieren, besonders bei erwarteter erh\u00f6hter Nutzung.\n\nM\u00f6chten Sie, dass ich Ihnen helfe, den Copilot auf eines dieser Modelle umzustellen? Wenn ja, welches Modell bevorzugen Sie?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 25940,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 193,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:29:51Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFR9YPlNFbuHZQTZ3eEBZKz23QzI",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 100274,
+        "output_tokens": 414,
+        "requests": 2,
+        "cost": 0.020386
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 1.0,
+          "reason": "The model's response provides a clear, accurate, and helpful summary of available cheaper models for cost optimization, directly addressing the user's request. It lists specific models with brief descriptions and explains the potential cost benefits, inviting the user to choose a model for switching. Although it does not provide a detailed cost comparison or A/B test recommendation as in the expected output, it sufficiently meets the user's needs and is contextually appropriate and actionable.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.9,
+          "reason": "The model correctly called the tool to list available models to identify cheaper alternatives, which is relevant and appropriate for the user's request about cost optimization. The tool call was made properly and the response included a relevant summary of cheaper models. However, the output did not provide a detailed cost comparison or explicit recommendation with estimated savings as in the expected output, but it did offer to help switch models, which is a reasonable next step. Overall, the tool call usage is correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model's response provides a clear, accurate, and helpful summary of available cheaper models for cost optimization, directly addressing the user's request. It lists specific models with brief descriptions and explains the potential cost benefits, inviting the user to choose a model for switching. Although it does not provide a detailed cost comparison or A/B test recommendation as in the expected output, it sufficiently meets the user's needs and is contextually appropriate and actionable.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tool to list available models to identify cheaper alternatives, which is relevant and appropriate for the user's request about cost optimization. The tool call was made properly and the response included a relevant summary of cheaper models. However, the output did not provide a detailed cost comparison or explicit recommendation with estimated savings as in the expected output, but it did offer to help switch models, which is a reasonable next step. Overall, the tool call usage is correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 16.144529584,
+      "total_duration": 19.603758162,
+      "trace_id": "019c6bcac6e1b5ae7c4e646ff6d8c1b1",
+      "span_id": "f220fbd340a4f4b9",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 1",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich bin Teil des Corporate AI Teams und betreue den Copilot auf der INFORM Webseite. Mich interessiert, wie h\u00e4ufig der Chatbot zuletzt verwendet wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich helfe Ihnen gerne bei der Auswertung Ihres Copilots. Damit ich die Nutzungsstatistiken, Zufriedenheitswerte und Kosten abrufen kann, ben\u00f6tige ich den Namen des Endpunkts, Ihren Gesch\u00e4ftsbereich sowie die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die gew\u00fcnschten Daten bereitstellen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt lautet /gb80/inform_webseite_dummy, Gesch\u00e4ftsbereich ist GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super, die Daten sind vollst\u00e4ndig! Hier eine \u00dcbersicht f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcc8 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Start\n\n\u2b50 **Nutzerfeedback:**\n- Es liegen keine Bewertungen vor. Sie k\u00f6nnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n\ud83d\udcb6 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nBen\u00f6tigen Sie weitere Details zu einzelnen Sessions oder m\u00f6chten Sie Empfehlungen zur Kostensenkung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die \u00dcbersicht! Wir rechnen bald mit mehr Traffic. Gibt es M\u00f6glichkeiten, die Kosten zu reduzieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verf\u00fcgbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Nat\u00fcrlich! Ich schaue mir die verf\u00fcgbaren Modelle an, um g\u00fcnstigere Alternativen zu finden.\n\n\ud83d\udca1 **Kostensparende Optionen:**\n\nEin Wechsel zu einem preiswerteren Modell k\u00f6nnte Ihre Ausgaben deutlich senken, ohne dass die Qualit\u00e4t stark leidet.\n\nSoll ich Ihnen die g\u00fcnstigeren Modellvarianten vorstellen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die preiswerteren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Basierend auf den verf\u00fcgbaren Modellen empfehle ich folgende Alternativen:\n\n\ud83d\udccb **Verf\u00fcgbare g\u00fcnstigere Modelle:**\n\n1. **<g\u00fcnstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Gesch\u00e4tzte Ersparnis: <X>%\n\n2. **<g\u00fcnstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Gesch\u00e4tzte Ersparnis: <Y>%\n\n\ud83d\udcb0 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> \u20ac (letzte 14 Tage)\n- Mit <g\u00fcnstigeres_modell_1>: ca. <estimated_new_costs> \u20ac\n- **Potenzielle Ersparnis: ~<monthly_savings> \u20ac/Monat**\n\n\u26a0\ufe0f **Empfehlung:**\nIch w\u00fcrde einen A/B-Test \u00fcber <test_duration> empfehlen, um die Qualit\u00e4t bei reduzierten Kosten zu validieren.\n\nM\u00f6chten Sie, dass ich einen Test-Endpoint mit einem der g\u00fcnstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "args": "{}",
+              "tool_call_id": "call_ANnVZLx1YZp27HNBFOQYv5J2",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24157,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 14,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:29:58Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "tool_calls"
+          },
+          "provider_response_id": "chatcmpl-DAFRGyjlaZxDFRrStaYhmG604K80w",
+          "finish_reason": "tool_call"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_list_models",
+              "content": [
+                {
+                  "label": "gpt-5-nano",
+                  "name": "GPT 5 nano",
+                  "description": "cost: \u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.06 (cached: 0.01), output: 0.44; provider: azure; Lowest-cost GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-5-mini",
+                  "name": "GPT 5 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 400000 tokens; price per M tokens (USD): input: 0.28 (cached: 0.03), output: 2.2; provider: azure; Mid-tier GPT-5 model. Supports text and vision.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-nano",
+                  "name": "GPT 4.1 nano",
+                  "description": "cost: \u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.11 (cached: 0.03), output: 0.44; provider: azure; Lowest-cost GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1-mini",
+                  "name": "GPT 4.1 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 0.44 (cached: 0.11), output: 1.76; provider: azure; Mid-tier GPT-4.1 model. Supports text and vision.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-4.1",
+                  "name": "GPT 4.1 (regular)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 1047576 tokens; price per M tokens (USD): input: 2.2 (cached: 0.55), output: 8.8; provider: azure; Full GPT-4.1 model. Optimized for coding and instruction following.\nhttps://aka.ms/gpt-4-dot-1-blog\n",
+                  "enabled": true
+                },
+                {
+                  "label": "o3-mini",
+                  "name": "o3 mini",
+                  "description": "cost: \u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.21 (cached: 0.605), output: 4.84; provider: azure; Reasoning model optimized for coding and problem solving.\nhttps://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4-sonnet",
+                  "name": "Claude 4 Sonnet",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.0 (cached: 3.0), output: 15.0; provider: bedrock; Balanced performance for coding and general tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-haiku",
+                  "name": "Claude Haiku 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 1.1 (cached: 1.1), output: 5.5; provider: bedrock; Fast, cost-effective model. Supports vision.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-sonnet",
+                  "name": "Claude Sonnet 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 3.3 (cached: 3.3), output: 16.5; provider: bedrock; High-capability model for coding and agentic tasks.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "claude-4.5-opus",
+                  "name": "Claude Opus 4.5",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac\u20ac; context window: 200000 tokens; price per M tokens (USD): input: 5.5 (cached: 5.5), output: 27.5; provider: bedrock; Most capable Claude model for complex reasoning and coding.\nhttps://docs.anthropic.com/en/docs/about-claude/models\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-pro",
+                  "name": "Amazon Nova Pro",
+                  "description": "cost: \u20ac\u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.92 (cached: 0.23), output: 3.68; provider: bedrock; Multimodal model (text, image, video). Good for reasoning and coding.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-lite",
+                  "name": "Amazon Nova Lite",
+                  "description": "cost: \u20ac; context window: 300000 tokens; price per M tokens (USD): input: 0.069 (cached: 0.01725), output: 0.276; provider: bedrock; Low-cost multimodal model (text, image, video). Fast inference.\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "nova-2-lite",
+                  "name": "Amazon Nova 2 Lite",
+                  "description": "cost: \u20ac\u20ac; context window: 1000000 tokens; price per M tokens (USD): input: 0.374 (cached: 0.094), output: 3.157; provider: bedrock; Multimodal model (text, image, video) with 1M context window. Supports extended thinking and built-in tools (code interpreter, web grounding).\nhttps://aws.amazon.com/ai/generative-ai/nova/understanding/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "gpt-oss-120b",
+                  "name": "GPT OSS 120B",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.18 (cached: 0.18), output: 0.7; provider: bedrock; OpenAI open-weight 120B MoE model. Good for reasoning and coding.\nhttps://aws.amazon.com/bedrock/openai/\n",
+                  "enabled": true
+                },
+                {
+                  "label": "mistral-large",
+                  "name": "Mistral Large (24.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac\u20ac; context window: 32000 tokens; price per M tokens (USD): input: 4.3 (cached: 4.3), output: 13.0; provider: bedrock; Mistral's flagship model. Multilingual, reasoning, and code generation.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "pixtral-large",
+                  "name": "Pixtral Large (25.02)",
+                  "description": "cost: \u20ac\u20ac\u20ac; context window: 128000 tokens; price per M tokens (USD): input: 2.0 (cached: 2.0), output: 6.0; provider: bedrock; 124B multimodal model with vision. Supports 80+ programming languages.\nhttps://docs.mistral.ai/getting-started/models/models_overview\n",
+                  "enabled": true
+                },
+                {
+                  "label": "llama-3.2-3b",
+                  "name": "Llama 3.2 3B Instruct",
+                  "description": "cost: \u20ac; context window: 128000 tokens; price per M tokens (USD): input: 0.17 (cached: 0.17), output: 0.17; provider: bedrock; Lightweight text-only model for edge and mobile deployments.\nhttps://llama.meta.com/\n",
+                  "enabled": true
+                }
+              ],
+              "tool_call_id": "call_ANnVZLx1YZp27HNBFOQYv5J2",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:30:00.201541Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": "You are a comprehensive AI assistant supporting users in both knowledge management and Copilot configuration through the Ally Config platform (https://ally-config-ui.acc.copilot.aws.inform-cloud.io).\n\n    IMPORTANT: Terminal Chat Environment Limitations\n    You are operating in a terminal-based chat interface with the following constraints:\n    - You can ONLY receive and process TEXT input - no file uploads are possible\n    - Users CANNOT paste screenshots or images\n    - You CANNOT generate graphs, charts, or visualizations\n    - You CANNOT write and execute Python scripts or code\n    - You CANNOT communicate with support or developer teams through the backend\n    - You can ONLY use the tools that are explicitly available to you through the API\n\n    If users ask for functionality beyond these limitations, politely explain what is not possible and suggest alternative approaches within your capabilities.\n\n    Your primary purpose is to help users EITHER:\n    1. Navigate and complete tasks through the Ally Config page, or prefarably\n    2. Directly perform tasks for users using your available tools that integrate with the Ally Config API\n\n    Ally Config Website Structure:\n    The Ally Config platform is organized into two main sections:\n    - Copilots: Overview page with a list of existing copilots. Clicking a copilot item provides access to:\n      * Dashboard page (overview and monitoring)\n      * Configuration page (main copilot settings)\n      * Auth Setup page (authentication configuration)\n      * Chat page (test the copilot)\n      * Logs page (activity and request logs)\n      * Chat History page (conversation records)\n      * Evaluation page (run and view performance evaluations)\n      * User Access page (manage permissions)\n    - Knowledge: Collections and Sources buttons, each leading to item lists. Clicking items provides:\n      * Collection item pages: Configuration, Usage, Costs, Index, Documents (where you can manually upload files if allowFileUpload is toggled on in the Configuration page), Query, User Access\n      * Source item pages: Configuration, User Access\n\n    Note about Correlation IDs:\n    When users test chatbots on the Chat page, they may encounter errors that include a correlation ID. These correlation IDs have no real meaning and are not intended for logging purposes. They are also not equivalent to session IDs and should not be treated as such.\n\n    Your capabilities include:\n    - Creating sources (websites, SharePoint/OneDrive, S3, GitHub) and collections for Copilot knowledge\n    - Setting up plugins, especially AI Knowledge, to enhance Copilot abilities\n    - Configuring endpoints, managing plugin integration, and performing evaluations\n    - Supporting monitoring, cost optimization, and access control\n    - Automating configuration tasks using API tools whenever possible\n\n    Business Department (Gesch\u00e4ftsbereich) Information and Project number\n    - Every user belongs to a business department (GB10, GB20, GB80, etc.) and typically has a Project number\n    - This information is critical for proper resource allocation, cost tracking, and access control\n    - Include the business department in all relevant configurations\n\n    When assisting users:\n    - Explain the workflow: create sources \u2192 build collections \u2192 configure Copilot with plugins\n    - Provide step-by-step instructions for connecting external resources (e.g., SharePoint/OneDrive)\n    - Ensure users understand how to leverage collections for better Copilot answers\n    - Offer holistic solutions that combine knowledge and configuration best practices\n    - Always confirm the user's business department before proceeding with endpoint or collection creation\n\n    SharePoint/OneDrive Source Configuration (alternative to manual file uploads):\n    - Instruct users to grant read access to the service user `svc-ai-knowledge-acc` for the desired documents\n    - Guide users to create a sharing link for those documents\n    - When creating a source, select type \"SharePoint\" and paste the sharing link as the \"Sharing URL\"\n    - Add the source to a collection and optionally set up automatic indexing\n    - This approach is an alternative to manually uploading files through the Documents page\n    - Inform users that syncing SharePoint data may take a few minutes\n    \n\n        Context Management:\n        You have access to tools for tracking user context information:\n        - Business Area (Gesch\u00e4ftsbereich): The user's business domain or department\n        - Project Number: The project the user is working on\n        - Endpoint Name: The specific endpoint configuration being discussed\n\n        When the user mentions any of these, use the appropriate set_* tool to remember it.\n        Before performing operations that require this context, use the get_* tools to check\n        if the information is available.\n        If required information is missing, the get_* tool will return a message asking you\n        to gather it from the user.\n\n\n\nCurrent Date and Time:\n- Date: Tuesday, February 17, 2026\n- Time: 14:30:00 (Europe/Berlin timezone)\n- ISO Format: 2026-02-17T14:30:00.202172+01:00\n\nUse this information when the user asks about current dates, times, or when time-based context is relevant.",
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hier sind einige preiswertere Modelle, die Sie f\u00fcr Ihren Copilot in Betracht ziehen k\u00f6nnen, um Kosten zu reduzieren:\n\n1. GPT 5 nano (niedrigste Kosten, unterst\u00fctzt Text und Vision)\n2. GPT 4.1 nano (niedrigste Kosten GPT-4.1, unterst\u00fctzt Text und Vision)\n3. Amazon Nova Lite (niedrigkosten Multimodalmodell, schnell)\n4. GPT OSS 120B (OpenAI Open-Weight Modell, gut f\u00fcr Reasoning und Coding)\n5. Llama 3.2 3B Instruct (leichtgewichtig, f\u00fcr Edge und Mobile)\n\nDiese Modelle bieten ein gutes Kosten-Nutzen-Verh\u00e4ltnis, wobei die \"nano\" und \"lite\" Varianten besonders g\u00fcnstig sind.\n\nM\u00f6chten Sie, dass ich Ihnen helfe, das Modell Ihres Copilots auf eines dieser g\u00fcnstigeren Modelle umzustellen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 25900,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 183,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:30:41Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFRxmH8R2eomuDNujkQ7jymZD2tH",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 100114,
+        "output_tokens": 394,
+        "requests": 2,
+        "cost": 0.020338000000000002
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 0.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.85,
+          "reason": "The model's response provides a clear, accurate, and helpful list of cheaper model alternatives for cost reduction, including brief descriptions and highlighting cost-effectiveness. It also offers to assist with switching models, which aligns well with the user's request. However, it lacks a detailed cost comparison and specific savings estimates as in the expected output, and does not mention a recommendation for A/B testing or setting up a test endpoint. Overall, the response is helpful and accurate but could be more detailed and structured as per the expected output.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model correctly called the tool to list available models to find cheaper alternatives for cost reduction, which is relevant and appropriate for the user's request. The tool call was made properly and the response included a relevant summary of cheaper models. This matches the rubric requirement for correctness and relevance of tool calls.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model's response provides a clear, accurate, and helpful list of cheaper model alternatives for cost reduction, including brief descriptions and highlighting cost-effectiveness. It also offers to assist with switching models, which aligns well with the user's request. However, it lacks a detailed cost comparison and specific savings estimates as in the expected output, and does not mention a recommendation for A/B testing or setting up a test endpoint. Overall, the response is helpful and accurate but could be more detailed and structured as per the expected output.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model correctly called the tool to list available models to find cheaper alternatives for cost reduction, which is relevant and appropriate for the user's request. The tool call was made properly and the response included a relevant summary of cheaper models. This matches the rubric requirement for correctness and relevance of tool calls.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 47.773210327,
+      "total_duration": 49.796534408,
+      "trace_id": "019c6bcac6e1b5ae7c4e646ff6d8c1b1",
+      "span_id": "f43b596b48a9ec50",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 2",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin aus dem Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Mich interessieren die aktuellen Nutzungszahlen, die Zufriedenheit der User und die entstehenden Kosten.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo und willkommen! Gerne unterst\u00fctze ich Sie bei der Analyse Ihres Copilots. Damit ich die gew\u00fcnschten Daten zu Nutzung, Bewertungen und Kosten abrufen kann, ben\u00f6tige ich den Endpunktnamen, Ihren Gesch\u00e4ftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die Auswertung starten.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, Gesch\u00e4ftsbereich GB80, Projektnummer 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Analyse ist abgeschlossen! Hier die wichtigsten Kennzahlen f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n\u2b50 **Nutzerzufriedenheit:**\n- Es wurden bisher keine Bewertungen abgegeben. Sie k\u00f6nnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nBen\u00f6tigen Sie weitere Details zu einzelnen Sessions oder w\u00fcnschen Sie Vorschl\u00e4ge zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Auswertung! Wir rechnen bald mit einer h\u00f6heren Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu senken?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verf\u00fcgbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Selbstverst\u00e4ndlich! Ich pr\u00fcfe die verf\u00fcgbaren Modelle, um g\u00fcnstigere Alternativen zu finden.\n\n\ud83d\udcca **M\u00f6gliche Optimierungen:**\n\nEin Wechsel zu einem preiswerteren Modell kann die Kosten deutlich reduzieren, ohne dass die Qualit\u00e4t stark beeintr\u00e4chtigt wird.\n\nM\u00f6chten Sie mehr zu den g\u00fcnstigeren Modelloptionen erfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die g\u00fcnstigeren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Basierend auf den verf\u00fcgbaren Modellen empfehle ich folgende Alternativen:\n\n\ud83d\udccb **Verf\u00fcgbare g\u00fcnstigere Modelle:**\n\n1. **<g\u00fcnstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Gesch\u00e4tzte Ersparnis: <X>%\n\n2. **<g\u00fcnstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Gesch\u00e4tzte Ersparnis: <Y>%\n\n\ud83d\udcb0 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> \u20ac (letzte 14 Tage)\n- Mit <g\u00fcnstigeres_modell_1>: ca. <estimated_new_costs> \u20ac\n- **Potenzielle Ersparnis: ~<monthly_savings> \u20ac/Monat**\n\n\u26a0\ufe0f **Empfehlung:**\nIch w\u00fcrde einen A/B-Test \u00fcber <test_duration> empfehlen, um die Qualit\u00e4t bei reduzierten Kosten zu validieren.\n\nM\u00f6chten Sie, dass ich einen Test-Endpoint mit einem der g\u00fcnstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ich habe die verf\u00fcgbaren Modelle gepr\u00fcft. Hier sind einige g\u00fcnstigere Modelle, die Sie f\u00fcr Ihren Copilot in Betracht ziehen k\u00f6nnen:\n\n- Modelle mit \"mini\" oder \"nano\" im Namen sind in der Regel kosteng\u00fcnstiger.\n- Modelle von Anbietern wie Cohere oder Bedrock k\u00f6nnen oft preiswerter sein als die neuesten GPT-4 Varianten.\n- Modelle mit geringerer Komplexit\u00e4t oder kleineren Kontextfenstern sind meist g\u00fcnstiger.\n\nWenn Sie m\u00f6chten, kann ich Ihnen eine konkrete Liste mit Modellnamen und einer kurzen Beschreibung der Kosten-/Leistungsmerkmale zusammenstellen. M\u00f6chten Sie das?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24150,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 125,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:30:51Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFS7oeXQ6XKkO96hZ3dEqm50rX3w",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48300,
+        "output_tokens": 250,
+        "requests": 1,
+        "cost": 0.00986
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.8,
+          "reason": "The output provides a helpful and accurate overview of cost-saving options by suggesting cheaper model categories and offers to provide a detailed list, which aligns well with the user's request for cheaper models. However, it lacks specific model names, cost comparisons, and concrete savings estimates as shown in the expected output. Despite this, the response is overall helpful and accurate in context.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 0.0,
+          "reason": "The model's last turn did not include any tool calls, only a textual response listing general advice about cheaper models. The rubric specifically asks to assess the correctness and relevance of tool calls made by the model in its last turn. Since no tool calls were made, the output is not relevant to the rubric's requirement. The expected output suggests a detailed recommendation with cost comparisons and possibly tool calls to set up test endpoints, which the model did not provide. Therefore, the output fails the rubric.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a helpful and accurate overview of cost-saving options by suggesting cheaper model categories and offers to provide a detailed list, which aligns well with the user's request for cheaper models. However, it lacks specific model names, cost comparisons, and concrete savings estimates as shown in the expected output. Despite this, the response is overall helpful and accurate in context.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": false,
+          "reason": "The model's last turn did not include any tool calls, only a textual response listing general advice about cheaper models. The rubric specifically asks to assess the correctness and relevance of tool calls made by the model in its last turn. Since no tool calls were made, the output is not relevant to the rubric's requirement. The expected output suggests a detailed recommendation with cost comparisons and possibly tool calls to set up test endpoints, which the model did not provide. Therefore, the output fails the rubric.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 7.004147084,
+      "total_duration": 9.117501016,
+      "trace_id": "019c6bcac6e1b5ae7c4e646ff6d8c1b1",
+      "span_id": "1f3e20fa273451b6",
+      "evaluator_failures": []
+    },
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 3",
+      "inputs": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin im Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Ich h\u00e4tte gerne einen \u00dcberblick \u00fcber die j\u00fcngste Nutzung des Chatbots, die Nutzerzufriedenheit und die anfallenden Kosten.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich kann Ihnen gerne eine Analyse Ihres Copilots erstellen. Damit ich die Nutzungsstatistiken, Bewertungen und Kosten ermitteln kann, ben\u00f6tige ich den Namen des Endpunkts, Ihren Gesch\u00e4ftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die Daten abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, Gesch\u00e4ftsbereich GB80, Projektnummer 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 \u20ac per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Daten sind vollst\u00e4ndig abgerufen. Hier die Analyse f\u00fcr Ihren Copilot '/gb80/inform_webseite_dummy':\n\n\ud83d\udcca **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n\u2b50 **Nutzerzufriedenheit:**\n- Es liegen keine Bewertungen vor. Sie k\u00f6nnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n\ud83d\udcb0 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> \u20ac\n- Durchschnittlich <F> \u20ac pro Tag\n- Aktuelles Modell: <current_model>\n\nBen\u00f6tigen Sie weitere Details zu einzelnen Sessions oder w\u00fcnschen Sie Vorschl\u00e4ge zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke f\u00fcr die Analyse! Wir erwarten bald eine st\u00e4rkere Nutzung. Gibt es M\u00f6glichkeiten, die Kosten zu senken?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verf\u00fcgbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gerne! Ich pr\u00fcfe die verf\u00fcgbaren Modelle, um g\u00fcnstigere Alternativen zu identifizieren.\n\n\ud83d\udca1 **Optimierungsm\u00f6glichkeiten:**\n\nEin Wechsel zu einem preiswerteren Modell kann Ihre Kosten deutlich senken, ohne die Qualit\u00e4t wesentlich zu beeintr\u00e4chtigen.\n\nM\u00f6chten Sie mehr zu den g\u00fcnstigeren Modelloptionen erfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die g\u00fcnstigeren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "metadata": null,
+      "expected_output": {
+        "output_message": "Basierend auf den verf\u00fcgbaren Modellen empfehle ich folgende Alternativen:\n\n\ud83d\udccb **Verf\u00fcgbare g\u00fcnstigere Modelle:**\n\n1. **<g\u00fcnstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Gesch\u00e4tzte Ersparnis: <X>%\n\n2. **<g\u00fcnstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Gesch\u00e4tzte Ersparnis: <Y>%\n\n\ud83d\udcb0 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> \u20ac (letzte 14 Tage)\n- Mit <g\u00fcnstigeres_modell_1>: ca. <estimated_new_costs> \u20ac\n- **Potenzielle Ersparnis: ~<monthly_savings> \u20ac/Monat**\n\n\u26a0\ufe0f **Empfehlung:**\nIch w\u00fcrde einen A/B-Test \u00fcber <test_duration> empfehlen, um die Qualit\u00e4t bei reduzierten Kosten zu validieren.\n\nM\u00f6chten Sie, dass ich einen Test-Endpoint mit einem der g\u00fcnstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "output": [
+        {
+          "parts": [
+            {
+              "content": "Ich habe die verf\u00fcgbaren Modelle gepr\u00fcft. Hier sind einige g\u00fcnstigere Modelle, die oft f\u00fcr Kosteneinsparungen genutzt werden:\n\n- azure.gpt-4o-mini: Ein kleineres GPT-4 Modell mit guter Leistung, aber g\u00fcnstiger als gr\u00f6\u00dfere Varianten.\n- azure.gpt-5-nano oder azure.gpt-5-mini: Sehr kleine Modelle mit reduzierten Kosten, geeignet f\u00fcr weniger komplexe Anfragen.\n- bedrock.cohere-embed-english-v3: Ein Modell mit Fokus auf Einbettungen, oft g\u00fcnstiger f\u00fcr Wissensdatenbank-Anwendungen.\n\nDiese Modelle sind in der Regel g\u00fcnstiger als die gro\u00dfen GPT-4 Varianten, k\u00f6nnen aber je nach Anwendungsfall unterschiedliche Qualit\u00e4t liefern.\n\nM\u00f6chten Sie, dass ich Ihnen helfe, den Copilot auf eines dieser Modelle umzustellen? Oder w\u00fcnschen Sie weitere Informationen zu einem bestimmten Modell?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 24149,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 179,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "model_name": "gpt-4.1-mini-2025-04-14",
+          "timestamp": "2026-02-17T13:30:59Z",
+          "kind": "response",
+          "provider_name": "openai",
+          "provider_details": {
+            "finish_reason": "stop"
+          },
+          "provider_response_id": "chatcmpl-DAFSFB3US7Gep9QYuRgscIOdr5etK",
+          "finish_reason": "stop"
+        }
+      ],
+      "metrics": {
+        "input_tokens": 48298,
+        "output_tokens": 358,
+        "requests": 1,
+        "cost": 0.009946
+      },
+      "attributes": {},
+      "scores": {
+        "ToolCallEvaluator": {
+          "name": "ToolCallEvaluator",
+          "value": 1.0,
+          "reason": null,
+          "source": {
+            "name": "ToolCallEvaluator",
+            "arguments": null
+          }
+        },
+        "Helpfulness and accuracy": {
+          "name": "Helpfulness and accuracy",
+          "value": 0.9,
+          "reason": "The output provides a helpful and accurate response by listing specific cheaper model alternatives, explaining their cost benefits, and offering to assist with switching models. Although it lacks detailed cost comparison figures and a formal recommendation for A/B testing as in the expected output, it effectively addresses the user's request for cheaper models and next steps, thus meeting the rubric criteria for overall helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "Tool Call Evaluation": {
+          "name": "Tool Call Evaluation",
+          "value": 1.0,
+          "reason": "The model did not make any tool calls in its last turn, which is appropriate since it was providing information about cheaper models based on previously retrieved data. The response is relevant and correct in context, listing cheaper model options and offering further assistance. Therefore, the tool call behavior is correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "labels": {},
+      "assertions": {
+        "LLMJudge_pass": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The output provides a helpful and accurate response by listing specific cheaper model alternatives, explaining their cost benefits, and offering to assist with switching models. Although it lacks detailed cost comparison figures and a formal recommendation for A/B testing as in the expected output, it effectively addresses the user's request for cheaper models and next steps, thus meeting the rubric criteria for overall helpfulness and accuracy.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Evaluate the overall helpfulness and accuracy of the model's response in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Helpfulness and accuracy",
+                "include_reason": true
+              }
+            }
+          }
+        },
+        "LLMJudge_pass_2": {
+          "name": "LLMJudge_pass",
+          "value": true,
+          "reason": "The model did not make any tool calls in its last turn, which is appropriate since it was providing information about cheaper models based on previously retrieved data. The response is relevant and correct in context, listing cheaper model options and offering further assistance. Therefore, the tool call behavior is correct and relevant.",
+          "source": {
+            "name": "LLMJudge",
+            "arguments": {
+              "rubric": "Assess the correctness and relevance of the tool calls made by the model in its last turn.",
+              "model": "openai:gpt-4.1-mini",
+              "include_input": true,
+              "include_expected_output": true,
+              "score": {
+                "evaluation_name": "Tool Call Evaluation",
+                "include_reason": true
+              }
+            }
+          }
+        }
+      },
+      "task_duration": 6.223931495,
+      "total_duration": 7.801417544,
+      "trace_id": "019c6bcac6e1b5ae7c4e646ff6d8c1b1",
+      "span_id": "1c30476e245c4375",
+      "evaluator_failures": []
+    }
+  ],
+  "failures": [],
+  "trace_id": "019c6bcac6e1b5ae7c4e646ff6d8c1b1",
+  "span_id": "227c03822353fa27"
+}
