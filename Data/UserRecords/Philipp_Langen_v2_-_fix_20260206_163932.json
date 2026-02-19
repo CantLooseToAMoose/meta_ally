@@ -10,6 +10,19 @@
     "feedback": "Achievement: yes | Portal comparison: yes | Configuration preference: this one",
     "timestamp": "2026-02-06T16:39:32.727335",
     "saved_at": "20260206_163932",
+    "sus_score": 72.5,
+    "sus_responses": [
+      4,
+      2,
+      4,
+      1,
+      4,
+      2,
+      4,
+      2,
+      3,
+      3
+    ],
     "config": {
       "use_multi_agent": false,
       "require_human_approval": true,
