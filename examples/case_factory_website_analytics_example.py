@@ -23,8 +23,9 @@ def example_inform_webseite_analytics():
     )
     case1_expected = (
         "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. "
-        "Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen. "
-        "Wie lautet der Endpunkt Ihres Copilots?"
+        "Um die Nutzungsdaten, Bewertungen und Kosten abzurufen,"
+        " benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer."
+        "Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen."
     )
     factory.create_conversation_case(
         name="INFORM Webseite Analytics - Initiale Anfrage",
@@ -38,38 +39,36 @@ def example_inform_webseite_analytics():
 
     # Case 2: Nutzer gibt Endpunktnamen an, Agent ruft alle drei Metriken ab
     convo.add_user_message(
-        "Der Endpunkt ist /gb80/inform_webseite_dummy"
+        "Der Endpunkt ist /gb80/inform_webseite_dummy, ich bin im GB80 und die Projektnummer ist 80000."
     )
     case2_expected = """Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren \
 Copilot '/gb80/inform_webseite_dummy':
 
-📊 **Nutzung (letzte 30 Tage):**
+📊 **Nutzung (letzte 14 Tage):**
 - <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session
 - Insgesamt <Z> Sessions seit Inbetriebnahme
 
 ⭐ **Nutzerzufriedenheit:**
-- Durchschnittliche Bewertung: <A>/5 (<B> Bewertungen)
-- Letzte 30 Tage: <C>/5 - die Zufriedenheit steigt!
-- <D>% der Nutzer geben 4 oder 5 Sterne
-
-💰 **Kosten (letzte 30 Tage):**
+ - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.
+   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!
+💰 **Kosten (letzte 14 Tage):**
 - Gesamtkosten: <E> €
 - Durchschnittlich <F> € pro Tag
 - Aktuelles Modell: <current_model>
 
-Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Kostenoptimierung?"""
+Möchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?"""
     factory.create_conversation_case(
         name="INFORM Webseite Analytics - Vollständige Analyse präsentiert",
         conversation_turns=convo,
         expected_final_response=case2_expected,
         expected_final_tool_calls=[
             create_tool_call_part(
-                tool_name="ally_config_set_endpoint_name",
+                tool_name="set_endpoint_name",
                 args={"endpoint_name": "/gb80/inform_webseite_dummy"},
                 tool_call_id="set_endpoint_name_1"
             ),
             create_tool_call_part(
-                tool_name="ally_config_get_copilot_sessions",
+                tool_name="ally_config_get_copilot_sessions_summaries",
                 args={
                     "endpoint": "/gb80/inform_webseite_dummy",
                     "start_time": "<ISO_8601_start_time>",
@@ -100,17 +99,17 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
 
     convo.add_tool_call(
         tool_call_id="set_endpoint_name_1",
-        tool_name="ally_config_set_endpoint_name",
+        tool_name="set_endpoint_name",
         args={"endpoint_name": "/gb80/inform_webseite_dummy"}
     )
     convo.add_tool_response(
         tool_call_id="set_endpoint_name_1",
-        tool_name="ally_config_set_endpoint_name",
+        tool_name="set_endpoint_name",
         content="Endpoint name set to: /gb80/inform_webseite_dummy"
     )
     convo.add_tool_call(
         tool_call_id="get_sessions_1",
-        tool_name="ally_config_get_copilot_sessions",
+        tool_name="ally_config_get_copilot_sessions_summaries",
         args={
             "endpoint": "/gb80/inform_webseite_dummy",
             "start_time": "<ISO_8601_start_time>",
@@ -119,8 +118,8 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     )
     convo.add_tool_response(
         tool_call_id="get_sessions_1",
-        tool_name="ally_config_get_copilot_sessions",
-        content='<Session-Daten mit sessions Array: [{session_id, timestamp, messages: [{role, content, timestamp}]}]>'
+        tool_name="ally_config_get_copilot_sessions_summaries",
+        content=' Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.'
     )
     convo.add_tool_call(
         tool_call_id="get_ratings_1",
@@ -134,7 +133,7 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     convo.add_tool_response(
         tool_call_id="get_ratings_1",
         tool_name="ally_config_get_copilot_ratings",
-        content='<Rating-Daten als Array: [{endpoint, rating, user_name, model_name, session_id, timestamp}]>'
+        content='[]'
     )
     convo.add_tool_call(
         tool_call_id="get_costs_1",
@@ -147,13 +146,14 @@ Möchten Sie weitere Details zu bestimmten Bereichen oder Empfehlungen zur Koste
     convo.add_tool_response(
         tool_call_id="get_costs_1",
         tool_name="ally_config_get_copilot_cost_daily",
-        content='<Kosten-Daten mit daily_data Array: [{date, cost/tokens, model_name}] für letzte 30 Tage>'
+        content='Daily costs for the last 14 days: mostly around 0.02 € per day, with few outliers up to 20 cents.'
     )
     convo.add_model_message(case2_expected)
 
     # Case 3: Nutzer bittet um Kostenoptimierung
     convo.add_user_message(
-        "Danke für die Analyse! Gibt es Möglichkeiten, die Kosten zu optimieren?"
+        "Danke für die Analyse! Wir erwarten demnächst eine erhöhte Nutzung."
+        " Gibt es Möglichkeiten, die Kosten zu optimieren?"
     )
     case3_expected = """Ja, auf jeden Fall! Lassen Sie mich die verfügbaren Modelle prüfen, um \
 günstigere Alternativen zu identifizieren.
@@ -209,12 +209,12 @@ Möchten Sie Details zu den verfügbaren günstigeren Modelloptionen?"""
    - Geschätzte Ersparnis: <Y>%
 
 💰 **Kostenvergleich (basierend auf aktueller Nutzung):**
-- Aktuell mit <current_model>: <current_costs> € (letzte 30 Tage)
+- Aktuell mit <current_model>: <current_costs> € (letzte 14 Tage)
 - Mit <günstigeres_modell_1>: ca. <estimated_new_costs> €
 - **Potenzielle Ersparnis: ~<monthly_savings> €/Monat**
 
 ⚠️ **Empfehlung:**
-Ich würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzier ten Kosten zu validieren.
+Ich würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzierten Kosten zu validieren.
 
 Möchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle einrichte?"""
 
@@ -229,25 +229,48 @@ Möchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle ei
     # Case 5: Nutzer möchte weitere Informationen zu Sessions
     convo.add_user_message(
         "Danke für die Info! Können Sie mir noch mehr Details zu den Sessions zeigen? "
-        "Wann wird der Copilot am meisten genutzt?"
+        "Wozu wird der Copilot am meisten befragt?"
     )
-    case5_expected = """Basierend auf den Session-Daten der letzten 30 Tage:
+    case5_expected = """Basierend auf den Session-Daten der letzten 14 Tage:
 
 📈 **Nutzungsmuster:**
-- <sessions_count> Sessions insgesamt
-- Durchschnittlich <avg_messages> Nachrichten pro Session
-- Aktivste Sessions: <top_sessions_description>
+- Die meisten Anfragen beziehen sich darauf was Inform macht und bestimmte Produkte, gefolgt von Stellenausschreibungen.
+- Die meisten Sessions haben nur weniger als 5 Nachrichten, was auf kurze Interaktionen hindeutet.
+- Es gibt einige längere Sessions mit mehr als 20 Nachrichten, die auf komplexere Anfragen hinweisen.
 
-Um detailliertere Zeitanalysen durchzuführen (z.B. Nutzung nach Uhrzeit, Wochentag), bräuchte ich Zugriff \
-auf erweiterte Analytics-Tools oder Sie können die vollständigen Session-Daten exportieren.
-
+Um detailliertere Analysen durchzuführen müsste ich die Sessions über kleinere Zeitintervalle abfragen.
 Soll ich noch weitere Metriken für Sie abrufen oder haben Sie andere Fragen zur Copilot-Performance?"""
 
     factory.create_conversation_case(
         name="INFORM Webseite Analytics - Zusätzliche Session-Details",
         conversation_turns=convo,
         expected_final_response=case5_expected,
+        expected_final_tool_calls=[
+            create_tool_call_part(
+                tool_name="ally_config_get_copilot_sessions",
+                args={
+                    "endpoint": "/gb80/inform_webseite_dummy",
+                    "start_time": "<ISO_8601_start_time>",
+                    "end_time": "<ISO_8601_end_time>"
+                },
+                tool_call_id="get_sessions_detailed_1"
+            )
+        ],
         description="Agent bietet zusätzliche Insights zu Nutzungsmustern"
+    )
+    convo.add_tool_call(
+        tool_call_id="get_sessions_detailed_1",
+        tool_name="ally_config_get_copilot_sessions",
+        args={
+            "endpoint": "/gb80/inform_webseite_dummy",
+            "start_time": "<ISO_8601_start_time>",
+            "end_time": "<ISO_8601_end_time>"
+        }
+    )
+    convo.add_tool_response(
+        tool_call_id="get_sessions_detailed_1",
+        tool_name="ally_config_get_copilot_sessions",
+        content='Detailed session data showing conversation patterns, topics discussed, and message counts per session.'
     )
     convo.add_model_message(case5_expected)
 

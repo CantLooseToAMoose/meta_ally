@@ -97,12 +97,6 @@ def main():
     for dataset_id, stats in loaded_stats.items():
         print(f"  • {dataset_id}: {stats['num_variants']} variants, {stats['total_cases']} total cases")
 
-    # Step 8: Show one dataset visualization as example
-    print("\n[8] Visualizing first dataset as example:")
-    print("-" * 80)
-    first_dataset_id = loaded_manager.list_dataset_ids()[0]
-    loaded_manager.visualize_dataset_comparison(first_dataset_id)
-
     print("\n" + "=" * 80)
     print("✨ Example completed successfully! ✨")
     print("=" * 80)
