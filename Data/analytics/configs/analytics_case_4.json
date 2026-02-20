@@ -1,0 +1,1439 @@
+{
+  "dataset_id": "analytics_case_4",
+  "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung",
+  "original_case": {
+    "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Hallo! Ich bin aus dem Corporate AI Team und maintaine den Copilot auf der INFORM Webseite. Ich würde gerne wissen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie zufrieden die Nutzer sind und wie hoch die Kosten sind.",
+            "timestamp": "2026-02-17T13:25:09.334640Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334705Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, ich bin im GB80 und die Projektnummer ist 80000.",
+            "timestamp": "2026-02-17T13:25:09.334708Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_name_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334744Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_set_endpoint_name",
+            "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+            "tool_call_id": "set_endpoint_name_1",
+            "metadata": null,
+            "timestamp": "2026-02-17T13:25:09.334748Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_sessions_summaries",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_sessions_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334756Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_sessions_summaries",
+            "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+            "tool_call_id": "get_sessions_1",
+            "metadata": null,
+            "timestamp": "2026-02-17T13:25:09.334758Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_ratings",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_ratings_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334765Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_ratings",
+            "content": "[]",
+            "tool_call_id": "get_ratings_1",
+            "metadata": null,
+            "timestamp": "2026-02-17T13:25:09.334767Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_cost_daily",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "unit": "euro"
+            },
+            "tool_call_id": "get_costs_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334772Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_get_copilot_cost_daily",
+            "content": "Daily costs for the last 14 days: mostly around 0.02 € per day, with few outliers up to 20 cents.",
+            "tool_call_id": "get_costs_1",
+            "metadata": null,
+            "timestamp": "2026-02-17T13:25:09.334773Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n⭐ **Nutzerzufriedenheit:**\n - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.\n   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nMöchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334777Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Danke für die Analyse! Wir erwarten demnächst eine erhöhte Nutzung. Gibt es Möglichkeiten, die Kosten zu optimieren?",
+            "timestamp": "2026-02-17T13:25:09.334778Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "args": {},
+            "tool_call_id": "list_models_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334798Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ai_knowledge_list_models",
+            "content": "<Liste verfügbarer Modelle: [{label, name, description, enabled}]>",
+            "tool_call_id": "list_models_1",
+            "metadata": null,
+            "timestamp": "2026-02-17T13:25:09.334800Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Ja, auf jeden Fall! Lassen Sie mich die verfügbaren Modelle prüfen, um günstigere Alternativen zu identifizieren.\n\n📊 **Optimierungsansätze:**\n\nBasierend auf den verfügbaren Modellen und Ihrer aktuellen Nutzung könnte ein Wechsel zu einem kostengünstigeren Modell erhebliche Einsparungen bringen, ohne die Qualität wesentlich zu beeinträchtigen.\n\nMöchten Sie Details zu den verfügbaren günstigeren Modelloptionen?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334803Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Ja, welche günstigeren Modelle stehen zur Verfügung?",
+            "timestamp": "2026-02-17T13:25:09.334804Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Basierend auf den verfügbaren Modellen empfehle ich folgende Alternativen:\n\n📋 **Verfügbare günstigere Modelle:**\n\n1. **<günstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Geschätzte Ersparnis: <X>%\n\n2. **<günstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Geschätzte Ersparnis: <Y>%\n\n💰 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> € (letzte 14 Tage)\n- Mit <günstigeres_modell_1>: ca. <estimated_new_costs> €\n- **Potenzielle Ersparnis: ~<monthly_savings> €/Monat**\n\n⚠️ **Empfehlung:**\nIch würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzierten Kosten zu validieren.\n\nMöchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle einrichte?",
+      "tool_calls": null,
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich bin Teil des Corporate AI Teams und betreue den Copilot auf der INFORM Webseite. Mich interessiert, wie häufig der Chatbot zuletzt verwendet wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich helfe Ihnen gerne bei der Auswertung Ihres Copilots. Damit ich die Nutzungsstatistiken, Zufriedenheitswerte und Kosten abrufen kann, benötige ich den Namen des Endpunkts, Ihren Geschäftsbereich sowie die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die gewünschten Daten bereitstellen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt lautet /gb80/inform_webseite_dummy, Geschäftsbereich ist GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 € per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super, die Daten sind vollständig! Hier eine Übersicht für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📈 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Start\n\n⭐ **Nutzerfeedback:**\n- Es liegen keine Bewertungen vor. Sie könnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n💶 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nBenötigen Sie weitere Details zu einzelnen Sessions oder möchten Sie Empfehlungen zur Kostensenkung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke für die Übersicht! Wir rechnen bald mit mehr Traffic. Gibt es Möglichkeiten, die Kosten zu reduzieren?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verfügbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Natürlich! Ich schaue mir die verfügbaren Modelle an, um günstigere Alternativen zu finden.\n\n💡 **Kostensparende Optionen:**\n\nEin Wechsel zu einem preiswerteren Modell könnte Ihre Ausgaben deutlich senken, ohne dass die Qualität stark leidet.\n\nSoll ich Ihnen die günstigeren Modellvarianten vorstellen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die preiswerteren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Basierend auf den verfügbaren Modellen empfehle ich folgende Alternativen:\n\n📋 **Verfügbare günstigere Modelle:**\n\n1. **<günstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Geschätzte Ersparnis: <X>%\n\n2. **<günstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Geschätzte Ersparnis: <Y>%\n\n💰 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> € (letzte 14 Tage)\n- Mit <günstigeres_modell_1>: ca. <estimated_new_costs> €\n- **Potenzielle Ersparnis: ~<monthly_savings> €/Monat**\n\n⚠️ **Empfehlung:**\nIch würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzierten Kosten zu validieren.\n\nMöchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin aus dem Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Mich interessieren die aktuellen Nutzungszahlen, die Zufriedenheit der User und die entstehenden Kosten.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo und willkommen! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Damit ich die gewünschten Daten zu Nutzung, Bewertungen und Kosten abrufen kann, benötige ich den Endpunktnamen, Ihren Geschäftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die Auswertung starten.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, Geschäftsbereich GB80, Projektnummer 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 € per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Analyse ist abgeschlossen! Hier die wichtigsten Kennzahlen für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n⭐ **Nutzerzufriedenheit:**\n- Es wurden bisher keine Bewertungen abgegeben. Sie könnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nBenötigen Sie weitere Details zu einzelnen Sessions oder wünschen Sie Vorschläge zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke für die Auswertung! Wir rechnen bald mit einer höheren Nutzung. Gibt es Möglichkeiten, die Kosten zu senken?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verfügbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Selbstverständlich! Ich prüfe die verfügbaren Modelle, um günstigere Alternativen zu finden.\n\n📊 **Mögliche Optimierungen:**\n\nEin Wechsel zu einem preiswerteren Modell kann die Kosten deutlich reduzieren, ohne dass die Qualität stark beeinträchtigt wird.\n\nMöchten Sie mehr zu den günstigeren Modelloptionen erfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die günstigeren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Basierend auf den verfügbaren Modellen empfehle ich folgende Alternativen:\n\n📋 **Verfügbare günstigere Modelle:**\n\n1. **<günstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Geschätzte Ersparnis: <X>%\n\n2. **<günstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Geschätzte Ersparnis: <Y>%\n\n💰 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> € (letzte 14 Tage)\n- Mit <günstigeres_modell_1>: ca. <estimated_new_costs> €\n- **Potenzielle Ersparnis: ~<monthly_savings> €/Monat**\n\n⚠️ **Empfehlung:**\nIch würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzierten Kosten zu validieren.\n\nMöchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Details zu Kostenoptimierung - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin im Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Ich hätte gerne einen Überblick über die jüngste Nutzung des Chatbots, die Nutzerzufriedenheit und die anfallenden Kosten.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich kann Ihnen gerne eine Analyse Ihres Copilots erstellen. Damit ich die Nutzungsstatistiken, Bewertungen und Kosten ermitteln kann, benötige ich den Namen des Endpunkts, Ihren Geschäftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die Daten abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, Geschäftsbereich GB80, Projektnummer 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_name_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334744Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_name_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334748Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_sessions_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334756Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_sessions_summaries",
+              "content": " Total of 81 sessions with the majority of sessions having 5 messages, and only few with 9 or more.",
+              "tool_call_id": "get_sessions_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334758Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "start_time": "<ISO_8601_start_time>",
+                "end_time": "<ISO_8601_end_time>"
+              },
+              "tool_call_id": "get_ratings_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334765Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_ratings",
+              "content": "[]",
+              "tool_call_id": "get_ratings_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334767Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "args": {
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "unit": "euro"
+              },
+              "tool_call_id": "get_costs_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334772Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_get_copilot_cost_daily",
+              "content": "Daily costs for the last 14 days: mostly around 0.02 € per day, with few outliers up to 20 cents.",
+              "tool_call_id": "get_costs_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334773Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Daten sind vollständig abgerufen. Hier die Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit dem Start\n\n⭐ **Nutzerzufriedenheit:**\n- Es liegen keine Bewertungen vor. Sie könnten das Bewertungsfeature aktivieren, um Feedback zu erhalten.\n\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nBenötigen Sie weitere Details zu einzelnen Sessions oder wünschen Sie Vorschläge zur Kostenoptimierung?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334777Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke für die Analyse! Wir erwarten bald eine stärkere Nutzung. Gibt es Möglichkeiten, die Kosten zu senken?",
+              "timestamp": "2026-02-17T13:25:09.334778Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "args": {},
+              "tool_call_id": "list_models_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334798Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ai_knowledge_list_models",
+              "content": "<Liste verfügbarer Modelle: [{label, name, description, enabled}]>",
+              "tool_call_id": "list_models_1",
+              "metadata": null,
+              "timestamp": "2026-02-17T13:25:09.334800Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gerne! Ich prüfe die verfügbaren Modelle, um günstigere Alternativen zu identifizieren.\n\n💡 **Optimierungsmöglichkeiten:**\n\nEin Wechsel zu einem preiswerteren Modell kann Ihre Kosten deutlich senken, ohne die Qualität wesentlich zu beeinträchtigen.\n\nMöchten Sie mehr zu den günstigeren Modelloptionen erfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334803Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte zeigen Sie mir die günstigeren Modelle.",
+              "timestamp": "2026-02-17T13:25:09.334804Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Basierend auf den verfügbaren Modellen empfehle ich folgende Alternativen:\n\n📋 **Verfügbare günstigere Modelle:**\n\n1. **<günstigeres_modell_1>**\n   - <Beschreibung_Modell_1>\n   - Geschätzte Ersparnis: <X>%\n\n2. **<günstigeres_modell_2>**\n   - <Beschreibung_Modell_2>\n   - Geschätzte Ersparnis: <Y>%\n\n💰 **Kostenvergleich (basierend auf aktueller Nutzung):**\n- Aktuell mit <current_model>: <current_costs> € (letzte 14 Tage)\n- Mit <günstigeres_modell_1>: ca. <estimated_new_costs> €\n- **Potenzielle Ersparnis: ~<monthly_savings> €/Monat**\n\n⚠️ **Empfehlung:**\nIch würde einen A/B-Test über <test_duration> empfehlen, um die Qualität bei reduzierten Kosten zu validieren.\n\nMöchten Sie, dass ich einen Test-Endpoint mit einem der günstigeren Modelle einrichte?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "INFORM Webseite analytics test case 4 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/analytics_case_4_built.json"
+}

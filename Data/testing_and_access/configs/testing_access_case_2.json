@@ -1,0 +1,427 @@
+{
+  "dataset_id": "testing_access_case_2",
+  "name": "Testing & Access - Choose Evaluation Suite",
+  "original_case": {
+    "name": "Testing & Access - Choose Evaluation Suite",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Hallo! Ich bin in GB80 und meine Projektnummer ist 80000. Ich maintaine den Copilot auf unserer Webseite und möchte testen, ob er wie gewünscht funktioniert. Der Endpunkt ist /gb80/inform_webseite_dummy.",
+            "timestamp": "2026-02-18T15:47:14.392578Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393537Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_endpoint_name",
+            "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+            "tool_call_id": "set_endpoint_1",
+            "metadata": null,
+            "timestamp": "2026-02-18T15:47:14.393543Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Hallo! Das ist eine gute Idee, den Copilot regelmäßig zu testen. Sie haben zwei Möglichkeiten:\n\n1. **Webportal**: Sie können den Copilot direkt im Webportal in der Chat-UI testen.\n2. **Evaluation Suite**: Ich kann Ihnen helfen, eine Evaluation Suite zu erstellen, mit der Sie systematisch mehrere Testfälle definieren und automatisiert ausführen können.\n\nWelche Option bevorzugen Sie?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393552Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Können Sie mir helfen, eine Evaluation Suite einzurichten?",
+            "timestamp": "2026-02-18T15:47:14.393553Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Natürlich! Um eine Evaluation Suite zu erstellen, benötige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekräftiger Name für Ihre Evaluation Suite\n2. **Testfälle**: Eine Liste von Testfällen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen möchten Sie für die Suite verwenden und welche Testfälle sollen enthalten sein?",
+      "tool_calls": null,
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "Testing & Access - Choose Evaluation Suite - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich arbeite im GB80-Team, Projektnummer 80000, und bin für die Wartung des Copiloten auf unserer Website zuständig. Ich möchte überprüfen, ob der Copilot wie vorgesehen funktioniert. Der relevante Endpunkt ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393537Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima, dass Sie den Copilot testen möchten! Dafür gibt es zwei Wege:\n\n1. Über das Webportal: Dort können Sie direkt in der Chat-Oberfläche testen.\n2. Mit einer Evaluation Suite: Damit lassen sich mehrere Testfälle automatisiert und strukturiert prüfen. Ich kann Sie beim Einrichten unterstützen.\n\nWelche Variante möchten Sie nutzen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393552Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich würde gerne Ihre Unterstützung beim Einrichten einer Evaluation Suite in Anspruch nehmen.",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Natürlich! Um eine Evaluation Suite zu erstellen, benötige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekräftiger Name für Ihre Evaluation Suite\n2. **Testfälle**: Eine Liste von Testfällen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen möchten Sie für die Suite verwenden und welche Testfälle sollen enthalten sein?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "Testing & Access - Choose Evaluation Suite - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hi! Ich bin im Bereich GB80 tätig, Projektnummer 80000, und betreue den Copilot auf unserer Website. Ich möchte überprüfen, ob der Copilot wie erwartet arbeitet. Der zu testende Endpunkt ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393537Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super, dass Sie den Copilot testen möchten! Dafür gibt es zwei Möglichkeiten:\n\n1. Im Webportal: Dort können Sie direkt in der Chat-UI testen.\n2. Über eine Evaluation Suite: Damit können Sie mehrere Testfälle definieren und automatisiert prüfen lassen. Ich kann Sie beim Einrichten unterstützen.\n\nWelche Option möchten Sie wählen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393552Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Könnten Sie mir bitte beim Einrichten einer Evaluation Suite behilflich sein?",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Natürlich! Um eine Evaluation Suite zu erstellen, benötige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekräftiger Name für Ihre Evaluation Suite\n2. **Testfälle**: Eine Liste von Testfällen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen möchten Sie für die Suite verwenden und welche Testfälle sollen enthalten sein?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "Testing & Access - Choose Evaluation Suite - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo, ich bin im Team GB80 (Projektnummer 80000) und betreue den Copilot auf unserer Website. Ich möchte sicherstellen, dass der Copilot wie vorgesehen funktioniert. Der Endpunkt, den ich testen möchte, ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393537Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Schön, dass Sie den Copilot testen möchten! Dafür gibt es zwei Wege:\n\n1. Über das Webportal: Dort können Sie direkt in der Chat-UI testen.\n2. Mit einer Evaluation Suite: Damit können Sie mehrere Testfälle definieren und automatisiert prüfen. Ich kann Sie beim Einrichten unterstützen.\n\nWelche Methode möchten Sie nutzen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393552Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich würde gerne Ihre Unterstützung beim Einrichten einer Evaluation Suite in Anspruch nehmen.",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Natürlich! Um eine Evaluation Suite zu erstellen, benötige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekräftiger Name für Ihre Evaluation Suite\n2. **Testfälle**: Eine Liste von Testfällen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen möchten Sie für die Suite verwenden und welche Testfälle sollen enthalten sein?",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "Testing & Access Management test case 2 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/testing_access_case_2_built.json"
+}

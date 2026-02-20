@@ -1,0 +1,71 @@
+User Alias,"User
+4","User
+2","User
+3","User
+1","User
+5","User
+6","User
+7","User
+8","User
+9","User
+10","User
+11",
+Name,"Niklas
+Weingarz","Maximilian 
+Röttgen","Klaus
+Reiter","Maximilian
+Bisani","Natalie
+Moehlmann","Phillip
+Langen","Florian
+Winkler","Hendrik
+Freitag","Luis
+Grass","Marco
+Bender",,
+"I think that I would like 
+to use the Ally Web
+Portal frequently.",3,5,5,4,4,4,5,4,5,5,,
+"I found the Ally Web 
+Portal unnecessarily 
+complex.",2,3,2,2,4,3,2,1,4,3,,
+"I thought the Ally Web
+Portal was easy to 
+use.",4,3,5,5,3,3,4,4,4,3,,
+"I think that I would need
+the support of a 
+technical person to
+be able to use the Ally
+Web Portal.",1,2,1,2,1,1,1,1,2,4,,
+"I found the various
+functions in the Ally 
+Web Portal were well 
+integrated.",3,3,4,4,4,3,5,4,3,2,,
+"I thought there was
+too much inconsistency
+in the Ally Web Portal.",2,2,1,3,4,2,2,1,2,4,,
+"I would imagine that 
+most people would 
+learn to use the Ally 
+Web Portal very quickly.",4,2,3,4,3,2,4,4,4,2,,
+"I found the Ally Web
+Portal very cumbersome
+to use.",2,2,1,2,2,3,2,1,2,3,,
+"I felt very confident
+using the Ally Web
+Portal.",5,5,5,5,4,4,5,4,4,3,,
+"I needed to learn a lot of
+things before I could 
+get going with the Ally
+Web Portal.",1,3,2,3,3,4,3,2,2,4,,
+SUS-Score:,77.5,65,87.5,75,60,57.5,82.5,85,70,42.5,,70.25
+,,,,,,,,,,,,
+Test 1,,,,,,,,,,,,
+Multi-Agent,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,,
+Improved-Descriptions,TRUE,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,,
+Model,gpt-4.1,gpt-4.1-mini,gpt-4.1-mini,gpt-4.1-mini,gpt-4.1-mini,gpt-4.1-mini,gpt-5-mini,gpt-5-mini,gpt-4.1,gpt-5-mini,,
+Test 2,,,,,,,,,,,,
+Multi-Agent,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,,
+Improved-Descriptions,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,
+Model,gpt-4.1,gpt-4.1-mini,gpt-4.1,gpt-4.1-mini,gpt-4.1-mini,gpt-5-mini,gpt-5-mini,gpt-5-mini,gpt-5-mini,gpt-4.1-mini,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+Changed:,Multi-Agent,Description,Model,Multi-Agent,Description,Model,Description,Multi-Agent,Model,Model,,

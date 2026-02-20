@@ -1,0 +1,15 @@
+{
+  "num_datasets": 5,
+  "dataset_ids": [
+    "testing_access_case_1",
+    "testing_access_case_2",
+    "testing_access_case_3",
+    "testing_access_case_4",
+    "testing_access_case_5"
+  ],
+  "saved_with_built_datasets": true,
+  "hook_ids_used": [
+    "cleanup_role_and_user",
+    "empty_evaluation_suite"
+  ]
+}

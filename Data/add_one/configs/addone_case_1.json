@@ -1,0 +1,103 @@
+{
+  "dataset_id": "addone_case_1",
+  "name": "ADD*ONE Sales Copilot - Initiale Anfrage",
+  "original_case": {
+    "name": "ADD*ONE Sales Copilot - Initiale Anfrage",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen.",
+            "timestamp": "2026-02-16T13:38:14.714410Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+      "tool_calls": null,
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "ADD*ONE Sales Copilot - Initiale Anfrage - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Ich plane, einen Copilot für die ADD*ONE Website zu entwickeln. Ziel ist es, einen optimalen Sales Assistant zu schaffen, der potenzielle Kunden von der Software überzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Initiale Anfrage - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Ich möchte einen digitalen Assistenten für die ADD*ONE Webseite einrichten, der als Sales Copilot fungiert und potenzielle Kunden von unserer Software begeistert.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Initiale Anfrage - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Für die ADD*ONE Webseite möchte ich einen Sales Copilot implementieren, der als exzellenter Verkaufsassistent agiert und Interessenten die Software attraktiv präsentiert.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "ADD*ONE sales copilot test case 1 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/addone_case_1_built.json"
+}

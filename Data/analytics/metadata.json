@@ -1,0 +1,12 @@
+{
+  "num_datasets": 5,
+  "dataset_ids": [
+    "analytics_case_1",
+    "analytics_case_2",
+    "analytics_case_3",
+    "analytics_case_4",
+    "analytics_case_5"
+  ],
+  "saved_with_built_datasets": true,
+  "hook_ids_used": []
+}

@@ -1,0 +1,17 @@
+{
+  "num_datasets": 6,
+  "dataset_ids": [
+    "addone_case_1",
+    "addone_case_2",
+    "addone_case_3",
+    "addone_case_4",
+    "addone_case_5",
+    "addone_case_6"
+  ],
+  "saved_with_built_datasets": true,
+  "hook_ids_used": [
+    "setup_addone_copilot_for_plugin_config",
+    "cleanup_and_setup_addone_resources",
+    "delete_addone_sources_and_collection"
+  ]
+}

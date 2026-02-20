@@ -1,0 +1,419 @@
+{
+  "dataset_id": "analytics_case_2",
+  "name": "INFORM Webseite Analytics - Vollständige Analyse präsentiert",
+  "original_case": {
+    "name": "INFORM Webseite Analytics - Vollständige Analyse präsentiert",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Hallo! Ich bin aus dem Corporate AI Team und maintaine den Copilot auf der INFORM Webseite. Ich würde gerne wissen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie zufrieden die Nutzer sind und wie hoch die Kosten sind.",
+            "timestamp": "2026-02-17T13:25:09.334640Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-17T13:25:09.334705Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, ich bin im GB80 und die Projektnummer ist 80000.",
+            "timestamp": "2026-02-17T13:25:09.334708Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n⭐ **Nutzerzufriedenheit:**\n - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.\n   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nMöchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+      "tool_calls": [
+        {
+          "tool_name": "ally_config_set_endpoint_name",
+          "args": {
+            "endpoint_name": "/gb80/inform_webseite_dummy"
+          },
+          "tool_call_id": "set_endpoint_name_1",
+          "id": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "ally_config_get_copilot_sessions_summaries",
+          "args": {
+            "endpoint": "/gb80/inform_webseite_dummy",
+            "start_time": "<ISO_8601_start_time>",
+            "end_time": "<ISO_8601_end_time>"
+          },
+          "tool_call_id": "get_sessions_1",
+          "id": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "ally_config_get_copilot_ratings",
+          "args": {
+            "endpoint": "/gb80/inform_webseite_dummy",
+            "start_time": "<ISO_8601_start_time>",
+            "end_time": "<ISO_8601_end_time>"
+          },
+          "tool_call_id": "get_ratings_1",
+          "id": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "ally_config_get_copilot_cost_daily",
+          "args": {
+            "endpoint": "/gb80/inform_webseite_dummy",
+            "unit": "euro"
+          },
+          "tool_call_id": "get_costs_1",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "INFORM Webseite Analytics - Vollständige Analyse präsentiert - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich bin Teil des Corporate AI Teams und betreue den Copilot auf der INFORM Webseite. Mich interessiert, wie häufig der Chatbot in letzter Zeit verwendet wurde, wie die Nutzer ihn bewerten und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich helfe Ihnen gerne bei der Analyse Ihres Copilots. Damit ich die Nutzungsstatistiken, Bewertungen und Kosten ermitteln kann, benötige ich den Namen des Endpunkts, Ihren Geschäftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die gewünschten Daten abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt lautet /gb80/inform_webseite_dummy, mein Bereich ist GB80 und die Projektnummer ist 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n⭐ **Nutzerzufriedenheit:**\n - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.\n   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nMöchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_name_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_sessions_summaries",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_sessions_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_ratings",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_ratings_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_cost_daily",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "unit": "euro"
+            },
+            "tool_call_id": "get_costs_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Vollständige Analyse präsentiert - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo, ich bin aus dem Corporate AI Team und betreue den Copilot auf der INFORM Webseite. Ich möchte gerne wissen, wie oft der Chatbot in letzter Zeit verwendet wurde, wie die Nutzerzufriedenheit aussieht und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich kann Ihnen gerne eine Analyse Ihres Copilots erstellen. Dafür benötige ich den Namen des Endpunkts, Ihren Geschäftsbereich sowie die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die gewünschten Informationen abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt ist /gb80/inform_webseite_dummy, Geschäftsbereich GB80, Projektnummer 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n⭐ **Nutzerzufriedenheit:**\n - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.\n   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nMöchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_name_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_sessions_summaries",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_sessions_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_ratings",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_ratings_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_cost_daily",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "unit": "euro"
+            },
+            "tool_call_id": "get_costs_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Vollständige Analyse präsentiert - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hi! Ich bin im Corporate AI Team und kümmere mich um den Copilot auf der INFORM Webseite. Ich würde gerne erfahren, wie häufig der Chatbot in letzter Zeit genutzt wurde, wie die Nutzerzufriedenheit aussieht und welche Kosten dabei entstanden sind.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich kann Ihnen die gewünschten Analysedaten bereitstellen. Dafür benötige ich den Endpunktnamen, Ihren Geschäftsbereich und die Projektnummer. Sobald Sie mir diese Angaben mitteilen, kann ich die entsprechenden Informationen abrufen.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-17T13:25:09.334705Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Endpunkt heißt /gb80/inform_webseite_dummy, der Geschäftsbereich ist GB80 und die Projektnummer lautet 80000.",
+              "timestamp": "2026-02-17T13:25:09.334708Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt! Ich habe alle Daten abgerufen. Hier ist die vollständige Analyse für Ihren Copilot '/gb80/inform_webseite_dummy':\n\n📊 **Nutzung (letzte 14 Tage):**\n- <X> Sessions mit durchschnittlich <Y> Nachrichten pro Session\n- Insgesamt <Z> Sessions seit Inbetriebnahme\n\n⭐ **Nutzerzufriedenheit:**\n - Es scheint als gäbe es keine Bewertungen für diesen Endpunkt.\n   Sie sollten erwägen, dieses Feature für Ihre Nutzer zu aktivieren, um wertvolles Feedback zu erhalten!\n💰 **Kosten (letzte 14 Tage):**\n- Gesamtkosten: <E> €\n- Durchschnittlich <F> € pro Tag\n- Aktuelles Modell: <current_model>\n\nMöchten Sie weitere Details zu bestimmten Sessions oder Empfehlungen zur Kostenoptimierung?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_name_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_sessions_summaries",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_sessions_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_ratings",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "start_time": "<ISO_8601_start_time>",
+              "end_time": "<ISO_8601_end_time>"
+            },
+            "tool_call_id": "get_ratings_1",
+            "id": null,
+            "part_kind": "tool-call"
+          },
+          {
+            "tool_name": "ally_config_get_copilot_cost_daily",
+            "args": {
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "unit": "euro"
+            },
+            "tool_call_id": "get_costs_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "INFORM Webseite analytics test case 2 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/analytics_case_2_built.json"
+}

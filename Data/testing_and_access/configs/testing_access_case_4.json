@@ -1,0 +1,1195 @@
+{
+  "dataset_id": "testing_access_case_4",
+  "name": "Testing & Access - Execute Suite (Error)",
+  "original_case": {
+    "name": "Testing & Access - Execute Suite (Error)",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Hallo! Ich bin in GB80 und meine Projektnummer ist 80000. Ich maintaine den Copilot auf unserer Webseite und möchte testen, ob er wie gewünscht funktioniert. Der Endpunkt ist /gb80/inform_webseite_dummy.",
+            "timestamp": "2026-02-18T15:47:14.392578Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_endpoint_name",
+            "args": {
+              "endpoint_name": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "set_endpoint_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393537Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_endpoint_name",
+            "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+            "tool_call_id": "set_endpoint_1",
+            "metadata": null,
+            "timestamp": "2026-02-18T15:47:14.393543Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Hallo! Das ist eine gute Idee, den Copilot regelmäßig zu testen. Sie haben zwei Möglichkeiten:\n\n1. **Webportal**: Sie können den Copilot direkt im Webportal in der Chat-UI testen.\n2. **Evaluation Suite**: Ich kann Ihnen helfen, eine Evaluation Suite zu erstellen, mit der Sie systematisch mehrere Testfälle definieren und automatisiert ausführen können.\n\nWelche Option bevorzugen Sie?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393552Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Können Sie mir helfen, eine Evaluation Suite einzurichten?",
+            "timestamp": "2026-02-18T15:47:14.393553Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Natürlich! Um eine Evaluation Suite zu erstellen, benötige ich folgende Informationen:\n\n1. **Name der Test-Suite**: Ein aussagekräftiger Name für Ihre Evaluation Suite\n2. **Testfälle**: Eine Liste von Testfällen, wobei jeder Testfall besteht aus:\n   - Einer Eingabe (Input): Die Frage oder Anfrage, die getestet werden soll\n   - Einer erwarteten Ausgabe (Expected Output): Was der Copilot idealerweise antworten sollte\n\nWelchen Namen möchten Sie für die Suite verwenden und welche Testfälle sollen enthalten sein?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393586Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Der Name soll 'website_test_suite' sein. Hier sind einige Testfälle:\n\n1. Input: 'Was macht INFORM?', Expected: 'INFORM ist ein führender Anbieter von Software für...'\n2. Input: 'Welche Produkte bietet INFORM an?',Expected: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Expected: 'Sie können INFORM über folgende Kanäle erreichen...'",
+            "timestamp": "2026-02-18T15:47:14.393587Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_create_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "create_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393607Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_create_copilot_evaluation_suite",
+            "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+            "tool_call_id": "create_suite_1",
+            "metadata": null,
+            "timestamp": "2026-02-18T15:47:14.393609Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy",
+              "test_cases": [
+                {
+                  "name": "test_inform_company",
+                  "user_input": "Was macht INFORM?",
+                  "expected_response": "INFORM ist ein führender Anbieter von Software für..."
+                },
+                {
+                  "name": "test_inform_products",
+                  "user_input": "Welche Produkte bietet INFORM an?",
+                  "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                },
+                {
+                  "name": "test_inform_contact",
+                  "user_input": "Wie kann ich INFORM kontaktieren?",
+                  "expected_response": "Sie können INFORM über folgende Kanäle erreichen..."
+                }
+              ]
+            },
+            "tool_call_id": "update_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393627Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+            "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+            "tool_call_id": "update_suite_1",
+            "metadata": null,
+            "timestamp": "2026-02-18T15:47:14.393628Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Perfekt! Ich habe die Evaluation Suite 'website_test_suite' erfolgreich erstellt und alle drei Testfälle hinzugefügt:\n\n✅ Testfall 1: 'Was macht INFORM?'\n✅ Testfall 2: 'Welche Produkte bietet INFORM an?'\n✅ Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist jetzt bereit. Soll ich sie jetzt ausführen?",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-18T15:47:14.393634Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Ja, bitte führen Sie die Suite aus.",
+            "timestamp": "2026-02-18T15:47:14.393635Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Ich habe versucht, die Evaluation Suite auszuführen, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgeführt werden.\n\n⚠️ **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder möchten Sie den Fehler zunächst untersuchen?",
+      "tool_calls": [
+        {
+          "tool_name": "ally_config_execute_copilot_evaluation_suite",
+          "args": {
+            "test_suite_name": "website_test_suite",
+            "endpoint": "/gb80/inform_webseite_dummy"
+          },
+          "tool_call_id": "execute_suite_1",
+          "id": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich arbeite im GB80-Team, Projektnummer 80000, und betreue den Copilot auf unserer Website. Ich möchte überprüfen, ob der Copilot wie vorgesehen funktioniert. Der relevante Endpoint ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393537Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima, dass Sie den Copilot testen möchten! Dafür gibt es zwei Wege:\n\n1. Direkt im Webportal über die Chat-Oberfläche ausprobieren.\n2. Oder ich unterstütze Sie beim Anlegen einer Evaluation Suite, mit der Sie gezielt mehrere Testfälle automatisiert prüfen können.\n\nWie möchten Sie vorgehen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393552Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich würde gerne mit Ihrer Hilfe eine Evaluation Suite aufsetzen.",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gerne! Damit ich die Evaluation Suite für Sie anlegen kann, benötige ich folgende Angaben:\n\n1. Wie soll die Test-Suite heißen?\n2. Welche Testfälle möchten Sie aufnehmen? Jeder Testfall besteht aus:\n   - Der Eingabe (Input): Die Frage oder das Anliegen, das getestet werden soll\n   - Der erwarteten Antwort (Expected Output): Was der Copilot idealerweise liefern soll\n\nWie soll die Suite heißen und welche Testfälle möchten Sie eintragen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393586Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Bitte nennen Sie die Suite 'website_test_suite'. Hier sind die Testfälle:\n\n1. Input: 'Was macht INFORM?', Expected: 'INFORM ist ein führender Anbieter von Software für...'\n2. Input: 'Welche Produkte bietet INFORM an?', Expected: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Expected: 'Sie können INFORM über folgende Kanäle erreichen...'",
+              "timestamp": "2026-02-18T15:47:14.393587Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393607Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393609Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein führender Anbieter von Software für..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie können INFORM über folgende Kanäle erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393627Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393628Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Super, die Evaluation Suite 'website_test_suite' wurde angelegt und die drei gewünschten Testfälle sind jetzt enthalten:\n\n- Testfall 1: 'Was macht INFORM?'\n- Testfall 2: 'Welche Produkte bietet INFORM an?'\n- Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist einsatzbereit. Möchten Sie, dass ich sie jetzt starte?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:47:14.393634Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte führen Sie die Testsuite jetzt aus.",
+              "timestamp": "2026-02-18T15:47:14.393635Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuführen, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgeführt werden.\n\n⚠️ **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder möchten Sie den Fehler zunächst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo, ich bin für GB80 zuständig (Projektnummer 80000) und betreue den Copilot auf unserer Website. Ich möchte überprüfen, ob der Copilot wie erwartet funktioniert. Der Endpoint lautet: /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870610Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Schön, dass Sie den Copilot testen möchten! Dafür gibt es zwei Möglichkeiten:\n\n1. Sie testen direkt im Webportal über die Chat-Oberfläche.\n2. Ich unterstütze Sie beim Anlegen einer Evaluation Suite, mit der Sie mehrere Testfälle automatisiert prüfen können.\n\nWie möchten Sie fortfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870624Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich würde gerne eine Evaluation Suite mit Ihrer Unterstützung einrichten.",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut! Damit ich die Evaluation Suite anlegen kann, benötige ich folgende Angaben:\n\n1. Wie soll die Test-Suite heißen?\n2. Welche Testfälle möchten Sie aufnehmen? Jeder Testfall besteht aus:\n   - Eingabe (Input): Die zu testende Frage oder Anfrage\n   - Erwartete Antwort (Expected Output): Die ideale Antwort des Copiloten\n\nWie soll die Suite heißen und welche Testfälle möchten Sie hinzufügen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870631Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Bitte nennen Sie die Suite 'website_test_suite'. Die Testfälle sind:\n\n1. Input: 'Was macht INFORM?', Expected: 'INFORM ist ein führender Anbieter von Software für...'\n2. Input: 'Welche Produkte bietet INFORM an?', Expected: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Expected: 'Sie können INFORM über folgende Kanäle erreichen...'",
+              "timestamp": "2026-02-18T15:47:14.393587Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870638Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393609Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein führender Anbieter von Software für..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie können INFORM über folgende Kanäle erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870651Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393628Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Evaluation Suite 'website_test_suite' wurde erfolgreich erstellt und die drei Testfälle hinzugefügt:\n\n- Testfall 1: 'Was macht INFORM?'\n- Testfall 2: 'Welche Produkte bietet INFORM an?'\n- Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist jetzt einsatzbereit. Soll ich sie direkt ausführen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:30.870656Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte führen Sie die Suite jetzt aus.",
+              "timestamp": "2026-02-18T15:47:14.393635Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuführen, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgeführt werden.\n\n⚠️ **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder möchten Sie den Fehler zunächst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "Testing & Access - Execute Suite (Error) - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hi, ich bin im Bereich GB80 (Projektnummer 80000) tätig und betreue den Copilot auf unserer Website. Ich möchte gerne testen, ob der Copilot wie vorgesehen arbeitet. Der Endpoint ist /gb80/inform_webseite_dummy.",
+              "timestamp": "2026-02-18T15:47:14.392578Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "args": {
+                "endpoint_name": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "set_endpoint_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925269Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_endpoint_name",
+              "content": "Endpoint name set to: /gb80/inform_webseite_dummy",
+              "tool_call_id": "set_endpoint_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393543Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Danke für Ihre Initiative, den Copilot zu überprüfen! Sie haben zwei Optionen:\n\n1. Testen Sie den Copilot direkt im Webportal über die Chat-Benutzeroberfläche.\n2. Alternativ kann ich Sie beim Einrichten einer Evaluation Suite unterstützen, mit der Sie mehrere Testfälle automatisiert prüfen können.\n\nWie möchten Sie fortfahren?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925283Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich würde gerne mit Ihrer Unterstützung eine Evaluation Suite einrichten.",
+              "timestamp": "2026-02-18T15:47:14.393553Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gerne! Damit ich die Evaluation Suite für Sie anlegen kann, benötige ich folgende Informationen:\n\n1. Wie soll die Test-Suite heißen?\n2. Welche Testfälle möchten Sie aufnehmen? Jeder Testfall besteht aus:\n   - Eingabe (Input): Die zu testende Frage oder Anfrage\n   - Erwartete Antwort (Expected Output): Die ideale Antwort des Copiloten\n\nWie soll die Suite heißen und welche Testfälle möchten Sie hinzufügen?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925289Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Bitte nennen Sie die Suite 'website_test_suite'. Die Testfälle sind:\n\n1. Input: 'Was macht INFORM?', Expected: 'INFORM ist ein führender Anbieter von Software für...'\n2. Input: 'Welche Produkte bietet INFORM an?', Expected: 'INFORM bietet verschiedene Produkte an, darunter...'\n3. Input: 'Wie kann ich INFORM kontaktieren?', Expected: 'Sie können INFORM über folgende Kanäle erreichen...'",
+              "timestamp": "2026-02-18T15:47:14.393587Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy"
+              },
+              "tool_call_id": "create_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925297Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_create_copilot_evaluation_suite",
+              "content": "Evaluation suite 'website_test_suite' created successfully for endpoint /gb80/inform_webseite_dummy",
+              "tool_call_id": "create_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393609Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "args": {
+                "test_suite_name": "website_test_suite",
+                "endpoint": "/gb80/inform_webseite_dummy",
+                "test_cases": [
+                  {
+                    "name": "test_inform_company",
+                    "user_input": "Was macht INFORM?",
+                    "expected_response": "INFORM ist ein führender Anbieter von Software für..."
+                  },
+                  {
+                    "name": "test_inform_products",
+                    "user_input": "Welche Produkte bietet INFORM an?",
+                    "expected_response": "INFORM bietet verschiedene Produkte an, darunter..."
+                  },
+                  {
+                    "name": "test_inform_contact",
+                    "user_input": "Wie kann ich INFORM kontaktieren?",
+                    "expected_response": "Sie können INFORM über folgende Kanäle erreichen..."
+                  }
+                ]
+              },
+              "tool_call_id": "update_suite_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925309Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "ally_config_add_copilot_evaluation_test_cases",
+              "content": "Added 3 test cases to evaluation suite 'website_test_suite'",
+              "tool_call_id": "update_suite_1",
+              "metadata": null,
+              "timestamp": "2026-02-18T15:47:14.393628Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Die Evaluation Suite 'website_test_suite' wurde erfolgreich erstellt und die drei Testfälle sind jetzt enthalten:\n\n- Testfall 1: 'Was macht INFORM?'\n- Testfall 2: 'Welche Produkte bietet INFORM an?'\n- Testfall 3: 'Wie kann ich INFORM kontaktieren?'\n\nDie Suite ist bereit. Möchten Sie, dass ich sie jetzt ausführe?",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-18T15:48:37.925315Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ja, bitte führen Sie die Suite jetzt aus.",
+              "timestamp": "2026-02-18T15:47:14.393635Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Ich habe versucht, die Evaluation Suite auszuführen, aber es ist ein interner Fehler aufgetreten. Die Suite konnte nicht erfolgreich ausgeführt werden.\n\n⚠️ **Fehler**: Internal server error during test execution\n\nSoll ich es erneut versuchen oder möchten Sie den Fehler zunächst untersuchen?",
+        "tool_calls": [
+          {
+            "tool_name": "ally_config_execute_copilot_evaluation_suite",
+            "args": {
+              "test_suite_name": "website_test_suite",
+              "endpoint": "/gb80/inform_webseite_dummy"
+            },
+            "tool_call_id": "execute_suite_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "Testing & Access Management test case 4 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/testing_access_case_4_built.json"
+}

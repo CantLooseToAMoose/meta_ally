@@ -1,0 +1,103 @@
+{
+  "dataset_id": "analytics_case_1",
+  "name": "INFORM Webseite Analytics - Initiale Anfrage",
+  "original_case": {
+    "name": "INFORM Webseite Analytics - Initiale Anfrage",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Hallo! Ich bin aus dem Corporate AI Team und maintaine den Copilot auf der INFORM Webseite. Ich würde gerne wissen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie zufrieden die Nutzer sind und wie hoch die Kosten sind.",
+            "timestamp": "2026-02-17T13:25:09.334640Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+      "tool_calls": null,
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "INFORM Webseite Analytics - Initiale Anfrage - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Guten Tag! Ich bin Teil des Corporate AI Teams und betreue den Copilot auf der INFORM Website. Mich interessiert, wie häufig der Chatbot in letzter Zeit verwendet wurde, wie die Nutzerzufriedenheit aussieht und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Initiale Anfrage - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hallo! Ich bin Mitglied des Corporate AI Teams und verantwortlich für die Pflege des Copilot-Chatbots auf der INFORM-Webseite. Könnten Sie mir bitte mitteilen, wie oft der Chatbot in letzter Zeit genutzt wurde, wie die Nutzer ihn bewerten und welche Kosten dabei anfallen?",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "INFORM Webseite Analytics - Initiale Anfrage - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Hi, ich arbeite im Corporate AI Team und bin für den Copilot auf der INFORM-Webseite zuständig. Ich möchte gerne erfahren, wie häufig der Chatbot in letzter Zeit verwendet wurde, wie die Nutzerzufriedenheit aussieht und welche Kosten dabei entstehen.",
+              "timestamp": "2026-02-17T13:25:09.334640Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Hallo! Gerne unterstütze ich Sie bei der Analyse Ihres Copilots. Um die Nutzungsdaten, Bewertungen und Kosten abzurufen, benötige ich den Endpunktnamen, ihren Geschäftsbereich und eine Projektnummer.Wenn Sie mir diese Informationen geben, kann ich die entsprechenden Daten für Sie abrufen.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "INFORM Webseite analytics test case 1 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/analytics_case_1_built.json"
+}

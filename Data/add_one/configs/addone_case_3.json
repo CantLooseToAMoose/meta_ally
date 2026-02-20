@@ -1,0 +1,751 @@
+{
+  "dataset_id": "addone_case_3",
+  "name": "ADD*ONE Sales Copilot - Webseite Link erhalten",
+  "original_case": {
+    "name": "ADD*ONE Sales Copilot - Webseite Link erhalten",
+    "input_messages": [
+      {
+        "parts": [
+          {
+            "content": "Ich möchte einen Copilot für die ADD*ONE Webseite erstellen. Der Copilot soll der perfekte Sales Assistant sein und potenziellen Kunden die Software schmackhaft machen.",
+            "timestamp": "2026-02-16T13:38:14.714410Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Perfekt! Ich erstelle einen Sales-Copiloten für die ADD*ONE Webseite. Dafür richte ich AI Knowledge mit relevanten Ressourcen ein und konfiguriere den Copiloten. Bevor wir starten: In welchem Geschäftsbereich arbeiten Sie und wie lautet Ihre Projektnummer? (z.B. GB10 mit Projektnummer 10000)",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-16T13:38:14.714490Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "Ich arbeite im Geschäftsbereich GB10 und die Projektnummer ist 10000. Wir haben eine INFORM Webseite über KI-Systeme und einen SharePoint Ordner mit AddOne-InfoPapers, ich suche gerade die Links heraus.",
+            "timestamp": "2026-02-16T13:38:14.714494Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "args": {
+              "geschaeftsbereich": "GB10"
+            },
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-16T13:38:14.714541Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_geschaeftsbereich",
+            "content": "Business area set to: GB10",
+            "tool_call_id": "set_geschaeftsbereich_1",
+            "metadata": null,
+            "timestamp": "2026-02-16T13:38:14.714547Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_project_number",
+            "args": {
+              "project_number": "10000"
+            },
+            "tool_call_id": "set_project_number_1",
+            "id": null,
+            "part_kind": "tool-call"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-16T13:38:14.714563Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "tool_name": "set_project_number",
+            "content": "Project number set to: 10000",
+            "tool_call_id": "set_project_number_1",
+            "metadata": null,
+            "timestamp": "2026-02-16T13:38:14.714566Z",
+            "part_kind": "tool-return"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      },
+      {
+        "parts": [
+          {
+            "content": "Super! Ich habe notiert, dass Sie im Geschäftsbereich GB10 mit der Projektnummer 10000 arbeiten. Bitte senden Sie mir beide Links (INFORM Webseite und SharePoint). Sobald ich beide habe, erstelle ich die Collection und füge die Quellen hinzu.",
+            "id": null,
+            "part_kind": "text"
+          }
+        ],
+        "usage": {
+          "input_tokens": 0,
+          "cache_write_tokens": 0,
+          "cache_read_tokens": 0,
+          "output_tokens": 0,
+          "input_audio_tokens": 0,
+          "cache_audio_read_tokens": 0,
+          "output_audio_tokens": 0,
+          "details": {}
+        },
+        "model_name": null,
+        "timestamp": "2026-02-16T13:38:14.714572Z",
+        "kind": "response",
+        "provider_name": null,
+        "provider_details": null,
+        "provider_response_id": null,
+        "finish_reason": null
+      },
+      {
+        "parts": [
+          {
+            "content": "INFORM Webseite Link: https://www.inform-software.com/de",
+            "timestamp": "2026-02-16T13:38:14.714573Z",
+            "part_kind": "user-prompt"
+          }
+        ],
+        "instructions": null,
+        "kind": "request"
+      }
+    ],
+    "expected_output": {
+      "output_message": "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers.",
+      "tool_calls": null,
+      "model_messages": null
+    },
+    "metadata": null,
+    "description": null
+  },
+  "variants": [
+    {
+      "name": "ADD*ONE Sales Copilot - Webseite Link erhalten - Variant 1",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Ich plane, einen Copiloten für die ADD*ONE Webseite zu entwickeln. Ziel ist es, einen optimalen Sales Assistant zu schaffen, der potenzielle Kunden von der Software überzeugt.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut! Ich richte einen Sales-Copiloten für die ADD*ONE Webseite ein. Dafür werde ich relevante Ressourcen in die AI Knowledge aufnehmen und den Copiloten konfigurieren. Damit wir starten können: In welchem Geschäftsbereich sind Sie tätig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Geschäftsbereich GB10 tätig, die Projektnummer ist 10000. Wir verfügen über eine INFORM-Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Prima, Sie sind also im Geschäftsbereich GB10 mit der Projektnummer 10000. Bitte schicken Sie mir die beiden Links (INFORM-Webseite und SharePoint). Sobald ich beide erhalten habe, lege ich die Collection an und füge die Quellen hinzu.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Hier ist der Link zur INFORM-Webseite: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Webseite Link erhalten - Variant 2",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Ich möchte einen Copiloten für die ADD*ONE Webseite aufsetzen. Der Copilot soll als exzellenter Sales Assistant agieren und potenzielle Kunden von der Software begeistern.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Alles klar! Ich richte einen Sales-Copiloten für die ADD*ONE Webseite ein. Dafür werde ich relevante Ressourcen in die AI Knowledge aufnehmen und den Copiloten konfigurieren. Damit wir starten können: In welchem Geschäftsbereich sind Sie tätig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Geschäftsbereich GB10 und die Projektnummer lautet 10000. Wir haben eine INFORM-Webseite zum Thema KI-Systeme sowie einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut, Sie sind also im Geschäftsbereich GB10 mit der Projektnummer 10000. Bitte senden Sie mir die beiden Links (INFORM-Webseite und SharePoint). Sobald ich beide erhalten habe, lege ich die Collection an und füge die Quellen hinzu.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Der Link zur INFORM-Webseite: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    },
+    {
+      "name": "ADD*ONE Sales Copilot - Webseite Link erhalten - Variant 3",
+      "input_messages": [
+        {
+          "parts": [
+            {
+              "content": "Ich möchte einen Copiloten für die ADD*ONE Webseite einrichten. Der Copilot soll als idealer Sales Assistant fungieren und potenzielle Kunden von der Software überzeugen.",
+              "timestamp": "2026-02-16T13:38:14.714410Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Ausgezeichnet! Ich werde einen Sales-Copiloten für die ADD*ONE Webseite konfigurieren. Dazu richte ich AI Knowledge mit den passenden Ressourcen ein. Damit wir loslegen können: In welchem Geschäftsbereich sind Sie tätig und wie lautet Ihre Projektnummer? (z.B. GB10, Projektnummer 10000)",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714490Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "Ich bin im Geschäftsbereich GB10, Projektnummer 10000. Wir haben eine INFORM-Webseite zum Thema KI-Systeme und einen SharePoint-Ordner mit AddOne-InfoPapers. Ich suche gerade die Links heraus.",
+              "timestamp": "2026-02-16T13:38:14.714494Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "args": {
+                "geschaeftsbereich": "GB10"
+              },
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714541Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_geschaeftsbereich",
+              "content": "Business area set to: GB10",
+              "tool_call_id": "set_geschaeftsbereich_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714547Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "args": {
+                "project_number": "10000"
+              },
+              "tool_call_id": "set_project_number_1",
+              "id": null,
+              "part_kind": "tool-call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714563Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "tool_name": "set_project_number",
+              "content": "Project number set to: 10000",
+              "tool_call_id": "set_project_number_1",
+              "metadata": null,
+              "timestamp": "2026-02-16T13:38:14.714566Z",
+              "part_kind": "tool-return"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        },
+        {
+          "parts": [
+            {
+              "content": "Sehr gut, Sie sind im Geschäftsbereich GB10 mit der Projektnummer 10000. Bitte senden Sie mir die beiden Links (INFORM-Webseite und SharePoint). Sobald beide vorliegen, erstelle ich die Collection und füge die Quellen hinzu.",
+              "id": null,
+              "part_kind": "text"
+            }
+          ],
+          "usage": {
+            "input_tokens": 0,
+            "cache_write_tokens": 0,
+            "cache_read_tokens": 0,
+            "output_tokens": 0,
+            "input_audio_tokens": 0,
+            "cache_audio_read_tokens": 0,
+            "output_audio_tokens": 0,
+            "details": {}
+          },
+          "model_name": null,
+          "timestamp": "2026-02-16T13:38:14.714572Z",
+          "kind": "response",
+          "provider_name": null,
+          "provider_details": null,
+          "provider_response_id": null,
+          "finish_reason": null
+        },
+        {
+          "parts": [
+            {
+              "content": "INFORM-Webseite: https://www.inform-software.com/de",
+              "timestamp": "2026-02-16T13:38:14.714573Z",
+              "part_kind": "user-prompt"
+            }
+          ],
+          "instructions": null,
+          "kind": "request"
+        }
+      ],
+      "expected_output": {
+        "output_message": "Perfekt, die INFORM Webseite ist notiert. Bitte senden Sie jetzt noch den SharePoint/OneDrive Link zu den AddOne-InfoPapers.",
+        "tool_calls": null,
+        "model_messages": null
+      },
+      "metadata": null,
+      "description": null
+    }
+  ],
+  "description": "ADD*ONE sales copilot test case 3 with variants",
+  "metadata": {},
+  "pre_task_hook_id": null,
+  "post_task_hook_id": null,
+  "dataset_path": "datasets/addone_case_3_built.json"
+}
