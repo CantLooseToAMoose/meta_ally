@@ -512,7 +512,7 @@ class OpenAPIToolsLoader:
         elif method_lower == "delete":
             # httpx's delete() method doesn't accept content/json parameters
             # Use request() directly when body is present to support DELETE with body
-            if body_params:
+            if body_params is not None:
                 return await client.request(
                     "DELETE",
                     url,
